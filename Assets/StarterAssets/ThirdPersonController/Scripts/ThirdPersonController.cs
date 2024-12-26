@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -180,30 +181,24 @@ namespace StarterAssets
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
             if (_input.move == Vector2.zero || isDodge) return;
 
-            if (_hasAnimator && Grounded && _input.dodge)
+            if (Grounded && _input.dodge)
             {
-                isDodge = true; // Dodge 시작
-                MoveSpeed *= 2.0f; // 속도 증가
-
-                // 닷지 방향 설정 (입력 방향으로 회전)
-                Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-                if (inputDirection != Vector3.zero)
-                {
-                    _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-                    transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
-                }
-
-                _animator.SetTrigger(_animDDodge); // 애니메이션 트리거
-
-                Invoke("DodgeOut", 1f); 
-                _input.dodge = false; // Dodge 입력 초기화
+                StartCoroutine(DodgeCoroutine());
             }
         }
 
-        private void DodgeOut()
+        private IEnumerator DodgeCoroutine()
         {
-            MoveSpeed *= 0.5f;
-            isDodge = false;
+            isDodge = true; // Dodge 시작
+            _input.dodge = false; // Dodge 입력 초기화
+            MoveSpeed *= 2.0f; // 속도 증가
+
+            _animator.SetTrigger(_animDDodge); // 애니메이션 트리거
+
+            yield return new WaitForSeconds(1f); // 애니메이션 길이에 따라 조정
+
+            MoveSpeed *= 0.5f; // 속도 원상 복귀
+            isDodge = false; // Dodge 종료
         }
 
         private void GroundedCheck()
