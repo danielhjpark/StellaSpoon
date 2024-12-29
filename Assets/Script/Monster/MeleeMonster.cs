@@ -5,9 +5,14 @@ using UnityEngine.AI;
 
 public class MeleeMonster : MonsterBase
 {
-    public float attackDamage = 10f;  //공격 데미지
-    public float attackRange = 2f;   //공격 범위
-    private NavMeshAgent agent;      //몬스터의 NavMeshAgent
+    [Header("Basic Information")]
+    [SerializeField]
+    private float attackDamage = 10f;//공격 데미지
+    [SerializeField]
+    private float attackRange = 2f;//공격 범위
+
+
+    private NavMeshAgent agent;//몬스터의 NavMeshAgent
     private Animator animator;
     [SerializeField]
     private Collider collider;

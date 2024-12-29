@@ -5,16 +5,21 @@ using UnityEngine.AI;
 
 public class ChargeMonster : MonsterBase
 {
-    public float attackDamage = 10f;  //공격 데미지
-    public float attackRange = 5f;   //공격 범위
+    [Header("Basic Information")]
+    [SerializeField]
+    private float attackDamage = 10f;//공격 데미지
+    [SerializeField]
+    private float attackRange = 5f;//공격 범위
+    [SerializeField]
+    private float chargeSpeed = 10f; //돌격속도
+    [SerializeField]
+    private float chargeDuration = 2f;
 
-    public float chargeSpeed = 10f;
-    public float chargeDuration = 2f;
+
     private bool isCharging = false;
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
     private Animator animator;
-    [SerializeField]
     private Collider collider;
 
     void Start()

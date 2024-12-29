@@ -5,11 +5,16 @@ using UnityEngine.AI;
 
 public class RangedMonster : MonsterBase
 {
-    public float attackDamage = 10f;  //공격 데미지
-    public float attackRange = 7f;   //공격 범위
+    [Header("Basic Information")]
+    [SerializeField]
+    private float attackDamage = 10f;  //공격 데미지
+    [SerializeField]
+    private float attackRange = 7f;   //공격 범위
 
-    public GameObject projectilePrefab; //투척물 프리팹
-    public Transform firePoint; //투척물 생성위치
+    [SerializeField]
+    private GameObject projectilePrefab; //투척물 프리팹
+    [SerializeField]
+    private Transform firePoint; //투척물 생성위치
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
     private Animator animator;
