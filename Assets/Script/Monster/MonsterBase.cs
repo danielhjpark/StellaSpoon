@@ -4,16 +4,25 @@ using UnityEngine;
 
 public abstract class MonsterBase : MonoBehaviour
 {
-    public float detectionRange = 10f; //°¨Áö¹üÀ§
-    public float attackCooldown = 2f; //°ø°İ µô·¹ÀÌ
-    public float DieDelay = 5f; //Á×À½ µô·¹ÀÌ
+    public float detectionRange = 10f; //ê°ì§€ë²”ìœ„
+    public float attackCooldown = 2f; //ê³µê²© ë”œë ˆì´
+    public float dieDelay = 5f; //ì£½ìŒ ë”œë ˆì´
+
+    [SerializeField]
+    protected int maxHp = 100;
+    [SerializeField]
+    protected int currentHP; //í˜„ì¬ ì²´ë ¥
 
     protected Transform playerTf;
     protected float lastAttackTime;
 
+    protected Animator animator; // Animator ì»´í¬ë„ŒíŠ¸
+
     protected void Start()
     {
         playerTf = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
+        currentHP = maxHp;
     }
 
     private void Update()
@@ -43,6 +52,18 @@ public abstract class MonsterBase : MonoBehaviour
 
     protected abstract void Attack();
 
-    protected abstract void Damage();
-    protected abstract void Die();
+    public virtual void Damage(int bulletDamage)
+    {
+        currentHP -= bulletDamage;
+        Debug.Log($"{gameObject.name} ì²´ë ¥: {currentHP}/{maxHp}");
+
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+    }
+    protected virtual void Die()
+    {
+        Debug.Log($"{gameObject.name}ì´(ê°€) ì‚¬ë§í–ˆìŠµë‹ˆë‹¤.");
+    }
 }

@@ -91,22 +91,28 @@ public class MeleeMonster : MonsterBase
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
-    protected override void Damage()
+    public override void Damage(int bulletDamage)
     {
-        
+        base.Damage(bulletDamage);
+        if(animator != null)
+        {
+            animator.SetTrigger("Hit");
+        }
     }
 
     protected override void Die()
     {
+        base.Die();
         agent.isStopped = true; //이동 멈추기
         collider.enabled = false; //충돌 제거
         animator.SetTrigger("Die");
         StartCoroutine(DieDelays());
-        Destroy(gameObject);
     }
 
     IEnumerator DieDelays()
     {
-        yield return new WaitForSeconds(DieDelay);
+        yield return new WaitForSeconds(dieDelay);
+
+        Destroy(gameObject);
     }
 }
