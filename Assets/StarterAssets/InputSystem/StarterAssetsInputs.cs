@@ -47,6 +47,7 @@ namespace StarterAssets
                 DodgeInput(true);
             }
         }
+
 #endif
 
         public void MoveInput(Vector2 newMoveDirection)
