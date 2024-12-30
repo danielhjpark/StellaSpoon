@@ -2216,31 +2216,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 443964160}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1129900591}
-        m_TargetAssemblyTypeName: InventoryMain, Assembly-CSharp
-        m_MethodName: CloseInventory
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1129900592}
-        m_TargetAssemblyTypeName: EquipmentInventory, Assembly-CSharp
-        m_MethodName: CloseEquipment
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &443964160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6306,8 +6282,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1129900589}
   - component: {fileID: 1129900590}
-  - component: {fileID: 1129900591}
-  - component: {fileID: 1129900592}
   m_Layer: 0
   m_Name: DeviceManager
   m_TagString: Untagged
@@ -6343,34 +6317,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiPanel: {fileID: 2029653378}
---- !u!114 &1129900591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129900588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a33442c847e363f4392b5af495a1f7bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mInventoryBase: {fileID: 158055968}
-  mInventorySlotsParent: {fileID: 327374775}
---- !u!114 &1129900592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129900588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c335a92ba8ff9e74d9d17d78cc889780, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mInventoryBase: {fileID: 2012699233}
-  mInventorySlotsParent: {fileID: 2003464490}
 --- !u!1 &1218455813
 GameObject:
   m_ObjectHideFlags: 0
@@ -7082,31 +7028,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1630190431}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1129900591}
-        m_TargetAssemblyTypeName: InventoryMain, Assembly-CSharp
-        m_MethodName: OpenInventory
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1129900592}
-        m_TargetAssemblyTypeName: EquipmentInventory, Assembly-CSharp
-        m_MethodName: OpenEquipment
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1630190431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9148,7 +9070,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2003464491}
   m_Layer: 5
-  m_Name: SlotsParents
+  m_Name: Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
