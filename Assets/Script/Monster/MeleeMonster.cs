@@ -17,7 +17,7 @@ public class MeleeMonster : MonsterBase
     [SerializeField]
     private Collider collider;
 
-    void Start()
+    private void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
@@ -25,7 +25,7 @@ public class MeleeMonster : MonsterBase
         collider = GetComponent<Collider>();
     }
 
-    void Update()
+    private void Update()
     {
         if (playerTf == null) return;
 
@@ -82,7 +82,7 @@ public class MeleeMonster : MonsterBase
     }
 
     // 감지 및 공격 범위 시각화
-    void OnDrawGizmos() //항상 보이게 //선택시 보이게 OnDrawGizmosSelected
+    private void OnDrawGizmos() //항상 보이게 //선택시 보이게 OnDrawGizmosSelected
     {
         Gizmos.color = Color.red; //감지 범위
         Gizmos.DrawWireSphere(transform.position, detectionRange);
