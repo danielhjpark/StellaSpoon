@@ -45,6 +45,8 @@ public class EscapeMonster : MonsterBase
         wanderTimer = wanderTime;
 
         initialPosition = transform.position; //초기 위치 저장
+
+        agent.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
     }
     private void Update()
     {

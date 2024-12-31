@@ -28,7 +28,6 @@ public class RangedMonster : MonsterBase
     private Transform firePoint; //투척물 생성위치
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
-    private Animator animator;
     [SerializeField]
     private Collider collider;
 
@@ -36,11 +35,12 @@ public class RangedMonster : MonsterBase
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
         collider = GetComponent<Collider>();
         wanderTimer = wanderTime;
 
         initialPosition = transform.position; //초기 위치 저장
+
+        agent.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
     }
 
     private void Update()

@@ -14,7 +14,7 @@ public class MeleeMonster : MonsterBase
     [SerializeField]
     private float wanderRadius = 15f; //랜덤으로 움직이는 범위
     [SerializeField]
-    private float wanderTime = 3f; //랜덤 이동 주기
+    private float wanderTime = 3; //랜덤 이동 주기
 
     private float wanderTimer;
 
@@ -24,7 +24,6 @@ public class MeleeMonster : MonsterBase
 
 
     private NavMeshAgent agent;//몬스터의 NavMeshAgent
-    private Animator animator;
     [SerializeField]
     private Collider collider;
 
@@ -32,7 +31,6 @@ public class MeleeMonster : MonsterBase
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
         collider = GetComponent<Collider>();
         wanderTimer = wanderTime;
 
@@ -69,7 +67,7 @@ public class MeleeMonster : MonsterBase
                 isPlayerDetected = false;
                 if (agent.hasPath)
                 {
-                    agent.ResetPath(); // 기존 경로 초기화
+                    agent.ResetPath();// 기존 경로 초기화
                 }
             }
             HandleRandomMovement();
@@ -136,7 +134,7 @@ public class MeleeMonster : MonsterBase
     }
 
     // 감지 및 공격 범위 시각화
-    private void OnDrawGizmos() //항상 보이게 //선택시 보이게 OnDrawGizmosSelected
+    private void OnDrawGizmos()//항상 보이게 //선택시 보이게 OnDrawGizmosSelected
     {
         Gizmos.color = Color.red; //감지 범위
         Gizmos.DrawWireSphere(transform.position, detectionRange);
@@ -157,8 +155,8 @@ public class MeleeMonster : MonsterBase
     protected override void Die()
     {
         base.Die();
-        agent.isStopped = true; //이동 멈추기
-        collider.enabled = false; //충돌 제거
+        agent.isStopped = true;//이동 멈추기
+        collider.enabled = false;//충돌 제거
         animator.SetTrigger("Die");
         StartCoroutine(DieDelays());
     }
