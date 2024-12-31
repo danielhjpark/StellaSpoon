@@ -22,6 +22,9 @@ public class ActionController : MonoBehaviour
     [SerializeField]
     private Transform characterTransform; // 캐릭터 모델의 Transform
 
+    [SerializeField]
+    private Inventory theInventory; // 인벤토리 cs
+
     void Update()
     {
         CheckItem(); // 항상 아이템이 사정 거리 안에 있는지 체크
@@ -80,6 +83,7 @@ public class ActionController : MonoBehaviour
             if (hitInfo.transform != null)
             {
                 Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득했습니다."); // 인벤토리에 추가
+                theInventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
                 Destroy(hitInfo.transform.gameObject);
                 ItemInfoDisappear();
             }
