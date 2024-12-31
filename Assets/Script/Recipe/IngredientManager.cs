@@ -7,7 +7,7 @@ public class IngredientManager : MonoBehaviour
     static public IngredientManager instance = null;
 
     Ingredient[] IngredientList; //임시 데이터 베이스
-    public Dictionary<Ingredient, int> IngredientAmount; //임시 데이터 베이스
+    static public Dictionary<Ingredient, int> IngredientAmount; //임시 데이터 베이스
     
     void Awake()
     {

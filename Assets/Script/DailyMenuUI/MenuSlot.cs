@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuUI : MonoBehaviour, IPointerEnterHandler
+public class MenuSlot : MonoBehaviour, IPointerEnterHandler
 {
     [SerializeField] Image recipeImage;
-    private MenuSystem recipeUI;
+    private DailyMenuManager dailyMenuManager;
 
     private Color initColor;
     private Color disableColor;
@@ -17,30 +17,29 @@ public class MenuUI : MonoBehaviour, IPointerEnterHandler
 
     void Start()
     {
-        recipeUI = GetComponentInParent<MenuSystem>();    
+        dailyMenuManager = GetComponentInParent<DailyMenuManager>();    
         initColor = Color.white;
         disableColor = Color.grey;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        CanMakeMenu();
+        CreateMenu();
     }
 
     public void MenuUISetup(Recipe Recipe) {
         this.currentRecipe = Recipe;
         recipeImage.sprite = currentRecipe.menuImage;
-        CanMakeMenu();
+        CreateMenu();
 
     }
 
     //재료 부족 시, 어두운 이미지 효과 및 비활성화
-    void CanMakeMenu() {
+    void CreateMenu() {
         foreach(IngredientAmount currentIngredient in currentRecipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int currentIngredientAmount = currentIngredient.amount;
-            int requireIngredientAmount = IngredientManager.instance.IngredientAmount[currentIngdeient];
+            int requireIngredientAmount = IngredientManager.IngredientAmount[currentIngdeient];
             if(currentIngredientAmount > requireIngredientAmount) {
                 recipeImage.color = disableColor;
                 return;
@@ -49,8 +48,13 @@ public class MenuUI : MonoBehaviour, IPointerEnterHandler
         recipeImage.color = initColor;
     }
 
+    void SelectMenu() {
+        dailyMenuManager.DetailUIUpdate(currentRecipe, 1);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        recipeUI.DetailUIUpdate(currentRecipe);
+        SelectMenu();
+
     }
 }

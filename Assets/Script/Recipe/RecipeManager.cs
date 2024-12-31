@@ -48,13 +48,26 @@ public class RecipeManager : MonoBehaviour
         return unlockedRecipes;
     }
 
-    //----00------메뉴 생성 여부확인 ------------------------//
+    //--------------메뉴 생성 여부확인------------------------//
+    //단수
     public bool IsCanMakeMenu(Recipe recipe) {
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount;
-            int currentIngredientAmount = IngredientManager.instance.IngredientAmount[currentIngdeient];
+            int currentIngredientAmount = IngredientManager.IngredientAmount[currentIngdeient];
             if(currentIngredientAmount < requireIngredientAmount) {
+                return false;
+            }
+        }
+        return true;
+    }
+    //복수
+    public bool IsCanMakeMenu(Recipe recipe, int amount) {
+        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+            Ingredient currentIngdeient = currentIngredient.ingredient;
+            int requireIngredientAmount = currentIngredient.amount * amount;
+            int currentIngredientAmount = IngredientManager.IngredientAmount[currentIngdeient];
+            if(currentIngredientAmount  < requireIngredientAmount) {
                 return false;
             }
         }
@@ -62,19 +75,19 @@ public class RecipeManager : MonoBehaviour
     }
 
     //----------------재료 사용하기------------------------//
-    public void UseIngredientFromRecipe(Recipe recipe) {
+    public void UseIngredientFromRecipe(Recipe recipe, int amount) {
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
-             int requireIngredientAmount = currentIngredient.amount;
-            IngredientManager.instance.IngredientAmount[currentIngdeient] -= requireIngredientAmount;
+            int requireIngredientAmount = currentIngredient.amount * amount;
+            IngredientManager.IngredientAmount[currentIngdeient] -= requireIngredientAmount;
         }
     }
     //-----------------재료 반환하기 ----------------------//
-        public void RecallIngredientFromRecipe(Recipe recipe) {
+        public void RecallIngredientFromRecipe(Recipe recipe, int amount) {
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
-             int requireIngredientAmount = currentIngredient.amount;
-            IngredientManager.instance.IngredientAmount[currentIngdeient] += requireIngredientAmount;
+             int requireIngredientAmount = currentIngredient.amount * amount;
+            IngredientManager.IngredientAmount[currentIngdeient] += requireIngredientAmount;
         }
     }
 }

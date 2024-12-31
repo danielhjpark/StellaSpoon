@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class DailyMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     //---------------Swap Object--------------------//
     [SerializeField] GameObject addMenu;
@@ -21,8 +21,8 @@ public class SelectMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private bool isEnter;
     private bool isCanAddMenu;
-    [SerializeField] DailyMenuSystem dailyMenuSystem;
     Recipe currentMenu;
+    int currentAmount;
 
     void Start()
     {
@@ -33,29 +33,30 @@ public class SelectMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void Update() {
         CancleMenuCheck();  
         if(currentMenu != null) {
-            selectMenuCount.text = dailyMenuSystem.dailyMenuList[currentMenu].ToString();
+            selectMenuCount.text = DailyMenuManager.dailyMenuList[currentMenu].ToString();
         }
     }
 
-    public void AddMenu(Recipe recipe) {
+    public void AddMenu(Recipe recipe, int amount) {
         addMenu.SetActive(false);
         selectMenu.SetActive(true);
 
         selectMenuImage.sprite = recipe.menuImage;
         selectMenuName.text = recipe.menuName;
-        selectMenuCount.text = dailyMenuSystem.dailyMenuList[recipe].ToString();
+        selectMenuCount.text = DailyMenuManager.dailyMenuList[recipe].ToString();
 
         isCanAddMenu = false;
         currentMenu = recipe;
+        currentAmount = amount;
     }
 
     void CancleMenu() {
         addMenu.SetActive(true);
         selectMenu.SetActive(false);
         
-        for(int i = 0; i <dailyMenuSystem.dailyMenuList[currentMenu]; i++) 
-            RecipeManager.instance.RecallIngredientFromRecipe(currentMenu);
-        dailyMenuSystem.dailyMenuList.Remove(currentMenu);
+        for(int i = 0; i < DailyMenuManager.dailyMenuList[currentMenu]; i++) 
+            RecipeManager.instance.RecallIngredientFromRecipe(currentMenu, currentAmount);
+        DailyMenuManager.dailyMenuList.Remove(currentMenu);
         currentMenu = null;
         isCanAddMenu = true;
     }
