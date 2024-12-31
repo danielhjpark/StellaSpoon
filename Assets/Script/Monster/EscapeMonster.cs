@@ -15,6 +15,17 @@ public class EscapeMonster : MonsterBase
     [SerializeField]
     private float escapeDistance = 10f; //도망가는 거리
 
+    [SerializeField]
+    private float wanderRadius = 15f; //랜덤으로 움직이는 범위
+    [SerializeField]
+    private float wanderTime = 3f; //랜덤 이동 주기
+
+    private float wanderTimer;
+
+    private bool isPlayerDetected = false; //플레이어 감지 상태
+
+    private Vector3 initialPosition; //초기 위치 저장
+
     [Header("Layer")]   
     [SerializeField]
     LayerMask targetMask;
@@ -31,21 +42,60 @@ public class EscapeMonster : MonsterBase
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
+        wanderTimer = wanderTime;
+
+        initialPosition = transform.position; //초기 위치 저장
     }
     private void Update()
     {
-        if(isEscaping)
+        if(!isEscaping)
+        {
+            CheckFieldOfView();
+            if(!isPlayerDetected)
+            {
+                HandleRandomMovement();
+            }
+            
+        }
+        else
         {
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
                 isEscaping = false; //도망 종료
+                isPlayerDetected = false;
                 agent.ResetPath(); //경로 초기화
             }
         }
-        else
+    }
+
+    private void HandleRandomMovement()
+    {
+        wanderTimer += Time.deltaTime;
+
+        if (wanderTimer >= wanderTime)
         {
-            CheckFieldOfView();
+            Vector3 newDestination = GetRandomPoint(initialPosition, wanderRadius); // 초기 위치 기준
+            agent.SetDestination(newDestination);
+            wanderTimer = 0f;
         }
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            agent.ResetPath(); // 이동 종료 후 경로 초기화
+        }
+    }
+
+    private Vector3 GetRandomPoint(Vector3 center, float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += center;
+        randomDirection.y = center.y; // 높이 고정
+
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, radius, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+        return center;
     }
 
     private void CheckFieldOfView()
@@ -77,6 +127,7 @@ public class EscapeMonster : MonsterBase
     private void StartEscape(Vector3 targetPosition)
     {
         isEscaping = true;
+        isPlayerDetected = true;
 
         //도망가는 방향 설정
         Vector3 myPos = transform.position;

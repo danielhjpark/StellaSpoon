@@ -56,7 +56,8 @@ public abstract class MonsterBase : MonoBehaviour
     {
         currentHP -= bulletDamage;
         Debug.Log($"{gameObject.name} 체력: {currentHP}/{maxHp}");
-
+        //몬스터 넉백
+        //bulletDamage를 UI로 출력
         if (currentHP <= 0)
         {
             Die();

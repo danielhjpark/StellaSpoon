@@ -15,6 +15,17 @@ public class ChargeMonster : MonsterBase
     [SerializeField]
     private float chargeDuration = 2f;
 
+    [SerializeField]
+    private float wanderRadius = 15f; //랜덤으로 움직이는 범위
+    [SerializeField]
+    private float wanderTime = 3f; //랜덤 이동 주기
+
+    private float wanderTimer;
+
+    private bool isPlayerDetected = false; //플레이어 감지 상태
+
+    private Vector3 initialPosition; //초기 위치 저장
+
 
     private bool isCharging = false;
 
@@ -28,6 +39,9 @@ public class ChargeMonster : MonsterBase
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         collider = GetComponent<Collider>();
+        wanderTimer = wanderTime;
+
+        initialPosition = transform.position; //초기 위치 저장
     }
 
     private void Update()
@@ -40,6 +54,7 @@ public class ChargeMonster : MonsterBase
         if (distanceToPlayer <= detectionRange && distanceToPlayer > attackRange)
         {
             FollowPlayer();
+            isPlayerDetected = true;
         }
         //공격 범위 안에 있는 경우 공격
         else if (distanceToPlayer <= attackRange)
@@ -51,11 +66,48 @@ public class ChargeMonster : MonsterBase
                 lastAttackTime = Time.time;
             }
         }
-        //감지 범위를 벗어난 경우 멈춤
+        //감지 범위를 벗어난 경우 랜덤 위치로 이동
         else
         {
-            StopMoving();
+            if (isPlayerDetected)
+            {
+                isPlayerDetected = false;
+                if (agent.hasPath)
+                {
+                    agent.ResetPath(); // 기존 경로 초기화
+                }
+            }
+            HandleRandomMovement();
         }
+    }
+
+    private void HandleRandomMovement()
+    {
+        wanderTimer += Time.deltaTime;
+
+        if (wanderTimer >= wanderTime)
+        {
+            Vector3 newDestination = getRandomPoint(initialPosition, wanderRadius);
+            agent.SetDestination(newDestination);
+            wanderTimer = 0f;
+            animator.SetBool("Walk", true);
+        }
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            animator.SetBool("Walk", false);
+        }
+    }
+    private Vector3 getRandomPoint(Vector3 center, float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += center;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            return hit.position;
+        }
+        return center;
     }
 
     private void FollowPlayer()
@@ -65,6 +117,7 @@ public class ChargeMonster : MonsterBase
             animator.SetBool("Walk", true);
             agent.isStopped = false;
             agent.SetDestination(playerTf.position);
+            wanderTimer = 0f;
         }
     }
 
