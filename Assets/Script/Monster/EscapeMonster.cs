@@ -164,6 +164,9 @@ public class EscapeMonster : MonsterBase
         Debug.DrawRay(myPos, rightDir * detectionRange, Color.blue);
         Debug.DrawRay(myPos, leftDir * detectionRange, Color.blue);
         Debug.DrawRay(myPos, lookDir * detectionRange, Color.cyan);
+
+        Gizmos.color = Color.green; //움직임 범위
+        Gizmos.DrawWireSphere(initialPosition, wanderRadius);
     }
 
     Vector3 AngleToDir(float angle)

@@ -146,6 +146,9 @@ public class RangedMonster : MonsterBase
 
         Gizmos.color = Color.blue; // 공격 범위
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.green; //움직임 범위
+        Gizmos.DrawWireSphere(initialPosition, wanderRadius);
     }
 
     public override void Damage(int bulletDamage)
