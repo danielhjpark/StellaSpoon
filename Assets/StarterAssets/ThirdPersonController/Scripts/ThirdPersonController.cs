@@ -192,14 +192,32 @@ namespace StarterAssets
             isDodge = true; // Dodge 시작
             _input.dodge = false; // Dodge 입력 초기화
             MoveSpeed *= 2.0f; // 속도 증가
+            LockCameraPosition = true; // 카메라 고정
 
             _animator.SetTrigger(_animDDodge); // 애니메이션 트리거
 
-            yield return new WaitForSeconds(1f); // 애니메이션 길이에 따라 조정
+            Vector2 dodgeDirection = _input.move.normalized;
 
-            MoveSpeed *= 0.5f; // 속도 원상 복귀
+            // 닷지 중 입력을 고정
+            _input.move = dodgeDirection;
+
+            float dodgeDuration = 1f; // 닷지 애니메이션 길이에 따라 조정
+            float elapsedTime = 0f;
+
+            while (elapsedTime < dodgeDuration)
+            {
+                // 입력을 저장된 방향으로 고정
+                _input.move = dodgeDirection;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            LockCameraPosition = false; // 카메라 고정 해제
+            MoveSpeed *= 0.5f; // 속도 원상 복구
             isDodge = false; // Dodge 종료
         }
+
 
         private void GroundedCheck()
         {
