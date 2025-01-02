@@ -1,24 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 public class RefrigeratorManager : MonoBehaviour
 {
-
-    [SerializeField] GameObject refrigeratorInventory;
-    [SerializeField] GameObject cookInventory;
-    [SerializeField] DailyMenuManager dailyMenuManager;
-    RefrigeratorSlot[] refrigeratorSlots;
-    RefrigeratorInventory[] refrigeratorInventories;
-    RefrigeratorSlot[] cookSlots;
+    static public RefrigeratorManager instance;
+    [SerializeField] GameObject refrigeratorObject;
+    [SerializeField] RefrigeratorInventory refrigeratorInventory;
 
     bool inventoryActivated;
 
+    void Awake()
+    {
+        if (instance == null) {
+            instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
+        else {
+            if (instance != this) Destroy(this.gameObject);
+        }
+    }
+
     void Start()
     {
-        refrigeratorInventories = this.GetComponentsInChildren<RefrigeratorInventory>();
-        refrigeratorSlots = refrigeratorInventory.GetComponentsInChildren<RefrigeratorSlot>();
-        cookSlots = cookInventory.GetComponentsInChildren<RefrigeratorSlot>();
         inventoryActivated = true;
 
     }
@@ -51,42 +56,37 @@ public class RefrigeratorManager : MonoBehaviour
     //------------Inventory Controll ------------------//
     public void OpenDailyIngredeintsInventory()
     {
-        refrigeratorInventory.SetActive(true);
+        refrigeratorObject.SetActive(true);
         inventoryActivated = false;
-        SlotClear();
         DailyMenuIngredients();
     }
 
     public void OpenAllIngredientsInventory() {
-        refrigeratorInventory.SetActive(true);
+        refrigeratorObject.SetActive(true);
         inventoryActivated = false;
-        SlotClear();
-        AllofIngredients();
+        //AllofIngredients();
     }
 
 
     public void CloseRefrigeratorInventory() {
-        refrigeratorInventory.SetActive(false);
+        refrigeratorObject.SetActive(false);
         inventoryActivated = true;
     }
 
     //-----------------Inventory Setup-----------------------//
-    //모든 재료 Slot에 추가 
-    void AllofIngredients() {
-        foreach(KeyValuePair<Ingredient, int> currentMenu in IngredientManager.IngredientAmount) {
-            RefrigeratorSlot slot = CheckEmptySlot();
-            if(slot != null) {
-                slot.AddIngredient(currentMenu.Key, currentMenu.Value);
-            }
-        }
-    }
+    // void AllofIngredients() {
+    //     foreach(KeyValuePair<Ingredient, int> currentMenu in IngredientManager.IngredientAmount) {
+    //         RefrigeratorSlot slot = CheckEmptySlot();
+    //         if(slot != null) {
+    //             slot.AddIngredient(currentMenu.Key, currentMenu.Value);
+    //         }
+    //     }
+    // }
 
-    //당일메뉴 재료 Slot에 추가
     void DailyMenuIngredients() {
         if(DailyMenuManager.dailyMenuList.Count <= 0) {return;}
 
         Dictionary<Ingredient, int> requireIngredients = new Dictionary<Ingredient, int> ();
-        //DailyMenu의 재료들 카운팅
         foreach (KeyValuePair<Recipe, int> currentMenu in DailyMenuManager.dailyMenuList)
         {
             foreach(IngredientAmount currentIngredient in currentMenu.Key.ingredients) {
@@ -97,30 +97,30 @@ public class RefrigeratorManager : MonoBehaviour
                 requireIngredients[currentIngredient.ingredient] += count;
             }
         }
-
-        //카운팅 된 재료들 Slot에 바인딩
-        foreach(KeyValuePair<Ingredient, int> currentMenu in requireIngredients) {
-            RefrigeratorSlot slot = CheckEmptySlot();
-            if(slot != null) {
-                slot.AddIngredient(currentMenu.Key, currentMenu.Value);
-            }
-        }
+        // foreach(KeyValuePair<Ingredient, int> currentMenu in requireIngredients) {
+        //     RefrigeratorSlot slot = CheckEmptySlot();
+        //     if(slot != null) {
+        //         slot.AddIngredient(currentMenu.Key, currentMenu.Value);
+        //     }
+        // }
 
     }
 
-    RefrigeratorSlot CheckEmptySlot() {
-        foreach(RefrigeratorSlot slot in refrigeratorSlots) {
-            if(slot.IsEmpty()) return slot;
-        }
-        Debug.Log("Not found Slot");
-        return null;
-    }
-
-    void SlotClear() {
-        foreach(RefrigeratorSlot slot in refrigeratorSlots) {
-            slot.SlotClear();
+    //----------------Use Ingredients------------------------//
+    public void UseIngredientToInventory(Recipe recipe, int amount) {
+        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+            Ingredient currentIngdeient = currentIngredient.ingredient;
+            int requireIngredientAmount = currentIngredient.amount * amount;
+            refrigeratorInventory.UseIngredient(currentIngdeient,requireIngredientAmount);
         }
     }
-
+    //-----------------Recall Ingredients ----------------------//
+        public void RecallIngredientToInventory(Recipe recipe, int amount) {
+        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+            Ingredient currentIngdeient = currentIngredient.ingredient;
+            int requireIngredientAmount = currentIngredient.amount * amount;
+            refrigeratorInventory.RecallIngredient(currentIngdeient,requireIngredientAmount);
+        }
+    }
 
 }

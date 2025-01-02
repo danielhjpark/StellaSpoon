@@ -7,7 +7,7 @@ public class RecipeManager : MonoBehaviour
 {
     static public RecipeManager instance = null;
 
-    Recipe[] RecipeList; //ì„ì‹œ ë°ì´í„° ë² ì´ìŠ¤
+    Recipe[] RecipeList; //?„?‹œ ?°?´?„° ë² ì´?Š¤
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     
     void Awake()
@@ -38,8 +38,8 @@ public class RecipeManager : MonoBehaviour
 
     public List<Recipe> MakeRecipeUnLockList() {
         List<Recipe> unlockedRecipes = RecipeUnlockCheck
-            .Where(Recipe => Recipe.Value) // bool ê°’ì´ trueì¸ í•­ëª© í•„í„°ë§
-            .Select(Recipe => Recipe.Key) // Recipeë§Œ ì¶”ì¶œ
+            .Where(Recipe => Recipe.Value) // bool ê°’ì´ true?¸ ?•­ëª? ?•„?„°ë§?
+            .Select(Recipe => Recipe.Key) // Recipeë§? ì¶”ì¶œ
             .ToList();
 
         foreach (Recipe recipe in unlockedRecipes) {
@@ -48,9 +48,10 @@ public class RecipeManager : MonoBehaviour
         return unlockedRecipes;
     }
 
-    //--------------ë©”ë‰´ ìƒì„± ì—¬ë¶€í™•ì¸------------------------//
-    //ë‹¨ìˆ˜
+    //--------------ë©”ë‰´ ?ƒ?„± ?—¬ë¶??™•?¸------------------------//
+    //?‹¨?ˆ˜
     public bool IsCanMakeMenu(Recipe recipe) {
+        if(recipe == null) return false;
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount;
@@ -63,6 +64,7 @@ public class RecipeManager : MonoBehaviour
     }
     //ë³µìˆ˜
     public bool IsCanMakeMenu(Recipe recipe, int amount) {
+        if(recipe == null) return false;
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
@@ -74,7 +76,7 @@ public class RecipeManager : MonoBehaviour
         return true;
     }
 
-    //----------------ì¬ë£Œ ì‚¬ìš©í•˜ê¸°------------------------//
+    //----------------?¬ë£? ?‚¬?š©?•˜ê¸?------------------------//
     public void UseIngredientFromRecipe(Recipe recipe, int amount) {
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
@@ -82,7 +84,7 @@ public class RecipeManager : MonoBehaviour
             IngredientManager.IngredientAmount[currentIngdeient] -= requireIngredientAmount;
         }
     }
-    //-----------------ì¬ë£Œ ë°˜í™˜í•˜ê¸° ----------------------//
+    //-----------------?¬ë£? ë°˜í™˜?•˜ê¸? ----------------------//
         public void RecallIngredientFromRecipe(Recipe recipe, int amount) {
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;

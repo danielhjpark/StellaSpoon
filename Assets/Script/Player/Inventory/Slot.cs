@@ -11,10 +11,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Image itemImage; // 아이템의 이미지
 
     [SerializeField]
-    private Text text_count;
+    protected Text text_count;
 
     // 아이템 이미지의 투명도 조절
-    private void SetColor(float _alpha)
+    protected void SetColor(float _alpha)
     {
         Color color = itemImage.color;
         color.a = _alpha;
@@ -24,7 +24,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // 아이템을 슬롯에 추가하는 함수
     // _item: 추가할 아이템 객체
     // _count: 추가할 아이템 개수 (기본값은 1)
-    public void AddItem(Item _item, int _count = 1)
+    virtual public void AddItem(Item _item, int _count = 1)
     {
         // 슬롯에 추가할 아이템 정보 저장
         item = _item;
@@ -37,6 +37,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (item.itemType != Item.ItemType.Equipment)
         {
             text_count.text = itemCount.ToString();
+            text_count.gameObject.SetActive(true);
         }
         else
         {
@@ -65,7 +66,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     // 슬롯을 초기화하는 함수 (아이템 제거)
     // 슬롯의 아이템 데이터를 모두 비우고 UI 요소 초기화
-    private void ClearSlot()
+    virtual public void ClearSlot()
     {
         // 아이템 데이터 초기화
         item = null;
@@ -105,13 +106,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
 
     // 해당 슬롯에 무언가가 마우스 드롭 됐을 때 발생하는 이벤트
-    public void OnDrop(PointerEventData eventData)
+    virtual public void OnDrop(PointerEventData eventData)
     {
         if (DragSlot.instance.dragSlot != null)
             ChangeSlot();
     }
+
     // A 슬롯을 드래그 하여 B 슬롯에 드롭하여, A 슬롯 B 슬롯 서로 자리를 바꾸기
-    private void ChangeSlot()
+    virtual protected void ChangeSlot()
     {
         Item _tempItem = item;
         int _tempItemCount = itemCount;

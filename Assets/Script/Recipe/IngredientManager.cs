@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class IngredientManager : MonoBehaviour
 {
     static public IngredientManager instance = null;
-
-    Ingredient[] IngredientList; //임시 데이터 베이스
-    static public Dictionary<Ingredient, int> IngredientAmount; //임시 데이터 베이스
+    static public Dictionary<string, Ingredient> IngredientList;
+    static public Dictionary<Ingredient, int> IngredientAmount; 
     
     void Awake()
     {
@@ -18,16 +18,21 @@ public class IngredientManager : MonoBehaviour
         else {
             if (instance != this) Destroy(this.gameObject);
         }
-
-        IngredientList = Resources.LoadAll<Ingredient>("Scriptable/Ingredient");
+        IngredientList = new Dictionary<string, Ingredient>();
         IngredientAmount = new Dictionary<Ingredient, int>();
         IngredientAmountInit();
     }
 
     void IngredientAmountInit() {
-        foreach (Ingredient ingredient in IngredientList) {
-            IngredientAmount.Add(ingredient, 4);
+        Ingredient[] IngredientScriptable = Resources.LoadAll<Ingredient>("Scriptable/Ingredient");
+        foreach (Ingredient ingredient in IngredientScriptable) {
+            IngredientList.Add(ingredient.name, ingredient);
+            IngredientAmount.Add(ingredient, 0);
         }
+    }
+
+    public Ingredient FindIngredient(string IngredientName) {
+        return IngredientList[IngredientName];
     }
 
 }

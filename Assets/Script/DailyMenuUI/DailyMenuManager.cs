@@ -41,6 +41,7 @@ public class DailyMenuManager : MonoBehaviour
         int currentAmount = detailMenuUI.currentAmount;
         if(RecipeManager.instance.IsCanMakeMenu(currentRecipe)) {
             RecipeManager.instance.UseIngredientFromRecipe(currentRecipe, currentAmount);
+            RefrigeratorManager.instance.UseIngredientToInventory(currentRecipe, currentAmount);
             DailyMenuUpdate(currentRecipe, currentAmount);
             detailMenuUI.DetailUIClear();
         }     

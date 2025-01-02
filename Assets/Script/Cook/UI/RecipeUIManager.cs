@@ -20,16 +20,15 @@ public class RecipeUIManager : MonoBehaviour
         recipeParent.SetActive(true);   
         foreach (Transform child in recipeParent.transform)
         {
-            Destroy(child.gameObject);//ObjectPool ëŒ€ì²´ ê°€ëŠ¥ì„±
+            Destroy(child.gameObject);//ObjectPool ???ì²? ê°??Š¥?„±
         }
         ingredientInventory.IngredientSlotClear();
-        
     }
 
     public void RecipeListSetup() {
+        RecipeListInit();
         int recipeCount = DailyMenuManager.dailyMenuList.Count;
         if(recipeCount <= 0) return;
-        RecipeListInit();
         foreach (Recipe recipe in DailyMenuManager.dailyMenuList.Keys) {
             GameObject recipeObject = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             recipeObject.transform.SetParent(recipeParent.transform);

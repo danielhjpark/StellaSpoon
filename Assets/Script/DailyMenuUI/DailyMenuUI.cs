@@ -54,8 +54,8 @@ public class DailyMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         addMenu.SetActive(true);
         selectMenu.SetActive(false);
         
-        for(int i = 0; i < DailyMenuManager.dailyMenuList[currentMenu]; i++) 
-            RecipeManager.instance.RecallIngredientFromRecipe(currentMenu, currentAmount);
+        RecipeManager.instance.RecallIngredientFromRecipe(currentMenu, currentAmount);
+        RefrigeratorManager.instance.RecallIngredientToInventory(currentMenu, currentAmount);
         DailyMenuManager.dailyMenuList.Remove(currentMenu);
         currentMenu = null;
         isCanAddMenu = true;
