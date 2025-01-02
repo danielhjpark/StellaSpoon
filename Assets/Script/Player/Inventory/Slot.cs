@@ -13,6 +13,24 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     [SerializeField]
     protected Text text_count;
 
+    private InputNumber theInputNumber;
+    public RectTransform deleteImageRect;
+
+    void Start()
+    {
+        // "deleteImage" 이름을 가진 GameObject를 찾아 RectTransform 가져오기
+        GameObject deleteImage = GameObject.Find("DeleteImage");
+        if (deleteImage != null)
+        {
+            deleteImageRect = deleteImage.GetComponent<RectTransform>();
+        }
+        else
+        {
+            Debug.LogError("DeleteImage를 찾을 수 없습니다. 이름을 확인하세요.");
+        }
+        theInputNumber = FindObjectOfType<InputNumber>();
+    }
+
     // 아이템 이미지의 투명도 조절
     protected void SetColor(float _alpha)
     {
@@ -37,7 +55,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (item.itemType != Item.ItemType.Equipment)
         {
             text_count.text = itemCount.ToString();
-            text_count.gameObject.SetActive(true);
         }
         else
         {
@@ -56,6 +73,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         // 현재 아이템 개수를 업데이트
         itemCount += _count;
         text_count.text = itemCount.ToString();
+        text_count.gameObject.SetActive(true);
 
         // 아이템 개수가 0 이하일 경우 슬롯을 초기화
         if (itemCount <= 0)
@@ -101,8 +119,18 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // 마우스 드래그가 끝났을 때 발생하는 이벤트
     public void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
     {
-        DragSlot.instance.SetColor(0);
-        DragSlot.instance.dragSlot = null;
+        if (RectTransformUtility.RectangleContainsScreenPoint(deleteImageRect, Input.mousePosition, eventData.pressEventCamera))
+        {
+            if(DragSlot.instance.dragSlot != null)
+            {
+                theInputNumber.Call();
+            }
+        }
+        else
+        {
+            DragSlot.instance.SetColor(0);
+            DragSlot.instance.dragSlot = null;
+        }
     }
 
     // 해당 슬롯에 무언가가 마우스 드롭 됐을 때 발생하는 이벤트
@@ -111,9 +139,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (DragSlot.instance.dragSlot != null)
             ChangeSlot();
     }
-
     // A 슬롯을 드래그 하여 B 슬롯에 드롭하여, A 슬롯 B 슬롯 서로 자리를 바꾸기
-    virtual protected void ChangeSlot()
+    virtual public void ChangeSlot()
     {
         Item _tempItem = item;
         int _tempItemCount = itemCount;
