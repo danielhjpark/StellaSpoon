@@ -9,22 +9,16 @@ public class Mobility : MonoBehaviour
     private GameObject mapUI; //지도 UI
 
     private bool collPlayer = false; //플레이어 충돌체크
-    private bool openMap = false; //맵 활성화 체크
 
     private void Update()
     {
-        if(collPlayer)
+        if (!mapUI.activeSelf && collPlayer && Input.GetKeyDown(KeyCode.F))
         {
-            if (!openMap && Input.GetKeyDown(KeyCode.F))
-            {
-                ToggleMapUI();
-                openMap = true;
-            }
-            if (openMap && Input.GetKeyDown(KeyCode.Escape))
-            {
-                CloseMapUI();
-                openMap = false;
-            }
+            ToggleMapUI();
+        }
+        if (mapUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseMapUI();
         }
     }
     private void OnTriggerStay(Collider other)
@@ -37,7 +31,7 @@ public class Mobility : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             collPlayer = false;
         }
