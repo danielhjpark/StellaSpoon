@@ -155,6 +155,15 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
+            if (Inventory.inventoryActivated)
+            {
+                if (_hasAnimator)
+                {
+                    _animator.SetFloat(_animIDSpeed, 0f);
+                    _animator.SetFloat(_animIDMotionSpeed, 0f);
+                }
+                return; // Update 종료
+            }
 
             JumpAndGravity();
             GroundedCheck();
@@ -164,7 +173,10 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (!Inventory.inventoryActivated)
+            {
+                CameraRotation();
+            }
         }
 
         private void AssignAnimationIDs()
