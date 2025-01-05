@@ -12,24 +12,38 @@ public class RangedMonster : MonsterBase
     private float attackRange = 7f;   //공격 범위
 
     [SerializeField]
+    private float wanderRadius = 15f; //랜덤으로 움직이는 범위
+    [SerializeField]
+    private float wanderTime = 3f; //랜덤 이동 주기
+
+    private float wanderTimer;
+
+    private bool isPlayerDetected = false; //플레이어 감지 상태
+
+    private Vector3 initialPosition; //초기 위치 저장
+
+    [SerializeField]
     private GameObject projectilePrefab; //투척물 프리팹
     [SerializeField]
     private Transform firePoint; //투척물 생성위치
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
-    private Animator animator;
     [SerializeField]
     private Collider collider;
 
-    void Start()
+    private  void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
         collider = GetComponent<Collider>();
+        wanderTimer = wanderTime;
+
+        initialPosition = transform.position; //초기 위치 저장
+
+        agent.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
     }
 
-    void Update()
+    private void Update()
     {
         if (playerTf == null) return;
 
@@ -39,6 +53,7 @@ public class RangedMonster : MonsterBase
         if (distanceToPlayer <= detectionRange && distanceToPlayer > attackRange)
         {
             FollowPlayer();
+            isPlayerDetected = true;
         }
         //공격 범위 안에 있는 경우 공격
         else if (distanceToPlayer <= attackRange)
@@ -50,11 +65,48 @@ public class RangedMonster : MonsterBase
                 lastAttackTime = Time.time;
             }
         }
-        //감지 범위를 벗어난 경우 멈춤
+        //감지 범위를 벗어난 경우 랜덤 위치로 이동
         else
         {
-            StopMoving();
+            if (isPlayerDetected)
+            {
+                isPlayerDetected = false;
+                if (agent.hasPath)
+                {
+                    agent.ResetPath(); // 기존 경로 초기화
+                }
+            }
+            HandleRandomMovement();
         }
+    }
+    private void HandleRandomMovement()
+    {
+        wanderTimer += Time.deltaTime;
+
+        if (wanderTimer >= wanderTime)
+        {
+            Vector3 newDestination = getRandomPoint(initialPosition, wanderRadius);
+            agent.SetDestination(newDestination);
+            wanderTimer = 0f;
+            animator.SetBool("Walk", true);
+        }
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            animator.SetBool("Walk", false);
+        }
+    }
+
+    private Vector3 getRandomPoint(Vector3 center, float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += center;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            return hit.position;
+        }
+        return center;
     }
 
     private void FollowPlayer()
@@ -87,13 +139,16 @@ public class RangedMonster : MonsterBase
     }
 
     // 감지 및 공격 범위 시각화
-    void OnDrawGizmos() //항상 보이게 //선택시 보이게 OnDrawGizmosSelected
+    private void OnDrawGizmos() //항상 보이게 //선택시 보이게 OnDrawGizmosSelected
     {
         Gizmos.color = Color.red; //감지 범위
         Gizmos.DrawWireSphere(transform.position, detectionRange);
 
         Gizmos.color = Color.blue; // 공격 범위
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.green; //움직임 범위
+        Gizmos.DrawWireSphere(initialPosition, wanderRadius);
     }
 
     public override void Damage(int bulletDamage)
