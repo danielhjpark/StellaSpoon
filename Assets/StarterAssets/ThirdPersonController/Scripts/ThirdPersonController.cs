@@ -14,7 +14,7 @@ namespace StarterAssets
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
-        public float MoveSpeed = 2.0f; // 캐릭터 스피드
+        public float MoveSpeed = 5.0f; // 캐릭터 스피드
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -155,16 +155,30 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
+            if (Inventory.inventoryActivated)
+            {
+                if (_hasAnimator)
+                {
+                    _animator.SetFloat(_animIDSpeed, 0f);
+                    _animator.SetFloat(_animIDMotionSpeed, 0f);
+                }
+                return; // Update 종료
+            }
 
+            Move();
+
+            if (InventoryManager.instance.totalWeight >= 500) return;
             JumpAndGravity();
             GroundedCheck();
-            Move();
             Dodge();
         }
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (!Inventory.inventoryActivated)
+            {
+                CameraRotation();
+            }
         }
 
         private void AssignAnimationIDs()
@@ -260,6 +274,15 @@ namespace StarterAssets
 
             float targetSpeed = MoveSpeed;
 
+            if (InventoryManager.instance.totalWeight >= 400 && InventoryManager.instance.totalWeight < 500)
+            {
+                targetSpeed *= 0.6f;
+            }
+            if(InventoryManager.instance.totalWeight >= 500)
+            {
+                targetSpeed = 0;
+            }
+
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -310,7 +333,9 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
+
             if (isDodge) return; // 닷지 중일 때는 점프 불가
+
             if (Grounded)
             {
                 _fallTimeoutDelta = FallTimeout;

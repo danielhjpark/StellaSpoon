@@ -27,7 +27,7 @@ namespace StarterAssets
         {
             starterAssetsInputs.DodgeInput(virtualSprintState);
         }
-        
+
     }
 
 }
