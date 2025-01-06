@@ -205,32 +205,39 @@ namespace StarterAssets
         {
             isDodge = true; // Dodge 시작
             _input.dodge = false; // Dodge 입력 초기화
-            MoveSpeed *= 2.0f; // 속도 증가
             LockCameraPosition = true; // 카메라 고정
 
             _animator.SetTrigger(_animDDodge); // 애니메이션 트리거
 
-            Vector2 dodgeDirection = _input.move.normalized;
+            Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized; // 입력된 방향
+            dodgeDirection = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f) * dodgeDirection;
 
-            // 닷지 중 입력을 고정
-            _input.move = dodgeDirection;
-
-            float dodgeDuration = 1f; // 닷지 애니메이션 길이에 따라 조정
+            float dodgeDistance = 5f; // 닷지로 이동할 거리
+            float dodgeDuration = 0.5f; // 닷지 애니메이션과 동기화된 지속 시간
             float elapsedTime = 0f;
+
+            // Raycast로 충돌 체크
+            if (Physics.Raycast(transform.position, dodgeDirection, out RaycastHit hit, dodgeDistance, GroundLayers))
+            {
+                dodgeDistance = hit.distance; // 충돌 시 이동 거리를 제한
+            }
+
+            Vector3 startPosition = transform.position;
+            Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
 
             while (elapsedTime < dodgeDuration)
             {
-                // 입력을 저장된 방향으로 고정
-                _input.move = dodgeDirection;
-
+                transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / dodgeDuration);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
+            transform.position = targetPosition; // 최종 위치 설정
+
             LockCameraPosition = false; // 카메라 고정 해제
-            MoveSpeed *= 0.5f; // 속도 원상 복구
             isDodge = false; // Dodge 종료
         }
+
 
 
         private void GroundedCheck()
