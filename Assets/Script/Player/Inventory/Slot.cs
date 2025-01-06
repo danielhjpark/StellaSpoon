@@ -55,6 +55,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (item.itemType != Item.ItemType.Equipment)
         {
             text_count.text = itemCount.ToString();
+            text_count.gameObject.SetActive(true);
         }
         else
         {
