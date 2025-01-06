@@ -65,28 +65,46 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         // 슬롯의 색상 불투명도로 활성화 표시
         SetColor(1);
+
+
+        // 아이템 무게 업데이트
+        InventoryManager.instance.UpdateTotalWeight(item.itemWeight * _count);
+
     }
 
     // 슬롯에 표시된 아이템 개수를 업데이트하는 함수
     // _count: 증가(양수) 또는 감소(음수)할 아이템 개수
     public void SetSlotCount(int _count)
     {
+        int previousCount = itemCount;
         // 현재 아이템 개수를 업데이트
         itemCount += _count;
         text_count.text = itemCount.ToString();
         text_count.gameObject.SetActive(true);
+
+        int weightChange = item.itemWeight * (itemCount - previousCount);
+        InventoryManager.instance.UpdateTotalWeight(weightChange);
 
         // 아이템 개수가 0 이하일 경우 슬롯을 초기화
         if (itemCount <= 0)
         {
             ClearSlot();
         }
+
+
     }
 
     // 슬롯을 초기화하는 함수 (아이템 제거)
     // 슬롯의 아이템 데이터를 모두 비우고 UI 요소 초기화
     virtual public void ClearSlot()
     {
+
+        if (item != null)
+        {
+            // 무게 업데이트 (현재 아이템 무게 * 아이템 개수)
+            InventoryManager.instance.UpdateTotalWeight(-item.itemWeight * itemCount);
+        }
+
         // 아이템 데이터 초기화
         item = null;
         itemCount = 0;
@@ -97,6 +115,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         // 슬롯을 비활성화 색상으로 표시
         SetColor(0);
+
+  
     }
 
     // 마우스 드래그가 시작 됐을 때 발생하는 이벤트
@@ -152,5 +172,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
         else
             DragSlot.instance.dragSlot.ClearSlot();
+
     }
 }

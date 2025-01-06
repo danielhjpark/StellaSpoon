@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -36,7 +37,10 @@ namespace StarterAssets
 
         public void OnJump(InputValue value)
         {
-            JumpInput(value.isPressed);
+            if(value.isPressed)
+            {
+                JumpInput(true);
+            }
         }
 
         public void OnDodge(InputValue value)
@@ -63,6 +67,11 @@ namespace StarterAssets
         public void JumpInput(bool newJumpState)
         {
             jump = newJumpState;
+
+            if(newJumpState)
+            {
+                Invoke(nameof(ResetJumpInput), 0.1f); // 한 프레임 후 초기화 (0.1초는 수정 가능)
+            }
         }
 
         public void DodgeInput(bool newDodgeState)
@@ -81,6 +90,10 @@ namespace StarterAssets
             dodge = false;
         }
 
+        private void ResetJumpInput()
+        {
+            jump = false;
+        }
         private void OnApplicationFocus(bool hasFocus)
         {
             SetCursorState(cursorLocked);
