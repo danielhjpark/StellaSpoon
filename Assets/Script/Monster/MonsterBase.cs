@@ -13,24 +13,24 @@ public abstract class MonsterBase : MonoBehaviour
     [SerializeField]
     protected int currentHP; //현재 체력
 
-    protected Transform playerTf;
+    protected GameObject player;
     protected float lastAttackTime;
 
     protected Animator animator; // Animator 컴포넌트
 
     protected void Start()
     {
-        playerTf = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         currentHP = maxHp;
     }
 
     private void Update()
     {
-        if (playerTf == null)
+        if (player.transform == null)
             return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTf.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if(distanceToPlayer<= detectionRange)
         {
@@ -45,7 +45,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     protected void FacePlayer()
     {
-        Vector3 direction = (playerTf.position - transform.position).normalized;
+        Vector3 direction = (player.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
