@@ -22,7 +22,7 @@ public class WeaponSlot : Slot
                 DragSlot.instance.SetColor(0);
 
                 // 드래그 슬롯의 아이템을 그대로 유지 (변경 없이 상태 복구)
-                DragSlot.instance.dragSlot.AddItem(
+                DragSlot.instance.dragSlot.AddItemWithoutWeight(
                     DragSlot.instance.dragSlot.item,
                     DragSlot.instance.dragSlot.itemCount
                 );
