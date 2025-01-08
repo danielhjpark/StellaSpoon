@@ -138,7 +138,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
 
     // 마우스 드래그가 끝났을 때 발생하는 이벤트
-    public void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
+    virtual public void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
     {
         if (RectTransformUtility.RectangleContainsScreenPoint(deleteImageRect, Input.mousePosition, eventData.pressEventCamera))
         {
@@ -163,15 +163,103 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // A 슬롯을 드래그 하여 B 슬롯에 드롭하여, A 슬롯 B 슬롯 서로 자리를 바꾸기
     virtual public void ChangeSlot()
     {
-        Item _tempItem = item;
-        int _tempItemCount = itemCount;
+        bool isWeaponSlot = this is WeaponSlot;
+        bool isDraggedFromWeaponSlot = DragSlot.instance.dragSlot is WeaponSlot;
 
-        AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+        // 빈 슬롯으로 이동할 경우 허용
+        if (item == null || DragSlot.instance.dragSlot.item == null)
+        {
+            // 무게 변경을 일시적으로 비활성화
+            InventoryManager.instance.PauseWeightUpdate();
 
-        if (_tempItem != null)
-            DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
+            Item _tempItem = item;
+            int _tempItemCount = itemCount;
+
+            AddItemWithoutWeight(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+
+            if (_tempItem != null)
+                DragSlot.instance.dragSlot.AddItemWithoutWeight(_tempItem, _tempItemCount);
+            else
+                DragSlot.instance.dragSlot.ClearSlot();
+
+            InventoryManager.instance.ResumeWeightUpdate();
+            return;
+        }
+
+        // 슬롯끼리의 교환은 타입 제한 없이 허용
+        if (!isWeaponSlot && !isDraggedFromWeaponSlot)
+        {
+            // 무게 변경을 일시적으로 비활성화
+            InventoryManager.instance.PauseWeightUpdate();
+
+            Item _tempItem = item;
+            int _tempItemCount = itemCount;
+
+            AddItemWithoutWeight(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+
+            if (_tempItem != null)
+                DragSlot.instance.dragSlot.AddItemWithoutWeight(_tempItem, _tempItemCount);
+            else
+                DragSlot.instance.dragSlot.ClearSlot();
+
+            InventoryManager.instance.ResumeWeightUpdate();
+            return;
+        }
+
+        // WeaponSlot과의 교환은 제한적으로 허용
+        if (isWeaponSlot && DragSlot.instance.dragSlot.item.itemType == Item.ItemType.Equipment ||
+            isDraggedFromWeaponSlot && this.item == null)
+        {
+            // 무게 변경을 일시적으로 비활성화
+            InventoryManager.instance.PauseWeightUpdate();
+
+            Item _tempItem = item;
+            int _tempItemCount = itemCount;
+
+            AddItemWithoutWeight(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+
+            if (_tempItem != null)
+                DragSlot.instance.dragSlot.AddItemWithoutWeight(_tempItem, _tempItemCount);
+            else
+                DragSlot.instance.dragSlot.ClearSlot();
+
+            InventoryManager.instance.ResumeWeightUpdate();
+        }
         else
-            DragSlot.instance.dragSlot.ClearSlot();
+        {
+            Debug.LogWarning("아이템 타입이 호환되지 않아 슬롯을 교환할 수 없습니다.");
 
+            // 드래그 이미지 초기화
+            DragSlot.instance.SetColor(0);
+
+            // 드래그 슬롯 상태 복구
+            DragSlot.instance.dragSlot.AddItemWithoutWeight(
+                DragSlot.instance.dragSlot.item,
+                DragSlot.instance.dragSlot.itemCount
+            );
+        }
     }
+
+
+    // 아이템 교환용 메서드: 무게 업데이트 없이 아이템 추가
+    public void AddItemWithoutWeight(Item _item, int _count)
+    {
+        item = _item;
+        itemCount = _count;
+
+        itemImage.sprite = item.itemImage;
+
+        if (item.itemType != Item.ItemType.Equipment)
+        {
+            text_count.text = itemCount.ToString();
+            text_count.gameObject.SetActive(true);
+        }
+        else
+        {
+            text_count.gameObject.SetActive(false);
+        }
+
+        SetColor(1);
+    }
+
 }

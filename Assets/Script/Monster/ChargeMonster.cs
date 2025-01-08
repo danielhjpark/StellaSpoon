@@ -46,9 +46,9 @@ public class ChargeMonster : MonsterBase
 
     private void Update()
     {
-        if (playerTf == null) return;
+        if (player.transform == null) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTf.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         //감지 범위 안에 있는 경우 플레이어를 따라감
         if (distanceToPlayer <= detectionRange && distanceToPlayer > attackRange)
@@ -112,11 +112,11 @@ public class ChargeMonster : MonsterBase
 
     private void FollowPlayer()
     {
-        if (agent != null && playerTf != null)
+        if (agent != null && player.transform != null)
         {
             animator.SetBool("Walk", true);
             agent.isStopped = false;
-            agent.SetDestination(playerTf.position);
+            agent.SetDestination(player.transform.position);
             wanderTimer = 0f;
         }
     }
@@ -146,7 +146,7 @@ public class ChargeMonster : MonsterBase
     private IEnumerator Charge()
     {
         isCharging = true;
-        Vector3 targetPosition = playerTf.position - (playerTf.position - transform.position).normalized * 0.4f; //목표보다 0.4 앞에 멈추게
+        Vector3 targetPosition = player.transform.position - (player.transform.position - transform.position).normalized * 0.4f; //목표보다 0.4 앞에 멈추게
 
         // 돌격 시작 시 NavMeshAgent 비활성화 (직접 이동을 위해)
         agent.isStopped = true;
