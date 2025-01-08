@@ -138,7 +138,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
 
     // 마우스 드래그가 끝났을 때 발생하는 이벤트
-    public void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
+    virtual public void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
     {
         if (RectTransformUtility.RectangleContainsScreenPoint(deleteImageRect, Input.mousePosition, eventData.pressEventCamera))
         {

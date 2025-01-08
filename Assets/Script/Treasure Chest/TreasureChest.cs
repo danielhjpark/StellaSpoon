@@ -20,7 +20,7 @@ public class TreasureChest : MonoBehaviour
 
     [Header("보물상자")]
     [SerializeField]
-    private GameObject gridSetting; //Slot들의 부모인 Grid Setting
+    private GameObject gridSetting; //Slot들의 부모인 Grid Setting\
     private Slot[] chestSlots; //보물상자 슬롯 배열
 
     [Header("아이템 리스트")]
