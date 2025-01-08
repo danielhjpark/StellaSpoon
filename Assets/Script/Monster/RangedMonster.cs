@@ -45,9 +45,9 @@ public class RangedMonster : MonsterBase
 
     private void Update()
     {
-        if (playerTf == null) return;
+        if (player == null) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTf.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         //감지 범위 안에 있는 경우 플레이어를 따라감
         if (distanceToPlayer <= detectionRange && distanceToPlayer > attackRange)
@@ -111,11 +111,11 @@ public class RangedMonster : MonsterBase
 
     private void FollowPlayer()
     {
-        if (agent != null && playerTf != null)
+        if (agent != null && player.transform != null)
         {
             animator.SetBool("Walk", true);
             agent.isStopped = false;
-            agent.SetDestination(playerTf.position);
+            agent.SetDestination(player.transform.position);
         }
     }
 
