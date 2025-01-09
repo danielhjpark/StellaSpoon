@@ -66,7 +66,7 @@ public class CuttingManager : MonoBehaviour
                 AddPhysics(sliceAllObjects[currentCount], Vector3.right);
                 break;
             }
-            if(Input.GetKeyDown(KeyCode.Space) && !isCutting) {
+            if(Input.GetKeyDown(KeyCode.V) && !isCutting) {
                 AddPhysics(sliceAllObjects[currentCount], Vector3.left);
                 StartCoroutine(knifeMotion(cuttingLines[currentCount]));
                 if(cuttingLines.Count > currentCount) cuttingLines[currentCount].SetActive(false);
@@ -96,7 +96,7 @@ public class CuttingManager : MonoBehaviour
             if(currentCount + 1 == sliceCount) {
                 break;
             }
-            if(Input.GetKeyDown(KeyCode.Space) && !isCutting) {
+            if(Input.GetKeyDown(KeyCode.V) && !isCutting) {
                 StartCoroutine(knifeMotion(cuttingLines[currentCount]));
                 if(cuttingLines.Count > currentCount) cuttingLines[currentCount].SetActive(false);
                 currentCount++;
@@ -125,7 +125,7 @@ public class CuttingManager : MonoBehaviour
         rotateUI.SetActive(true);
         sliceUI.SetActive(false);
         while(true) {
-            if(Input.GetKeyDown(KeyCode.R)) isRot = true;
+            if(Input.GetKeyDown(KeyCode.Space)) isRot = true;
             if(!isRot) {
                 yield return null;
                 continue;
@@ -156,7 +156,7 @@ public class CuttingManager : MonoBehaviour
                 }
                 break;
             }
-            if(Input.GetKeyDown(KeyCode.Space) && !isCutting) {
+            if(Input.GetKeyDown(KeyCode.V) && !isCutting) {
                 for(int i = 0; i < horizontalCount; i++) {
                     AddPhysics(sliceAllObjects2[currentCount + i* verticalCount], Vector3.left);
                 }
