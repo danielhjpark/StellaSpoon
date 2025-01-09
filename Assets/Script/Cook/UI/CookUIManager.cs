@@ -17,7 +17,7 @@ public class CookUIManager : MonoBehaviour
     }
 
     private void OnEnable() {
-        recipeUIManager.RecipeListSetup();
+        //recipeUIManager.RecipeListSetup();
     }
 
     public IEnumerator HidePanel() {

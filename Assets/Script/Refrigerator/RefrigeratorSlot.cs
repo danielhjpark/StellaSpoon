@@ -21,7 +21,7 @@ public class RefrigeratorSlot : Slot
         currentIngredient = IngredientManager.instance.FindIngredient(_item.itemName);
     }
 
-    override protected void ChangeSlot()
+    override public void ChangeSlot()
     {
         if(!IsTypeIngredient(DragSlot.instance.dragSlot.item)){return;}
 

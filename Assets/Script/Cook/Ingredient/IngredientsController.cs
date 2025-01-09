@@ -7,16 +7,18 @@ using UnityEngine.UI;
 public class IngredientsController : MonoBehaviour , IPointerDownHandler
 {
     CookUIManager cookInventoryManager;
-    [SerializeField] GameObject ingredientsObject;
+    IngredientSlot ingredientSlot;
+
+    GameObject ingredientObject;
     GameObject controllObject;
 
-    [SerializeField] GameObject wokObject;
     bool isControll;
     bool isCanDrop;
-    Vector3 previousPos;
+
     void Start()
     {
         cookInventoryManager = GetComponentInParent<CookUIManager>();
+        ingredientSlot = GetComponent<IngredientSlot>();
         isControll = false;
         isCanDrop = false;
     }
@@ -41,37 +43,38 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
             float h = controllObject.transform.position.y;
             Vector3 newPos = (hitLayerMask.point * (H - h) + Camera.main.transform.position * h) / H;
             controllObject.transform.position = hitLayerMask.point;
-            previousPos =hitLayerMask.point;
         }
         else {
-            controllObject.transform.position = Input.mousePosition;//previousPos;
+            controllObject.transform.position = Input.mousePosition;
         }
     }
 
     public void ObjectDrop() {
-        CheckOverlap3D();
+        DropCheck();
         if(Input.GetMouseButtonUp(0)) {
             if(isCanDrop) {
-                controllObject.transform.SetParent(wokObject.transform);
-                controllObject.GetComponent<Rigidbody>().useGravity = true;
+                
                 isControll = false;
                 isCanDrop = false;
+                CookManager.instance.DropObject(controllObject);
+                controllObject = null;
+
             }
             else {
                 Destroy(controllObject);
                 isControll = false;
                 isCanDrop = false;
+                StartCoroutine(cookInventoryManager.VisiblePanel());
             }
-            StartCoroutine(cookInventoryManager.VisiblePanel());
+            
         }
 
     }
 
-    void CheckOverlap3D()
+    void DropCheck()
     {
-        Collider[] colliders = Physics.OverlapSphere(controllObject.transform.position, 0.01f, LayerMask.GetMask("DropArea"));
-
-        if (colliders.Length > 0)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("DropLayer")))
         {
             isCanDrop = true;
         }
@@ -84,8 +87,12 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        controllObject = Instantiate(ingredientsObject, Input.mousePosition, Quaternion.identity);
-        controllObject.GetComponent<Rigidbody>().useGravity = false;
+        if(ingredientSlot.currentIngredient != null) {
+            ingredientObject = ingredientSlot.currentIngredient.ingredientPrefab;
+        }
+        else return;
+
+        controllObject = Instantiate(ingredientObject, Input.mousePosition, ingredientObject.transform.rotation);
         StartCoroutine(cookInventoryManager.HidePanel());
         isControll = true;
     }

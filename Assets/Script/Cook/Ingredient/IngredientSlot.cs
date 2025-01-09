@@ -9,7 +9,7 @@ public class IngredientSlot : MonoBehaviour
      bool isEmpty;
     [SerializeField] Image ingredientImage;
     [SerializeField] TextMeshProUGUI ingredientName;
-    Ingredient currentIngredient;
+    public Ingredient currentIngredient{get; set;}
 
     void Start()
     {
