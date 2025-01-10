@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager instance;
 
     private bool weightUpdatePaused = false;
-    
+
     public int totalWeight = 0;
 
     public Text totalWeightText; // 총 무게를 표시할 텍스트
@@ -55,6 +55,10 @@ public class InventoryManager : MonoBehaviour
         totalWeight = 0;
         foreach (var slot in FindObjectsOfType<Slot>())
         {
+            if (slot is TreasureChestSlot)
+            {
+                continue;
+            }
             if (slot.item != null)
             {
                 totalWeight += slot.item.itemWeight * slot.itemCount;
@@ -63,5 +67,3 @@ public class InventoryManager : MonoBehaviour
         Debug.Log($"Recalculated Total Weight: {totalWeight}");
     }
 }
-
-

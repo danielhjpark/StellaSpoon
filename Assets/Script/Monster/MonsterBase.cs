@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,15 @@ public abstract class MonsterBase : MonoBehaviour
 
     protected Animator animator; // Animator 컴포넌트
 
+    protected ThirdPersonController thirdPersonController;
+
     protected void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         currentHP = maxHp;
+
+        thirdPersonController = player.GetComponent<ThirdPersonController>();
     }
 
     private void Update()
