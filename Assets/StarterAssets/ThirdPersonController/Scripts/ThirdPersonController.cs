@@ -16,6 +16,8 @@ namespace StarterAssets
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 5.0f; // 캐릭터 스피드
 
+        private CharacterController _characterController;
+
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.12f;
@@ -96,6 +98,7 @@ namespace StarterAssets
 
         // Dodge
         private bool isDodge = false;
+        private bool dodgeCooldownActive;
 
         // 캐릭터 기본 스테이터스
 
@@ -135,7 +138,7 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-
+            _characterController = GetComponent<CharacterController>();
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
@@ -193,7 +196,7 @@ namespace StarterAssets
         private void Dodge()
         {
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
-            if (_input.move == Vector2.zero || isDodge) return;
+            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive) return;
 
             if (Grounded && _input.dodge)
             {
@@ -203,39 +206,52 @@ namespace StarterAssets
 
         private IEnumerator DodgeCoroutine()
         {
-            isDodge = true; // Dodge 시작
-            _input.dodge = false; // Dodge 입력 초기화
-            LockCameraPosition = true; // 카메라 고정
+            isDodge = true;
+            dodgeCooldownActive = true;
+            _input.dodge = false;
+            LockCameraPosition = true;
 
-            _animator.SetTrigger(_animDDodge); // 애니메이션 트리거
+            _animator.SetTrigger(_animDDodge);
 
-            Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized; // 입력된 방향
+            Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
             dodgeDirection = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f) * dodgeDirection;
 
-            float dodgeDistance = 5f; // 닷지로 이동할 거리
-            float dodgeDuration = 0.5f; // 닷지 애니메이션과 동기화된 지속 시간
+            float dodgeDistance = 3f;
+            float dodgeDuration = 0.5f;
             float elapsedTime = 0f;
-
-            // Raycast로 충돌 체크
-            if (Physics.Raycast(transform.position, dodgeDirection, out RaycastHit hit, dodgeDistance, GroundLayers))
-            {
-                dodgeDistance = hit.distance; // 충돌 시 이동 거리를 제한
-            }
 
             Vector3 startPosition = transform.position;
             Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
 
+            // 경사면 보정
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 1f, GroundLayers))
+            {
+                Vector3 slopeNormal = slopeHit.normal;
+                dodgeDirection = Vector3.ProjectOnPlane(dodgeDirection, slopeNormal).normalized;
+            }
+
+            // 충돌 체크
+            if (Physics.Raycast(transform.position, dodgeDirection, out RaycastHit hit, dodgeDistance, GroundLayers))
+            {
+                dodgeDistance = hit.distance;
+                targetPosition = startPosition + dodgeDirection * dodgeDistance;
+            }
+
             while (elapsedTime < dodgeDuration)
             {
-                transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / dodgeDuration);
+                float step = (dodgeDistance / dodgeDuration) * Time.deltaTime;
+                Vector3 moveStep = dodgeDirection * step;
+                _characterController.Move(moveStep);
+
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            transform.position = targetPosition; // 최종 위치 설정
+            LockCameraPosition = false;
+            isDodge = false;
 
-            LockCameraPosition = false; // 카메라 고정 해제
-            isDodge = false; // Dodge 종료
+            yield return new WaitForSeconds(3f);
+            dodgeCooldownActive = false;
         }
 
 
