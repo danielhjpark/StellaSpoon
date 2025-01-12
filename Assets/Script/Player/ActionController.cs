@@ -43,7 +43,7 @@ public class ActionController : MonoBehaviour
     private void CheckItem()
     {
         // 캐릭터의 forward 방향으로 레이캐스트 발사
-        Vector3 rayOrigin = characterTransform.position + Vector3.up * 0.1f; // 캐릭터 중심에서 약간 위로
+        Vector3 rayOrigin = characterTransform.position + Vector3.up * 0.5f; // 캐릭터 중심에서 약간 위로
         Vector3 rayDirection = characterTransform.forward; // 캐릭터의 forward 방향
 
         // 레이캐스트 발사
