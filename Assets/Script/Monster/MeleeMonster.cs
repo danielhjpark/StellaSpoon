@@ -22,7 +22,6 @@ public class MeleeMonster : MonsterBase
 
     private Vector3 initialPosition; //초기 위치 저장
 
-
     private NavMeshAgent agent;//몬스터의 NavMeshAgent
     [SerializeField]
     private Collider collider;
@@ -128,8 +127,9 @@ public class MeleeMonster : MonsterBase
     {
         animator.SetTrigger("Attack");
         Debug.Log("근접 공격: " + attackDamage + "의 피해를 입힘!");
+        Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
         //여기에 플레이어에게 데미지를 입히는 로직 추가
-        
+        thirdPersonController.TakeDamage(attackDamage, attackerPosition);
         /*animator.SetBool("Attack", false);*/
     }
 

@@ -184,6 +184,8 @@ public class ChargeMonster : MonsterBase
         {
             Debug.Log("플레이어와 충돌! 돌격 종료.");
             StopCharging();
+            Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
+            thirdPersonController.TakeDamage(attackDamage, attackerPosition);
         }
     }
 

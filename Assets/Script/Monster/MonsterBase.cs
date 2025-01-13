@@ -67,6 +67,7 @@ public abstract class MonsterBase : MonoBehaviour
         {
             Die();
         }
+        
     }
     protected virtual void Die()
     {
