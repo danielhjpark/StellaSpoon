@@ -333,12 +333,6 @@ namespace StarterAssets
             float speedOffset = 0.1f;
             float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
-            if (_hasAnimator)
-            {
-                float animationSpeedMultiplier = _speed / MoveSpeed;
-                _animator.SetFloat("AnimationSpeedMultiplier", animationSpeedMultiplier);
-            }
-
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
                 currentHorizontalSpeed > targetSpeed + speedOffset)
             {
