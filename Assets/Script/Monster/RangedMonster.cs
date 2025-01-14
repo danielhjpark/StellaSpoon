@@ -7,7 +7,7 @@ public class RangedMonster : MonsterBase
 {
     [Header("Basic Information")]
     [SerializeField]
-    private float attackDamage = 10f;  //공격 데미지
+    protected float attackDamage = 10f;  //공격 데미지
     [SerializeField]
     private float attackRange = 7f;   //공격 범위
 
@@ -29,13 +29,13 @@ public class RangedMonster : MonsterBase
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
     [SerializeField]
-    private Collider collider;
+    private Collider RangedMonsterCollider;
 
-    private  void Start()
+    private new void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
-        collider = GetComponent<Collider>();
+        RangedMonsterCollider = GetComponent<Collider>();
         wanderTimer = wanderTime;
 
         initialPosition = transform.position; //초기 위치 저장
@@ -58,9 +58,17 @@ public class RangedMonster : MonsterBase
         //공격 범위 안에 있는 경우 공격
         else if (distanceToPlayer <= attackRange)
         {
+
             StopMoving();
+            Vector3 targetDis = player.transform.position - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDis);
+
+            // 부드럽게 회전하도록 Slerp 사용
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             if (Time.time >= lastAttackTime + attackCooldown)
             {
+                //플레이어 방향을 바라보게 설정
+                //플레이어를 바라봤을 때 진행
                 Attack();
                 lastAttackTime = Time.time;
             }
@@ -128,6 +136,21 @@ public class RangedMonster : MonsterBase
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            if(!collDamage)
+            {
+                Debug.Log("데미지");
+                Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
+                                                               //여기에 플레이어에게 데미지를 입히는 로직 추가
+                thirdPersonController.TakeDamage(attackDamage, attackerPosition);
+                StartCoroutine(AttackDelay());
+            }
+        }
+    }
+
     protected override void Attack()
     {
         animator.SetTrigger("Attack");
@@ -163,7 +186,7 @@ public class RangedMonster : MonsterBase
     protected override void Die()
     {
         agent.isStopped = true; //이동 멈추기
-        collider.enabled = false; //충돌 제거
+        RangedMonsterCollider.enabled = false; //충돌 제거
         animator.SetTrigger("Die");
         StartCoroutine(DieDelays());
     }

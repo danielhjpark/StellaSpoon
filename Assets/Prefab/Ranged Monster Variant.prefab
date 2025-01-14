@@ -160,11 +160,15 @@ MonoBehaviour:
   dieDelay: 5
   maxHp: 100
   currentHP: 0
+  thirdPersonController: {fileID: 0}
+  collDamage: 0
   attackDamage: 10
   attackRange: 7
+  wanderRadius: 15
+  wanderTime: 3
   projectilePrefab: {fileID: 5228796602694931412, guid: a3054c4061ee2264e8ccd7c7bd890ac5, type: 3}
   firePoint: {fileID: 180209265481437564}
-  collider: {fileID: 0}
+  RangedMonsterCollider: {fileID: 0}
 --- !u!65 &2635258128732476541
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -184,7 +188,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.8746611, z: 1}
+  m_Size: {x: 1.1, y: 0.8746611, z: 1.1}
   m_Center: {x: 0, y: 0.47261566, z: 0}
 --- !u!54 &1621032181211569969
 Rigidbody:

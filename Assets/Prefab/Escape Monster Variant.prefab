@@ -95,9 +95,14 @@ MonoBehaviour:
   dieDelay: 5
   maxHp: 100
   currentHP: 0
+  thirdPersonController: {fileID: 0}
+  collDamage: 0
   viewAngle: 83
   moveSpeed: 3
+  escapeSpeed: 5
   escapeDistance: 10
+  wanderRadius: 15
+  wanderTime: 3
   targetMask:
     serializedVersion: 2
     m_Bits: 8
@@ -120,7 +125,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0

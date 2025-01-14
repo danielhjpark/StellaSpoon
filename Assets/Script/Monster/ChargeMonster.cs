@@ -30,13 +30,13 @@ public class ChargeMonster : MonsterBase
     private bool isCharging = false;
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
-    private Collider collider;
+    private Collider ChargeMonsterCollider;
 
-    private void Start()
+    private new void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
-        collider = GetComponent<Collider>();
+        ChargeMonsterCollider = GetComponent<Collider>();
         wanderTimer = wanderTime;
 
         initialPosition = transform.position; //초기 위치 저장
@@ -220,7 +220,7 @@ public class ChargeMonster : MonsterBase
     protected override void Die()
     {
         agent.isStopped = true; //이동 멈추기
-        collider.enabled = false; //충돌 제거
+        ChargeMonsterCollider.enabled = false; //충돌 제거
         animator.SetTrigger("Die");
         StartCoroutine(DieDelays());
     }

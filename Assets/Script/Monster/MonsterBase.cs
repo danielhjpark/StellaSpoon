@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class MonsterBase : MonoBehaviour
 {
     public float detectionRange = 10f; //감지범위
-    public float attackCooldown = 2f; //공격 딜레이
+    public float attackCooldown = 5f; //공격 딜레이
     public float dieDelay = 5f; //죽음 딜레이
 
     [SerializeField]
@@ -18,8 +18,11 @@ public abstract class MonsterBase : MonoBehaviour
     protected float lastAttackTime;
 
     protected Animator animator; // Animator 컴포넌트
-
+    [SerializeField]
     protected ThirdPersonController thirdPersonController;
+
+    [SerializeField]
+    protected bool collDamage = false;
 
     protected void Start()
     {
@@ -72,5 +75,12 @@ public abstract class MonsterBase : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+    }
+
+    protected IEnumerator AttackDelay()
+    {
+        collDamage = true;
+        yield return new WaitForSeconds(3f);
+        collDamage = false;
     }
 }
