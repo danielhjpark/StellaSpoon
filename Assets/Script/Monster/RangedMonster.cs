@@ -58,9 +58,17 @@ public class RangedMonster : MonsterBase
         //공격 범위 안에 있는 경우 공격
         else if (distanceToPlayer <= attackRange)
         {
+
             StopMoving();
+            Vector3 targetDis = player.transform.position - transform.position;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDis);
+
+            // 부드럽게 회전하도록 Slerp 사용
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             if (Time.time >= lastAttackTime + attackCooldown)
             {
+                //플레이어 방향을 바라보게 설정
+                //플레이어를 바라봤을 때 진행
                 Attack();
                 lastAttackTime = Time.time;
             }
