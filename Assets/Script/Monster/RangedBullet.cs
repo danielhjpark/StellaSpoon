@@ -10,6 +10,8 @@ public class RangedBullet : RangedMonster
 
     private Vector3 direction; //총알 방향
 
+    private Rigidbody rb;
+
     private new void Start()
     {
         base.Start();
@@ -20,6 +22,8 @@ public class RangedBullet : RangedMonster
         {
             // 현재 위치에서 플레이어의 방향을 계산
             direction = (playerTr.position - transform.position).normalized;
+
+            direction.y = 0;
 
         }
 
