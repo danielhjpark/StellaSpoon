@@ -7,7 +7,7 @@ public class RangedMonster : MonsterBase
 {
     [Header("Basic Information")]
     [SerializeField]
-    private float attackDamage = 10f;  //공격 데미지
+    protected float attackDamage = 10f;  //공격 데미지
     [SerializeField]
     private float attackRange = 7f;   //공격 범위
 
@@ -31,7 +31,7 @@ public class RangedMonster : MonsterBase
     [SerializeField]
     private Collider collider;
 
-    private  void Start()
+    private void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
@@ -125,6 +125,21 @@ public class RangedMonster : MonsterBase
         {
             animator.SetBool("Walk", false);
             agent.isStopped = true;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            if(!collDamage)
+            {
+                Debug.Log("데미지");
+                Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
+                                                               //여기에 플레이어에게 데미지를 입히는 로직 추가
+                thirdPersonController.TakeDamage(attackDamage, attackerPosition);
+                StartCoroutine(AttackDelay());
+            }
         }
     }
 

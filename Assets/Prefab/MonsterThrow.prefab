@@ -101,7 +101,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -129,7 +129,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -146,5 +146,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c6441232a6cfa243b80be19b112dfa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionRange: 10
+  attackCooldown: 5
+  dieDelay: 5
+  maxHp: 100
+  currentHP: 0
+  collDamage: 0
+  attackDamage: 10
+  attackRange: 7
+  wanderRadius: 15
+  wanderTime: 3
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  collider: {fileID: 0}
   player: {fileID: 0}
   moveSpeed: 5

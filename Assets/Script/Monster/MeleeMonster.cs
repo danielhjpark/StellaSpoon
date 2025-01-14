@@ -61,7 +61,7 @@ public class MeleeMonster : MonsterBase
         //감지 범위를 벗어난 경우 랜덤 위치로 이동
         else
         {
-            if(isPlayerDetected)
+            if (isPlayerDetected)
             {
                 isPlayerDetected = false;
                 if (agent.hasPath)
@@ -96,7 +96,7 @@ public class MeleeMonster : MonsterBase
         Vector3 randomDirection = Random.insideUnitSphere * radius;
         randomDirection += center;
         NavMeshHit hit;
-        if(NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
         {
             return hit.position;
         }
@@ -109,7 +109,7 @@ public class MeleeMonster : MonsterBase
         {
             animator.SetBool("Walk", true);
             agent.isStopped = false;
-            agent.SetDestination(player.transform.position);
+            agent.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 0.5f);//목표보다 0.4 앞에 멈추게
             wanderTimer = 0f;
         }
     }
@@ -128,7 +128,7 @@ public class MeleeMonster : MonsterBase
         animator.SetTrigger("Attack");
         Debug.Log("근접 공격: " + attackDamage + "의 피해를 입힘!");
         Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
-        //여기에 플레이어에게 데미지를 입히는 로직 추가
+                                                       //여기에 플레이어에게 데미지를 입히는 로직 추가
         thirdPersonController.TakeDamage(attackDamage, attackerPosition);
         /*animator.SetBool("Attack", false);*/
     }
@@ -149,7 +149,7 @@ public class MeleeMonster : MonsterBase
     public override void Damage(int bulletDamage)
     {
         base.Damage(bulletDamage);
-        if(animator != null)
+        if (animator != null)
         {
             animator.SetTrigger("Hit");
         }
