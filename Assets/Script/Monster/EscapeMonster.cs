@@ -7,11 +7,15 @@ using UnityEngine.AI;
 public class EscapeMonster : MonsterBase
 {
     [Header("Basic Information")]
+    [SerializeField]
+    protected float attackDamage = 10f;  //공격 데미지
     [Range(0f, 360f)]
     [SerializeField]
     private float viewAngle = 0f; //감지 범위 각도
     [SerializeField]
     private float moveSpeed = 3f; //이동 속도
+    [SerializeField]
+    private float escapeSpeed = 5f; //도망속도
     [SerializeField]
     private float escapeDistance = 10f; //도망가는 거리
 
@@ -26,6 +30,8 @@ public class EscapeMonster : MonsterBase
 
     private Vector3 initialPosition; //초기 위치 저장
 
+    private Collider escapeMonsterCollider;
+
     [Header("Layer")]   
     [SerializeField]
     LayerMask targetMask;
@@ -38,7 +44,7 @@ public class EscapeMonster : MonsterBase
 
     
 
-    private void Start()
+    private new void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
@@ -46,7 +52,11 @@ public class EscapeMonster : MonsterBase
 
         initialPosition = transform.position; //초기 위치 저장
 
+        escapeMonsterCollider = GetComponent<Collider>();
+
         agent.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
+
+        agent.speed = moveSpeed; //이동속도 설정
     }
     private void Update()
     {
@@ -65,6 +75,7 @@ public class EscapeMonster : MonsterBase
             {
                 isEscaping = false; //도망 종료
                 isPlayerDetected = false;
+                agent.speed = moveSpeed; //움직임 속도 초기화
                 agent.ResetPath(); //경로 초기화
             }
         }
@@ -131,6 +142,8 @@ public class EscapeMonster : MonsterBase
         isEscaping = true;
         isPlayerDetected = true;
 
+        agent.speed = escapeSpeed; //도망속도로 변경
+
         //도망가는 방향 설정
         Vector3 myPos = transform.position;
         Vector3 direction = (myPos - targetPosition).normalized;
@@ -143,6 +156,23 @@ public class EscapeMonster : MonsterBase
         {
             escapeTarget = hit.position;
             agent.SetDestination(escapeTarget); //도망 실행
+        }
+        else
+        {
+            //NavMesh에 유효하지 않은 경우, 도망 거리를 줄여서 유효한 위치를 찾음
+            float reducedDistance = escapeDistance;
+            while (reducedDistance > 1f) //최소 거리까지 감소
+            {
+                reducedDistance -= 1f;
+                Vector3 closerEscapeTarget = myPos + direction * reducedDistance;
+
+                if (NavMesh.SamplePosition(closerEscapeTarget, out hit, reducedDistance, NavMesh.AllAreas))
+                {
+                    escapeTarget = hit.position; //유효한 위치로 설정
+                    agent.SetDestination(escapeTarget); //도망 실행
+                    break;
+                }
+            }
         }
 
         //도망가는 방향으로 회전
@@ -175,6 +205,21 @@ public class EscapeMonster : MonsterBase
         return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (!collDamage)
+            {
+                Debug.Log("데미지");
+                Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
+                                                               //여기에 플레이어에게 데미지를 입히는 로직 추가
+                thirdPersonController.TakeDamage(attackDamage, attackerPosition);
+                StartCoroutine(AttackDelay());
+            }
+        }
+    }
+
     protected override void Attack() //도망 몬스터는 공격 X
     {
 
@@ -191,7 +236,7 @@ public class EscapeMonster : MonsterBase
     protected override void Die()
     {
         agent.isStopped = true; //이동 멈춤
-        GetComponent<Collider>().enabled = false; //충돌 제거
+        escapeMonsterCollider.enabled = false; //충돌 제거
         animator.SetTrigger("Die");
         StartCoroutine(DieDelays());
     }
