@@ -317,14 +317,18 @@ namespace StarterAssets
 
             float targetSpeed = MoveSpeed;
 
-            if (InventoryManager.instance.totalWeight >= 400 && InventoryManager.instance.totalWeight < 500)
-            {
-                targetSpeed *= 0.6f;
-            }
-            if(InventoryManager.instance.totalWeight >= 500)
+            if (InventoryManager.instance.totalWeight >= 500)
             {
                 targetSpeed *= 0.2f;
-                Slot.isFull = true;
+                Slot.isFull = true; // Set isFull to true
+            }
+            else
+            {
+                if (InventoryManager.instance.totalWeight >= 400 && InventoryManager.instance.totalWeight < 500)
+                {
+                    targetSpeed *= 0.6f;
+                }
+                Slot.isFull = false; // Set isFull to false
             }
 
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;

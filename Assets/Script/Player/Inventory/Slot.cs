@@ -130,12 +130,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // 마우스 드래그가 시작 됐을 때 발생하는 이벤트
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (isFull)
-        {
-            Debug.Log("꽉 찼다.");
-            return;
-        }
-
         if (item != null) // 아이템이 있는 슬롯이라면 드래그 슬롯에 자기 자신을 할당한다.
         {
             DragSlot.instance.dragSlot = this;
