@@ -64,6 +64,7 @@ public class InventoryManager : MonoBehaviour
                 totalWeight += slot.item.itemWeight * slot.itemCount;
             }
         }
+        totalWeightText.text = totalWeight.ToString();
         Debug.Log($"Recalculated Total Weight: {totalWeight}");
     }
 }
