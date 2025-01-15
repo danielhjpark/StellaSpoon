@@ -487,7 +487,7 @@ namespace StarterAssets
 
             if (monsterDam <= 0)
             {
-                monsterDam = 100;
+                monsterDam = 1;
             }
 
             curHP -= monsterDam;

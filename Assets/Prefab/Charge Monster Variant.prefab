@@ -123,7 +123,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1, y: 0.8746611, z: 1.1}
+  m_Size: {x: 1.2, y: 0.8746611, z: 1.2}
   m_Center: {x: 0, y: 0.47261566, z: 0}
 --- !u!114 &6228062749810684504
 MonoBehaviour:
@@ -142,10 +142,14 @@ MonoBehaviour:
   dieDelay: 5
   maxHp: 100
   currentHP: 0
+  thirdPersonController: {fileID: 0}
+  collDamage: 0
   attackDamage: 10
   attackRange: 5
   chargeSpeed: 10
   chargeDuration: 2
+  wanderRadius: 15
+  wanderTime: 3
 --- !u!54 &7555322081172356351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -171,5 +175,5 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
