@@ -146,7 +146,7 @@ public class ChargeMonster : MonsterBase
     private IEnumerator Charge()
     {
         isCharging = true;
-        Vector3 targetPosition = player.transform.position - (player.transform.position - transform.position).normalized * 0.4f; //목표보다 0.4 앞에 멈추게
+        Vector3 targetPosition = player.transform.position /*- (player.transform.position - transform.position).normalized * 0.1f*/; //목표보다 0. 앞에 멈추게 - 삭제
 
         // 돌격 시작 시 NavMeshAgent 비활성화 (직접 이동을 위해)
         agent.isStopped = true;
@@ -172,6 +172,7 @@ public class ChargeMonster : MonsterBase
         }
 
         Debug.Log("돌격 종료!");
+        StartCoroutine(WaitCharge());
         isCharging = false;
 
         // NavMeshAgent 다시 활성화
@@ -180,6 +181,10 @@ public class ChargeMonster : MonsterBase
 
     private void OnCollisionEnter(Collision other)
     {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("플레이어와 충돌됨");
+        }
         if (other.gameObject.CompareTag("Player") && isCharging)
         {
             Debug.Log("플레이어와 충돌! 돌격 종료.");
@@ -230,5 +235,10 @@ public class ChargeMonster : MonsterBase
         yield return new WaitForSeconds(dieDelay);
 
         Destroy(gameObject);
+    }
+
+    IEnumerator WaitCharge()
+    {
+        yield return new WaitForSeconds(0.3f);
     }
 }
