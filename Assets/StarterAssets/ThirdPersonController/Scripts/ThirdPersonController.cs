@@ -323,7 +323,8 @@ namespace StarterAssets
             }
             if(InventoryManager.instance.totalWeight >= 500)
             {
-                targetSpeed = 0;
+                targetSpeed *= 0.2f;
+                Slot.isFull = true;
             }
 
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;

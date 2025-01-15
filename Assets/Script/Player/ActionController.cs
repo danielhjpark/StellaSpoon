@@ -80,6 +80,8 @@ public class ActionController : MonoBehaviour
     {
         if (pickupActivated)
         {
+            if (Slot.isFull) return;
+
             if (hitInfo.transform != null)
             {
                 Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득했습니다."); // 인벤토리에 추가

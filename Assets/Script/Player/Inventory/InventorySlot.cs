@@ -9,6 +9,7 @@ public class InventorySlot : Slot
 
     public override void OnDrop(PointerEventData eventData)
     {
+
         if (DragSlot.instance.dragSlot != null)
         {
             Slot draggedSlot = DragSlot.instance.dragSlot;
@@ -35,12 +36,15 @@ public class InventorySlot : Slot
             // 병합: 아이템 수량 합치기
             this.SetSlotCount(draggedSlot.itemCount);
 
-            // 병합 후 슬롯 무게 계산
-            int newWeight = this.itemCount * this.item.itemWeight;
+            if(draggedSlot is InventorySlot == false)
+            {
+                // 병합 후 슬롯 무게 계산
+                int newWeight = this.itemCount * this.item.itemWeight;
 
-            // 추가된 무게만큼 업데이트
-            int addedWeight = newWeight - originalWeight;
-            InventoryManager.instance.UpdateTotalWeight(addedWeight);
+                // 추가된 무게만큼 업데이트
+                int addedWeight = newWeight - originalWeight;
+                InventoryManager.instance.UpdateTotalWeight(addedWeight);
+            }
 
             // 드래그된 슬롯의 아이템 초기화
             draggedSlot.ClearSlot();

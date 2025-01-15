@@ -28,6 +28,7 @@ public class TreasureChestSlot : Slot
 
     public override void OnDrop(PointerEventData eventData)
     {
+
         if (DragSlot.instance.dragSlot != null)
         {
             Slot draggedSlot = DragSlot.instance.dragSlot;

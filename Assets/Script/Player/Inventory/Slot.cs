@@ -16,6 +16,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private InputNumber theInputNumber;
     public RectTransform deleteImageRect;
 
+    public static bool isFull = false;
+
     void Start()
     {
         // "deleteImage" 이름을 가진 GameObject를 찾아 RectTransform 가져오기
@@ -44,6 +46,12 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // _count: 추가할 아이템 개수 (기본값은 1)
     virtual public void AddItem(Item _item, int _count = 1)
     {
+        if (isFull)
+        {
+            Debug.Log("꽉 찼다.");
+            return;
+        }
+
         // 슬롯에 추가할 아이템 정보 저장
         item = _item;
         itemCount = _count;
@@ -122,7 +130,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // 마우스 드래그가 시작 됐을 때 발생하는 이벤트
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(item != null) // 아이템이 있는 슬롯이라면 드래그 슬롯에 자기 자신을 할당한다.
+        if (isFull)
+        {
+            Debug.Log("꽉 찼다.");
+            return;
+        }
+
+        if (item != null) // 아이템이 있는 슬롯이라면 드래그 슬롯에 자기 자신을 할당한다.
         {
             DragSlot.instance.dragSlot = this;
             DragSlot.instance.DragSetImage(itemImage);
@@ -163,6 +177,12 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // A 슬롯을 드래그 하여 B 슬롯에 드롭하여, A 슬롯 B 슬롯 서로 자리를 바꾸기
     virtual public void ChangeSlot()
     {
+        if (isFull)
+        {
+            Debug.Log("꽉 찼다.");
+            return;
+        }
+
         bool isWeaponSlot = this is WeaponSlot;
         bool isDraggedFromWeaponSlot = DragSlot.instance.dragSlot is WeaponSlot;
 
