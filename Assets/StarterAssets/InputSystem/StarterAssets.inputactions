@@ -42,19 +42,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OnUI",
-                    "type": "Button",
-                    "id": "c0bca9ac-ac64-4936-a0da-39f6bd0dd5c1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "OffUI",
-                    "type": "Button",
-                    "id": "0c73090b-7210-4eb9-ad00-191e6d4e1a38",
-                    "expectedControlType": "Button",
+                    "name": "Aiming",
+                    "type": "PassThrough",
+                    "id": "f8771ba8-cadc-41ef-ae2b-1e0a4d1cf0bd",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -239,23 +230,12 @@
                 },
                 {
                     "name": "",
-                    "id": "36e87ce8-d0f6-436f-b82d-194cb481cc49",
-                    "path": "<Keyboard>/tab",
+                    "id": "bca82a9a-1a41-49bf-8b7f-453d3fb21b49",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "OnUI",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "124fc045-0ce2-4aec-9cab-299d0e87f643",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "OffUI",
+                    "action": "Aiming",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
