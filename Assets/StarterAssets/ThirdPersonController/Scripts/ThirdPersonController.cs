@@ -143,6 +143,10 @@ namespace StarterAssets
             }
         }
 
+        //
+        public bool isAiming = false;
+        public bool isReload = false;
+
         private void Awake()
         {
             // get a reference to our main camera
@@ -217,7 +221,7 @@ namespace StarterAssets
         private void Dodge()
         {
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
-            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive) return;
+            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isReload) return;
 
             if (Grounded && _input.dodge)
             {
@@ -317,6 +321,11 @@ namespace StarterAssets
 
             float targetSpeed = MoveSpeed;
 
+            if(isAiming)
+            {
+                targetSpeed = MoveSpeed * 0.5f;
+            }
+
             if (InventoryManager.instance.totalWeight >= 500)
             {
                 targetSpeed *= 0.2f;
@@ -362,7 +371,10 @@ namespace StarterAssets
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                if(!isAiming)
+                {
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
             }
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;

@@ -14,6 +14,8 @@ namespace StarterAssets
         public bool jump;
         public bool dodge;
         public bool aiming;
+        public bool shoot;
+        public bool reload;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -57,6 +59,16 @@ namespace StarterAssets
         {
             AimingInput(value.isPressed);
         }
+
+        public void OnShoot(InputValue value)
+        {
+            ShootInput(value.isPressed);
+        }
+
+        public void OnReload(InputValue value)
+        {
+            ReloadInput(value.isPressed);
+        }
 #endif
 
         public void MoveInput(Vector2 newMoveDirection)
@@ -93,6 +105,14 @@ namespace StarterAssets
         public void AimingInput(bool newAimingState)
         {
             aiming = newAimingState;
+        }
+        public void ShootInput(bool newShootState)
+        {
+            shoot = newShootState;
+        }
+        public void ReloadInput(bool newReloadState)
+        {
+            reload = newReloadState;
         }
 
         private void ResetDodgeInput()
