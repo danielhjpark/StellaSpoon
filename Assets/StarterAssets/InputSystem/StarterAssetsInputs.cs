@@ -13,6 +13,7 @@ namespace StarterAssets
         public Vector2 look;
         public bool jump;
         public bool dodge;
+        public bool aiming;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -52,6 +53,10 @@ namespace StarterAssets
             }
         }
 
+        public void OnAiming(InputValue value)
+        {
+            AimingInput(value.isPressed);
+        }
 #endif
 
         public void MoveInput(Vector2 newMoveDirection)
@@ -83,6 +88,11 @@ namespace StarterAssets
             {
                 Invoke(nameof(ResetDodgeInput), 0.1f); // 한 프레임 후 초기화 (0.1초는 수정 가능)
             }
+        }
+
+        public void AimingInput(bool newAimingState)
+        {
+            aiming = newAimingState;
         }
 
         private void ResetDodgeInput()
