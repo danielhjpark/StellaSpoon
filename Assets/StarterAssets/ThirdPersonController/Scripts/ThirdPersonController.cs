@@ -221,7 +221,7 @@ namespace StarterAssets
         private void Dodge()
         {
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
-            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isReload) return;
+            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isReload || isAiming) return;
 
             if (Grounded && _input.dodge)
             {

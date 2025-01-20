@@ -132,7 +132,7 @@ public class PlayerManager : MonoBehaviour
 
     private void SetRigWeight(float weight)
     {
-        aimRig.weight = weight;
         handRig.weight = weight;
+        aimRig.weight = weight;
     }
 }
