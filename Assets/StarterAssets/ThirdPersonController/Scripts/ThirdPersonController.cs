@@ -241,7 +241,7 @@ namespace StarterAssets
             Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
             dodgeDirection = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f) * dodgeDirection;
 
-            float dodgeDistance = 3f;
+            float dodgeDistance = 7f;
             float dodgeDuration = 0.5f;
             float elapsedTime = 0f;
 
