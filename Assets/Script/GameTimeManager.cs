@@ -16,6 +16,10 @@ public class GameTimeManager : MonoBehaviour
     public int startHour = 0; // 초기 게임 시각 (예: 0시)
     public int startMinute = 0;
 
+    public int gameHours; //게임 시간
+    public int gameMinutes; //게임 분
+
+    
     private void Start()
     {
         //저장된 시간 가져오기
@@ -34,8 +38,8 @@ public class GameTimeManager : MonoBehaviour
         }
 
         // 게임 시간 계산
-        int gameHours = (int)(gameTime / 3600) % 24; // 게임 시간 (시)
-        int gameMinutes = (int)(gameTime / 60) % 60; // 게임 시간 (분)
+        gameHours = (int)(gameTime / 3600) % 24; // 게임 시간 (시)
+        gameMinutes = (int)(gameTime / 60) % 60; // 게임 시간 (분)
 
         // 게임 시간 텍스트 업데이트
         if (gameTimeText != null)
