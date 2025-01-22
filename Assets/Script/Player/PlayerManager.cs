@@ -3,10 +3,13 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerManager : MonoBehaviour
 {
     private StarterAssetsInputs _input;
+    private ThirdPersonController controller;
+    private Animator anim;
 
     [Header("Aim")]
     [SerializeField]
@@ -24,9 +27,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private float aimObjDis = 10f;
 
+
+    [Header("IK")]
+    [SerializeField]
+    private Rig aimRig;
+
     void Start()
     {
         _input = GetComponent<StarterAssetsInputs>();
+        controller = GetComponent<ThirdPersonController>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,11 +47,32 @@ public class PlayerManager : MonoBehaviour
 
     private void AimCheck()
     {
+        if(_input.reload)
+        {
+            _input.reload = false;
+
+            if(controller.isReload)
+            {
+                return;
+            }
+
+            AimControll(false);
+            SetRigWeight(0);
+            anim.SetLayerWeight(1, 1);
+            anim.SetTrigger("Reload");
+            controller.isReload = true;
+        }
+
+        if (controller.isReload)
+        {
+            return;
+        }
+
         if (_input.aiming)
         {
-            aimCam.gameObject.SetActive(true);
-            aimImage.SetActive(true);
-            aimObject.SetActive(true);
+            AimControll(true);
+
+            anim.SetLayerWeight(1, 1);
 
             Vector3 targetPosition = Vector3.zero;
             Transform camTransform = Camera.main.transform;
@@ -62,12 +93,44 @@ public class PlayerManager : MonoBehaviour
             Vector3 aimDir = (targetAim - transform.position).normalized;
 
             transform.forward = Vector3.Lerp(transform.forward, aimDir, Time.deltaTime * 50f);
+
+            SetRigWeight(1);
+
+            if (_input.shoot)
+            {
+                anim.SetBool("Shot", true);
+            }
+            else
+            {
+                anim.SetBool("Shot", false);
+            }
         }
         else
         {
-            aimCam.gameObject.SetActive(false);
-            aimImage.SetActive(false);
-            aimObject.SetActive(false);
+            AimControll(false);
+            SetRigWeight(0);
+            anim.SetLayerWeight(1, 0);
+            anim.SetBool("Shot", false);
         }
+    }
+
+    private void AimControll(bool isCheck)
+    {
+        aimCam.gameObject.SetActive(isCheck);
+        aimImage.SetActive(isCheck);
+        aimObject.SetActive(isCheck);
+        controller.isAiming = isCheck;
+    }
+
+    public void Reload()
+    {
+        controller.isReload = false;
+        SetRigWeight(1);
+        anim.SetLayerWeight(1, 0);
+    }
+
+    private void SetRigWeight(float _weight)
+    {
+        aimRig.weight = _weight;
     }
 }
