@@ -563,6 +563,7 @@ namespace StarterAssets
             Debug.Log("Die");
 
             // 인벤토리 초기화 추가
+            InventoryManager.instance.ClearAllSlots();
 
             // 5초 후 부활
             StartCoroutine(Respawn());

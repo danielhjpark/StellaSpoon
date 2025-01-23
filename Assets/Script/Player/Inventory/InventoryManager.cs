@@ -13,6 +13,8 @@ public class InventoryManager : MonoBehaviour
 
     public Text totalWeightText; // 총 무게를 표시할 텍스트
 
+    public List<InventorySlot> inventorySlots; // 모든 인벤토리 슬롯을 담는 리스트
+
     void Awake()
     {
         if (instance == null)
@@ -67,4 +69,13 @@ public class InventoryManager : MonoBehaviour
         totalWeightText.text = totalWeight.ToString();
         Debug.Log($"Recalculated Total Weight: {totalWeight}");
     }
+
+    public void ClearAllSlots()
+    {
+        foreach(var slot in inventorySlots)
+        {
+            slot.ClearSlot(); // 각 슬롯의 아이템을 초기화
+        }
+    }
+
 }

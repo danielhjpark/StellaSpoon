@@ -106,7 +106,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // 슬롯의 아이템 데이터를 모두 비우고 UI 요소 초기화
     virtual public void ClearSlot()
     {
-
         if (item != null)
         {
             // 무게 업데이트 (현재 아이템 무게 * 아이템 개수)
@@ -123,12 +122,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         // 슬롯을 비활성화 색상으로 표시
         SetColor(0);
-
-  
     }
 
     // 마우스 드래그가 시작 됐을 때 발생하는 이벤트
-    public void OnBeginDrag(PointerEventData eventData)
+    virtual public void OnBeginDrag(PointerEventData eventData)
     {
         if (item != null) // 아이템이 있는 슬롯이라면 드래그 슬롯에 자기 자신을 할당한다.
         {
@@ -171,12 +168,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // A 슬롯을 드래그 하여 B 슬롯에 드롭하여, A 슬롯 B 슬롯 서로 자리를 바꾸기
     virtual public void ChangeSlot()
     {
-        if (isFull)
-        {
-            Debug.Log("꽉 찼다.");
-            return;
-        }
-
         bool isWeaponSlot = this is WeaponSlot;
         bool isDraggedFromWeaponSlot = DragSlot.instance.dragSlot is WeaponSlot;
 

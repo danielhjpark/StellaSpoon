@@ -44,6 +44,22 @@ public class TreasureChestSlot : Slot
         }
     }
 
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        if(isFull)
+        {
+            Debug.Log("꽉 찼다.");
+            return;
+        }
+
+        if (item != null) // 아이템이 있는 슬롯이라면 드래그 슬롯에 자기 자신을 할당한다.
+        {
+            DragSlot.instance.dragSlot = this;
+            DragSlot.instance.DragSetImage(itemImage);
+            DragSlot.instance.transform.position = eventData.position;
+        }
+    }
+
     private void HandleMerge(Slot draggedSlot)
     {
         // 같은 아이템인지 확인
