@@ -28,9 +28,9 @@ public class PlayerManager : MonoBehaviour
     private float aimObjDis = 10f;
 
 
-    [Header("IK")]
-    [SerializeField]
-    private Rig aimRig;
+    //[Header("IK")]
+    //[SerializeField]
+    //private Rig aimRig;
 
     void Start()
     {
@@ -131,6 +131,6 @@ public class PlayerManager : MonoBehaviour
 
     private void SetRigWeight(float _weight)
     {
-        aimRig.weight = _weight;
+        //aimRig.weight = _weight;
     }
 }
