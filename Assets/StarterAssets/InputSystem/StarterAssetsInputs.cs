@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -12,6 +13,9 @@ namespace StarterAssets
         public Vector2 look;
         public bool jump;
         public bool dodge;
+        public bool aiming;
+        public bool shoot;
+        public bool reload;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -36,7 +40,10 @@ namespace StarterAssets
 
         public void OnJump(InputValue value)
         {
-            JumpInput(value.isPressed);
+            if(value.isPressed)
+            {
+                JumpInput(true);
+            }
         }
 
         public void OnDodge(InputValue value)
@@ -48,6 +55,20 @@ namespace StarterAssets
             }
         }
 
+        public void OnAiming(InputValue value)
+        {
+            AimingInput(value.isPressed);
+        }
+
+        public void OnShoot(InputValue value)
+        {
+            ShootInput(value.isPressed);
+        }
+
+        public void OnReload(InputValue value)
+        {
+            ReloadInput(value.isPressed);
+        }
 #endif
 
         public void MoveInput(Vector2 newMoveDirection)
@@ -63,6 +84,11 @@ namespace StarterAssets
         public void JumpInput(bool newJumpState)
         {
             jump = newJumpState;
+
+            if(newJumpState)
+            {
+                Invoke(nameof(ResetJumpInput), 0.1f); // 한 프레임 후 초기화 (0.1초는 수정 가능)
+            }
         }
 
         public void DodgeInput(bool newDodgeState)
@@ -76,11 +102,28 @@ namespace StarterAssets
             }
         }
 
+        public void AimingInput(bool newAimingState)
+        {
+            aiming = newAimingState;
+        }
+        public void ShootInput(bool newShootState)
+        {
+            shoot = newShootState;
+        }
+        public void ReloadInput(bool newReloadState)
+        {
+            reload = newReloadState;
+        }
+
         private void ResetDodgeInput()
         {
             dodge = false;
         }
 
+        private void ResetJumpInput()
+        {
+            jump = false;
+        }
         private void OnApplicationFocus(bool hasFocus)
         {
             SetCursorState(cursorLocked);

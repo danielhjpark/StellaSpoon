@@ -43,7 +43,7 @@ public class Inventory : MonoBehaviour
         // 1. 아이템이 장비 타입이 아닌 경우, 기존 슬롯에서 같은 아이템을 찾아 추가
         if (Item.ItemType.Equipment != _item.itemType)
         {
-            for(int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
                 // 슬롯에 이미 아이템이 있는 경우
                 if (slots[i].item != null)
@@ -51,23 +51,52 @@ public class Inventory : MonoBehaviour
                     // 슬롯의 아이템 이름이 획득한 아이템 이름과 같으면
                     if (slots[i].item.itemName == _item.itemName)
                     {
-                        // 해당 슬롯의 아이템 개수를 업데이트하고 함수 종료
-                        slots[i].SetSlotCount(_count);
-                        return;
+                        // 현재 슬롯의 남은 공간 계산
+                        int spaceLeft = 20 - slots[i].itemCount;
+
+                        if (_count <= spaceLeft)
+                        {
+                            // 슬롯에 남은 공간이 충분하면 아이템 개수를 추가하고 함수 종료
+                            slots[i].SetSlotCount(_count);
+                            return;
+                        }
+                        else
+                        {
+                            // 슬롯에 남은 공간이 부족하면 가능한 개수만 추가하고 초과분을 저장
+                            slots[i].SetSlotCount(spaceLeft);
+                            _count -= spaceLeft; // 초과된 개수
+                        }
                     }
                 }
             }
         }
-        // 2. 빈 슬롯을 찾아 아이템을 추가
+
+        // 2. 남은 개수를 빈 슬롯에 추가
         for (int i = 0; i < slots.Length; i++)
         {
             // 슬롯이 비어 있는 경우
             if (slots[i].item == null)
             {
-                // 해당 슬롯에 아이템과 개수를 추가하고 함수 종료
-                slots[i].AddItem(_item, _count);
-                return;
+                if (_count <= 20)
+                {
+                    // 남은 아이템이 20개 이하이면 한 슬롯에 모두 추가
+                    slots[i].AddItem(_item, _count);
+                    return;
+                }
+                else
+                {
+                    // 남은 아이템이 20개 초과이면 가능한 개수만 추가
+                    slots[i].AddItem(_item, 20);
+                    _count -= 20; // 초과분 저장
+                }
             }
         }
+
+        // 3. 아이템을 모두 추가하지 못한 경우
+        if (_count > 0)
+        {
+            Debug.LogWarning("Not enough inventory space for all items.");
+        }
     }
+
 }

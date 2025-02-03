@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7820208746422074528}
   - component: {fileID: 8657385805349479272}
   - component: {fileID: 3509418766482348428}
-  - component: {fileID: 8988101112548182991}
+  - component: {fileID: 2067690658936724019}
   m_Layer: 5
   m_Name: WeaponSlot
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 25, y: -75}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8657385805349479272
 CanvasRenderer:
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8988101112548182991
+--- !u!114 &2067690658936724019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,13 +86,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2893561521972044104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c30a4563e882a446b18aba936ffe3a4, type: 3}
+  m_Script: {fileID: 11500000, guid: efb6b0e27a5095c448e54ce9cd80dfbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   itemCount: 0
   itemImage: {fileID: 3134052138833767935}
   text_count: {fileID: 1191391895084440567}
+  deleteImageRect: {fileID: 0}
 --- !u!1 &4535462715578172516
 GameObject:
   m_ObjectHideFlags: 0

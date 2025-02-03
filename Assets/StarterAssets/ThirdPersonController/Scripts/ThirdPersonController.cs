@@ -14,7 +14,9 @@ namespace StarterAssets
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
-        public float MoveSpeed = 2.0f; // 캐릭터 스피드
+        public float MoveSpeed = 5.0f; // 캐릭터 스피드
+
+        private CharacterController _characterController;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
@@ -96,8 +98,26 @@ namespace StarterAssets
 
         // Dodge
         private bool isDodge = false;
+        private bool dodgeCooldownActive;
 
         // 캐릭터 기본 스테이터스
+        [Header("Player Status")]
+        [SerializeField]
+        private float MaxHP = 100f;
+        private float curHP;
+        
+        [SerializeField]
+        private float Def = 20;
+
+        // Hit, Die
+        private bool isHit = false; // 피격 상태를 나타내는 플래그
+        private bool isInvincible = false; // 무적 상태를 나타내는 플래그
+        public bool isDie = false; // 죽음 상태를 나타내는 플래그
+
+        // Respawn
+        [Header("Respawn Point")]
+        [SerializeField]
+        private GameObject ReSpawnPoint;
 
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
@@ -123,6 +143,10 @@ namespace StarterAssets
             }
         }
 
+        //
+        public bool isAiming = false;
+        public bool isReload = false;
+
         private void Awake()
         {
             // get a reference to our main camera
@@ -135,7 +159,7 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-
+            _characterController = GetComponent<CharacterController>();
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
@@ -150,21 +174,39 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            curHP = MaxHP;
         }
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            if (isDie) return;
 
+            _hasAnimator = TryGetComponent(out _animator);
+            if (Inventory.inventoryActivated)
+            {
+                if (_hasAnimator)
+                {
+                    _animator.SetFloat(_animIDSpeed, 0f);
+                    _animator.SetFloat(_animIDMotionSpeed, 0f);
+                }
+                return; // Update 종료
+            }
+
+            Move();
+
+            if (InventoryManager.instance.totalWeight >= 500) return;
             JumpAndGravity();
             GroundedCheck();
-            Move();
             Dodge();
         }
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (!Inventory.inventoryActivated)
+            {
+                CameraRotation();
+            }
         }
 
         private void AssignAnimationIDs()
@@ -179,7 +221,7 @@ namespace StarterAssets
         private void Dodge()
         {
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
-            if (_input.move == Vector2.zero || isDodge) return;
+            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isReload || isAiming) return;
 
             if (Grounded && _input.dodge)
             {
@@ -189,35 +231,53 @@ namespace StarterAssets
 
         private IEnumerator DodgeCoroutine()
         {
-            isDodge = true; // Dodge 시작
-            _input.dodge = false; // Dodge 입력 초기화
-            MoveSpeed *= 2.0f; // 속도 증가
-            LockCameraPosition = true; // 카메라 고정
+            isDodge = true;
+            dodgeCooldownActive = true;
+            _input.dodge = false;
+            LockCameraPosition = true;
 
-            _animator.SetTrigger(_animDDodge); // 애니메이션 트리거
+            _animator.SetTrigger(_animDDodge);
 
-            Vector2 dodgeDirection = _input.move.normalized;
+            Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+            dodgeDirection = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f) * dodgeDirection;
 
-            // 닷지 중 입력을 고정
-            _input.move = dodgeDirection;
-
-            float dodgeDuration = 1f; // 닷지 애니메이션 길이에 따라 조정
+            float dodgeDistance = 7f;
+            float dodgeDuration = 0.5f;
             float elapsedTime = 0f;
+
+            Vector3 startPosition = transform.position;
+            Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
+
+            // 경사면 보정
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 1f, GroundLayers))
+            {
+                Vector3 slopeNormal = slopeHit.normal;
+                dodgeDirection = Vector3.ProjectOnPlane(dodgeDirection, slopeNormal).normalized;
+            }
+
+            // 충돌 체크
+            if (Physics.Raycast(transform.position, dodgeDirection, out RaycastHit hit, dodgeDistance, GroundLayers))
+            {
+                dodgeDistance = hit.distance;
+                targetPosition = startPosition + dodgeDirection * dodgeDistance;
+            }
 
             while (elapsedTime < dodgeDuration)
             {
-                // 입력을 저장된 방향으로 고정
-                _input.move = dodgeDirection;
+                float step = (dodgeDistance / dodgeDuration) * Time.deltaTime;
+                Vector3 moveStep = dodgeDirection * step;
+                _characterController.Move(moveStep);
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            LockCameraPosition = false; // 카메라 고정 해제
-            MoveSpeed *= 0.5f; // 속도 원상 복구
-            isDodge = false; // Dodge 종료
-        }
+            LockCameraPosition = false;
+            isDodge = false;
 
+            yield return new WaitForSeconds(3f);
+            dodgeCooldownActive = false;
+        }
 
         private void GroundedCheck()
         {
@@ -257,8 +317,28 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (isDodge || isHit) return;
 
             float targetSpeed = MoveSpeed;
+
+            if(isAiming)
+            {
+                targetSpeed = MoveSpeed * 0.5f;
+            }
+
+            if (InventoryManager.instance.totalWeight >= 500)
+            {
+                targetSpeed *= 0.2f;
+                Slot.isFull = true; // Set isFull to true
+            }
+            else
+            {
+                if (InventoryManager.instance.totalWeight >= 400 && InventoryManager.instance.totalWeight < 500)
+                {
+                    targetSpeed *= 0.6f;
+                }
+                Slot.isFull = false; // Set isFull to false
+            }
 
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
@@ -291,7 +371,10 @@ namespace StarterAssets
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                if(!isAiming)
+                {
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
             }
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -306,11 +389,11 @@ namespace StarterAssets
             }
         }
 
-
-
         private void JumpAndGravity()
         {
+
             if (isDodge) return; // 닷지 중일 때는 점프 불가
+
             if (Grounded)
             {
                 _fallTimeoutDelta = FallTimeout;
@@ -405,6 +488,100 @@ namespace StarterAssets
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
+        }
+
+        public void TakeDamage(float _damage, Vector3 attackSourcePosition)
+        {
+            // 플레이어가 죽은 상태라면 데미지 로직 실행 안 함
+            if (isInvincible || isDie) return;
+
+            float monsterDam = _damage - (Def / 2f);
+
+            if (monsterDam <= 0)
+            {
+                monsterDam = 1;
+            }
+
+            curHP -= monsterDam;
+            curHP = Mathf.Max(curHP, 0); // HP가 음수가 되지 않도록 설정
+
+            isHit = true; // 피격 상태 활성화
+            isInvincible = true; // 무적 상태 활성화
+            _animator.SetTrigger("Hit");
+
+            Debug.Log("Player HP: " + curHP);
+
+            // 공격 방향 계산
+            Vector3 knockbackDirection = (transform.position - attackSourcePosition).normalized; // 공격을 받은 방향의 반대 방향
+            float knockbackDistance = 1f; // 넉백 거리
+            float knockbackDuration = 0.2f; // 넉백 시간
+            StartCoroutine(KnockbackCoroutine(knockbackDirection, knockbackDistance, knockbackDuration));
+
+            if (curHP <= 0)
+            {
+                Die();
+            }
+
+            // 일정 시간 후 무적 상태 해제
+            StartCoroutine(InvincibilityCooldown(1.7f)); // 1.7초 동안 무적
+        }
+
+        private IEnumerator KnockbackCoroutine(Vector3 direction, float distance, float duration)
+        {
+            float elapsedTime = 0f;
+
+            Vector3 startPosition = transform.position;
+            Vector3 targetPosition = startPosition + direction.normalized * distance;
+
+            while (elapsedTime < duration)
+            {
+                float step = (distance / duration) * Time.deltaTime;
+                Vector3 moveStep = direction.normalized * step;
+                _characterController.Move(moveStep);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // 피격 애니메이션 종료 후 이동 가능하도록 플래그 해제
+            yield return new WaitForSeconds(1.2f); // 애니메이션 재생 시간
+            isHit = false;
+        }
+
+        private IEnumerator InvincibilityCooldown(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            isInvincible = false; // 무적 상태 해제
+        }
+
+        private void Die()
+        {
+            if (isDie) return; // 이미 죽은 상태라면 로직 실행 안 함
+
+            isDie = true; // 죽은 상태로 변경
+            _animator.SetTrigger("Die"); // 죽는 애니메이션 실행
+            Debug.Log("Die");
+
+            // 인벤토리 초기화 추가
+            InventoryManager.instance.ClearAllSlots();
+
+            // 5초 후 부활
+            StartCoroutine(Respawn());
+        }
+
+        private IEnumerator Respawn()
+        {
+            yield return new WaitForSeconds(5f); // 5초 대기
+
+            curHP = MaxHP; // HP 초기화
+            isDie = false; // 죽음 상태 해제
+            isHit = false; // 피격 상태 해제
+            isInvincible = false; // 무적 상태 해제
+            _animator.SetTrigger("ReSpawn");
+            _characterController.enabled = false;
+            transform.position = ReSpawnPoint.transform.position; // 리스폰 위치로 이동
+            _characterController.enabled = true;
+            Debug.Log("Player Respawned");
         }
     }
 }

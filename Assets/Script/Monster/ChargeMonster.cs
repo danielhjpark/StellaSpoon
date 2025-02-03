@@ -15,31 +15,46 @@ public class ChargeMonster : MonsterBase
     [SerializeField]
     private float chargeDuration = 2f;
 
+    [SerializeField]
+    private float wanderRadius = 15f; //랜덤으로 움직이는 범위
+    [SerializeField]
+    private float wanderTime = 3f; //랜덤 이동 주기
+
+    private float wanderTimer;
+
+    private bool isPlayerDetected = false; //플레이어 감지 상태
+
+    private Vector3 initialPosition; //초기 위치 저장
+
 
     private bool isCharging = false;
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
-    private Animator animator;
-    private Collider collider;
+    private Collider ChargeMonsterCollider;
 
-    void Start()
+    private new void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        collider = GetComponent<Collider>();
+        ChargeMonsterCollider = GetComponent<Collider>();
+        wanderTimer = wanderTime;
+
+        initialPosition = transform.position; //초기 위치 저장
+
+        agent.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
     }
 
-    void Update()
+    private void Update()
     {
-        if (playerTf == null) return;
+        if (player.transform == null) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTf.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         //감지 범위 안에 있는 경우 플레이어를 따라감
         if (distanceToPlayer <= detectionRange && distanceToPlayer > attackRange)
         {
             FollowPlayer();
+            isPlayerDetected = true;
         }
         //공격 범위 안에 있는 경우 공격
         else if (distanceToPlayer <= attackRange)
@@ -51,20 +66,58 @@ public class ChargeMonster : MonsterBase
                 lastAttackTime = Time.time;
             }
         }
-        //감지 범위를 벗어난 경우 멈춤
+        //감지 범위를 벗어난 경우 랜덤 위치로 이동
         else
         {
-            StopMoving();
+            if (isPlayerDetected)
+            {
+                isPlayerDetected = false;
+                if (agent.hasPath)
+                {
+                    agent.ResetPath(); // 기존 경로 초기화
+                }
+            }
+            HandleRandomMovement();
         }
+    }
+
+    private void HandleRandomMovement()
+    {
+        wanderTimer += Time.deltaTime;
+
+        if (wanderTimer >= wanderTime)
+        {
+            Vector3 newDestination = getRandomPoint(initialPosition, wanderRadius);
+            agent.SetDestination(newDestination);
+            wanderTimer = 0f;
+            animator.SetBool("Walk", true);
+        }
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            animator.SetBool("Walk", false);
+        }
+    }
+    private Vector3 getRandomPoint(Vector3 center, float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += center;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            return hit.position;
+        }
+        return center;
     }
 
     private void FollowPlayer()
     {
-        if (agent != null && playerTf != null)
+        if (agent != null && player.transform != null)
         {
             animator.SetBool("Walk", true);
             agent.isStopped = false;
-            agent.SetDestination(playerTf.position);
+            agent.SetDestination(player.transform.position);
+            wanderTimer = 0f;
         }
     }
 
@@ -93,7 +146,7 @@ public class ChargeMonster : MonsterBase
     private IEnumerator Charge()
     {
         isCharging = true;
-        Vector3 targetPosition = playerTf.position - (playerTf.position - transform.position).normalized * 0.4f; //목표보다 0.4 앞에 멈추게
+        Vector3 targetPosition = player.transform.position /*- (player.transform.position - transform.position).normalized * 0.1f*/; //목표보다 0. 앞에 멈추게 - 삭제
 
         // 돌격 시작 시 NavMeshAgent 비활성화 (직접 이동을 위해)
         agent.isStopped = true;
@@ -119,6 +172,7 @@ public class ChargeMonster : MonsterBase
         }
 
         Debug.Log("돌격 종료!");
+        StartCoroutine(WaitCharge());
         isCharging = false;
 
         // NavMeshAgent 다시 활성화
@@ -127,10 +181,16 @@ public class ChargeMonster : MonsterBase
 
     private void OnCollisionEnter(Collision other)
     {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("플레이어와 충돌됨");
+        }
         if (other.gameObject.CompareTag("Player") && isCharging)
         {
             Debug.Log("플레이어와 충돌! 돌격 종료.");
             StopCharging();
+            Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
+            thirdPersonController.TakeDamage(attackDamage, attackerPosition);
         }
     }
 
@@ -141,13 +201,16 @@ public class ChargeMonster : MonsterBase
     }
 
     // 감지 및 공격 범위 시각화
-    void OnDrawGizmos() //항상 보이게 //선택시 보이게 OnDrawGizmosSelected
+    private void OnDrawGizmos() //항상 보이게 //선택시 보이게 OnDrawGizmosSelected
     {
         Gizmos.color = Color.red; //감지 범위
         Gizmos.DrawWireSphere(transform.position, detectionRange);
 
         Gizmos.color = Color.blue; // 공격 범위
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.green; //움직임 범위
+        Gizmos.DrawWireSphere(initialPosition, wanderRadius);
     }
 
     public override void Damage(int bulletDamage)
@@ -162,7 +225,7 @@ public class ChargeMonster : MonsterBase
     protected override void Die()
     {
         agent.isStopped = true; //이동 멈추기
-        collider.enabled = false; //충돌 제거
+        ChargeMonsterCollider.enabled = false; //충돌 제거
         animator.SetTrigger("Die");
         StartCoroutine(DieDelays());
     }
@@ -172,5 +235,10 @@ public class ChargeMonster : MonsterBase
         yield return new WaitForSeconds(dieDelay);
 
         Destroy(gameObject);
+    }
+
+    IEnumerator WaitCharge()
+    {
+        yield return new WaitForSeconds(0.3f);
     }
 }

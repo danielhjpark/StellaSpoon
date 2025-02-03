@@ -23,6 +23,6 @@ public class Item : ScriptableObject
     [Header("아이템의 프리팹")]
     public GameObject itemPrefab; // 아이템의 프리팹 (아이템 생성 시 프리팹으로 찍어낸다.)
     [Header("아이템의 무게")]
-    public float itemWeight; // 아이템 무게
+    public int itemWeight; // 아이템 무게
     //public string weaponType; // 무기 유형 보류
 }

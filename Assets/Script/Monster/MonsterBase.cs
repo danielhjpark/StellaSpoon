@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public abstract class MonsterBase : MonoBehaviour
 {
     public float detectionRange = 10f; //감지범위
-    public float attackCooldown = 2f; //공격 딜레이
+    public float attackCooldown = 5f; //공격 딜레이
     public float dieDelay = 5f; //죽음 딜레이
 
     [SerializeField]
@@ -13,24 +14,31 @@ public abstract class MonsterBase : MonoBehaviour
     [SerializeField]
     protected int currentHP; //현재 체력
 
-    protected Transform playerTf;
+    protected GameObject player;
     protected float lastAttackTime;
 
     protected Animator animator; // Animator 컴포넌트
+    [SerializeField]
+    protected ThirdPersonController thirdPersonController;
+
+    [SerializeField]
+    protected bool collDamage = false;
 
     protected void Start()
     {
-        playerTf = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         currentHP = maxHp;
+
+        thirdPersonController = player.GetComponent<ThirdPersonController>();
     }
 
     private void Update()
     {
-        if (playerTf == null)
+        if (player.transform == null)
             return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTf.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if(distanceToPlayer<= detectionRange)
         {
@@ -45,7 +53,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     protected void FacePlayer()
     {
-        Vector3 direction = (playerTf.position - transform.position).normalized;
+        Vector3 direction = (player.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
@@ -56,14 +64,23 @@ public abstract class MonsterBase : MonoBehaviour
     {
         currentHP -= bulletDamage;
         Debug.Log($"{gameObject.name} 체력: {currentHP}/{maxHp}");
-
+        //몬스터 넉백
+        //bulletDamage를 UI로 출력
         if (currentHP <= 0)
         {
             Die();
         }
+        
     }
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+    }
+
+    protected IEnumerator AttackDelay()
+    {
+        collDamage = true;
+        yield return new WaitForSeconds(3f);
+        collDamage = false;
     }
 }
