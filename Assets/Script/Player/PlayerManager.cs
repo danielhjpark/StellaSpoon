@@ -58,8 +58,8 @@ public class PlayerManager : MonoBehaviour
 
             AimControll(false);
             SetRigWeight(0);
-            anim.SetLayerWeight(1, 1);
-            anim.SetTrigger("Reload");
+            //anim.SetLayerWeight(1, 1);
+            //anim.SetTrigger("Reload");
             controller.isReload = true;
         }
 
@@ -72,7 +72,7 @@ public class PlayerManager : MonoBehaviour
         {
             AimControll(true);
 
-            anim.SetLayerWeight(1, 1);
+            //anim.SetLayerWeight(1, 1);
 
             Vector3 targetPosition = Vector3.zero;
             Transform camTransform = Camera.main.transform;
@@ -98,19 +98,19 @@ public class PlayerManager : MonoBehaviour
 
             if (_input.shoot)
             {
-                anim.SetBool("Shot", true);
+                //anim.SetBool("Shot", true);
             }
             else
             {
-                anim.SetBool("Shot", false);
+                //anim.SetBool("Shot", false);
             }
         }
         else
         {
             AimControll(false);
             SetRigWeight(0);
-            anim.SetLayerWeight(1, 0);
-            anim.SetBool("Shot", false);
+            //anim.SetLayerWeight(1, 0);
+            //anim.SetBool("Shot", false);
         }
     }
 
@@ -126,7 +126,7 @@ public class PlayerManager : MonoBehaviour
     {
         controller.isReload = false;
         SetRigWeight(1);
-        anim.SetLayerWeight(1, 0);
+        //anim.SetLayerWeight(1, 0);
     }
 
     private void SetRigWeight(float _weight)
