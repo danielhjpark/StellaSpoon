@@ -53,10 +53,9 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
         DropCheck();
         if(Input.GetMouseButtonUp(0)) {
             if(isCanDrop) {
-                
                 isControll = false;
                 isCanDrop = false;
-                CookManager.instance.DropObject(controllObject);
+                CookManager.instance.DropObject(controllObject, ingredientSlot.currentIngredient);
                 controllObject = null;
 
             }

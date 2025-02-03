@@ -6,38 +6,35 @@ using UnityEngine;
 public class CookManager : MonoBehaviour
 {
     static public CookManager instance;
+    public CookUIManager cookUIManager;
 
     [SerializeField] CuttingManager cuttingManager;
-
-    bool isUseCuttingBoard;
-
+    [SerializeField] WokManager wokManager;
+    [SerializeField] FryingPanManager fryingPanManager;
+    [SerializeField] PotManager potManager;
+    
     void Start()
     {
         instance = this;
-        isUseCuttingBoard = false;
     }
 
-    
+    public void DropObject(GameObject ingredientObject, Ingredient ingredient) {
+        switch(ingredient.ingredientCookType) {
+            case IngredientCookType.Cutting:
+                cuttingManager.LocateIngredient(ingredientObject);
+                break;
+            case IngredientCookType.Frying:
+                fryingPanManager.LocateIngredient(ingredientObject);
+                break;
+            case IngredientCookType.Tossing:
+                wokManager.LocateIngredient(ingredientObject);
+                break;
+            case IngredientCookType.Boiling:
+                potManager.LocateIngredient(ingredientObject);
+                break;
 
-    void Update()
-    {
-        if(isUseCuttingBoard) {
-            cuttingObject();
         }
-    }
-
-    void useCuttingBoard(Ingredient ingredient, GameObject cuttingObject) {
-        isUseCuttingBoard = true;
-        //if(ingredient.type != CuttingBoard) return;
-        //cuttingBoardSystem.LocateCuttingBoard(cuttingObject);
-    }
-
-    void cuttingObject() {
-        //List<GameObject> cuttingObejct = cuttingBoardSystem.GetCurrentCuttingObjects();
-    }
-
-    public void DropObject(GameObject cuttingObject) {
-        cuttingManager.LocateCuttingBoard(cuttingObject);
+        
     }
 
 }

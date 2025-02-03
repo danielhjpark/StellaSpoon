@@ -13,7 +13,7 @@ public class CuttingManager : MonoBehaviour
     CuttingObjectSystem cuttingObjectSystem;
     CuttingLineSystem cuttingLine;
     CuttingBoard cuttingBoard;
-    [SerializeField] CookUIManager cookInventoryManager;
+    [SerializeField] CookUIManager cookUIManager;
 
     [Header("Objects Setting ")]
     [SerializeField] Transform dropPos;
@@ -79,7 +79,7 @@ public class CuttingManager : MonoBehaviour
 
         ObjectReset(sliceAllObjects);
         CuttingReset();
-        StartCoroutine(cookInventoryManager.VisiblePanel());
+        StartCoroutine(cookUIManager.VisiblePanel());
     }
 
     IEnumerator CuttingCube() {
@@ -172,7 +172,7 @@ public class CuttingManager : MonoBehaviour
 
         ObjectReset(sliceAllObjects2);
         CuttingReset();
-        StartCoroutine(cookInventoryManager.VisiblePanel());
+        StartCoroutine(cookUIManager.VisiblePanel());
     }
 
     IEnumerator knifeMotion(GameObject cuttingLine) {
@@ -203,7 +203,7 @@ public class CuttingManager : MonoBehaviour
     }
 
 
-    public void LocateCuttingBoard(GameObject obj) {
+    public void LocateIngredient(GameObject obj) {
         targetObject = obj;
         obj.GetComponent<Rigidbody>().useGravity = true;
         obj.GetComponent<MeshCollider>().enabled = true;
