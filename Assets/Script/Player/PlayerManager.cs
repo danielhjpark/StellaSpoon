@@ -27,10 +27,14 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private float aimObjDis = 10f;
 
+    [SerializeField]
+    private GameObject rifle; // 보여질 총
 
-    //[Header("IK")]
-    //[SerializeField]
-    //private Rig aimRig;
+    [Header("IK")]
+    [SerializeField]
+    public Rig handRig;
+    [SerializeField]
+    private Rig aimRig;
 
     void Start()
     {
@@ -43,6 +47,7 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         AimCheck();
+        EquipRifleCheck();
     }
 
     private void AimCheck()
@@ -58,8 +63,8 @@ public class PlayerManager : MonoBehaviour
 
             AimControll(false);
             SetRigWeight(0);
-            //anim.SetLayerWeight(1, 1);
-            //anim.SetTrigger("Reload");
+            anim.SetLayerWeight(2, 1);
+            anim.SetTrigger("Reload");
             controller.isReload = true;
         }
 
@@ -68,11 +73,11 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        if (_input.aiming)
+        if (_input.aiming && InventoryManager.instance.isWeaponRifle == true)
         {
             AimControll(true);
 
-            //anim.SetLayerWeight(1, 1);
+            anim.SetLayerWeight(2, 1);
 
             Vector3 targetPosition = Vector3.zero;
             Transform camTransform = Camera.main.transform;
@@ -98,19 +103,19 @@ public class PlayerManager : MonoBehaviour
 
             if (_input.shoot)
             {
-                //anim.SetBool("Shot", true);
+                anim.SetBool("Shot", true);
             }
             else
             {
-                //anim.SetBool("Shot", false);
+                anim.SetBool("Shot", false);
             }
         }
         else
         {
             AimControll(false);
             SetRigWeight(0);
-            //anim.SetLayerWeight(1, 0);
-            //anim.SetBool("Shot", false);
+            anim.SetLayerWeight(2, 0);
+            anim.SetBool("Shot", false);
         }
     }
 
@@ -126,11 +131,27 @@ public class PlayerManager : MonoBehaviour
     {
         controller.isReload = false;
         SetRigWeight(1);
-        //anim.SetLayerWeight(1, 0);
+        anim.SetLayerWeight(2, 0);
     }
 
-    private void SetRigWeight(float _weight)
+    // 총을 들고 있는 변수가 true면 Rifle을 보이게 하고 들고 있게 하는 애니메이션 LayerWeight를 증가
+    private void EquipRifleCheck()
     {
-        //aimRig.weight = _weight;
+        if (InventoryManager.instance.isWeaponRifle == true)
+        {
+            rifle.gameObject.SetActive(true);
+            anim.SetLayerWeight(1, 1);
+        }
+        else
+        {
+            rifle.gameObject.SetActive(false);
+            anim.SetLayerWeight(1, 0);
+        }
+    }
+
+    private void SetRigWeight(float weight)
+    {
+        aimRig.weight = weight;
+        handRig.weight = weight;
     }
 }

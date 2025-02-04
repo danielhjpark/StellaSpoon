@@ -15,6 +15,8 @@ public class InventoryManager : MonoBehaviour
 
     public List<InventorySlot> inventorySlots; // 모든 인벤토리 슬롯을 담는 리스트
 
+    public bool isWeaponRifle = false; // 무기를 장착하고 있는가 ?
+
     void Awake()
     {
         if (instance == null)
