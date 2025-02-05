@@ -16,6 +16,10 @@ public class GameTimeManager : MonoBehaviour
     public int startHour = 0; // 초기 게임 시각 (예: 0시)
     public int startMinute = 0;
 
+    public int gameHours; //게임 시간
+    public int gameMinutes; //게임 분
+
+    
     private void Start()
     {
         //저장된 시간 가져오기
@@ -34,8 +38,8 @@ public class GameTimeManager : MonoBehaviour
         }
 
         // 게임 시간 계산
-        int gameHours = (int)(gameTime / 3600) % 24; // 게임 시간 (시)
-        int gameMinutes = (int)(gameTime / 60) % 60; // 게임 시간 (분)
+        gameHours = (int)(gameTime / 3600) % 24; // 게임 시간 (시)
+        gameMinutes = (int)(gameTime / 60) % 60; // 게임 시간 (분)
 
         // 게임 시간 텍스트 업데이트
         if (gameTimeText != null)
@@ -62,11 +66,11 @@ public class GameTimeManager : MonoBehaviour
         // 마지막 저장된 시간 가져오기
         if (PlayerPrefs.HasKey(LastSavedTimeKey) && PlayerPrefs.HasKey(GameTimeKey))
         {
-            string lastSavedTimeString = PlayerPrefs.GetString(LastSavedTimeKey);
+            /*string lastSavedTimeString = PlayerPrefs.GetString(LastSavedTimeKey);*/
             float savedGameTime = PlayerPrefs.GetFloat(GameTimeKey);
 
 
-            /*게임 종료시에도 시간이 흐르는걸 원치 않으면 지우면 됨*/
+            /*게임 종료시에도 시간이 흐르는걸 원치 않으면 지우면 됨*//*
             //lastSavedTimeString가 필요 없음
             // 저장된 시간과 현재 시간의 차이 계산
             DateTime lastSavedTime = DateTime.Parse(lastSavedTimeString);
@@ -74,11 +78,11 @@ public class GameTimeManager : MonoBehaviour
 
             // 경과된 실제 시간을 게임 시간으로 변환
             float elapsedGameTime = (float)timeDifference.TotalSeconds * 60f;
-            /*여기까지*/
+            *//*여기까지*/
 
 
             // 게임 시간 복구
-            gameTime = savedGameTime + elapsedGameTime;
+            gameTime = savedGameTime;
 
             // 24시간을 초과하면 초기화
             gameTime %= 86400f;
