@@ -235,7 +235,6 @@ namespace StarterAssets
             dodgeCooldownActive = true;
             _input.dodge = false;
             LockCameraPosition = true;
-
             _animator.SetTrigger(_animDDodge);
 
             Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
@@ -275,10 +274,8 @@ namespace StarterAssets
             LockCameraPosition = false;
             _animator.SetFloat(_animIDSpeed, 0f);
             _animator.SetFloat(_animIDMotionSpeed, 0f);
-
-            yield return new WaitForSeconds(2f);
             isDodge = false;
-            
+
             yield return new WaitForSeconds(3f);
             dodgeCooldownActive = false;
         }
