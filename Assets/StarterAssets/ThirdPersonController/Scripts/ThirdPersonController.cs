@@ -274,9 +274,8 @@ namespace StarterAssets
             LockCameraPosition = false;
             _animator.SetFloat(_animIDSpeed, 0f);
             _animator.SetFloat(_animIDMotionSpeed, 0f);
-
             isDodge = false;
-            _input.move = Vector2.zero;
+
             yield return new WaitForSeconds(3f);
             dodgeCooldownActive = false;
         }
