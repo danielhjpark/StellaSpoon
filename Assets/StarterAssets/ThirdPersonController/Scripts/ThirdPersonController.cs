@@ -273,8 +273,12 @@ namespace StarterAssets
             }
 
             LockCameraPosition = false;
-            isDodge = false;
+            _animator.SetFloat(_animIDSpeed, 0f);
+            _animator.SetFloat(_animIDMotionSpeed, 0f);
 
+            yield return new WaitForSeconds(2f);
+            isDodge = false;
+            
             yield return new WaitForSeconds(3f);
             dodgeCooldownActive = false;
         }
