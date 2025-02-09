@@ -105,6 +105,7 @@ public class PlayerManager : MonoBehaviour
             if (_input.shoot)
             {
                 anim.SetBool("Shot", true);
+                RifleManager.instance.Shooting(targetPosition);
             }
             else
             {
@@ -143,12 +144,14 @@ public class PlayerManager : MonoBehaviour
             rifle.gameObject.SetActive(true);
             anim.SetLayerWeight(1, 1);
             handRig.weight = 1;
+            RifleManager.instance.bulletText.gameObject.SetActive(true);
         }
         else
         {
             rifle.gameObject.SetActive(false);
             anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
+            RifleManager.instance.bulletText.gameObject.SetActive(false);
         }
     }
 
@@ -163,10 +166,16 @@ public class PlayerManager : MonoBehaviour
         // 애니메이터에서 점프 또는 닷지 애니메이션이 실행 중인지 확인
         bool isJumping = anim.GetCurrentAnimatorStateInfo(1).IsTag("Jump");
         bool isDodging = anim.GetCurrentAnimatorStateInfo(1).IsTag("Dodge");
+        bool isReloading = anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload");
 
-        if (isJumping || isDodging)
+        if (isJumping || isDodging || isReloading)
         {
             SetRigWeight(0); // 점프/닷지 중에는 IK 비활성화
         }
+    }
+
+    public void ReloadWeaponClip()
+    {
+        RifleManager.instance.ReloadClip();
     }
 }
