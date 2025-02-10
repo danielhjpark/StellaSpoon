@@ -71,7 +71,7 @@ public abstract class MonsterBase : MonoBehaviour
         {
             Die();
         }
-        
+
     }
     protected virtual void Die()
     {
@@ -80,6 +80,13 @@ public abstract class MonsterBase : MonoBehaviour
         GetComponent<Collider>().enabled = false; //충돌 제거
         animator.SetTrigger("Die");
         StartCoroutine(DieDelays());
+
+        DropItem();
+    }
+
+    protected virtual void DropItem()
+    {
+
     }
 
     private IEnumerator DieDelays()

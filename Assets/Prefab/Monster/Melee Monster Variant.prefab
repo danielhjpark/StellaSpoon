@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4047972025199878, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.14
+      value: 10.41
       objectReference: {fileID: 0}
     - target: {fileID: 4047972025199878, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 4047972025199878, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.22
+      value: 3.6999257
       objectReference: {fileID: 0}
     - target: {fileID: 4047972025199878, guid: 928a1377c1cd4515b208fef3a396b8ea, type: 3}
       propertyPath: m_LocalRotation.w
@@ -112,14 +112,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b7705b14aca264584d7ef8d4d220e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 10
+  detectionRange: 5
   attackCooldown: 2
   dieDelay: 5
   maxHp: 100
   currentHP: 0
+  thirdPersonController: {fileID: 0}
+  collDamage: 0
   attackDamage: 10
   attackRange: 2
-  collider: {fileID: 0}
+  wanderRadius: 15
+  wanderTime: 3
+  MeleeItems:
+  - {fileID: 6431659753209863902, guid: ccfa22e1a740a1e4cb75694ec032c59d, type: 3}
+  - {fileID: 6431659753209863902, guid: ccfa22e1a740a1e4cb75694ec032c59d, type: 3}
+  - {fileID: 6431659753209863902, guid: ccfa22e1a740a1e4cb75694ec032c59d, type: 3}
 --- !u!65 &8041545573758362430
 BoxCollider:
   m_ObjectHideFlags: 0

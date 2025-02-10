@@ -30,13 +30,18 @@ public class ChargeMonster : MonsterBase
     private bool isCharging = false;
 
     private NavMeshAgent agent;      //몬스터의 NavMeshAgent
-    private Collider ChargeMonsterCollider;
+
+    [Header("Item")]
+    public GameObject[] ChargeItems;
+    private int maxItem = 3;
+    private float APercent = 99f;
+    private float BPercent = 30f;
+    private float CPercent = 10f;
 
     private new void Start()
     {
         base.Start(); //부모 클래스 초기화
         agent = GetComponent<NavMeshAgent>();
-        ChargeMonsterCollider = GetComponent<Collider>();
         wanderTimer = wanderTime;
 
         initialPosition = transform.position; //초기 위치 저장
@@ -225,6 +230,32 @@ public class ChargeMonster : MonsterBase
     protected override void Die()
     {
         base.Die();
+    }
+
+    protected override void DropItem()
+    {
+        for (int i = 0; i < maxItem; i++)
+        {
+            float itemPercent = Random.Range(0f, 100f);
+            GameObject itemToDrop = null;
+            if (i == 0 && itemPercent <= APercent)
+            {
+                itemToDrop = ChargeItems[0];
+            }
+            else if (i == 1 && itemPercent <= BPercent)
+            {
+                itemToDrop = ChargeItems[1];
+            }
+            else if (i == 2 && itemPercent <= CPercent)
+            {
+                itemToDrop = ChargeItems[2];
+            }
+            if (itemToDrop != null)
+            {
+                Vector3 dropPosition = transform.position + new Vector3(0f, 1f, 1f);
+                Instantiate(itemToDrop, dropPosition, Quaternion.identity);
+            }
+        }
     }
 
     IEnumerator WaitCharge()
