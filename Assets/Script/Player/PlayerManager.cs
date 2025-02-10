@@ -104,8 +104,12 @@ public class PlayerManager : MonoBehaviour
 
             if (_input.shoot)
             {
+                if(RifleManager.instance.currentBullet <= 0)
+                {
+                    _input.reload = true;
+                }
                 anim.SetBool("Shot", true);
-                RifleManager.instance.Shooting(targetPosition);
+                RifleManager.instance.Shooting(targetPosition);     
             }
             else
             {

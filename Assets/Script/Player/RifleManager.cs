@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +17,11 @@ public class RifleManager : MonoBehaviour
     private float maxShootDelay = 0.2f;
     [SerializeField]
     private float currentShootDelay = 0.2f;
-    // 총알 갯수 아이템과 연동되게 변경 해야함
+
     [SerializeField]
     public Text bulletText;
     private int maxBullet = 10;
-    private int currentBullet = 0;
+    public int currentBullet = 0;
 
     [Header("Weapon FX")]
     [SerializeField]
@@ -53,7 +54,7 @@ public class RifleManager : MonoBehaviour
     {
         currentShootDelay += Time.deltaTime;
 
-        if (currentShootDelay < maxShootDelay || currentBullet <= 0) return;
+        if (currentShootDelay < maxShootDelay) return;
 
         currentBullet -= 1;
         currentShootDelay = 0;
