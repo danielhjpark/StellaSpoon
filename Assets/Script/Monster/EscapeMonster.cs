@@ -39,7 +39,7 @@ public class EscapeMonster : MonsterBase
     LayerMask obstacleMask;
 
     NavMeshAgent agent;
-    private bool isEscaping = false;
+    public bool isEscaping = false;
     private Vector3 escapeTarget; //도망가는 위치
 
     
@@ -235,15 +235,6 @@ public class EscapeMonster : MonsterBase
 
     protected override void Die()
     {
-        agent.isStopped = true; //이동 멈춤
-        escapeMonsterCollider.enabled = false; //충돌 제거
-        animator.SetTrigger("Die");
-        StartCoroutine(DieDelays());
-    }
-    IEnumerator DieDelays()
-    {
-        yield return new WaitForSeconds(dieDelay);
-
-        Destroy(gameObject);
+        base.Die();
     }
 }

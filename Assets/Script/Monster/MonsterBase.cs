@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class MonsterBase : MonoBehaviour
 {
@@ -75,6 +76,16 @@ public abstract class MonsterBase : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+        GetComponent<NavMeshAgent>().isStopped = true; //이동 멈춤
+        GetComponent<Collider>().enabled = false; //충돌 제거
+        animator.SetTrigger("Die");
+        StartCoroutine(DieDelays());
+    }
+
+    private IEnumerator DieDelays()
+    {
+        yield return new WaitForSeconds(dieDelay);
+        Destroy(gameObject);
     }
 
     protected IEnumerator AttackDelay()

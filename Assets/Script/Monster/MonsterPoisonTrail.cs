@@ -8,22 +8,32 @@ public class MonsterPoisonTrail : MonoBehaviour
     public float spawnInterval = 0.5f; //독구름 생성 간격
     public float poisonDuration = 5f; //독구름 지속 시간
 
+    private EscapeMonster escapeMonster;
+
 
     private List<GameObject> poisonClouds = new List<GameObject>(); //생성된 독구름 목록
 
     private void Start()
     {
+        escapeMonster = GetComponent<EscapeMonster>();
         StartCoroutine(SpawnPoisonTrail());
     }
     IEnumerator SpawnPoisonTrail()
     {
         while (true)
         {
-            GameObject poison = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
-            poisonClouds.Add(poison);
+            if(escapeMonster != null && escapeMonster.isEscaping)
+            {
+                GameObject poison = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
+                poisonClouds.Add(poison);
 
-            StartCoroutine(DestroyPoisonAfterDelay(poison, poisonDuration));
-            yield return new WaitForSeconds(spawnInterval);
+                StartCoroutine(DestroyPoisonAfterDelay(poison, poisonDuration));
+                yield return new WaitForSeconds(spawnInterval);
+            }
+            else
+            {
+                yield return null; //무한 루프 방지
+            }
         }
     }
 

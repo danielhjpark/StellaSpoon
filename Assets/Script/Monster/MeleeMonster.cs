@@ -158,16 +158,5 @@ public class MeleeMonster : MonsterBase
     protected override void Die()
     {
         base.Die();
-        agent.isStopped = true;//이동 멈추기
-        MellMonsterCollider.enabled = false;//충돌 제거
-        animator.SetTrigger("Die");
-        StartCoroutine(DieDelays());
-    }
-
-    IEnumerator DieDelays()
-    {
-        yield return new WaitForSeconds(dieDelay);
-
-        Destroy(gameObject);
     }
 }

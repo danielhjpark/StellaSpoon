@@ -224,17 +224,7 @@ public class ChargeMonster : MonsterBase
 
     protected override void Die()
     {
-        agent.isStopped = true; //이동 멈추기
-        ChargeMonsterCollider.enabled = false; //충돌 제거
-        animator.SetTrigger("Die");
-        StartCoroutine(DieDelays());
-    }
-
-    IEnumerator DieDelays()
-    {
-        yield return new WaitForSeconds(dieDelay);
-
-        Destroy(gameObject);
+        base.Die();
     }
 
     IEnumerator WaitCharge()
