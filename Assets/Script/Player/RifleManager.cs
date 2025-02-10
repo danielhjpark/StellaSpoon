@@ -19,7 +19,7 @@ public class RifleManager : MonoBehaviour
     // 총알 갯수 아이템과 연동되게 변경 해야함
     [SerializeField]
     public Text bulletText;
-    private int maxBullet = 30;
+    private int maxBullet = 10;
     private int currentBullet = 0;
 
     [Header("Weapon FX")]

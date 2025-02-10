@@ -10,6 +10,9 @@ public class BulletManager : MonoBehaviour
     private float moveSpeed = 10f; // 총알의 이동 속도
     private float destoryTime = 3f;
 
+    [SerializeField]
+    private int bulletDamage = 20; // 총알의 데미지
+
     void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();    
@@ -42,6 +45,12 @@ public class BulletManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        MonsterBase monster = other.GetComponent<MonsterBase>();
+        if (monster != null)
+        {
+            Debug.Log("충돌");
+            monster.Damage(bulletDamage); // 몬스터에게 피해 전달
+        }
         DestroyBullet();
     }
 }
