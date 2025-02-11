@@ -1,6 +1,7 @@
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +15,8 @@ public abstract class MonsterBase : MonoBehaviour
     protected int maxHp = 100;
     [SerializeField]
     protected int currentHP; //현재 체력
+
+    public bool isDie = false; //죽음 체크
 
     protected GameObject player;
     protected float lastAttackTime;
@@ -76,6 +79,7 @@ public abstract class MonsterBase : MonoBehaviour
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+        isDie = true;
         GetComponent<NavMeshAgent>().isStopped = true; //이동 멈춤
         GetComponent<Collider>().enabled = false; //충돌 제거
         animator.SetTrigger("Die");
