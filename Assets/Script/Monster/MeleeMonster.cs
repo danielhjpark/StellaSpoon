@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MeleeMonster : MonsterBase1
+public class MeleeMonster : MonsterBase
 {
-    private void Start()
+    private new void Start()
     {
         base.Start();
         maxHealth = 100;

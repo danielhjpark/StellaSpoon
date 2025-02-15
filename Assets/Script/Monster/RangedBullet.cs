@@ -29,7 +29,7 @@ public class RangedBullet : RangedMonster
 
         Destroy(gameObject, 1.5f);
     }
-    private void Update()
+    private new void Update()
     {
         if (playerTr != null)
         {

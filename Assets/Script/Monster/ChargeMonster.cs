@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChargeMonster : MonsterBase1
+public class ChargeMonster : MonsterBase
 {
     private float chargeDuration = 2f;
     private bool isCharging = false;
     [SerializeField]
     private float chargeSpeed = 10f; //돌격속도
-    private void Start()
+    private new void Start()
     {
         base.Start();
         maxHealth = 100;

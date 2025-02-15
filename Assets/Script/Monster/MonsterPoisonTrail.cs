@@ -25,7 +25,7 @@ public class MonsterPoisonTrail : MonoBehaviour
         {
             if(escapeMonster != null)
             {
-                if(escapeMonster.isDie) //몬스터가 죽었으면 독구름 삭제후 코루틴 종료
+                if(escapeMonster.isDead) //몬스터가 죽었으면 독구름 삭제후 코루틴 종료
                 {
                     ClearPoisonClouds();
                     yield break; // 코루틴 즉시 종료

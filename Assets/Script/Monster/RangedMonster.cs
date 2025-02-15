@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangedMonster : MonsterBase1
+public class RangedMonster : MonsterBase
 {
     [SerializeField]
     private GameObject projectilePrefab; //공격 투사체
     [SerializeField]
     private Transform AttackTF; //투사체 생성 위치
-    private void Start()
+    private new void Start()
     {
         base.Start();
         maxHealth = 100;

@@ -13,14 +13,14 @@ public enum MonsterStates //몬스터 상태
     RandomMove, //랜덤 이동 상태
     Death //죽음 상태
 }
-public abstract class MonsterBase1 : MonoBehaviour
+public abstract class MonsterBase : MonoBehaviour
 {
     [Header("Basic information")]
     public int maxHealth; //최대 체력
     public int currentHealth; //현재 체력
     public int damage; //공격력
     protected Vector3 initialPosition; //최초 위치
-    protected bool isDead; //죽음 체크 변수
+    public bool isDead; //죽음 체크 변수
     protected bool isMove; //움직임 체크 변수
     protected float wanderTimer;
     protected float idleMoveInterval; //랜덤 이동 대기시간
@@ -104,7 +104,10 @@ public abstract class MonsterBase1 : MonoBehaviour
                     }
                     HandleState();
                 }
-                LookPlayer();
+                if(!(this is EscapeMonster))
+                {
+                    LookPlayer();
+                }
             }
         }
     }
@@ -348,8 +351,6 @@ public abstract class MonsterBase1 : MonoBehaviour
         }
     }
 
-
-
     public void TurnOffAttack()
     {
         animator.SetBool("Attack", false);
@@ -380,7 +381,7 @@ public abstract class MonsterBase1 : MonoBehaviour
     }
 
     // 감지 및 공격 범위 시각화
-    private void OnDrawGizmos()//항상 보이게 //선택시 보이게 OnDrawGizmosSelected
+    protected virtual void OnDrawGizmos()//항상 보이게 //선택시 보이게 OnDrawGizmosSelected
     {
         Gizmos.color = Color.red; //감지 범위
         Gizmos.DrawWireSphere(transform.position, playerDetectionRange);
