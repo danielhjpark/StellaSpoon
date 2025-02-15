@@ -25,9 +25,8 @@ public abstract class MonsterBase1 : MonoBehaviour
     protected float wanderTimer;
     protected float idleMoveInterval; //랜덤 이동 대기시간
     protected float damageDelayTime; //공격 딜레이 시간
-    private float lastAttackTime; //마지막 공격 시간
-    [SerializeField]
-    private bool isAttack = false; //공격중 체크 변수
+    protected float lastAttackTime; //마지막 공격 시간
+    protected bool isAttack = false; //공격중 체크 변수
 
     [Header("Range")]
     public float attackRange; //공격 범위
@@ -319,7 +318,37 @@ public abstract class MonsterBase1 : MonoBehaviour
         }
 
     }
-    protected abstract void DropItems();
+    protected virtual void DropItems()
+    {
+        List<GameObject> droppedItems = new List<GameObject>();
+        int k = 0; //아이템 종류 카운트
+        for (int i = 0; i < dropItems.Length; i++) //드랍되는 아이템 종류만큼
+        {
+            for (int j = 0; j < maxDropItems[k]; j++) //아이템별 최대 드랍 갯수만큼
+            {
+                float itemPercent = Random.Range(0f, 100f); //아이템이 떨어지는 랜덤값 생성
+                GameObject itemToDrop = null;
+                if (itemPercent <= dropProbability[k]) //현재 아이템 퍼센트내에 충족되면 
+                {
+                    itemToDrop = dropItems[i];
+                }
+                if (itemToDrop != null)
+                {
+                    Vector3 dropPosition = transform.position + new Vector3(0f, 1f, 0f);
+                    GameObject droppedItem = Instantiate(itemToDrop, dropPosition, Quaternion.identity);
+                    droppedItems.Add(droppedItem);
+                    // 현재 드랍된 아이템과 이전에 드랍된 아이템들 사이의 충돌 무시
+                    for (int m = 0; m < droppedItems.Count - 1; m++)
+                    {
+                        Physics.IgnoreCollision(droppedItem.GetComponent<Collider>(), droppedItems[m].GetComponent<Collider>());
+                    }
+                }
+            }
+            k++;
+        }
+    }
+
+
 
     public void TurnOffAttack()
     {

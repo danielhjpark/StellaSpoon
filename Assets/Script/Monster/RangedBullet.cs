@@ -49,7 +49,7 @@ public class RangedBullet : RangedMonster
 
             Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향 Y값 보정이 필요
 
-            thirdPersonController.TakeDamage(attackDamage, attackerPosition);
+            thirdPersonController.TakeDamage(damage, attackerPosition);
         }
         if(other.CompareTag("Wall"))
         {
