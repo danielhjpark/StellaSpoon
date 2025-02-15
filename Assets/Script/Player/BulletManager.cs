@@ -45,7 +45,7 @@ public class BulletManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        MonsterBase monster = other.GetComponent<MonsterBase>();
+        MonsterBase1 monster = other.GetComponent<MonsterBase1>();
         if (monster != null)
         {
             Debug.Log("Ãæµ¹");
