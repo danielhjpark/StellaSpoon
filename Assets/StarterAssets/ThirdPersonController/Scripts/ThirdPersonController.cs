@@ -183,15 +183,16 @@ namespace StarterAssets
             if (isDie) return;
 
             _hasAnimator = TryGetComponent(out _animator);
-            if (Inventory.inventoryActivated)
-            {
-                if (_hasAnimator)
-                {
-                    _animator.SetFloat(_animIDSpeed, 0f);
-                    _animator.SetFloat(_animIDMotionSpeed, 0f);
-                }
-                return; // Update 종료
-            }
+
+            //if (Inventory.inventoryActivated)
+            //{
+            //    if (_hasAnimator)
+            //    {
+            //        _animator.SetFloat(_animIDSpeed, 0f);
+            //        _animator.SetFloat(_animIDMotionSpeed, 0f);
+            //    }
+            //    return; // Update 종료
+            //}
 
             Move();
 
@@ -203,10 +204,11 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!Inventory.inventoryActivated)
-            {
-                CameraRotation();
-            }
+            //if (!Inventory.inventoryActivated)
+            //{
+            //    CameraRotation();
+            //}
+            CameraRotation();
         }
 
         private void AssignAnimationIDs()
