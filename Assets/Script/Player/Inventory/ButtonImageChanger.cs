@@ -16,6 +16,16 @@ public class ButtonImageChanger : MonoBehaviour
 
     public UIButton[] uiButtons; // 4개의 버튼 리스트
 
+
+    private void Update()
+    {
+        if(DeviceManager.isDeactived)
+        {
+            SetDefalutSprite();
+        }
+    }
+
+
     void Start()
     {
         // 버튼에 클릭 이벤트 추가
@@ -32,6 +42,14 @@ public class ButtonImageChanger : MonoBehaviour
             // 선택한 버튼이면 UI 활성화 & 스프라이트 변경
             bool isSelected = (uiButton == clickedButton);
             uiButton.buttonImage.sprite = isSelected ? uiButton.selectedSprite : uiButton.defaultSprite;
+        }
+    }
+
+    private void SetDefalutSprite()
+    {
+        foreach(UIButton uiButton in uiButtons)
+        {
+            uiButton.buttonImage.sprite = uiButton.defaultSprite;
         }
     }
 }
