@@ -57,7 +57,7 @@ public class PlayerManager : MonoBehaviour
         {
             _input.reload = false;
 
-            if(controller.isReload)
+            if(controller.isReload || InventoryManager.instance.isWeaponRifle == false)
             {
                 return;
             }

@@ -25,6 +25,8 @@ public class Inventory : MonoBehaviour
 
     public void OpenInventory()
     {
+        if (inventoryActivated) return;
+
         go_InventoryBase.SetActive(true);
         go_EquipmentBase.SetActive(true);
         inventoryActivated = true;
