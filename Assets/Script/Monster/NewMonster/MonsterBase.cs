@@ -252,6 +252,9 @@ public abstract class MonsterBase : MonoBehaviour
     {
         currentHealth -= damage;
         Debug.Log(damage + " 데미지 입음! " + currentHealth + " 체력 남음");
+        nav.isStopped = true;
+        animator.SetBool("Walk", false);
+        animator.SetBool("Hit", true);
         if (currentHealth <= 0)
         {
             isDead = true;
@@ -355,6 +358,12 @@ public abstract class MonsterBase : MonoBehaviour
     {
         animator.SetBool("Attack", false);
         StartCoroutine(EndAttack());
+    }
+
+    public void TurnOffDamage()
+    {
+        animator.SetBool("Hit", false);
+        nav.isStopped = false;
     }
 
     IEnumerator EndAttack()
