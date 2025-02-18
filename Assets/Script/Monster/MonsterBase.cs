@@ -81,7 +81,7 @@ public abstract class MonsterBase : MonoBehaviour
             else
             {
                 distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-                if (!isAttack) //공격중이 아닐때
+                if (!isAttack || !isDamage) //공격중이 아닐때
                 {
 
                     //데미지 인지 범위와 인지범위 사이일 때만 
@@ -104,7 +104,7 @@ public abstract class MonsterBase : MonoBehaviour
                     }
                     HandleState();
                 }
-                if(!(this is EscapeMonster))
+                if (!(this is EscapeMonster))
                 {
                     LookPlayer();
                 }
@@ -157,19 +157,25 @@ public abstract class MonsterBase : MonoBehaviour
     }
     protected virtual void HandleAttack()
     {
+        animator.SetBool("Walk", false);
         if (!isAttack || Time.time - lastAttackTime >= damageDelayTime)
         {
             lastAttackTime = Time.time;
             isAttack = true;
             animator.SetBool("Walk", false);
             animator.SetBool("Attack", true); //Attack 애니메이션 실행
-            thirdPersonController.TakeDamage(damage, transform.position); //플레이어 데미지
             //플레이어에게 데미지 주기
         }
 
     }
     protected virtual void HandleChasing()
     {
+        if (!canDamage && isDamage)
+        {
+            currentState = MonsterStates.Idle;
+            HandleState();
+            return;
+        }
         animator.SetBool("Walk", true);
         nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 0.8f);
         if (canDamage && isDamage)
@@ -259,6 +265,12 @@ public abstract class MonsterBase : MonoBehaviour
         {
             isDead = true;
             currentState = MonsterStates.Death;
+            HandleState();
+        }
+        else
+        {
+            isDamage = true;
+            currentState = MonsterStates.Idle;
             HandleState();
         }
         if (canDamage)
@@ -354,6 +366,10 @@ public abstract class MonsterBase : MonoBehaviour
         }
     }
 
+    public void PlayerDamage()
+    {
+        thirdPersonController.TakeDamage(damage, transform.position); //플레이어 데미지
+    }
     public void TurnOffAttack()
     {
         animator.SetBool("Attack", false);
@@ -364,6 +380,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         animator.SetBool("Hit", false);
         nav.isStopped = false;
+        isDamage = false;
     }
 
     IEnumerator EndAttack()
