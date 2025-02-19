@@ -235,8 +235,7 @@ public abstract class MonsterBase : MonoBehaviour
         coll.enabled = false;
         //네비매쉬끄기
         nav.ResetPath();
-        //5초뒤 오브젝트 삭제
-        Destroy(gameObject, 5f);
+        StartCoroutine(DeathDelay());
         //아이템 드랍
         DropItems();
     }
@@ -316,6 +315,16 @@ public abstract class MonsterBase : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    IEnumerator DeathDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        gameObject.SetActive(false);
+        coll.enabled = true;
+        currentHealth = maxHealth;
+        currentState = MonsterStates.Idle;
+        isDead = false;
     }
 
     IEnumerator DamageChasingDelay()
