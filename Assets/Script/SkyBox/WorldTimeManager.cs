@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class WorldTimeManager : MonoBehaviour
 {
+    public GameTimeManager gameTimeManager;
     public Material[] skyboxes;
     int skyIdx = 0;
 
+    [SerializeField]
     int currentHor = 0;
 
     private void Update()
     {
-        if (currentHor != Manager.Timer.gameHours)
+        if (currentHor != gameTimeManager.gameHours)
         {
             SunUpdate();
         }
@@ -19,14 +21,15 @@ public class WorldTimeManager : MonoBehaviour
 
     void SunUpdate()
     {
-        currentHor = Manager.Timer.gameHours;
+        currentHor = gameTimeManager.gameHours;
         switch (currentHor)
         {
             case 9:
                 StartCoroutine(NextSkyBox(skyboxes[0], 0));
                 break;
 
-            case 12:
+            case 1:
+                Debug.Log("¤»¤»");
                 StartCoroutine(NextSkyBox(skyboxes[1], 1));
                 break;
 
