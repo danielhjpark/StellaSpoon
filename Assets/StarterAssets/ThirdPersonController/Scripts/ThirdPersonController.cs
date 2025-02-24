@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-#if ENABLE_INPUT_SYSTEM 
+using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting;
+
+
+
+#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
@@ -119,6 +125,15 @@ namespace StarterAssets
         [SerializeField]
         private GameObject ReSpawnPoint;
 
+        // HPBar
+        [SerializeField]
+        private Slider _hpBar;
+
+        // DamageText
+        [SerializeField]
+        private GameObject damageTextPrefab; // 데미지 텍스트 프리팹 (Inspector에서 할당)
+        public Transform uiCanvas; // UI 캔버스 (Inspector에서 할당)
+
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -143,7 +158,6 @@ namespace StarterAssets
             }
         }
 
-        //
         public bool isAiming = false;
         public bool isReload = false;
 
@@ -153,7 +167,11 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            
             }
+
+            curHP = MaxHP;
+            SetMaxHealth(curHP);
         }
 
         private void Start()
@@ -174,8 +192,6 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-
-            curHP = MaxHP;
         }
 
         private void Update()
@@ -502,28 +518,32 @@ namespace StarterAssets
 
             if (monsterDam <= 0)
             {
-                monsterDam = 1;
+                monsterDam = 10;
             }
 
             curHP -= monsterDam;
             curHP = Mathf.Max(curHP, 0); // HP가 음수가 되지 않도록 설정
+
+            if (curHP <= 0)
+            {
+                Die();
+            }
 
             isHit = true; // 피격 상태 활성화
             isInvincible = true; // 무적 상태 활성화
             _animator.SetTrigger("Hit");
 
             Debug.Log("Player HP: " + curHP);
+            _hpBar.value = curHP;
+
+            //  데미지 텍스트 표시
+            ShowDamageText(monsterDam);
 
             // 공격 방향 계산
             Vector3 knockbackDirection = (transform.position - attackSourcePosition).normalized; // 공격을 받은 방향의 반대 방향
             float knockbackDistance = 1f; // 넉백 거리
             float knockbackDuration = 0.2f; // 넉백 시간
             StartCoroutine(KnockbackCoroutine(knockbackDirection, knockbackDistance, knockbackDuration));
-
-            if (curHP <= 0)
-            {
-                Die();
-            }
 
             // 일정 시간 후 무적 상태 해제
             StartCoroutine(InvincibilityCooldown(1.7f)); // 1.7초 동안 무적
@@ -559,24 +579,27 @@ namespace StarterAssets
 
         private void Die()
         {
-            if (isDie) return; // 이미 죽은 상태라면 로직 실행 안 함
+            if (isDie) return;
 
-            isDie = true; // 죽은 상태로 변경
-            _animator.SetTrigger("Die"); // 죽는 애니메이션 실행
-            Debug.Log("Die");
+            isDie = true;
+            Debug.Log("Die() 호출됨");
 
-            // 인벤토리 초기화 추가
+            _animator.ResetTrigger("Hit"); // 다른 애니메이션 트리거 초기화
+            _animator.Play("Die"); // 강제로 Die 애니메이션 실행
+            Debug.Log("Die 애니메이션 강제 실행");
+
             InventoryManager.instance.ClearAllSlots();
-
-            // 5초 후 부활
             StartCoroutine(Respawn());
         }
+
+
 
         private IEnumerator Respawn()
         {
             yield return new WaitForSeconds(5f); // 5초 대기
 
             curHP = MaxHP; // HP 초기화
+            SetMaxHealth(MaxHP); // HPBar 초기화
             isDie = false; // 죽음 상태 해제
             isHit = false; // 피격 상태 해제
             isInvincible = false; // 무적 상태 해제
@@ -586,5 +609,60 @@ namespace StarterAssets
             _characterController.enabled = true;
             Debug.Log("Player Respawned");
         }
+
+        private void SetMaxHealth(float health)
+        {
+            _hpBar.maxValue = health;
+            _hpBar.value = health;
+        }
+        void ShowDamageText(float damage)
+        {
+            if (damageTextPrefab != null && uiCanvas != null)
+            {
+                GameObject damageText = Instantiate(damageTextPrefab, uiCanvas);
+                TextMeshProUGUI textMesh = damageText.GetComponent<TextMeshProUGUI>();
+
+                if (textMesh != null)
+                {
+                    textMesh.text = damage.ToString();
+
+                    //  플레이어 옆으로 랜덤 위치 설정
+                    float randomOffsetX = Random.Range(-1.5f, 1.5f);
+                    Vector3 worldPosition = transform.position + Vector3.right * randomOffsetX + Vector3.up * 1f;
+                    Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+
+                    damageText.transform.position = screenPosition;
+
+                    //  페이드 아웃 & 이동 코루틴 실행
+                    StartCoroutine(FadeAndMoveDamageText(damageText, textMesh));
+                }
+            }
+        }
+
+        IEnumerator FadeAndMoveDamageText(GameObject textObj, TextMeshProUGUI textMesh)
+        {
+            float duration = 1f; // 1초 동안 페이드 아웃
+            float elapsedTime = 0f;
+            Color originalColor = textMesh.color; // 원래 색상 저장
+            Vector3 startPos = textObj.transform.position;
+            Vector3 targetPos = startPos + new Vector3(0, 50f, 0); // 50px 위로 이동
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / duration;
+
+                // 🔹 위로 이동
+                textObj.transform.position = Vector3.Lerp(startPos, targetPos, t);
+
+                // 🔹 알파값 조절 (점점 투명하게)
+                textMesh.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1 - t);
+
+                yield return null;
+            }
+
+            Destroy(textObj); // 끝나면 삭제
+        }
+
     }
 }
