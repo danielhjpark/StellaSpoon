@@ -108,12 +108,9 @@ namespace StarterAssets
 
         // 캐릭터 기본 스테이터스
         [Header("Player Status")]
-        [SerializeField]
-        private float MaxHP = 100f;
+        public float MaxHP = 100f;
         private float curHP;
-        
-        [SerializeField]
-        private float Def = 20;
+        public float Def = 20;
 
         // Hit, Die
         private bool isHit = false; // 피격 상태를 나타내는 플래그

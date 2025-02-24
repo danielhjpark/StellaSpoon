@@ -43,6 +43,11 @@ public class BulletManager : MonoBehaviour
         destoryTime = 3;
     }
 
+    public void SetDamage(int damage)
+    {
+        bulletDamage = damage;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         MonsterBase monster = other.GetComponent<MonsterBase>();

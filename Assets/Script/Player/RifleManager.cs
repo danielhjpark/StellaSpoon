@@ -35,6 +35,10 @@ public class RifleManager : MonoBehaviour
     [SerializeField]
     private GameObject weaponClipFX;
 
+    // RifleDamage
+    [Header("Weapon State")]
+    public int attackDamage = 20;
+
     void Start()
     {
         instance = this;
@@ -56,6 +60,8 @@ public class RifleManager : MonoBehaviour
 
         if (currentShootDelay < maxShootDelay) return;
 
+        if (currentBullet <= 0) return;
+
         currentBullet -= 1;
         currentShootDelay = 0;
 
@@ -63,7 +69,13 @@ public class RifleManager : MonoBehaviour
         Instantiate(bulletCaseFX, bulletCasePoint);
 
         Vector3 aim = (targetPosition - bulletPoint.position).normalized;
-        Instantiate(bulletObj, bulletPoint.position, Quaternion.LookRotation(aim, Vector3.up));
+        GameObject newBullet = Instantiate(bulletObj, bulletPoint.position, Quaternion.LookRotation(aim, Vector3.up));
+
+        BulletManager bullet = newBullet.GetComponent<BulletManager>();
+        if (bullet != null)
+        {
+            bullet.SetDamage(attackDamage); // RifleManager의 공격력 전달
+        }
     }
 
     public void ReloadClip()
