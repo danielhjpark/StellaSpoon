@@ -37,7 +37,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
     public void OnUnitMove()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("ControllLayer")))
+        if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("ControllArea")))
         {
             float H = Camera.main.transform.position.y;
             float h = controllObject.transform.position.y;
@@ -56,6 +56,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
                 isControll = false;
                 isCanDrop = false;
                 CookManager.instance.DropObject(controllObject, ingredientSlot.currentIngredient);
+                //ingredientSlot.SlotClear();
                 controllObject = null;
 
             }
@@ -73,7 +74,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
     void DropCheck()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("DropLayer")))
+        if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("DropArea")))
         {
             isCanDrop = true;
         }
@@ -92,6 +93,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
         else return;
 
         controllObject = Instantiate(ingredientObject, Input.mousePosition, ingredientObject.transform.rotation);
+        controllObject.transform.SetParent(CookManager.instance.spawnPoint);
         StartCoroutine(cookInventoryManager.HidePanel());
         isControll = true;
     }

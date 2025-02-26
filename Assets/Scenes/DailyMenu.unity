@@ -9319,6 +9319,7 @@ GameObject:
   - component: {fileID: 1800647084}
   - component: {fileID: 1800647086}
   - component: {fileID: 1800647087}
+  - component: {fileID: 1800647088}
   m_Layer: 0
   m_Name: GameManger
   m_TagString: Untagged
@@ -9379,11 +9380,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DailyMenuUI: {fileID: 1224919764}
   RefrigeratorUI: {fileID: 2092317229}
+  DeviceUI: {fileID: 400906895}
   CookUI: {fileID: 245213704}
   inventory: {fileID: 1837578546}
   items:
   - {fileID: 11400000, guid: bc2ef22ae0193434b8527b1d21b70e80, type: 2}
   - {fileID: 11400000, guid: 0c97bd687dbf89041bccee90ddcf6c56, type: 2}
+  ingredientSlot: []
+  ingredients: []
+--- !u!114 &1800647088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800647083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 155dad7ce66a7d347b7a1827e6a794f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalWeight: 0
+  totalWeightText: {fileID: 0}
+  inventorySlots: []
 --- !u!1 &1815387694
 GameObject:
   m_ObjectHideFlags: 0

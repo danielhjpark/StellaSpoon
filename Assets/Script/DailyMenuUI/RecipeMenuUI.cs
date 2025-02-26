@@ -17,24 +17,24 @@ public class RecipeMenuUI : MonoBehaviour
         if (targetPanel == null)
             return;
 
-        // íŒ¨ë„ì˜ RectTransformì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+        // ?Œ¨?„?˜ RectTransform?„ ê°?? ¸?˜µ?‹ˆ?‹¤.
         Vector3[] worldCorners = new Vector3[4];
         targetPanel.GetWorldCorners(worldCorners);
 
-        // í™”ë©´ì—ì„œ ì¢Œí‘œë¥¼ ì œí•œ
+        // ?™”ë©´ì—?„œ ì¢Œí‘œë¥? ? œ?•œ
         Vector2 minBounds = worldCorners[0]; // Bottom-left corner
         Vector2 maxBounds = worldCorners[2]; // Top-right corner
 
-        // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+        // ë§ˆìš°?Š¤ ?œ„ì¹˜ë?? ê°?? ¸?˜µ?‹ˆ?‹¤.
         Vector3 mousePosition = Input.mousePosition;
 
-        // í´ë¨í”„ëœ ë§ˆìš°ìŠ¤ ìœ„ì¹˜
+        // ?´?¨?”„?œ ë§ˆìš°?Š¤ ?œ„ì¹?
         mousePosition.x = Mathf.Clamp(mousePosition.x, minBounds.x, maxBounds.x);
         mousePosition.y = Mathf.Clamp(mousePosition.y, minBounds.y, maxBounds.y);
 
-        // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
-        Cursor.lockState = CursorLockMode.None; // ë§ˆìš°ìŠ¤ ì»¤ì„œë¥¼ ì—…ë°ì´íŠ¸í•˜ë ¤ë©´ ì ê¸ˆì„ í•´ì œí•´ì•¼ í•©ë‹ˆë‹¤.
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-        Cursor.SetCursor(Texture2D.blackTexture, mousePosition, CursorMode.Auto);
+        // ë§ˆìš°?Š¤ ?œ„ì¹˜ë?? ?—…?°?´?Š¸?•©?‹ˆ?‹¤.
+        // Cursor.lockState = CursorLockMode.None; // ë§ˆìš°?Š¤ ì»¤ì„œë¥? ?—…?°?´?Š¸?•˜? ¤ë©? ? ê¸ˆì„ ?•´? œ?•´?•¼ ?•©?‹ˆ?‹¤.
+        // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        // Cursor.SetCursor(Texture2D.blackTexture, mousePosition, CursorMode.Auto);
     }
 }

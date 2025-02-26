@@ -9,6 +9,29 @@ public class Recipe : ScriptableObject {
     public string menuName;
     public Sprite menuImage;
     public List<IngredientAmount> ingredients;
+    public GameObject menuPrefab;
+    public CookType recipeCookType;
+    public BoilingType boilingType;
+    //public WokAmount wokAmount;
+}
+
+public enum CookType {
+    None,
+    Cutting,
+    Frying,
+    Tossing,
+    Boiling
+}
+
+public enum BoilingType {
+    Boil,
+    Steam,
+}
+
+[System.Serializable]
+public class WokAmount  
+{
+
 }
 
 [System.Serializable]

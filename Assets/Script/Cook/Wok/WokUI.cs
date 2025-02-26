@@ -10,7 +10,8 @@ public class WokUI : MonoBehaviour
     [SerializeField] RectTransform[] roastSection;
     [SerializeField] int roastCount;
     [SerializeField] Slider powerSlider;
-    
+    [SerializeField] GameObject wokUIObject;
+    [SerializeField] GameObject ingredientUIObejct;
     const int FullLength = 750;
     const int FixedWidth = 50;
     float power = 1;
@@ -22,6 +23,8 @@ public class WokUI : MonoBehaviour
     void Start()
     {
         SetSections();
+        wokUIObject.SetActive(false);
+        
         //StartCoroutine(MoveMark());
     }
     void SetSections() {
@@ -32,9 +35,9 @@ public class WokUI : MonoBehaviour
         sections = new int[3]{300, 150, 300};
     }
    
-    void Update()
-    {
-        
+    public void OnWokUI() {
+        wokUIObject.SetActive(true);
+        ingredientUIObejct.SetActive(false);
     }
 
     public IEnumerator MoveMark() {

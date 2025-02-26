@@ -17,11 +17,20 @@ public class FryingPanManager : MonoBehaviour
     private GameObject currentIngredient;
     private bool isHalf;
     public int fryingCount = 3;
+    private Recipe currentMenu;
+
+    void Awake() {
+        CookManager.instance.BindingManager(this);
+    }
 
     void Start() {
         tongs.SetActive(false);
     }
 
+
+    public void SelectRecipe(Recipe menu) {
+        currentMenu = menu;
+    }
 
     public void LocateIngredient(GameObject obj) {
         currentIngredient = obj;
@@ -31,6 +40,7 @@ public class FryingPanManager : MonoBehaviour
     }
 
     IEnumerator DropIngredient() {
+        fryingPanUI.OnFryingPanUI();
         float time = 0;
         while(true) {
             time += Time.deltaTime * 5;
@@ -71,6 +81,9 @@ public class FryingPanManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         fryingCount--;
         if(fryingCount > 0) StartCoroutine(StartFryingIngredient());
+        else {
+            CookSceneManager.instance.UnloadScene("FryingPanMergeTest", currentMenu);
+        }
     }
 
     void SetActiveTongs() {
@@ -84,5 +97,9 @@ public class FryingPanManager : MonoBehaviour
             if(timeline.time >= timeline.duration - invisibleTime) tongs.SetActive(false);
             else if(timeline.time >= timeline.duration/2 + invisibleTime) tongs.SetActive(true);
         }
+    }
+
+    void EndScene() {
+        
     }
 }

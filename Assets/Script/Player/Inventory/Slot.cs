@@ -76,7 +76,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
 
         // 아이템 무게 업데이트
-        InventoryManager.instance.UpdateTotalWeight(item.itemWeight * _count);
+        //InventoryManager.instance.UpdateTotalWeight(item.itemWeight * _count);
 
     }
 

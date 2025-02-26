@@ -39,6 +39,8 @@ public class IngredientSlot : MonoBehaviour
     }
 
     public void SlotClear() {
+        this.gameObject.transform.SetAsLastSibling();
+        currentIngredient = null;
         ingredientImage.sprite = null;
         ingredientName.text = null;
         isEmpty = true;

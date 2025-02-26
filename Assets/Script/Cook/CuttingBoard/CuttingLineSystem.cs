@@ -33,9 +33,8 @@ public class CuttingLineSystem : MonoBehaviour
         Vector3 slicePosition = Vector3.Lerp(min, max, t);
         Vector3 cuttingPosition = new Vector3(slicePosition.x, (min.y + max.y)/2f, (min.z + max.z)/2f);
         
-        float sizeY = Mathf.Abs(min.y) + Mathf.Abs(max.y);
-        float sizeZ = Mathf.Abs(min.z) + Mathf.Abs(max.z);
-        
+        float sizeY = Mathf.Abs(min.y - max.y);
+        float sizeZ = Mathf.Abs(min.z - max.z);
         Vector3 cuttingSize = new Vector3(0, sizeY, sizeZ);
 
         CreateLine(cuttingPosition, cuttingSize);

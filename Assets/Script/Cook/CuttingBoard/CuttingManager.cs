@@ -37,10 +37,13 @@ public class CuttingManager : MonoBehaviour
     [SerializeField] float knifeSpeed;
     [SerializeField] float rotateSpeed;
     
-
-
     bool isCutting = false;
     GameObject targetObject;
+    private Recipe currentMenu;
+
+    void Awake() {
+        CookManager.instance.BindingManager(this);
+    }
 
     void Start()
     {
@@ -52,6 +55,11 @@ public class CuttingManager : MonoBehaviour
         cuttingLine.OnCuttingSystem += AlreadyCuttingObject;
     }
 
+    
+    public void SelectRecipe(Recipe menu) {
+        currentMenu = menu;
+    }
+    
     IEnumerator CuttingHorizontal() {
         CuttingSetup();
         CreateCuttingLine(horizontalCount);
@@ -79,7 +87,8 @@ public class CuttingManager : MonoBehaviour
 
         ObjectReset(sliceAllObjects);
         CuttingReset();
-        StartCoroutine(cookUIManager.VisiblePanel());
+        CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest", currentMenu);
+        //StartCoroutine(cookUIManager.VisiblePanel());
     }
 
     IEnumerator CuttingCube() {

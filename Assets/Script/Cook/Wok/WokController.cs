@@ -11,8 +11,6 @@ public class WokController : MonoBehaviour
     [SerializeField] GameObject[] spawnPrefabs;
     Quaternion initRotation;
     Vector3 initPosition;
-    float additionalX = 10f;
-    float additionalY = 10f;
     bool isTossing = false;
 
     void Start()

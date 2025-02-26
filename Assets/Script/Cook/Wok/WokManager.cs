@@ -10,15 +10,41 @@ public class WokManager : MonoBehaviour
     [SerializeField] CookUIManager cookUIManager;
     [SerializeField] Transform dropPos;
     [SerializeField] PlayableDirector wokTimeLine;
-    List<GameObject> wokIngredients = new List<GameObject>();
-    public GameObject dropIngredient;
+    [SerializeField] GameObject dropIngredient;
+    private List<GameObject> wokIngredients = new List<GameObject>();
+    private List<Ingredient> checkIngredients = new List<Ingredient>();
     
-    bool isTossing = false;
-    int tossingCount;
+    private bool isTossing = false;
+    public int tossingCount;
+    
+
+    void Awake() {
+        CookManager.instance.BindingManager(this);
+    }
 
     void Start()
     {
         wokUI.OnWokSystem += CheckTossing;   
+    }
+
+    void Update() {
+        if(CheckRequireIngredient()) {
+            checkIngredients.Clear();
+            wokUI.OnWokUI();
+            StartTossing();
+        }
+    }
+    
+    private Recipe currentMenu;
+    public void SelectRecipe(Recipe menu) {
+        currentMenu = menu;
+    }
+
+    bool CheckRequireIngredient() {
+        if(currentMenu == null || currentMenu.ingredients.Count != checkIngredients.Count) {
+            return false;
+        }
+        else return true;
     }
 
     public void StartTossing() {
@@ -27,15 +53,24 @@ public class WokManager : MonoBehaviour
         StartCoroutine(cookUIManager.HidePanel());
     }
 
+    public void LocateIngredient(GameObject obj, Ingredient ingredient) {
+       // obj.GetComponent<Rigidbody>().useGravity = true;
+        //obj.GetComponent<Collider>().enabled = true;
+        obj.transform.position = dropPos.position;
+        checkIngredients.Add(ingredient);
+        AddIngredient(obj);
+    }
+
     public void AddIngredient(GameObject ingredients) {
         foreach(Transform ingredient in ingredients.transform) {
-            wokIngredients.Add(ingredient.gameObject);
+            
         }
-
-        foreach(GameObject wokIngredient in wokIngredients) {
-            wokIngredient.transform.SetParent(dropIngredient.transform);
-            wokIngredient.GetComponent<Rigidbody>().useGravity = true;
-            wokIngredient.GetComponent<Collider>().enabled = true;;
+        ingredients.transform.SetParent(dropIngredient.transform);
+        foreach(GameObject ingredient in ingredients.transform) {
+            wokIngredients.Add(ingredient.gameObject);
+            ingredient.GetComponent<Rigidbody>().isKinematic = false;
+            ingredient.GetComponent<Rigidbody>().useGravity = true;
+            ingredient.GetComponent<Collider>().enabled = true;
         }
         StartCoroutine(cookUIManager.VisiblePanel());
     }
@@ -75,22 +110,20 @@ public class WokManager : MonoBehaviour
         tossingCount--;
         yield return new WaitForSeconds(0.5f);
         if(tossingCount > 0) StartCoroutine(WokTossing());
+        else {
+            CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+        }
     }
 
     void CheckTossing(bool isTossing) {
         this.isTossing = isTossing;
     }
 
-    public void LocateIngredient(GameObject obj) {
-       // obj.GetComponent<Rigidbody>().useGravity = true;
-        //obj.GetComponent<Collider>().enabled = true;
-        obj.transform.position = dropPos.position;
-        AddIngredient(obj);
-    }
+
     
     public void AddForceForwardIngredient() {
         foreach(GameObject ingredient in wokIngredients) {
-            //ingredient.GetComponent<Rigidbody>().AddForce(Vector3.forward * 3, ForceMode.VelocityChange);
+            ingredient.GetComponent<Rigidbody>().AddForce(Vector3.forward * 3, ForceMode.VelocityChange);
         }
     }
 

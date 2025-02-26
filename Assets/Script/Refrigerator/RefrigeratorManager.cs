@@ -33,8 +33,6 @@ public class RefrigeratorManager : MonoBehaviour
     }
 
     //------------------Button----------------------//
-    private int currentInventoryPage = 0;
-
     void NextInventory() {
 
     }

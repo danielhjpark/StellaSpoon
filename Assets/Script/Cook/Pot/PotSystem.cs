@@ -2,17 +2,23 @@ using System.Collections;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class PotSystem : MonoBehaviour
 {
     [SerializeField] PlayableDirector lidTimeline;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
+    [SerializeField] CinemachineSmoothPath basicPath;
+    [SerializeField] CinemachineSmoothPath buttonPath;
+    [SerializeField] Transform basicViewTarget;
+    [SerializeField] Transform buttonViewTarget;
     private CinemachineTrackedDolly dolly;
     private bool movingForward = true;
     public float speed = 2f;
     private bool isRewinding = false;
-    private float rewindSpeed = 1f; // 역재생 속도 (1배속)
+    private float rewindSpeed = 1f; 
 
+   private bool isForward = true;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +26,6 @@ public class PotSystem : MonoBehaviour
         dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         dolly.m_PathPosition = 0;
     }
-
 
     void Update()
     {
@@ -40,6 +45,26 @@ public class PotSystem : MonoBehaviour
 
     }
 
+
+    //Button Path
+    public void SwitchTrack()
+    {
+        isForward = !isForward; // 진행 방향 변경
+        float currentPos = dolly.m_PathPosition; // 현재 경로 위치 저장
+
+        if (isForward)
+        {
+            dolly.m_Path = basicPath;
+            dolly.m_PathPosition = basicPath.PathLength - currentPos; // 역방향 -> 정방향 전환 시 보정
+        }
+        else
+        {
+            virtualCamera.LookAt = buttonViewTarget;
+            dolly.m_Path = buttonPath;
+            //dolly.m_PathPosition = buttonPath.PathLength - currentPos; // 정방향 -> 역방향 전환 시 보정
+        }
+    }
+
     private void ViewControll() {
         if(movingForward) {
             StartCoroutine(TopView());
@@ -48,6 +73,18 @@ public class PotSystem : MonoBehaviour
             StartCoroutine(FrontView());
         }
     }
+
+    // Button Change TopView
+    public void PutIngredient() {
+        StartCoroutine(TopView());
+    }
+
+
+    public void BoilingPot() {
+        //StartCoroutine(FrontView());
+        StartCoroutine(ButtonView());
+    }
+
     public void PlayForward()
     {
         lidTimeline.Play();
@@ -63,7 +100,18 @@ public class PotSystem : MonoBehaviour
     }
 
 
-    IEnumerator TopView() {
+    IEnumerator ButtonView() {
+        PlayBackward();
+        SwitchTrack();
+        while(!movingForward) {
+            dolly.m_PathPosition -= speed * Time.deltaTime;
+            if (dolly.m_PathPosition <= 0) // 최소 WayPoint 도달
+                movingForward = true;
+            yield return null;
+        }
+    }
+
+    public IEnumerator TopView() {
         PlayForward();
         while(movingForward) {
             dolly.m_PathPosition += speed * Time.deltaTime;

@@ -9,7 +9,9 @@ public class FryingPanUI : MonoBehaviour
     [SerializeField] Slider powerSlider;
     [SerializeField] RectTransform[] sections;
     [SerializeField] int roastCount;
-    
+
+    [SerializeField] GameObject fryingPanUIObject;
+    [SerializeField] GameObject ingredientUIObejct;
 
     const int FullLength = 750;
     const int FixedWidth = 50;
@@ -22,7 +24,14 @@ public class FryingPanUI : MonoBehaviour
     void Start()
     {
         SetSections();
+        fryingPanUIObject.SetActive(false);
     }
+
+    public void OnFryingPanUI() {
+        fryingPanUIObject.SetActive(true);
+        ingredientUIObejct.SetActive(false);
+    }
+
 
     void SetSections() {
         sections[0].sizeDelta = new Vector2(FixedWidth, 300);
