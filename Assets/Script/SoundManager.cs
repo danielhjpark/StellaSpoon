@@ -45,6 +45,10 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
+        bgmAudioSlider = GameObject.Find("Canvas/PARENT_Option(DeactivateThis)/OptionBase/BGMSlider").GetComponent<Slider>();
+        sfxAudioSlider = GameObject.Find("Canvas/PARENT_Option(DeactivateThis)/OptionBase/SFXSlider").GetComponent<Slider>();
+        masterAudioSlider = GameObject.Find("Canvas/PARENT_Option(DeactivateThis)/OptionBase/MasterSlider").GetComponent<Slider>();
+
         bgmAudioSlider.onValueChanged.AddListener(delegate { AudioBGMControl(); });
         sfxAudioSlider.onValueChanged.AddListener(delegate { AudioSFXControl(); });
         masterAudioSlider.onValueChanged.AddListener(delegate { AudioMASTERControl(); });

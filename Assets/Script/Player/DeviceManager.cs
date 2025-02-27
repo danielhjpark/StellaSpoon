@@ -13,18 +13,15 @@ public class DeviceManager : MonoBehaviour
     private GameObject inventoryPanel; // 인벤토리 패널
     [SerializeField]
     private GameObject equipmentPanel; // 장비 패널
+    [SerializeField]
+    private GameObject optionPanel; //옵션
 
-    // 처음 열었을 때 인벤토리 버튼 Sprite 활성화
-    [Header("인벤토리 버튼 세팅")]
-    [SerializeField] private Button inventoryButton;
-    [SerializeField] private Image inventoryButtonImage;
-    [SerializeField] private Sprite defaultSprite;
-    [SerializeField] private Sprite selectedSprite;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            //todo 기계장치 오픈시 카메라, 플레이어 움직임 제한 필요
             ToggleUI();
         }
 
@@ -57,8 +54,6 @@ public class DeviceManager : MonoBehaviour
         equipmentPanel.SetActive(true);
 
         isDeactived = false;
-
-        inventoryButtonImage.sprite = selectedSprite; // 버튼 이미지 변경
     }
 
     private void CloseUI()
@@ -67,11 +62,11 @@ public class DeviceManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        inventoryPanel.SetActive(false);
-        equipmentPanel.SetActive(false);
+        //모든 창 false 필요
+        inventoryPanel.SetActive(false); //인벤토리
+        equipmentPanel.SetActive(false); //장비
+        optionPanel.SetActive(false); //옵션
 
         isDeactived = true;
-
-        inventoryButtonImage.sprite = defaultSprite; // 버튼 이미지 복귀
     }
 }
