@@ -16,6 +16,11 @@ public class DeviceManager : MonoBehaviour
     [SerializeField]
     private GameObject optionPanel; //옵션
 
+    [Header("초기의 인벤토리 버튼")]
+    [SerializeField] private Button inventoryButton;
+    [SerializeField] private Image inventoryButtonImage;
+    [SerializeField] private Sprite defaultSprite;
+    [SerializeField] private Sprite selectedSprite;
 
     void Update()
     {
@@ -53,6 +58,8 @@ public class DeviceManager : MonoBehaviour
         inventoryPanel.SetActive(true);
         equipmentPanel.SetActive(true);
 
+        inventoryButtonImage.sprite = selectedSprite; // 버튼 이미지 변경
+
         isDeactived = false;
     }
 
@@ -66,6 +73,8 @@ public class DeviceManager : MonoBehaviour
         inventoryPanel.SetActive(false); //인벤토리
         equipmentPanel.SetActive(false); //장비
         optionPanel.SetActive(false); //옵션
+
+        inventoryButtonImage.sprite = defaultSprite; // 버튼 이미지 복귀
 
         isDeactived = true;
     }
