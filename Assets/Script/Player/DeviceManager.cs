@@ -77,5 +77,7 @@ public class DeviceManager : MonoBehaviour
         inventoryButtonImage.sprite = defaultSprite; // 버튼 이미지 복귀
 
         isDeactived = true;
+
+        Option.OptionyActivated = false;
     }
 }
