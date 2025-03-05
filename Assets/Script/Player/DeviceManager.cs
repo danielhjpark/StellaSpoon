@@ -14,7 +14,9 @@ public class DeviceManager : MonoBehaviour
     [SerializeField]
     private GameObject equipmentPanel; // 장비 패널
     [SerializeField]
-    private GameObject optionPanel; //옵션
+    private GameObject optionPanel; //옵션 패널
+    [SerializeField]
+    private GameObject planetPanel; //행성 패널
 
     [Header("초기의 인벤토리 버튼")]
     [SerializeField] private Button inventoryButton;
@@ -73,11 +75,13 @@ public class DeviceManager : MonoBehaviour
         inventoryPanel.SetActive(false); //인벤토리
         equipmentPanel.SetActive(false); //장비
         optionPanel.SetActive(false); //옵션
+        planetPanel.SetActive(false); //행성
 
         inventoryButtonImage.sprite = defaultSprite; // 버튼 이미지 복귀
 
         isDeactived = true;
 
-        Option.OptionyActivated = false;
+        Option.OptionActivated = false;
+        Planet.planetActivated = false;
     }
 }

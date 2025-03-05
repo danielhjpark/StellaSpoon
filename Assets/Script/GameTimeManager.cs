@@ -10,8 +10,8 @@ public class GameTimeManager : MonoBehaviour
     public TextMeshProUGUI gameTimeText; // 게임 시간을 표시할 UI 텍스트
 
     private float gameTime = 0f; // 게임 내 시간 (단위: 초)
-    private const string LastSavedTimeKey = "LastSavedTime"; // PlayerPrefs 키
-    private const string GameTimeKey = "GameTime"; // PlayerPrefs 키
+    private const string lastSavedTimeKey = "LastSavedTime"; // PlayerPrefs 키
+    private const string gameTimeKey = "GameTime"; // PlayerPrefs 키
 
     public int startHour = 0; // 초기 게임 시각 (예: 0시)
     public int startMinute = 0;
@@ -61,18 +61,18 @@ public class GameTimeManager : MonoBehaviour
     private void SaveGameTime()
     {
         // 현재 시간 기록
-        PlayerPrefs.SetString(LastSavedTimeKey, DateTime.Now.ToString());
-        PlayerPrefs.SetFloat(GameTimeKey, gameTime);
+        PlayerPrefs.SetString(lastSavedTimeKey, DateTime.Now.ToString());
+        PlayerPrefs.SetFloat(gameTimeKey, gameTime);
         PlayerPrefs.Save();
     }
 
     private void LoadGameTime()
     {
         // 마지막 저장된 시간 가져오기
-        if (PlayerPrefs.HasKey(LastSavedTimeKey) && PlayerPrefs.HasKey(GameTimeKey))
+        if (PlayerPrefs.HasKey(lastSavedTimeKey) && PlayerPrefs.HasKey(gameTimeKey))
         {
             /*string lastSavedTimeString = PlayerPrefs.GetString(LastSavedTimeKey);*/
-            float savedGameTime = PlayerPrefs.GetFloat(GameTimeKey);
+            float savedGameTime = PlayerPrefs.GetFloat(gameTimeKey);
 
 
             /*게임 종료시에도 시간이 흐르는걸 원치 않으면 지우면 됨*//*
