@@ -51,7 +51,11 @@ public class RifleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bulletText.text = currentBullet + " / " + maxBullet; 
+        bulletText.text = currentBullet + " / " + maxBullet;
+        if (currentShootDelay < maxShootDelay)
+        {
+            currentShootDelay += Time.deltaTime;
+        }
     }
 
     public void Shooting(Vector3 targetPosition)

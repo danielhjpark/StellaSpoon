@@ -4941,11 +4941,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257442130}
   m_CullTransparentMesh: 1
---- !u!1 &1265659421 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1916189959650990886, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-  m_PrefabInstance: {fileID: 1928137593072395781}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1271219585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10257,22 +10252,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2383958711423305720, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
   m_PrefabInstance: {fileID: 1928137593072395781}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &543450653195365019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265659421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da0a454aaec60a345a9852f0bd489041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackText: {fileID: 1808322159}
-  defenseText: {fileID: 1431238758}
-  healthText: {fileID: 864948460}
-  speedText: {fileID: 1433026193}
 --- !u!143 &544266600726033215
 CharacterController:
   m_ObjectHideFlags: 0
@@ -10801,6 +10780,22 @@ PrefabInstance:
       propertyPath: aimObject
       value: 
       objectReference: {fileID: 418015175}
+    - target: {fileID: 1018364671972305711, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: speedText
+      value: 
+      objectReference: {fileID: 1433026193}
+    - target: {fileID: 1018364671972305711, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: attackText
+      value: 
+      objectReference: {fileID: 1808322159}
+    - target: {fileID: 1018364671972305711, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 864948460}
+    - target: {fileID: 1018364671972305711, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: defenseText
+      value: 
+      objectReference: {fileID: 1431238758}
     - target: {fileID: 1025115785161298992, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
@@ -10869,17 +10864,10 @@ PrefabInstance:
       propertyPath: ReSpawnPoint
       value: 
       objectReference: {fileID: 141233374}
-    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      propertyPath: damageTextPrefab
-      value: 
-      objectReference: {fileID: 4666749656009798378, guid: 19b22e92d2239c84c853ac845433544e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1916189959650990886, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 543450653195365019}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
 --- !u!4 &2038737487379628530
 Transform:

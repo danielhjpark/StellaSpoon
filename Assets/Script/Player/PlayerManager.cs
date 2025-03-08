@@ -109,7 +109,7 @@ public class PlayerManager : MonoBehaviour
                     _input.reload = true;
                 }
                 anim.SetBool("Shot", true);
-                RifleManager.instance.Shooting(targetPosition);     
+                RifleManager.instance.Shooting(targetPosition);
             }
             else
             {
