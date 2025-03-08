@@ -193,19 +193,18 @@ namespace StarterAssets
 
         private void Update()
         {
+            if (!DeviceManager.isDeactived)
+            {
+                if (_hasAnimator)
+                {
+                    _animator.SetFloat(_animIDSpeed, 0f);
+                    _animator.SetFloat(_animIDMotionSpeed, 0f);
+                }
+                return;
+            }
             if (isDie) return;
 
             _hasAnimator = TryGetComponent(out _animator);
-
-            //if (Inventory.inventoryActivated)
-            //{
-            //    if (_hasAnimator)
-            //    {
-            //        _animator.SetFloat(_animIDSpeed, 0f);
-            //        _animator.SetFloat(_animIDMotionSpeed, 0f);
-            //    }
-            //    return; // Update 종료
-            //}
 
             Move();
 
@@ -217,10 +216,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            //if (!Inventory.inventoryActivated)
-            //{
-            //    CameraRotation();
-            //}
+            if (!DeviceManager.isDeactived) return; // 비활성화 상태면 카메라 회전 막기
             CameraRotation();
         }
 
