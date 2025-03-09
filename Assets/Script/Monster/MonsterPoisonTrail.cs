@@ -58,22 +58,25 @@ public class MonsterPoisonTrail : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         float elapsedTime = 0f;
-        Renderer poisonRenderer = poison.GetComponent<Renderer>();
-        if (poisonRenderer != null)
+        if(poison != null)
         {
-            Material material = poisonRenderer.material;    
-            Color startColor = material.color;
-            Color targetColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
-
-            while (elapsedTime < fadeTime)
+            Renderer poisonRenderer = poison.GetComponent<Renderer>();
+            if (poisonRenderer != null)
             {
-                elapsedTime += Time.deltaTime;
-                material.color = Color.Lerp(startColor, targetColor, elapsedTime / fadeTime);
-                yield return null;
-            }
-        }
+                Material material = poisonRenderer.material;
+                Color startColor = material.color;
+                Color targetColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
 
-        poisonClouds.Remove(poison);
-        Destroy(poison);
+                while (elapsedTime < fadeTime)
+                {
+                    elapsedTime += Time.deltaTime;
+                    material.color = Color.Lerp(startColor, targetColor, elapsedTime / fadeTime);
+                    yield return null;
+                }
+            }
+
+            poisonClouds.Remove(poison);
+            Destroy(poison);
+        }
     }
 }

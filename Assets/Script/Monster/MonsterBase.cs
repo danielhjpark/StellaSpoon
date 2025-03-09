@@ -255,11 +255,11 @@ public abstract class MonsterBase : MonoBehaviour
 
     public void Damage(int damage)
     {
+        //todo뒤로 넉백하는 코드 필요
         currentHealth -= damage;
         Debug.Log(damage + " 데미지 입음! " + currentHealth + " 체력 남음");
         nav.isStopped = true;
         animator.SetBool("Walk", false);
-        animator.SetBool("Hit", true);
         if (currentHealth <= 0)
         {
             isDead = true;
@@ -268,9 +268,20 @@ public abstract class MonsterBase : MonoBehaviour
         }
         else
         {
-            isDamage = true;
-            currentState = MonsterStates.Idle;
-            HandleState();
+            if(!isDamage) //첫 피격일 때
+            {
+                isDamage = true;
+                animator.SetBool("Hit", true);
+                currentState = MonsterStates.Idle;
+                HandleState();
+            }
+            else
+            {
+                animator.Play("GetHit", 0, 0f);
+                currentState = MonsterStates.Idle;
+                HandleState();
+            }
+            
         }
         if (canDamage)
         {
