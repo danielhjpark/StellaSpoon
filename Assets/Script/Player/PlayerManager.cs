@@ -148,14 +148,14 @@ public class PlayerManager : MonoBehaviour
             rifle.gameObject.SetActive(true);
             anim.SetLayerWeight(1, 1);
             handRig.weight = 1;
-            RifleManager.instance.bulletText.gameObject.SetActive(true);
+            RifleManager.instance.WeaponUI.SetActive(true);
         }
         else
         {
             rifle.gameObject.SetActive(false);
             anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
-            RifleManager.instance.bulletText.gameObject.SetActive(false);
+            RifleManager.instance.WeaponUI.SetActive(false);
         }
     }
 

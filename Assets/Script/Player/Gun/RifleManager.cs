@@ -20,8 +20,12 @@ public class RifleManager : MonoBehaviour
     [SerializeField]
     private float currentShootDelay = 0.2f;
 
+    public GameObject WeaponUI;
+
     [SerializeField]
     public Text bulletText;
+    [SerializeField]
+    private Text maxBulletText;
     private int maxBullet = 10;
     public int currentBullet = 0;
 
@@ -55,7 +59,8 @@ public class RifleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bulletText.text = currentBullet + " / " + maxBullet;
+        bulletText.text = currentBullet + "";
+        maxBulletText.text = "/" + maxBullet;
         if (currentShootDelay < maxShootDelay)
         {
             currentShootDelay += Time.deltaTime;
