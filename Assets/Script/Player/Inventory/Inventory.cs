@@ -9,6 +9,8 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private GameObject go_InventoryBase; // 인벤토리 이미지
     [SerializeField]
+    private GameObject go_EquipmentBase; // 장비 창 이미지
+    [SerializeField]
     private GameObject go_SlotsParent; // Slot들의 부모인 Grid Setting
 
     private Slot[] slots; // 슬롯들 배열
@@ -23,16 +25,18 @@ public class Inventory : MonoBehaviour
 
     public void OpenInventory()
     {
+        if (inventoryActivated) return;
+
         go_InventoryBase.SetActive(true);
+        go_EquipmentBase.SetActive(true);
         inventoryActivated = true;
-        deviceManager.uiPanel.SetActive(false);
     }
 
     public void CloseInventory()
     {
         go_InventoryBase.SetActive(false);
+        go_EquipmentBase.SetActive(false);
         inventoryActivated = false;
-        deviceManager.uiPanel.SetActive(true);
     }
 
     // 아이템을 획득하고 인벤토리 슬롯에 추가하는 함수

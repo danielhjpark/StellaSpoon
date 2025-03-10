@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TreasureChest : MonoBehaviour
 {
@@ -15,8 +16,6 @@ public class TreasureChest : MonoBehaviour
     [SerializeField]
     private GameObject inventorypanel; //인벤토리 UI
 
-    [SerializeField]
-    private GameObject CloseButton; //인벤토리 내 닫기버튼 UI
 
     [SerializeField]
     private GameObject slotsSetting; //슬롯 셋팅
@@ -45,8 +44,13 @@ public class TreasureChest : MonoBehaviour
             Debug.Log("TreasureChest 오브젝트가 할당되지 않음.");
         }
         chestSlots = slotsSetting.GetComponentsInChildren<Slot>();
-    }
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResetChest();
+    }
     private void Update()
     {
         if (!treasuteChestPanel.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
@@ -57,6 +61,11 @@ public class TreasureChest : MonoBehaviour
         {
             CloseChestUI();
         }
+    }
+    private void ResetChest()
+    {
+        isOpenChest = false; // 보물상자 상태 초기화
+        CreateItem(); // 아이템 생성
     }
     private void OpenChestUI() //보물상자 UI출력
     {
@@ -72,7 +81,6 @@ public class TreasureChest : MonoBehaviour
 
         treasuteChestPanel.SetActive(true);
         inventorypanel.SetActive(true);
-        CloseButton.SetActive(false);
 
         Inventory.inventoryActivated = true;
 
@@ -87,7 +95,6 @@ public class TreasureChest : MonoBehaviour
 
         treasuteChestPanel.SetActive(false);
         inventorypanel.SetActive(false);
-        CloseButton.SetActive(true);
 
         Inventory.inventoryActivated = false;
     }

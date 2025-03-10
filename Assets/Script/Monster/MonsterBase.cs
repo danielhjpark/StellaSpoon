@@ -2,85 +2,443 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
+
+public enum MonsterStates //¸ó½ºÅÍ »óÅÂ
+{
+    Idle, //ÀÏ¹İ »óÅÂ
+    Attack, //°ø°İ »óÅÂ
+    Chasing, //¦i±â »óÅÂ
+    RandomMove, //·£´ı ÀÌµ¿ »óÅÂ
+    Death //Á×À½ »óÅÂ
+}
 public abstract class MonsterBase : MonoBehaviour
 {
-    public float detectionRange = 10f; //ê°ì§€ë²”ìœ„
-    public float attackCooldown = 5f; //ê³µê²© ë”œë ˆì´
-    public float dieDelay = 5f; //ì£½ìŒ ë”œë ˆì´
+    [Header("Basic information")]
+    public int maxHealth; //ÃÖ´ë Ã¼·Â
+    public int currentHealth; //ÇöÀç Ã¼·Â
+    public int damage; //°ø°İ·Â
+    protected Vector3 initialPosition; //ÃÖÃÊ À§Ä¡
+    public bool isDead; //Á×À½ Ã¼Å© º¯¼ö
+    protected bool isMove; //¿òÁ÷ÀÓ Ã¼Å© º¯¼ö
+    protected float wanderTimer;
+    protected float idleMoveInterval; //·£´ı ÀÌµ¿ ´ë±â½Ã°£
+    protected float damageDelayTime; //°ø°İ µô·¹ÀÌ ½Ã°£
+    protected float lastAttackTime; //¸¶Áö¸· °ø°İ ½Ã°£
+    protected bool isAttack = false; //°ø°İÁß Ã¼Å© º¯¼ö
 
-    [SerializeField]
-    protected int maxHp = 100;
-    [SerializeField]
-    protected int currentHP; //í˜„ì¬ ì²´ë ¥
+    [Header("Range")]
+    public float attackRange; //°ø°İ ¹üÀ§
+    public float playerDetectionRange; //ÀÎÁö ¹üÀ§
+    public float randomMoveRange; //·£´ı ÀÌµ¿ ¹üÀ§
+    public float damageRange; //ÇÃ·¹ÀÌ¾î °ø°İ ÀÎÁö ¹üÀ§
 
+    [Header("Drop item")]
+    public GameObject[] dropItems; //µå¶ø ¾ÆÀÌÅÛ ¸®½ºÆ®
+    public float[] dropProbability; //¾ÆÀÌÅÛ º° µå¶ø È®·ü
+    public int[] maxDropItems; //¾ÆÀÌÅÛ º° ÃÖ´ë µå¶ø °¹¼ö
+
+    protected MonsterStates currentState;
+    protected NavMeshAgent nav;
+    protected Animator animator;
     protected GameObject player;
-    protected float lastAttackTime;
-
-    protected Animator animator; // Animator ì»´í¬ë„ŒíŠ¸
-    [SerializeField]
+    protected Collider coll;
     protected ThirdPersonController thirdPersonController;
 
     [SerializeField]
-    protected bool collDamage = false;
+    private bool canDamage; //ÇÃ·¹ÀÌ¾î °ø°İ ÀÎÁö ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö Ã¼Å© º¯¼ö
+    private bool isDamage; //µ¥¹ÌÁö¸¦ ÀÔ¾ú´ÂÁö Ã¼Å© º¯¼ö
+    private bool RandomPositionDecide = false; //·£´ı °æ·Î°¡ Á¤ÇØÁ³´ÂÁö Ã¼Å© º¯¼ö
+
+    [SerializeField]
+    private float distanceToPlayer; //ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®
 
     protected void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        currentHP = maxHp;
-
+        player = GameObject.FindGameObjectWithTag("Player");
+        coll = GetComponent<Collider>();
         thirdPersonController = player.GetComponent<ThirdPersonController>();
+
+        initialPosition = transform.position; //ÃÖÃÊ À§Ä¡ ¼±¾ğ
+        currentHealth = maxHealth;
+
+        currentState = MonsterStates.Idle; //½ÃÀÛ½Ã Idle»óÅÂ
+
+        lastAttackTime = -damageDelayTime; //°ø°İ µô·¹ÀÌ ÃÊ±âÈ­
     }
 
-    private void Update()
+    protected void Update()
     {
-        if (player.transform == null)
-            return;
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-        if(distanceToPlayer<= detectionRange)
+        if (!isDead)
         {
-            FacePlayer();
-            if(Time.time >= lastAttackTime + attackCooldown)
+            if (currentHealth <= 0)
             {
-                Attack();
-                lastAttackTime = Time.time;
+                currentState = MonsterStates.Death;
+            }
+            else
+            {
+                distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+                if (!isAttack || !isDamage) //°ø°İÁßÀÌ ¾Æ´Ò¶§
+                {
+
+                    //µ¥¹ÌÁö ÀÎÁö ¹üÀ§¿Í ÀÎÁö¹üÀ§ »çÀÌÀÏ ¶§¸¸ 
+                    if (distanceToPlayer <= damageRange && distanceToPlayer > playerDetectionRange)
+                    {
+                        canDamage = true;
+                    }
+                    else
+                    {
+                        canDamage = false;
+                    }
+
+                    if (distanceToPlayer <= attackRange)
+                    {
+                        currentState = MonsterStates.Attack;
+                    }
+                    else if (distanceToPlayer > attackRange && distanceToPlayer <= playerDetectionRange)
+                    {
+                        currentState = MonsterStates.Chasing;
+                    }
+                    HandleState();
+                }
+                if (!(this is EscapeMonster))
+                {
+                    LookPlayer();
+                }
             }
         }
     }
-
-    protected void FacePlayer()
+    protected void HandleState()
     {
-        Vector3 direction = (player.transform.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    }
-
-    protected abstract void Attack();
-
-    public virtual void Damage(int bulletDamage)
-    {
-        currentHP -= bulletDamage;
-        Debug.Log($"{gameObject.name} ì²´ë ¥: {currentHP}/{maxHp}");
-        //ëª¬ìŠ¤í„° ë„‰ë°±
-        //bulletDamageë¥¼ UIë¡œ ì¶œë ¥
-        if (currentHP <= 0)
+        switch (currentState)
         {
-            Die();
+            case MonsterStates.Idle:
+                HandleIdle();
+                Debug.Log("ÀÏ¹İ »óÅÂ");
+                break;
+
+            case MonsterStates.Attack:
+                Debug.Log("°ø°İ »óÅÂ");
+                HandleAttack();
+                break;
+
+            case MonsterStates.Chasing:
+                Debug.Log("¦i±â »óÅÂ");
+                HandleChasing();
+                break;
+
+            case MonsterStates.RandomMove:
+                Debug.Log("·£´ı ÀÌµ¿ »óÅÂ");
+                HandleRandomMove();
+                break;
+            case MonsterStates.Death:
+                Debug.Log("Á×À½ »óÅÂ");
+                HandleDeath();
+                break;
+
         }
-        
-    }
-    protected virtual void Die()
-    {
-        Debug.Log($"{gameObject.name}ì´(ê°€) ì‚¬ë§í–ˆìŠµë‹ˆë‹¤.");
     }
 
-    protected IEnumerator AttackDelay()
+    protected virtual void HandleIdle()
     {
-        collDamage = true;
-        yield return new WaitForSeconds(3f);
-        collDamage = false;
+        animator.SetBool("Walk", false);
+        if (CanSeePlayer())
+        {
+            currentState = MonsterStates.Chasing;
+        }
+        //¾Æ¹« ¹üÀ§¿¡µµ µé¾î¿ÀÁö ¾Ê¾Ò´Ù¸é ·£´ıÀÌµ¿»óÅÂ ÀüÈ¯
+        else
+        {
+            currentState = MonsterStates.RandomMove;
+        }
+    }
+    protected virtual void HandleAttack()
+    {
+        animator.SetBool("Walk", false);
+        if (!isAttack || Time.time - lastAttackTime >= damageDelayTime)
+        {
+            lastAttackTime = Time.time;
+            isAttack = true;
+            animator.SetBool("Walk", false);
+            animator.SetBool("Attack", true); //Attack ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            //ÇÃ·¹ÀÌ¾î¿¡°Ô µ¥¹ÌÁö ÁÖ±â
+        }
+
+    }
+    protected virtual void HandleChasing()
+    {
+        if (!canDamage && isDamage)
+        {
+            currentState = MonsterStates.Idle;
+            HandleState();
+            return;
+        }
+        animator.SetBool("Walk", true);
+        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 0.8f);
+        if (canDamage && isDamage)
+        {
+            //5ÃÊ µÚ¿¡ idle »óÅÂ·Î º¯È¯
+            StartCoroutine(DamageChasingDelay());
+        }
+        else
+        {
+            if (distanceToPlayer > playerDetectionRange)
+            {
+                currentState = MonsterStates.Idle;
+            }
+        }
+        //ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡ ¹Ş¾Æ¿Í¼­ °æ·Î »ı¼º
+        //Walk ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+    }
+    protected virtual void HandleRandomMove()
+    {
+        wanderTimer += Time.deltaTime; //½Ã°£ Ã¼Å©
+        if (wanderTimer >= idleMoveInterval)
+        {
+            if (!RandomPositionDecide) // ·£´ı °æ·Î°¡ ¼³Á¤µÇÁö ¾Ê¾ÒÀ» ¶§
+            {
+                Debug.Log("·£´ı À§Ä¡ »ı¼º");
+                Vector3 newDestination = GetRandomPoint(initialPosition, randomMoveRange);
+                nav.SetDestination(newDestination);
+                RandomPositionDecide = true;
+                animator.SetBool("Walk", true);
+                wanderTimer = 0; // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+            }
+            else
+            {
+                // »ı¼ºÇÑ À§Ä¡·Î ÀÌµ¿
+                if (!nav.pathPending && nav.remainingDistance <= 0.5f) //µµÂøÁö¿¡¼­ 0.3 ³»¿¡ ÀÖ´ÂÁö
+                {
+                    animator.SetBool("Walk", false);
+                    currentState = MonsterStates.Idle;
+                    RandomPositionDecide = false; // ·£´ı °æ·Î ¼³Á¤ ÇØÁ¦
+                }
+            }
+            //·£´ı À§Ä¡ »ı¼º
+        }
+        //randomMoveRange ¹üÀ§ ³»¿¡¼­ ·£´ıÇÑ À§Ä¡ »ı¼º //ÇÔ¼ö°¡ ½ÇÇàµÉ ¶§ ÇÑ¹ø¸¸ »ı¼º
+        //·£´ıÇÑ À§Ä¡·Î ÀÌµ¿
+
+    }
+    protected virtual void HandleDeath()
+    {
+        animator.SetBool("Walk", false);
+
+        Debug.Log($"{gameObject.name}ÀÌ(°¡) »ç¸ÁÇß½À´Ï´Ù.");
+        currentHealth = 0;
+        //¾Ö´Ï¸ŞÀÌ¼Ç Á×À½ ½ÇÇà
+        animator.SetTrigger("Die");
+        //Ãæµ¹ Á¦°Å
+        coll.enabled = false;
+        //³×ºñ¸Å½¬²ô±â
+        nav.ResetPath();
+        StartCoroutine(DeathDelay());
+        //¾ÆÀÌÅÛ µå¶ø
+        DropItems();
+    }
+
+    //
+    private Vector3 GetRandomPoint(Vector3 center, float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += center;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
+        {
+            return hit.position;
+        }
+        return center;
+    }
+
+    public void Damage(int damage)
+    {
+        //todoµÚ·Î ³Ë¹éÇÏ´Â ÄÚµå ÇÊ¿ä
+        currentHealth -= damage;
+        Debug.Log(damage + " µ¥¹ÌÁö ÀÔÀ½! " + currentHealth + " Ã¼·Â ³²À½");
+        nav.isStopped = true;
+        animator.SetBool("Walk", false);
+        if (currentHealth <= 0)
+        {
+            isDead = true;
+            currentState = MonsterStates.Death;
+            HandleState();
+        }
+        else
+        {
+            if(!isDamage) //Ã¹ ÇÇ°İÀÏ ¶§
+            {
+                isDamage = true;
+                animator.SetBool("Hit", true);
+                currentState = MonsterStates.Idle;
+                HandleState();
+            }
+            else
+            {
+                animator.Play("GetHit", 0, 0f);
+                currentState = MonsterStates.Idle;
+                HandleState();
+            }
+            
+        }
+        if (canDamage)
+        {
+            isDamage = true;
+            //ÇÃ·¹ÀÌ¾î ¦i±â
+            currentState = MonsterStates.Chasing;
+        }
+    }
+
+    protected bool IsHpZero() //Ã¼·ÂÀÌ 0 ÀÌÇÏÀÎÁö °Ë»ç
+    {
+        if (currentHealth <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected bool CanAttack()
+    {
+        if (distanceToPlayer <= attackRange)
+        {
+            Debug.Log("°ø°İ¹üÀ§ µé¾î¿È");
+            return true;
+        }
+        return false;
+    }
+    protected bool CanSeePlayer()
+    {
+        if (distanceToPlayer <= playerDetectionRange)
+        {
+            Debug.Log("ÀÎÁö ¹üÀ§ µé¾î¿È");
+            return true;
+        }
+        return false;
+    }
+    protected bool CanDamage()
+    {
+        if (distanceToPlayer <= damageRange)
+        {
+            Debug.Log("µ¥¹ÌÁö ¹üÀ§ µé¾î¿È");
+            return true;
+        }
+        return false;
+    }
+
+    IEnumerator DeathDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        gameObject.SetActive(false);
+        coll.enabled = true;
+        currentHealth = maxHealth;
+        currentState = MonsterStates.Idle;
+        isDead = false;
+    }
+
+    IEnumerator DamageChasingDelay()
+    {
+        yield return new WaitForSeconds(5f); //todo ÃßÈÄ º¯¼ö·Î º¯°æ ÇÊ¿ä
+        //ÇöÀç ÇÃ·¹ÀÌ¾î°¡ ÀÎÁö ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
+        if (distanceToPlayer < playerDetectionRange)
+        {
+            isDamage = false;
+            currentState = MonsterStates.Chasing;
+            //¦i±â »óÅÂ ÀüÈ¯
+        }
+        else
+        {
+            isDamage = false;
+            currentState = MonsterStates.Idle;
+            //ÀÏ¹İ »óÅÂ ÀüÈ¯
+        }
+
+    }
+    protected virtual void DropItems()
+    {
+        List<GameObject> droppedItems = new List<GameObject>();
+        int k = 0; //¾ÆÀÌÅÛ Á¾·ù Ä«¿îÆ®
+        for (int i = 0; i < dropItems.Length; i++) //µå¶øµÇ´Â ¾ÆÀÌÅÛ Á¾·ù¸¸Å­
+        {
+            for (int j = 0; j < maxDropItems[k]; j++) //¾ÆÀÌÅÛº° ÃÖ´ë µå¶ø °¹¼ö¸¸Å­
+            {
+                float itemPercent = Random.Range(0f, 100f); //¾ÆÀÌÅÛÀÌ ¶³¾îÁö´Â ·£´ı°ª »ı¼º
+                GameObject itemToDrop = null;
+                if (itemPercent <= dropProbability[k]) //ÇöÀç ¾ÆÀÌÅÛ ÆÛ¼¾Æ®³»¿¡ ÃæÁ·µÇ¸é 
+                {
+                    itemToDrop = dropItems[i];
+                }
+                if (itemToDrop != null)
+                {
+                    Vector3 dropPosition = transform.position + new Vector3(0f, 1f, 0f);
+                    GameObject droppedItem = Instantiate(itemToDrop, dropPosition, Quaternion.identity);
+                    droppedItems.Add(droppedItem);
+                    // ÇöÀç µå¶øµÈ ¾ÆÀÌÅÛ°ú ÀÌÀü¿¡ µå¶øµÈ ¾ÆÀÌÅÛµé »çÀÌÀÇ Ãæµ¹ ¹«½Ã
+                    for (int m = 0; m < droppedItems.Count - 1; m++)
+                    {
+                        Physics.IgnoreCollision(droppedItem.GetComponent<Collider>(), droppedItems[m].GetComponent<Collider>());
+                    }
+                }
+            }
+            k++;
+        }
+    }
+
+    public void PlayerDamage()
+    {
+        thirdPersonController.TakeDamage(damage, transform.position); //ÇÃ·¹ÀÌ¾î µ¥¹ÌÁö
+    }
+    public void TurnOffAttack()
+    {
+        animator.SetBool("Attack", false);
+        StartCoroutine(EndAttack());
+    }
+
+    public void TurnOffDamage()
+    {
+        animator.SetBool("Hit", false);
+        nav.isStopped = false;
+        isDamage = false;
+    }
+
+    IEnumerator EndAttack()
+    {
+        yield return new WaitForSeconds(damageDelayTime);
+        Debug.Log("°ø°İ ´ë±â ³¡³²");
+        isAttack = false;
+        currentState = MonsterStates.Idle;
+    }
+
+    private void LookPlayer()
+    {
+        if (distanceToPlayer <= playerDetectionRange)
+        {
+            Vector3 direction = (player.transform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
+        else
+        {
+            // È¸ÀüÀ» ¸ØÃßµµ·Ï ÇöÀç È¸ÀüÀ» À¯ÁöÇÕ´Ï´Ù.
+            transform.rotation = transform.rotation;
+        }
+    }
+
+    // °¨Áö ¹× °ø°İ ¹üÀ§ ½Ã°¢È­
+    protected virtual void OnDrawGizmos()//Ç×»ó º¸ÀÌ°Ô //¼±ÅÃ½Ã º¸ÀÌ°Ô OnDrawGizmosSelected
+    {
+        Gizmos.color = Color.red; //°¨Áö ¹üÀ§
+        Gizmos.DrawWireSphere(transform.position, playerDetectionRange);
+
+        Gizmos.color = Color.blue; // °ø°İ ¹üÀ§
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.green; //¿òÁ÷ÀÓ ¹üÀ§
+        Gizmos.DrawWireSphere(initialPosition, randomMoveRange);
+
+        Gizmos.color = Color.magenta; //ÇÃ·¹ÀÌ¾î °ø°İ ÀÎÁö ¹üÀ§ 
+        Gizmos.DrawWireSphere(transform.position, damageRange);
     }
 }

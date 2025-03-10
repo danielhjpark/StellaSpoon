@@ -3,112 +3,75 @@ using System.Collections.Generic;
 using Unity.XR.OpenVR;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.PlayerSettings;
 
 public class EscapeMonster : MonsterBase
 {
-    [Header("Basic Information")]
-    [SerializeField]
-    protected float attackDamage = 10f;  //공격 데미지
-    [Range(0f, 360f)]
-    [SerializeField]
-    private float viewAngle = 0f; //감지 범위 각도
+    //도망 몬스터는 공격 범위 없고
+    //인지 범위에 들어왔을 때 반대쪽 경로 설정
+    public bool isEscaping = false;
+    private Vector3 escapeTarget; //도망가는 위치
     [SerializeField]
     private float moveSpeed = 3f; //이동 속도
     [SerializeField]
     private float escapeSpeed = 5f; //도망속도
     [SerializeField]
     private float escapeDistance = 10f; //도망가는 거리
-
     [SerializeField]
-    private float wanderRadius = 15f; //랜덤으로 움직이는 범위
-    [SerializeField]
-    private float wanderTime = 3f; //랜덤 이동 주기
-
-    private float wanderTimer;
-
-    private bool isPlayerDetected = false; //플레이어 감지 상태
-
-    private Vector3 initialPosition; //초기 위치 저장
-
-    private Collider escapeMonsterCollider;
-
-    [Header("Layer")]   
+    private float viewAngle = 0f; //감지 범위 각도
+    [Header("Layer")]
     [SerializeField]
     LayerMask targetMask;
     [SerializeField]
     LayerMask obstacleMask;
+    private bool isPlayerDetected = false; //플레이어 감지 상태
 
-    NavMeshAgent agent;
-    private bool isEscaping = false;
-    private Vector3 escapeTarget; //도망가는 위치
-
-    
+    private bool isDie; //죽음 체크 변수
 
     private new void Start()
     {
-        base.Start(); //부모 클래스 초기화
-        agent = GetComponent<NavMeshAgent>();
-        wanderTimer = wanderTime;
+        base.Start();
+        maxHealth = 100;
+        currentHealth = maxHealth;
+        damage = 10;
+        idleMoveInterval = 2f;
+        damageDelayTime = 5f;
 
-        initialPosition = transform.position; //초기 위치 저장
 
-        escapeMonsterCollider = GetComponent<Collider>();
+        isDead = false;
+        isMove = false;
 
-        agent.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
+        attackRange = 0f;
+        playerDetectionRange = 5f;
+        randomMoveRange = 7f;
+        damageRange = 10f;
 
-        agent.speed = moveSpeed; //이동속도 설정
+        nav.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
     }
-    private void Update()
+
+    //도망 몬스터는 쫒는 것이 아닌 도망가는 것으로 수정
+    protected override void HandleChasing()
     {
-        if(!isEscaping)
+        //범위 내에 들어왔을 때 도망 실행
+        if (!isEscaping)
         {
             CheckFieldOfView();
-            if(!isPlayerDetected)
+            if (!isPlayerDetected)
             {
-                HandleRandomMovement();
+                base.HandleRandomMove();
             }
-            
+
         }
         else
         {
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            if (!nav.pathPending && nav.remainingDistance <= nav.stoppingDistance)
             {
                 isEscaping = false; //도망 종료
                 isPlayerDetected = false;
-                agent.speed = moveSpeed; //움직임 속도 초기화
-                agent.ResetPath(); //경로 초기화
+                nav.speed = moveSpeed; //움직임 속도 초기화
+                nav.ResetPath(); //경로 초기화
             }
         }
-    }
-
-    private void HandleRandomMovement()
-    {
-        wanderTimer += Time.deltaTime;
-
-        if (wanderTimer >= wanderTime)
-        {
-            Vector3 newDestination = GetRandomPoint(initialPosition, wanderRadius); // 초기 위치 기준
-            agent.SetDestination(newDestination);
-            wanderTimer = 0f;
-        }
-
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            agent.ResetPath(); // 이동 종료 후 경로 초기화
-        }
-    }
-
-    private Vector3 GetRandomPoint(Vector3 center, float radius)
-    {
-        Vector3 randomDirection = Random.insideUnitSphere * radius;
-        randomDirection += center;
-        randomDirection.y = center.y; // 높이 고정
-
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, radius, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-        return center;
     }
 
     private void CheckFieldOfView()
@@ -117,7 +80,7 @@ public class EscapeMonster : MonsterBase
         Vector3 lookDir = AngleToDir(transform.eulerAngles.y); //몬스터의 현재 방향
 
         //시야 범위 내 타겟 감지
-        Collider[] targets = Physics.OverlapSphere(myPos, detectionRange, targetMask);
+        Collider[] targets = Physics.OverlapSphere(myPos, playerDetectionRange, targetMask);
         if (targets.Length == 0) return;
 
         foreach (Collider target in targets)
@@ -127,7 +90,7 @@ public class EscapeMonster : MonsterBase
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
 
             //타겟이 시야 내에 있고 장애물이 없으면 도망 시작
-            if (targetAngle <= viewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, detectionRange, obstacleMask))
+            if (targetAngle <= viewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, playerDetectionRange, obstacleMask))
             {
                 Debug.DrawLine(myPos, targetPos, Color.red);
 
@@ -136,13 +99,12 @@ public class EscapeMonster : MonsterBase
             }
         }
     }
-
     private void StartEscape(Vector3 targetPosition)
     {
         isEscaping = true;
         isPlayerDetected = true;
 
-        agent.speed = escapeSpeed; //도망속도로 변경
+        nav.speed = escapeSpeed; //도망속도로 변경
 
         //도망가는 방향 설정
         Vector3 myPos = transform.position;
@@ -155,7 +117,7 @@ public class EscapeMonster : MonsterBase
         if (NavMesh.SamplePosition(escapeTarget, out NavMeshHit hit, escapeDistance, NavMesh.AllAreas))
         {
             escapeTarget = hit.position;
-            agent.SetDestination(escapeTarget); //도망 실행
+            nav.SetDestination(escapeTarget); //도망 실행
         }
         else
         {
@@ -169,7 +131,7 @@ public class EscapeMonster : MonsterBase
                 if (NavMesh.SamplePosition(closerEscapeTarget, out hit, reducedDistance, NavMesh.AllAreas))
                 {
                     escapeTarget = hit.position; //유효한 위치로 설정
-                    agent.SetDestination(escapeTarget); //도망 실행
+                    nav.SetDestination(escapeTarget); //도망 실행
                     break;
                 }
             }
@@ -179,71 +141,31 @@ public class EscapeMonster : MonsterBase
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Vector3 myPos = transform.position + Vector3.up * 0.5f;
-        Gizmos.DrawWireSphere(myPos, detectionRange);
-
-        //시야 각도 범위 표시
-        Vector3 rightDir = AngleToDir(transform.eulerAngles.y + viewAngle * 0.5f);
-        Vector3 leftDir = AngleToDir(transform.eulerAngles.y - viewAngle * 0.5f);
-        Vector3 lookDir = AngleToDir(transform.eulerAngles.y);
-
-        Debug.DrawRay(myPos, rightDir * detectionRange, Color.blue);
-        Debug.DrawRay(myPos, leftDir * detectionRange, Color.blue);
-        Debug.DrawRay(myPos, lookDir * detectionRange, Color.cyan);
-
-        Gizmos.color = Color.green; //움직임 범위
-        Gizmos.DrawWireSphere(initialPosition, wanderRadius);
-    }
-
     Vector3 AngleToDir(float angle)
     {
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected override void OnDrawGizmos()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (!collDamage)
-            {
-                Debug.Log("데미지");
-                Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
-                                                               //여기에 플레이어에게 데미지를 입히는 로직 추가
-                thirdPersonController.TakeDamage(attackDamage, attackerPosition);
-                StartCoroutine(AttackDelay());
-            }
-        }
-    }
+        Gizmos.color = Color.red; //감지 범위
+        Vector3 myPos = transform.position + Vector3.up * 0.5f;
+        Gizmos.DrawWireSphere(myPos, playerDetectionRange);
 
-    protected override void Attack() //도망 몬스터는 공격 X
-    {
+        //시야 각도 범위 표시
+        Vector3 rightDir = AngleToDir(transform.eulerAngles.y + viewAngle * 0.5f);
+        Vector3 leftDir = AngleToDir(transform.eulerAngles.y - viewAngle * 0.5f);
+        Vector3 lookDir = AngleToDir(transform.eulerAngles.y);
 
-    }
-    public override void Damage(int bulletDamage)
-    {
-        base.Damage(bulletDamage);
-        if (animator != null)
-        {
-            animator.SetTrigger("Hit");
-        }
-    }
+        Debug.DrawRay(myPos, rightDir * playerDetectionRange, Color.blue);
+        Debug.DrawRay(myPos, leftDir * playerDetectionRange, Color.blue);
+        Debug.DrawRay(myPos, lookDir * playerDetectionRange, Color.cyan);
 
-    protected override void Die()
-    {
-        agent.isStopped = true; //이동 멈춤
-        escapeMonsterCollider.enabled = false; //충돌 제거
-        animator.SetTrigger("Die");
-        StartCoroutine(DieDelays());
-    }
-    IEnumerator DieDelays()
-    {
-        yield return new WaitForSeconds(dieDelay);
+        Gizmos.color = Color.green; //움직임 범위
+        Gizmos.DrawWireSphere(initialPosition, randomMoveRange);
 
-        Destroy(gameObject);
+        Gizmos.color = Color.magenta; //플레이어 공격 인지 범위 
+        Gizmos.DrawWireSphere(transform.position, damageRange);
     }
 }

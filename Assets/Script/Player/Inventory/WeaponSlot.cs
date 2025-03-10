@@ -12,6 +12,7 @@ public class WeaponSlot : Slot
             if (DragSlot.instance.dragSlot.item.itemType == Item.ItemType.Equipment)
             {
                 ChangeSlot(); // 올바른 타입이면 슬롯 교체
+                CheckWeaponRifle(); // 장착한 아이템이 Weapon_02인지 확인
             }
             else
             {
@@ -28,6 +29,28 @@ public class WeaponSlot : Slot
                 );
             }
         }
+    }
+
+    // Weapon_02 장착 여부를 확인하는 메서드
+    private void CheckWeaponRifle()
+    {
+        if (item != null && item.itemName == "WeaponRifle")
+        {
+            InventoryManager.instance.isWeaponRifle = true;
+            Debug.Log("WeaponRifle 장착됨!");
+        }
+        else
+        {
+            InventoryManager.instance.isWeaponRifle = false;
+            Debug.Log("WeaponRifle 장착안됨!");
+        }
+    }
+
+    public override void ClearSlot()
+    {
+        base.ClearSlot();
+        InventoryManager.instance.isWeaponRifle = false;
+        Debug.Log("WeaponRifle 장착 해제");
     }
 }
 

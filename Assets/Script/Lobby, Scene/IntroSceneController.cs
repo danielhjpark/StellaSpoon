@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class IntroSceneController : MonoBehaviour
+{
+
+    [SerializeField]
+    private GameObject lobbyUI;
+
+    public void GameStartEvent()
+    {
+        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.Playground);
+        lobbyUI.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void GameExitEvent()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
+    }
+}
