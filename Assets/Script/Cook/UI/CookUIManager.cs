@@ -5,16 +5,11 @@ using UnityEngine;
 public class CookUIManager : MonoBehaviour
 {
     [SerializeField] RectTransform inventoryPanel;
-     [SerializeField] GameObject RecipeSelectPanel;
-    SelectRecipeUI selectRecipeUI;
-
+    [SerializeField] GameObject RecipeSelectPanel;
     [SerializeField] int panelSpeed;
-
-    bool isVisible = true;
-
+    
     void Awake()
     {
-        selectRecipeUI = GetComponentInChildren<SelectRecipeUI>();
         panelSpeed = 5;
     }
 
@@ -22,7 +17,6 @@ public class CookUIManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        //recipeUIManager.RecipeListSetup();
     }
 
     public IEnumerator HidePanel() {
@@ -36,7 +30,6 @@ public class CookUIManager : MonoBehaviour
             }
             yield return null;
         }
-        isVisible = false;
     }
 
     public IEnumerator VisiblePanel() {
@@ -50,6 +43,5 @@ public class CookUIManager : MonoBehaviour
             }
             yield return null;
         }
-        isVisible = true;
     }
 }

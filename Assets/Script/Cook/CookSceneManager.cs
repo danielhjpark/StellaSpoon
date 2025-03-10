@@ -60,28 +60,26 @@ public class CookSceneManager : MonoBehaviour
 
     public void UnloadScene(string sceneName, Recipe menu)
     {
-        if (isSceneLoaded)
-        {
-            SceneManager.UnloadSceneAsync(sceneName);
-            isSceneLoaded = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            switch(sceneName) {
-                case cuttingSceneName:
-                    Instantiate(menu.menuPrefab, SpawnPoint[3].transform.position, Quaternion.identity);
-                    break;
-                case potSceneName:
-                    Instantiate(menu.menuPrefab, SpawnPoint[0].transform.position, Quaternion.identity);
-                    break;
-                case panSceneName:
-                    Instantiate(menu.menuPrefab, SpawnPoint[1].transform.position, Quaternion.identity);
-                    break;
-                case wokSceneName:
-                    Instantiate(menu.menuPrefab, SpawnPoint[2].transform.position, Quaternion.identity);
-                    break;
-                default:
-                    break;
-            }
+        if (isSceneLoaded) {}
+        SceneManager.UnloadSceneAsync(sceneName);
+        isSceneLoaded = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        switch(sceneName) {
+            case cuttingSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[3].transform.position, Quaternion.identity);
+                break;
+            case potSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[0].transform.position, Quaternion.identity);
+                break;
+            case panSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[1].transform.position, Quaternion.identity);
+                break;
+            case wokSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[2].transform.position, Quaternion.identity);
+                break;
+            default:
+                break;
         }
     }
 

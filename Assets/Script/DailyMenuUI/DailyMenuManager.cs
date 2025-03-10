@@ -4,9 +4,11 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class DailyMenuManager : MonoBehaviour
 {
+    static public DailyMenuManager instance;
     [NonSerialized] static public Dictionary<Recipe, int> dailyMenuList = new Dictionary<Recipe, int>();
 
     //-----------------------UI Object ----------------------//
@@ -15,12 +17,22 @@ public class DailyMenuManager : MonoBehaviour
     [SerializeField] GameObject recipePanel;
     [SerializeField] DetailMenuUI detailMenuUI;
     
-    //----------------------------------------------------//
+    //-------------------------------------------------------//
     [SerializeField] GameObject recipePrefab;
 
+    void Awake (){instance = this;}
+
     void Start(){
-        DailyMenuInit();
+        //DailyMenuInit();
         MakeRecipeList();
+    }
+
+    void Update() {
+        if(this.gameObject.activeSelf) {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
     }
 
     void DailyMenuInit() {
@@ -35,26 +47,39 @@ public class DailyMenuManager : MonoBehaviour
     public void RemoveAmount() {
         detailMenuUI.RemoveAmount();
     }
-    
+
     public void AddMenu() {
         Recipe currentRecipe = detailMenuUI.currentRecipe;
         int currentAmount = detailMenuUI.currentAmount;
         if(RecipeManager.instance.IsCanMakeMenu(currentRecipe)) {
             RecipeManager.instance.UseIngredientFromRecipe(currentRecipe, currentAmount);
             RefrigeratorManager.instance.UseIngredientToInventory(currentRecipe, currentAmount);
-            DailyMenuUpdate(currentRecipe, currentAmount);
+            this.DailyMenuAdd(currentRecipe, currentAmount);
             detailMenuUI.DetailUIClear();
         }     
     }
 
     //--------------Daily Menu Fuc -------------------//
-    void DailyMenuUpdate(Recipe currentRecipe, int currentAmount) {
+    public void DailyMenuRemove(Recipe currentRecipe) {
         if(dailyMenuList.ContainsKey(currentRecipe)) {
-            dailyMenuList[currentRecipe] += 1;
+            if(dailyMenuList[currentRecipe] > 0) {
+                dailyMenuList[currentRecipe] -= 1;
+            }
+            DailyMenuUpdate();
+            return;
+        }
+    }
+
+    void DailyMenuAdd(Recipe currentRecipe, int currentAmount) {
+        DailyMenuUI[] dailyMenuUIs = dailyMenuPanel.GetComponentsInChildren<DailyMenuUI>();
+        DailyMenuUI targetUI = dailyMenuUIs.FirstOrDefault(menu => menu.currentMenu == currentRecipe);
+        
+        if(dailyMenuList.ContainsKey(currentRecipe)) {
+            dailyMenuList[currentRecipe] += 1;   
+            targetUI.AddMenu(currentRecipe, currentAmount);
             return;
         }
         else {
-            DailyMenuUI[] dailyMenuUIs = dailyMenuPanel.GetComponentsInChildren<DailyMenuUI>();
             foreach(DailyMenuUI dailyMenuUI in dailyMenuUIs) {
                 if(dailyMenuUI.IsCanAddMenu()) {
                     dailyMenuList.Add(currentRecipe, currentAmount);
@@ -63,7 +88,13 @@ public class DailyMenuManager : MonoBehaviour
                 }
             }
         }
+
     }
+    
+    void DailyMenuUpdate() {
+
+    }
+
     //---------------MenuList Create -----------------//
 
     void MakeRecipeList() {
@@ -79,4 +110,6 @@ public class DailyMenuManager : MonoBehaviour
     public void DetailUIUpdate(Recipe currentRecipe, int Amount) {
         detailMenuUI.DetailUpdate(currentRecipe, Amount);
     }
+
+
 }

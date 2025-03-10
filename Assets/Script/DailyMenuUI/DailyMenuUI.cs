@@ -21,20 +21,24 @@ public class DailyMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private bool isEnter;
     private bool isCanAddMenu;
-    Recipe currentMenu;
+    public Recipe currentMenu;
     int currentAmount;
 
     void Start()
     {
+        currentAmount = 0;
         isEnter = false;
         isCanAddMenu = true;
     }
 
     public void Update() {
-        CancleMenuCheck();  
         if(currentMenu != null) {
             selectMenuCount.text = DailyMenuManager.dailyMenuList[currentMenu].ToString();
+            currentAmount = DailyMenuManager.dailyMenuList[currentMenu];
         }
+        if(currentAmount <= 0 && currentMenu != null) RemoveMenu();
+        CancleMenuCheck();  
+
     }
 
     public void AddMenu(Recipe recipe, int amount) {
@@ -47,7 +51,16 @@ public class DailyMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         isCanAddMenu = false;
         currentMenu = recipe;
-        currentAmount = amount;
+        currentAmount += amount;
+    }
+
+    public void RemoveMenu() {
+        addMenu.SetActive(true);
+        selectMenu.SetActive(false);
+        DailyMenuManager.dailyMenuList.Remove(currentMenu);
+        currentMenu = null;
+        isCanAddMenu = true;
+        currentAmount = 0;
     }
 
     void CancleMenu() {
@@ -59,6 +72,7 @@ public class DailyMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         DailyMenuManager.dailyMenuList.Remove(currentMenu);
         currentMenu = null;
         isCanAddMenu = true;
+        currentAmount = 0;
     }
     
     // Update is called once per frame
@@ -85,6 +99,8 @@ public class DailyMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public bool IsCanAddMenu() {
         return isCanAddMenu;
     }
+
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {

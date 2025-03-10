@@ -21,8 +21,12 @@ public class OrderManager : MonoBehaviour
         instance = this;
     }
 
-    public void OpenRestaurant() {
+    public void UpdateMenu() {
         menuStack = CreateRandomStack(DailyMenuManager.dailyMenuList);
+    }
+
+    public void OpenRestaurant() {
+        UpdateMenu();
         StartCoroutine(StartRestaurant());
     }
 
@@ -32,6 +36,7 @@ public class OrderManager : MonoBehaviour
 
     IEnumerator StartRestaurant() {
         yield return new WaitForSeconds(startInterval);
+        WaitForSeconds npcDelayTime = new WaitForSeconds(5f);
         while(true) {
             if(npcManager.IsCanFindSeat() && menuStack.Count > 0)  {
                 if(menuStack.TryPop(out Recipe recipe)) {
@@ -41,10 +46,14 @@ public class OrderManager : MonoBehaviour
                 }
                 else {
                     Debug.Log("Empty Menu");
-                    yield return new WaitForSeconds(5f);
+                    //UpdateMenu();
+                    yield return npcDelayTime;
                 }    
             }
-            else yield return new WaitForSeconds(5f);
+            else {
+                //UpdateMenu();
+                yield return npcDelayTime;
+            }
             if(!CheckSpawnNpc()) break;
         }
     }
@@ -80,7 +89,4 @@ public class OrderManager : MonoBehaviour
         return tempMenuStack;
     }
 
-    public void ReturnMenu(Recipe getMenu) {
-        menuStack.Push(getMenu);
-    }
 }

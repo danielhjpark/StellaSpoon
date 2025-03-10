@@ -14,11 +14,13 @@ public class ThermometerSystem : MonoBehaviour
     const int FixedWidth = 50;
     float power = 1;
     int[] sections = new int[3];
+
     void Start()
     {
         SetSections();
         StartCoroutine(MoveMark(roastCount));
     }
+
     void SetSections() {
         roastSection[0].sizeDelta = new Vector2(FixedWidth, 300);
         roastSection[1].sizeDelta = new Vector2(FixedWidth, 150);
@@ -27,11 +29,6 @@ public class ThermometerSystem : MonoBehaviour
         sections = new int[3]{300, 150, 300};
     }
     
-    void Update()
-    {
-        
-    }
-
     IEnumerator MoveMark(int count) {
         float startPos = 0;
         float endPos = 750;
@@ -54,10 +51,6 @@ public class ThermometerSystem : MonoBehaviour
         }
         yield return new WaitForSeconds(0.5f);
         if(count > 0) StartCoroutine(MoveMark(count));
-    }
-
-    void RotateIngredient() {
-        
     }
 
     void CheckSection(float markPos) {

@@ -13,21 +13,31 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Item[] items;
 
-    [SerializeField] IngredientSlot[] ingredientSlot;
-    [SerializeField] Ingredient[] ingredients;
-
-    [SerializeField] bool developMode;
     [SerializeField] Recipe[] recipes;
     void Start() {
         InventoryUI();
-        DailyMenuAdd();
+        InventoryUI();
+        //DailyMenuAdd();
     }
-
     void Update()
     {
         OpenUI();
         if(Input.GetKeyDown(KeyCode.T)) {
             OrderManager.instance.OpenRestaurant();
+        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            DailyMenuUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Inventory.inventoryActivated = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            DailyMenuUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Inventory.inventoryActivated = false;
         }
     }
 

@@ -5,12 +5,18 @@ using UnityEngine;
 public class RecipeDataEditor : Editor
 {
     SerializedProperty cookTypeProp;
-    SerializedProperty boilTypeProp;
+    SerializedProperty BoilingSettingProp;
+    SerializedProperty TossingSettingProp;
+    SerializedProperty CuttingSettingProp;
+    SerializedProperty FryingSettingProp;
 
     private void OnEnable()
     {
-        cookTypeProp = serializedObject.FindProperty("recipeCookType");
-        boilTypeProp = serializedObject.FindProperty("boilingType");
+        cookTypeProp = serializedObject.FindProperty("cookType");
+        BoilingSettingProp = serializedObject.FindProperty("boilingSetting");
+        TossingSettingProp = serializedObject.FindProperty("tossingSetting");
+        CuttingSettingProp = serializedObject.FindProperty("cuttingSetting");
+        FryingSettingProp = serializedObject.FindProperty("fryingSetting");
     }
 
     public override void OnInspectorGUI()
@@ -18,20 +24,34 @@ public class RecipeDataEditor : Editor
         serializedObject.Update();
         EditorGUI.BeginChangeCheck();
         SerializedProperty iterator = serializedObject.GetIterator();
-        iterator.NextVisible(true); // 첫 번째 필드로 이동
+        iterator.NextVisible(true); 
 
-        while (iterator.NextVisible(false)) // 나머지 필드 순회
+        while (iterator.NextVisible(false)) 
         {
-            // boilType은 기본 UI에서 그리지 않음
-            if (iterator.name != "boilingType")
+            if (iterator.name != "boilingSetting" && iterator.name != "tossingSetting"
+            && iterator.name != "cuttingSetting" && iterator.name != "fryingSetting")
             {
                 EditorGUILayout.PropertyField(iterator, true);
             }
+
         }
+
         // 선택한 타입에 따라 다른 Enum을 표시
-        if ((CookType)cookTypeProp.enumValueIndex == CookType.Boiling)
-        {
-            EditorGUILayout.PropertyField(boilTypeProp);
+        switch((CookType)cookTypeProp.enumValueIndex) {
+            case CookType.Boiling:
+                EditorGUILayout.PropertyField(BoilingSettingProp);
+                break;
+            case CookType.Cutting:
+                EditorGUILayout.PropertyField(CuttingSettingProp);
+                break;
+            case CookType.Tossing:
+                EditorGUILayout.PropertyField(TossingSettingProp);
+                break;
+            case CookType.Frying:
+                EditorGUILayout.PropertyField(FryingSettingProp);
+                break;
+            default:
+                break;
         }
 
         if (EditorGUI.EndChangeCheck())

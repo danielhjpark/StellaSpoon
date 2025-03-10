@@ -8,11 +8,16 @@ using System;
 public class Recipe : ScriptableObject {
     public string menuName;
     public Sprite menuImage;
+    public int menuPrice;
     public List<IngredientAmount> ingredients;
     public GameObject menuPrefab;
-    public CookType recipeCookType;
-    public BoilingType boilingType;
-    //public WokAmount wokAmount;
+
+    public CookType cookType;
+    public BoilingSetting boilingSetting;
+    public TossingSetting tossingSetting;
+    public CuttingSetting cuttingSetting;
+    public FryingSetting fryingSetting;
+
 }
 
 public enum CookType {
@@ -23,15 +28,32 @@ public enum CookType {
     Boiling
 }
 
-public enum BoilingType {
+[System.Serializable]
+public class BoilingSetting {
+    public BoilType boilType;
+}
+
+public enum BoilType {
     Boil,
     Steam,
 }
 
 [System.Serializable]
-public class WokAmount  
-{
+public class TossingSetting {
+    public int tossingCount;
+    public int successRange;
+}
 
+[System.Serializable]
+public class FryingSetting {
+    public int fryingCount;
+    public int successRange;
+}
+
+[System.Serializable]
+public class CuttingSetting {
+    public int cuttingCount;
+    public int successRange;
 }
 
 [System.Serializable]

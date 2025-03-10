@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectRecipeUI : MonoBehaviour
 {
-    [SerializeField] RectTransform recipePanel;
+    //[SerializeField] RectTransform recipePanel;
     [SerializeField] GameObject recipeParent;
     [SerializeField] GameObject recipePrefab;
     [SerializeField] IngredientInventory ingredientInventory;
@@ -13,6 +13,7 @@ public class SelectRecipeUI : MonoBehaviour
 
     void Start() {
         RecipeListSetup();
+        ingredientInventory.gameObject.SetActive(false);
     }
 
     public void RecipeListInit() {
@@ -24,7 +25,7 @@ public class SelectRecipeUI : MonoBehaviour
         ingredientInventory.IngredientSlotClear();
     }
 
-    public void RecipeUIHide() {
+    public void RecipeUpdate() {
         this.gameObject.SetActive(false);
     }
 
@@ -33,13 +34,14 @@ public class SelectRecipeUI : MonoBehaviour
         int recipeCount = DailyMenuManager.dailyMenuList.Count;
         if(recipeCount <= 0) return;
         foreach (Recipe recipe in DailyMenuManager.dailyMenuList.Keys) {
-            if(recipe.recipeCookType != CookManager.instance.currentCookType) continue;
+            if(recipe.cookType != CookManager.instance.currentCookType) continue;
+            else if(DailyMenuManager.dailyMenuList[recipe] <= 0) continue;
             GameObject recipeObject = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             recipeObject.transform.SetParent(recipeParent.transform);
 
             SelectRecipeSlot selectRecipe = recipeObject.GetComponent<SelectRecipeSlot>();
             selectRecipe.RecipeUISetup(recipe, ingredientInventory);
-            selectRecipe.OnSelectRecipe += RecipeUIHide;
+            selectRecipe.OnSelectRecipe += RecipeUpdate;
         }
     }
 

@@ -50,8 +50,8 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
     }
 
     public void ObjectDrop() {
-        DropCheck();
         if(Input.GetMouseButtonUp(0)) {
+            DropCheck();
             if(isCanDrop) {
                 isControll = false;
                 isCanDrop = false;
@@ -93,7 +93,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
         else return;
 
         controllObject = Instantiate(ingredientObject, Input.mousePosition, ingredientObject.transform.rotation);
-        controllObject.transform.SetParent(CookManager.instance.spawnPoint);
+        controllObject.transform.SetParent(CookManager.instance.spawnPoint, false);
         StartCoroutine(cookInventoryManager.HidePanel());
         isControll = true;
     }

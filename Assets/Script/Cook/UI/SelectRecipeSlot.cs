@@ -26,11 +26,18 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if(Input.GetMouseButtonDown(0)) {
             if(isEnter) {
+                ingredientInventory.gameObject.SetActive(true);
                 ingredientInventory.IngredientSlotClear();
                 ingredientInventory.IngredientAdd(currentRecipe);
                 CookManager.instance.SelectRecipe(currentRecipe);
+                
+                //Hide Panel
                 this.transform.parent.gameObject.SetActive(false);
                 OnSelectRecipe?.Invoke();
+
+                //DailyMenu Count decrease
+                DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
+                OrderManager.instance.UpdateMenu();
             }
         }
     }

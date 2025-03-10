@@ -9,18 +9,16 @@ using UnityEngine.SceneManagement;
 public class CookManager : MonoBehaviour
 {
     static public CookManager instance;
-    //------------------- Cook Managers Setting--------------------//
+    //---------------- Cook Managers Setting--------------------//
     private CuttingManager cuttingManager;
     private WokManager wokManager;
     private FryingPanManager fryingPanManager;
     private PotManager potManager;
-
+    //--------------- Shared Variable ---------------------//
     [NonSerialized] public CookType currentCookType;
     [NonSerialized] public Transform spawnPoint;
     [NonSerialized] public Recipe currentMenu;
-
-    /////////////////////
-    [NonSerialized] public string currentSceneName;
+    [SerializeField] public Recipe failMenu;
 
     [SerializeField] Transform playerTransfom;
     [SerializeField] LayerMask utensilLayer;
@@ -39,6 +37,27 @@ public class CookManager : MonoBehaviour
     void Update() {
         CheckLayer();        
     }
+    
+    public void BindingManager<T>(T manager) where T : CookManagerBase
+    {
+        spawnPoint = GameObject.FindWithTag("SpawnPoint")?.transform;
+        if (manager is CuttingManager) {
+            cuttingManager = manager as CuttingManager;
+            currentCookType = CookType.Cutting;
+        }
+        else if (manager is WokManager) {
+            wokManager = manager as WokManager;
+            currentCookType = CookType.Tossing;
+        }
+        else if (manager is FryingPanManager) {
+            fryingPanManager = manager as FryingPanManager;
+            currentCookType = CookType.Frying;
+        }
+        else if (manager is PotManager) {
+            potManager = manager as PotManager;
+            currentCookType = CookType.Boiling;
+        }
+    }
 
     public void InteractOtherObject(string objName) {
         CookSceneManager.instance.LoadScene(objName); 
@@ -48,7 +67,7 @@ public class CookManager : MonoBehaviour
         if(CookSceneManager.instance.IsSceneLoaded(potSceneName)) {
             if(potManager.CheckCookCompleted()) {
                 //PutDownMenu();
-                serveController.PickUpMenu(currentMenu);
+                //serveController.PickUpMenu(currentMenu);
             }
             else {
                 potManager.OpenSceneView();
@@ -83,7 +102,7 @@ public class CookManager : MonoBehaviour
             ChangeActionText("Menu");
             ShowActionText(hitInfo.transform.name);
             if(Input.GetKeyDown(KeyCode.F)) {
-                serveController.PickUpMenu(hitInfo.transform.GetComponent<MenuData>().menu);
+                serveController.PickUpMenu(hitInfo.transform.gameObject);
                 Destroy(hitInfo.transform.gameObject);
             }
             
@@ -159,40 +178,20 @@ public class CookManager : MonoBehaviour
         }
     }
 
-    public void BindingManager<T>(T manager) where T : MonoBehaviour
-    {
-        spawnPoint = GameObject.FindWithTag("SpawnPoint")?.transform;
-        if (manager is CuttingManager) {
-            cuttingManager = manager as CuttingManager;
-            currentCookType = CookType.Cutting;
-        }
-        else if (manager is WokManager) {
-            wokManager = manager as WokManager;
-            currentCookType = CookType.Tossing;
-        }
-        else if (manager is FryingPanManager) {
-            fryingPanManager = manager as FryingPanManager;
-            currentCookType = CookType.Frying;
-        }
-        else if (manager is PotManager) {
-            potManager = manager as PotManager;
-            currentCookType = CookType.Boiling;
-        }
-    }
 
     public void DropObject(GameObject ingredientObject, Ingredient ingredient) {
         switch(ingredient.ingredientCookType) {
             case IngredientCookType.Cutting:
-                cuttingManager.LocateIngredient(ingredientObject);
+                cuttingManager.AddIngredient(ingredientObject, ingredient);
                 break;
             case IngredientCookType.Frying:
-                fryingPanManager.LocateIngredient(ingredientObject);
+                fryingPanManager.AddIngredient(ingredientObject, ingredient);
                 break;
             case IngredientCookType.Tossing:
-                wokManager.LocateIngredient(ingredientObject, ingredient);
+                wokManager.AddIngredient(ingredientObject, ingredient);
                 break;
             case IngredientCookType.Boiling:
-                potManager.LocateIngredient(ingredientObject, ingredient);
+                potManager.AddIngredient(ingredientObject, ingredient);
                 break;
 
         }        

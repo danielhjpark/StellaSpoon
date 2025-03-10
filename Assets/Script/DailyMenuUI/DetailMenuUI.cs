@@ -21,22 +21,22 @@ public class DetailMenuUI : MonoBehaviour
     
     void Update()
     {
-        if(currentRecipe != null) {
-            IngredientsUpdate(currentAmount);
-        }
+         if(currentRecipe != null) {
+             IngredientsUpdate(currentAmount);
+         }
     }
 
-//--------------Button-------------------------//
+    //-----------------Button-------------------------//
 
     public void AddAmount() {
-        int checkAmount = currentAmount += 1;
+        int checkAmount = currentAmount + 1;
         if(RecipeManager.instance.IsCanMakeMenu(currentRecipe, checkAmount)) {
             DetailUpdate(currentRecipe, checkAmount);
         }
     }
 
     public void RemoveAmount() {
-        int checkAmount = currentAmount-= 1;
+        int checkAmount = currentAmount - 1;
         if(checkAmount < 1) { return;}
 
         if(RecipeManager.instance.IsCanMakeMenu(currentRecipe, checkAmount)) {
@@ -44,7 +44,7 @@ public class DetailMenuUI : MonoBehaviour
         }
     }
 
-    ///-------------------------------------------//
+    //-------------------------------------------//
     public void DetailUpdate(Recipe recipe, int Amount) {
         currentRecipe = recipe;
         currentAmount = Amount;

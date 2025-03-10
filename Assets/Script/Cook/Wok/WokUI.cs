@@ -6,19 +6,25 @@ using System;
 
 public class WokUI : MonoBehaviour
 {
+    [Header("Section UI Objects")]
     [SerializeField] RectTransform sectionMark;
     [SerializeField] RectTransform[] roastSection;
-    [SerializeField] int roastCount;
     [SerializeField] Slider powerSlider;
+    [SerializeField] int roastCount;
+
+    [Header("UI Objects")]
     [SerializeField] GameObject wokUIObject;
     [SerializeField] GameObject ingredientUIObejct;
-    const int FullLength = 750;
-    const int FixedWidth = 50;
-    float power = 1;
-    int[] sections = new int[3];
+
     public event Action<bool> OnWokSystem;
+
+    //--------------------------------------------------------//
+    private const int FullLength = 750, FixedWidth = 50;
+    private int[] sections = new int[3];
+    private bool isEnd;
+    private float power = 1;
     private float currentPos;
-    bool isEnd;
+
 
     void Start()
     {
@@ -59,10 +65,6 @@ public class WokUI : MonoBehaviour
             }
             yield return null;
         }
-    }
-
-    void RotateIngredient() {
-        
     }
 
     public bool IsCheckEnd() {

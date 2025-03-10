@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class FryingPanManager : MonoBehaviour
+public class FryingPanManager : CookManagerBase
 {
-    [SerializeField] FryingPanUI fryingPanUI;
+    [Header("TimeLine")]
     [SerializeField] PlayableDirector timeline;
-    
+
+    [Header("UI Object")]
+    [SerializeField] FryingPanUI fryingPanUI;
 
     [Header("Set Objects")]
-    public GameObject tongs;
-    public Transform dropPos;
-    public GameObject ingredientParent;
-
+    [SerializeField] private GameObject tongs;
+    [SerializeField] private Transform dropPos;
+    [SerializeField] private GameObject ingredientParent;
+   
+    //---------------------------------------//
     private GameObject currentIngredient;
     private bool isHalf;
     public int fryingCount = 3;
-    private Recipe currentMenu;
 
     void Awake() {
         CookManager.instance.BindingManager(this);
@@ -27,17 +29,36 @@ public class FryingPanManager : MonoBehaviour
         tongs.SetActive(false);
     }
 
-
-    public void SelectRecipe(Recipe menu) {
-        currentMenu = menu;
+    void Update() {
+        //Before Select UI => Can cancel use utensil
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            if(currentMenu == null)
+                CookSceneManager.instance.UnloadScene();
+        }
     }
 
-    public void LocateIngredient(GameObject obj) {
+    //--------------- virtual Method ----------------------//
+    public override void SelectRecipe(Recipe menu)
+    {
+        base.SelectRecipe(menu);
+        //fryingCount = menu.fryingSetting.fryingCount; fix
+    }
+
+    public override void CookCompleteCheck() {
+        if(fryingCount > 0) StartCoroutine(StartFryingIngredient());
+        else {
+            CookSceneManager.instance.UnloadScene("FryingPanMergeTest", currentMenu);
+        }
+    }
+
+    public override void AddIngredient(GameObject obj, Ingredient ingredient) {
         currentIngredient = obj;
         obj.transform.position = dropPos.position;
         obj.transform.SetParent(ingredientParent.transform);
         StartCoroutine(DropIngredient());      
     }
+    //-----------------------------------------------------------//
+
 
     IEnumerator DropIngredient() {
         fryingPanUI.OnFryingPanUI();
@@ -80,10 +101,8 @@ public class FryingPanManager : MonoBehaviour
         fryingPanUI.GetCurrentSection();
         yield return new WaitForSeconds(0.5f);
         fryingCount--;
-        if(fryingCount > 0) StartCoroutine(StartFryingIngredient());
-        else {
-            CookSceneManager.instance.UnloadScene("FryingPanMergeTest", currentMenu);
-        }
+
+        CookCompleteCheck();
     }
 
     void SetActiveTongs() {
@@ -99,7 +118,4 @@ public class FryingPanManager : MonoBehaviour
         }
     }
 
-    void EndScene() {
-        
-    }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingManager : MonoBehaviour
+public class CuttingManager : CookManagerBase
 {
     public enum CuttingMode {
         Horizontal,
@@ -10,9 +10,9 @@ public class CuttingManager : MonoBehaviour
         Cube
     }
 
-    CuttingObjectSystem cuttingObjectSystem;
-    CuttingLineSystem cuttingLine;
-    CuttingBoard cuttingBoard;
+    private CuttingObjectSystem cuttingObjectSystem;
+    private CuttingLineSystem cuttingLine;
+    private CuttingBoard cuttingBoard;
     [SerializeField] CookUIManager cookUIManager;
 
     [Header("Objects Setting ")]
@@ -32,14 +32,12 @@ public class CuttingManager : MonoBehaviour
     public int horizontalCount; // 원하는 분할 개수
     public int verticalCount;
     
-
     [Header("Motion Speed Setting")]
     [SerializeField] float knifeSpeed;
     [SerializeField] float rotateSpeed;
     
     bool isCutting = false;
     GameObject targetObject;
-    private Recipe currentMenu;
 
     void Awake() {
         CookManager.instance.BindingManager(this);
@@ -55,11 +53,24 @@ public class CuttingManager : MonoBehaviour
         cuttingLine.OnCuttingSystem += AlreadyCuttingObject;
     }
 
-    
-    public void SelectRecipe(Recipe menu) {
-        currentMenu = menu;
+    void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            CookSceneManager.instance.UnloadScene();
+        }
     }
-    
+    /// --------------Virtual Method --------------------------//
+    public override void CookCompleteCheck() {
+
+    }
+    public override void AddIngredient(GameObject obj, Ingredient ingredient) {
+        targetObject = obj;
+        obj.GetComponent<Rigidbody>().useGravity = true;
+        obj.GetComponent<MeshCollider>().enabled = true;
+        obj.transform.position = dropPos.position;
+    }
+
+    //------------------------------------------------------//
+
     IEnumerator CuttingHorizontal() {
         CuttingSetup();
         CreateCuttingLine(horizontalCount);
@@ -212,12 +223,6 @@ public class CuttingManager : MonoBehaviour
     }
 
 
-    public void LocateIngredient(GameObject obj) {
-        targetObject = obj;
-        obj.GetComponent<Rigidbody>().useGravity = true;
-        obj.GetComponent<MeshCollider>().enabled = true;
-        obj.transform.position = dropPos.position;
-    }
 
     private void AddPhysics(GameObject obj, Vector3 dir){
         if(!obj.TryGetComponent<Rigidbody>(out Rigidbody objRb) ) {

@@ -4,34 +4,46 @@ using Cinemachine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
-public class PotSystem : MonoBehaviour
+public class PotViewportSystem : MonoBehaviour
 {
+    //---------------lid Controll TimeLine-------------------------//
     [SerializeField] PlayableDirector lidTimeline;
+
+    //------------- Viewport Change Cinemachine -------------------//
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     [SerializeField] CinemachineSmoothPath basicPath;
     [SerializeField] CinemachineSmoothPath buttonPath;
     [SerializeField] Transform basicViewTarget;
     [SerializeField] Transform buttonViewTarget;
     private CinemachineTrackedDolly dolly;
+
+    //------------Button In Game View Objects----------------//
+    [SerializeField] GameObject buttonViewObject;
+    [SerializeField] GameObject buttonUIObject;
+
+    //------------ Off UISystem for change viewport ----------//
+    [SerializeField] CanvasGroup ingredientInventoryPanel;
+
+
     private bool movingForward = true;
-    public float speed = 2f;
     private bool isRewinding = false;
-    private float rewindSpeed = 1f; 
+    private bool isForward = true;
+    private float viewportSpeed = 2f; 
 
-   private bool isForward = true;
-
-    // Start is called before the first frame update
     void Start()
     {
         dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         dolly.m_PathPosition = 0;
+
+        ingredientInventoryPanel.interactable = false;   // 버튼 등 이벤트 차단
+        ingredientInventoryPanel.blocksRaycasts = false;
     }
 
     void Update()
     {
         if (isRewinding)
         {
-            lidTimeline.time -= Time.deltaTime * rewindSpeed; // time 값을 직접 감소
+            lidTimeline.time -= Time.deltaTime * viewportSpeed; // time 값을 직접 감소
             if (lidTimeline.time <= 0)
             {
                 lidTimeline.time = 0;
@@ -39,12 +51,7 @@ public class PotSystem : MonoBehaviour
             }
             lidTimeline.Evaluate(); // 즉시 적용
         }
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            ViewControll();
-        }
-
     }
-
 
     //Button Path
     public void SwitchTrack()
@@ -62,15 +69,6 @@ public class PotSystem : MonoBehaviour
             virtualCamera.LookAt = buttonViewTarget;
             dolly.m_Path = buttonPath;
             //dolly.m_PathPosition = buttonPath.PathLength - currentPos; // 정방향 -> 역방향 전환 시 보정
-        }
-    }
-
-    private void ViewControll() {
-        if(movingForward) {
-            StartCoroutine(TopView());
-        }
-        else {
-            StartCoroutine(FrontView());
         }
     }
 
@@ -104,27 +102,32 @@ public class PotSystem : MonoBehaviour
         PlayBackward();
         SwitchTrack();
         while(!movingForward) {
-            dolly.m_PathPosition -= speed * Time.deltaTime;
+            dolly.m_PathPosition -= viewportSpeed * Time.deltaTime;
             if (dolly.m_PathPosition <= 0) // 최소 WayPoint 도달
                 movingForward = true;
             yield return null;
         }
+        yield return new WaitForSeconds(0.8f);
+        buttonViewObject.SetActive(false);
+        buttonUIObject.SetActive(true);
     }
 
     public IEnumerator TopView() {
         PlayForward();
         while(movingForward) {
-            dolly.m_PathPosition += speed * Time.deltaTime;
+            dolly.m_PathPosition += viewportSpeed * Time.deltaTime;
             if (dolly.m_PathPosition >= 2) // 최대 WayPoint 도달
                 movingForward = false;
             yield return null;
         }
+        ingredientInventoryPanel.interactable = true; 
+        ingredientInventoryPanel.blocksRaycasts = true;
     }
 
     IEnumerator FrontView() {
         PlayBackward();
         while(!movingForward) {
-            dolly.m_PathPosition -= speed * Time.deltaTime;
+            dolly.m_PathPosition -= viewportSpeed * Time.deltaTime;
             if (dolly.m_PathPosition <= 0) // 최소 WayPoint 도달
                 movingForward = true;
             yield return null;

@@ -4,27 +4,29 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using TMPro;
 
 public class NpcManager : MonoBehaviour
 {
-    //--------------------Manager-------------------//
     public static NpcManager instance;
-    public GameObject npcPrefab;
+    public int totalGold;
+    [SerializeField] TextMeshProUGUI totalGoldText;
+
+    //----------------Seat variable ---------------------//
     public Transform[] sitpositions = new Transform[4]; //의자 좌표
     private bool[] sitOccupied = new bool[24]; //의자 상태 표시
 
-    private float stayDuration = 60f; //NPC가 주문 기다리는 시간
-    private float orderDelay = 10f; //NPC 오더 딜레이
-    private float npcWaitTime = 40f; //NPC 주문시 이점 시간
-
+    //---------------SpawnNpc Setting----------------------//
+    public GameObject npcPrefab;
     private Vector3 npcSpawnpoint = new Vector3(10f, 1f, 0f);
-    private int foodAmount = 0; //**음식 가격 일단은 하나로 해놓았음 추후 음식에 따라 가격 변동 필요함.**
-    private int foodPlusAmount = 0; //**음식 추가금 이것또한 변동 필요함.**
 
-    private int tempfame = 0; //추가되는 인지도
 
     private void Awake() {
         instance = this;
+    }
+    
+    private void Update() {
+        totalGoldText.text = totalGold.ToString();
     }
 
     public void SpwanNPCs(Recipe recipe)
@@ -44,6 +46,7 @@ public class NpcManager : MonoBehaviour
             Destroy(npc);
             yield break;
         }
+
         Transform targetPosition = sitpositions[seatIndex];
         sitOccupied[seatIndex] = true; // 좌석을 점유 상태로 변경
         npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
@@ -70,16 +73,6 @@ public class NpcManager : MonoBehaviour
         yield return new WaitForSeconds(2f);// 기다린 후 주문
 
         npc.GetComponent<NPCBehavior>().OrderMenu(menu);
-        // UI 생성 및 업데이트
-
-
-        // if (waitTime < npcWaitTime)//주문시간이 기다리는시간 이전에 나왔는지 체크
-        // {
-        //     Debug.Log("빨리나옴");
-        //     foodPlusAmount = (int)(foodAmount * 0.3f); //추가금 30%
-        //     tempfame += 4; //인지도 +4
-        // }
-        // yield return new WaitForSeconds(10f);
 
     }
 
@@ -132,24 +125,6 @@ public class NpcManager : MonoBehaviour
         }
     }
     
-    private IEnumerator Exit(GameObject npc, Vector3 nowPosition, NavMeshAgent nav, int seatIndex)
-    {
-        //npc.transform.position = nowPosition;
-        nav.enabled = true; // 이동 재개
-        nav.SetDestination(npcSpawnpoint);
-        Debug.Log("Exit");
-        while (nav.pathPending || nav.remainingDistance > 1)
-        {
-            yield return null;
-        }
-
-        sitOccupied[seatIndex] = false; // 좌석을 비움
-        //음식 가격 추가
-        //인지도 추가
-        // 음식 제거
-        Destroy(npc); // NPC 제거
-    }
-
 
     private Vector3 GetTablePositionInFront(Vector3 npcPosition, Quaternion npcRotation)
     {
@@ -164,6 +139,7 @@ public class NpcManager : MonoBehaviour
 
         return tablePosition;
     }
+
 
     public bool IsCanFindSeat() {
         for (int i = 0; i < sitOccupied.Length; i++)
@@ -188,9 +164,11 @@ public class NpcManager : MonoBehaviour
         }
         return -1;
     }
+
     public void SeatEmpty(int seatIndex) {
         sitOccupied[seatIndex] = false;
     }
+
     int[] ShuffleArray(int[] array) //랜덤한 자리 선정
     {
         for (int i = array.Length - 1; i > 0; i--)

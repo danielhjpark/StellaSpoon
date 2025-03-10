@@ -14,7 +14,6 @@ public class ReturnSceneButton : MonoBehaviour
         {
             button = GetComponent<Button>();
             button.onClick.RemoveAllListeners();
-            //button.onClick.AddListener(UnloadScene);
             button.onClick.AddListener(CookSceneManager.instance.UnloadScene);
             int eventCount = button.onClick.GetPersistentEventCount();
 
@@ -22,12 +21,6 @@ public class ReturnSceneButton : MonoBehaviour
         else {
             Debug.Log("Error");
         }
-    }
-
-    //TEMP FUNC
-    void UnloadScene()
-    {
-        SceneManager.UnloadSceneAsync(CookSceneManager.instance.currentSceneName);
     }
 
 }

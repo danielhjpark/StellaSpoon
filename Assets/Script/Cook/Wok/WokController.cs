@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class WokController : MonoBehaviour
 {
+    [Header("Wok Objects Setting")]
     [SerializeField] GameObject wokObject;
     [SerializeField] GameObject wokObjectCenter;
     [SerializeField] GameObject spawnPoint;
     [SerializeField] GameObject[] spawnPrefabs;
-    Quaternion initRotation;
-    Vector3 initPosition;
-    bool isTossing = false;
+
+    private Quaternion initRotation;
+    private Vector3 initPosition;
+    private bool isTossing = false;
 
     void Start()
     {
