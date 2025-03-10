@@ -8,6 +8,8 @@ public class RifleManager : MonoBehaviour
 {
     public static RifleManager instance;
 
+    private GunRecoil recoilScript;
+
     [Header("Bullet")]
     [SerializeField]
     private Transform bulletPoint;
@@ -46,6 +48,8 @@ public class RifleManager : MonoBehaviour
         currentShootDelay = 0;
 
         InitBullet();
+
+        recoilScript = GetComponent<GunRecoil>();
     }
 
     // Update is called once per frame
@@ -80,6 +84,8 @@ public class RifleManager : MonoBehaviour
         {
             bullet.SetDamage(attackDamage); // RifleManager의 공격력 전달
         }
+        // 반동 적용
+        recoilScript.ApplyRecoil();
     }
 
     public void ReloadClip()
