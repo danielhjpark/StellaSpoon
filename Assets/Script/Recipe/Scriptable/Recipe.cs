@@ -5,14 +5,20 @@ using UnityEngine.UI;
 using System;
 
 [CreateAssetMenu]
-public class Recipe : ScriptableObject {
+public class Recipe : ScriptableObject
+{
+    [Header("Menu Setting")]
     public string menuName;
     public Sprite menuImage;
     public int menuPrice;
-    public List<IngredientAmount> ingredients;
     public GameObject menuPrefab;
 
+    [Header("Ingrdient Setting")]
+    public List<IngredientAmount> ingredients;
+
+    [Header("CookType Setting ")]
     public CookType cookType;
+
     public BoilingSetting boilingSetting;
     public TossingSetting tossingSetting;
     public CuttingSetting cuttingSetting;
@@ -20,7 +26,8 @@ public class Recipe : ScriptableObject {
 
 }
 
-public enum CookType {
+public enum CookType
+{
     None,
     Cutting,
     Frying,
@@ -29,29 +36,34 @@ public enum CookType {
 }
 
 [System.Serializable]
-public class BoilingSetting {
+public class BoilingSetting
+{
     public BoilType boilType;
 }
 
-public enum BoilType {
+public enum BoilType
+{
     Boil,
     Steam,
 }
 
 [System.Serializable]
-public class TossingSetting {
+public class TossingSetting
+{
     public int tossingCount;
     public int successRange;
 }
 
 [System.Serializable]
-public class FryingSetting {
+public class FryingSetting
+{
     public int fryingCount;
     public int successRange;
 }
 
 [System.Serializable]
-public class CuttingSetting {
+public class CuttingSetting
+{
     public int cuttingCount;
     public int successRange;
 }

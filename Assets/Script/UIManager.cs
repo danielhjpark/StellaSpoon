@@ -14,15 +14,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] Item[] items;
 
     [SerializeField] Recipe[] recipes;
-    void Start() {
+    void Start()
+    {
         InventoryUI();
         InventoryUI();
-        //DailyMenuAdd();
+        DailyMenuAdd();
     }
     void Update()
     {
         OpenUI();
-        if(Input.GetKeyDown(KeyCode.T)) {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
             OrderManager.instance.OpenRestaurant();
         }
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -42,29 +44,36 @@ public class UIManager : MonoBehaviour
     }
 
 
-    void OpenUI() {
-        if (Input.GetKeyDown(KeyCode.Alpha1)){
+    void OpenUI()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
             bool currentState = DailyMenuUI.activeSelf;
             DailyMenuUI.SetActive(!currentState);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha2)) {
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
             bool currentState = RefrigeratorUI.activeSelf;
             RefrigeratorUI.SetActive(!currentState);
             DeviceUI.SetActive(!currentState);
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha3)) {
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
             bool currentState = CookUI.activeSelf;
             CookUI.SetActive(!currentState);
         }
     }
 
-    void InventoryUI() {
-        foreach(var item in items) {
+    void InventoryUI()
+    {
+        foreach (var item in items)
+        {
             inventory.AcquireItem(item);
         }
     }
 
-    void DailyMenuAdd() {
+    void DailyMenuAdd()
+    {
         foreach (Recipe recipe in recipes)
             DailyMenuManager.dailyMenuList.Add(recipe, 1);
     }
