@@ -193,7 +193,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (!DeviceManager.isDeactived)
+            if (!DeviceManager.isDeactived || TreasureChest.openingChest)
             {
                 if (_hasAnimator)
                 {
@@ -216,7 +216,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!DeviceManager.isDeactived) return; // 비활성화 상태면 카메라 회전 막기
+            if (!DeviceManager.isDeactived || TreasureChest.openingChest) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
             CameraRotation();
         }
 
