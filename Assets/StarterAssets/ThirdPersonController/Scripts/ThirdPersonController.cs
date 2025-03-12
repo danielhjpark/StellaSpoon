@@ -164,7 +164,7 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            
+
             }
 
             curHP = MaxHP;
@@ -333,7 +333,7 @@ namespace StarterAssets
 
             float targetSpeed = MoveSpeed;
 
-            if(isAiming)
+            if (isAiming)
             {
                 targetSpeed = MoveSpeed * 0.5f;
             }
@@ -383,7 +383,7 @@ namespace StarterAssets
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
-                if(!isAiming)
+                if (!isAiming)
                 {
                     transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }

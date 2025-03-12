@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuSlot : MonoBehaviour, IPointerEnterHandler
+public class MenuSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] Image recipeImage;
+    [SerializeField] TextMeshProUGUI recipeName;
     private DailyMenuManager dailyMenuManager;
 
     private Color initColor;
     private Color disableColor;
-    
+
     public Recipe currentRecipe;
 
 
     void Start()
     {
-        dailyMenuManager = GetComponentInParent<DailyMenuManager>();    
+        dailyMenuManager = GetComponentInParent<DailyMenuManager>();
         initColor = Color.white;
         disableColor = Color.grey;
     }
@@ -27,20 +29,25 @@ public class MenuSlot : MonoBehaviour, IPointerEnterHandler
         CreateMenu();
     }
 
-    public void MenuUISetup(Recipe Recipe) {
+    public void MenuUISetup(Recipe Recipe)
+    {
         this.currentRecipe = Recipe;
         recipeImage.sprite = currentRecipe.menuImage;
+        recipeName.text = currentRecipe.menuName;
         CreateMenu();
 
     }
 
-    //ìž¬ë£Œ ë¶€ì¡± ì‹œ, ì–´ë‘ìš´ ì´ë¯¸ì§€ íš¨ê³¼ ë° ë¹„í™œì„±í™”
-    void CreateMenu() {
-        foreach(IngredientAmount currentIngredient in currentRecipe.ingredients) {
+    //?ž¬ë£? ë¶?ì¡? ?‹œ, ?–´?‘?š´ ?´ë¯¸ì?? ?š¨ê³? ë°? ë¹„í™œ?„±?™”
+    void CreateMenu()
+    {
+        foreach (IngredientAmount currentIngredient in currentRecipe.ingredients)
+        {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int currentIngredientAmount = currentIngredient.amount;
             int requireIngredientAmount = IngredientManager.IngredientAmount[currentIngdeient];
-            if(currentIngredientAmount > requireIngredientAmount) {
+            if (currentIngredientAmount > requireIngredientAmount)
+            {
                 recipeImage.color = disableColor;
                 return;
             }
@@ -48,13 +55,13 @@ public class MenuSlot : MonoBehaviour, IPointerEnterHandler
         recipeImage.color = initColor;
     }
 
-    void SelectMenu() {
+    void SelectMenu()
+    {
         dailyMenuManager.DetailUIUpdate(currentRecipe, 1);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
         SelectMenu();
-
     }
 }

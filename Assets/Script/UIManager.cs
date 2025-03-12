@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     {
         InventoryUI();
         InventoryUI();
-        DailyMenuAdd();
+        //DailyMenuAdd();
     }
     void Update()
     {
