@@ -30,6 +30,7 @@ public class TreasureChest : MonoBehaviour
     [SerializeField]
     private Slot[] chestSlots; //보물상자 슬롯 배열
     private bool isOpenChest = false; //보물상자 오픈 여부
+    public static bool openingChest = false; //오픈중인지 여부
 
 
 
@@ -69,6 +70,7 @@ public class TreasureChest : MonoBehaviour
     }
     private void OpenChestUI() //보물상자 UI출력
     {
+        openingChest = true;
         if (!isOpenChest)
         {
             CreateItem();
@@ -88,6 +90,7 @@ public class TreasureChest : MonoBehaviour
     }
     private void CloseChestUI() //보물상자 UI 닫기
     {
+        openingChest = false;
         Debug.Log("보물상자 닫기");
 
         Cursor.lockState -= CursorLockMode.Locked;

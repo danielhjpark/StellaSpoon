@@ -25,4 +25,11 @@ public class PlanetSelector : MonoBehaviour
             Debug.LogWarning($"Invalid planet name: {planetName}");
         }
     }
+
+    public void GameStartEvent()
+    {
+        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.aRedForest);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 }

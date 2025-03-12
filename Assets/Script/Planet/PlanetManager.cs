@@ -9,7 +9,8 @@ public class PlanetManager : MonoBehaviour
     {
         Moon, //달
         Earth, //지구
-        Mars //화성
+        Mars, //화성
+        aRedForest // 민근이가 만든거
     }
 
     [SerializeField]
@@ -21,7 +22,7 @@ public class PlanetManager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null && Instance != this)
-        {
+        { 
             Destroy(gameObject);
             return;
         }
