@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 
-public enum SceneNames { Lobby = 0, Playground }
+public enum SceneNames { Lobby = 0, Playground, aRedForest }
 
 namespace UnityNote
 {
