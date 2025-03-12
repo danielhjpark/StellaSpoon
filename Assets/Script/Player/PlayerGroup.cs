@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
-public class Manager : MonoBehaviour
+public class PlayerGroup : MonoBehaviour
 {
-    public static Manager instance;
-
+    public static PlayerGroup instance;
     private void Awake()
     {
         if (instance == null)

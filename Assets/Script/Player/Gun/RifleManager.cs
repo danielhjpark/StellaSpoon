@@ -60,7 +60,7 @@ public class RifleManager : MonoBehaviour
     void Update()
     {
         bulletText.text = currentBullet + "";
-        maxBulletText.text = "/" + maxBullet;
+        maxBulletText.text = "/ " + maxBullet;
         if (currentShootDelay < maxShootDelay)
         {
             currentShootDelay += Time.deltaTime;
