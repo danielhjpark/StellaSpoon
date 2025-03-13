@@ -17,22 +17,6 @@ public class PlanetUIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = this;
-        DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴되지 않도록 설정
-
-        // Text 요소들을 씬에서 찾습니다.
-        planetNameText = GameObject.Find("Canvas/PARENT_PlanetBase(DeactivateThis)/PlanetBase/PlanetNameText").GetComponent<TextMeshProUGUI>();
-        descriptionText = GameObject.Find("Canvas/PARENT_PlanetBase(DeactivateThis)/PlanetBase/DescriptionText").GetComponent<TextMeshProUGUI>();
-        weatherText = GameObject.Find("Canvas/PARENT_PlanetBase(DeactivateThis)/PlanetBase/WeatherText").GetComponent<TextMeshProUGUI>();
-        gravityText = GameObject.Find("Canvas/PARENT_PlanetBase(DeactivateThis)/PlanetBase/GravityText").GetComponent<TextMeshProUGUI>();
-        monstersText = GameObject.Find("Canvas/PARENT_PlanetBase(DeactivateThis)/PlanetBase/MonstersText").GetComponent<TextMeshProUGUI>();
-
         if (planetNameText == null || descriptionText == null || weatherText == null || gravityText == null || monstersText == null)
         {
             Debug.LogError("UI Text elements are not correctly assigned or found in the scene.");

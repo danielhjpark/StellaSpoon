@@ -19,12 +19,10 @@ public class FollowTargetController : MonoBehaviour
     public float outMax = 1f;
     public AnimationCurve remapLerp;
 
-    /*private void Start()
+    private void Start()
     {
-        startTransform = new GameObject().transform;
-        startTransform.position = transform.position;
-        startTransform.rotation = transform.rotation;
-    }*/
+        player = GameObject.FindWithTag("Player").transform;
+    }
 
     private void Update()
     {

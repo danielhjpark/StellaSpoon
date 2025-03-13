@@ -377,6 +377,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9158213312158371483}
   - {fileID: 2460703825870514153}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -800,3 +801,85 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &6454926783047703434
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6616597702784841543}
+    m_Modifications:
+    - target: {fileID: 2702327069142178760, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_Name
+      value: PlanetUIManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277241942388736622, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: gravityText
+      value: 
+      objectReference: {fileID: 4050424462393573977}
+    - target: {fileID: 6277241942388736622, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: weatherText
+      value: 
+      objectReference: {fileID: 3304822430111817462}
+    - target: {fileID: 6277241942388736622, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: monstersText
+      value: 
+      objectReference: {fileID: 9075323659880436457}
+    - target: {fileID: 6277241942388736622, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: planetNameText
+      value: 
+      objectReference: {fileID: 2426725222012123847}
+    - target: {fileID: 6277241942388736622, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+      propertyPath: descriptionText
+      value: 
+      objectReference: {fileID: 1929177468815519107}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+--- !u!4 &9158213312158371483 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2777599234466288913, guid: fb18e62bda3175b41af2b90345799ac5, type: 3}
+  m_PrefabInstance: {fileID: 6454926783047703434}
+  m_PrefabAsset: {fileID: 0}

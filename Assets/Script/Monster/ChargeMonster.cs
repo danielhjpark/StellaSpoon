@@ -48,7 +48,7 @@ public class ChargeMonster : MonsterBase
     private IEnumerator Charge()
     {
         isCharging = true;
-        Vector3 targetPosition = player.transform.position - (player.transform.position - transform.position).normalized * 0.3f; //목표보다 0.3 앞에 멈추게
+        Vector3 targetPosition = player.transform.position - (player.transform.position - transform.position).normalized * 0.5f; //목표보다 0.3 앞에 멈추게
 
         // 돌격 시작 시 NavMeshAgent 비활성화 (직접 이동을 위해)
         nav.isStopped = true;
