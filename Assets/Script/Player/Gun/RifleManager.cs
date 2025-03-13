@@ -96,10 +96,10 @@ public class RifleManager : MonoBehaviour
     public void ReloadClip()
     {
         Instantiate(weaponClipFX, weaponClipPoint);
-        InitBullet();
+        //InitBullet();
     }
 
-    private void InitBullet()
+    public void InitBullet()
     {
         currentBullet = maxBullet;
     }

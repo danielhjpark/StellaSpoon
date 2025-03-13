@@ -113,7 +113,7 @@ namespace StarterAssets
         public float Def = 20;
 
         // Hit, Die
-        private bool isHit = false; // 피격 상태를 나타내는 플래그
+        public bool isHit = false; // 피격 상태를 나타내는 플래그
         private bool isInvincible = false; // 무적 상태를 나타내는 플래그
         public bool isDie = false; // 죽음 상태를 나타내는 플래그
 
@@ -507,6 +507,11 @@ namespace StarterAssets
             // 플레이어가 죽은 상태라면 데미지 로직 실행 안 함
             if (isInvincible || isDie) return;
 
+            if(isReload)
+            {
+                CancelReload();
+            }
+
             float monsterDam = _damage - (Def / 2f);
 
             if (monsterDam <= 0)
@@ -577,10 +582,23 @@ namespace StarterAssets
             isDie = true;
             Debug.Log("Die() 호출됨");
 
-            _animator.ResetTrigger("Hit"); // 다른 애니메이션 트리거 초기화
-            _animator.Play("Die"); // 강제로 Die 애니메이션 실행
+            // 🔹 모든 애니메이션 트리거 초기화
+            _animator.ResetTrigger("Hit");
+            _animator.ResetTrigger("Reload");
+            _animator.ResetTrigger("Shot");
+
+            // 🔹 모든 레이어의 애니메이션 가중치 초기화 (총기 애니메이션 비활성화)
+            for (int i = 1; i < _animator.layerCount; i++)
+            {
+                _animator.SetLayerWeight(i, 0);
+            }
+
+            // 🔹 Die 애니메이션 실행 (Base Layer에서 강제 실행)
+            _animator.Play("Die", 0);
+
             Debug.Log("Die 애니메이션 강제 실행");
 
+            // 인벤토리 정리 및 리스폰 처리
             InventoryManager.instance.ClearAllSlots();
             StartCoroutine(Respawn());
         }
@@ -657,5 +675,11 @@ namespace StarterAssets
             Destroy(textObj); // 끝나면 삭제
         }
 
+        private void CancelReload()
+        {
+            _animator.ResetTrigger("Reload");
+            _animator.SetLayerWeight(2, 0);
+            isReload = false;
+        }
     }
 }

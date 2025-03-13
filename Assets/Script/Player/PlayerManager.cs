@@ -143,6 +143,8 @@ public class PlayerManager : MonoBehaviour
     // 총을 들고 있는 변수가 true면 Rifle을 보이게 하고 들고 있게 하는 애니메이션 LayerWeight를 증가
     private void EquipRifleCheck()
     {
+        if (controller.isDie) return;
+
         if (InventoryManager.instance.isWeaponRifle == true)
         {
             rifle.gameObject.SetActive(true);
@@ -171,15 +173,25 @@ public class PlayerManager : MonoBehaviour
         bool isJumping = anim.GetCurrentAnimatorStateInfo(1).IsTag("Jump");
         bool isDodging = anim.GetCurrentAnimatorStateInfo(1).IsTag("Dodge");
         bool isReloading = anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload");
+        bool isHitting = anim.GetCurrentAnimatorStateInfo(1).IsTag("Hit");
 
-        if (isJumping || isDodging || isReloading)
+        if (isJumping || isDodging || isReloading || isHitting)
         {
             SetRigWeight(0); // 점프/닷지 중에는 IK 비활성화
         }
     }
 
-    public void ReloadWeaponClip()
+    public void ReloadClip()
     {
+        if (controller.isHit) return;
+
         RifleManager.instance.ReloadClip();
+    }
+
+    public void BulletInit()
+    {
+        if (controller.isHit) return;
+
+        RifleManager.instance.InitBullet();
     }
 }
