@@ -9,6 +9,7 @@ public class EscapeMonster : MonsterBase
 {
     //도망 몬스터는 공격 범위 없고
     //인지 범위에 들어왔을 때 반대쪽 경로 설정
+    [Header("도망 몬스터 information")]
     public bool isEscaping = false;
     private Vector3 escapeTarget; //도망가는 위치
     [SerializeField]
@@ -19,6 +20,7 @@ public class EscapeMonster : MonsterBase
     private float escapeDistance = 10f; //도망가는 거리
     [SerializeField]
     private float viewAngle = 0f; //감지 범위 각도
+
     [Header("Layer")]
     [SerializeField]
     LayerMask targetMask;

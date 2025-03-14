@@ -15,7 +15,7 @@ public enum MonsterStates //몬스터 상태
 }
 public abstract class MonsterBase : MonoBehaviour
 {
-    [Header("Basic information")]
+    [Header("몬스터 Information")]
     public int maxHealth; //최대 체력
     public int currentHealth; //현재 체력
     public int damage; //공격력
@@ -28,13 +28,13 @@ public abstract class MonsterBase : MonoBehaviour
     protected float lastAttackTime; //마지막 공격 시간
     protected bool isAttack = false; //공격중 체크 변수
 
-    [Header("Range")]
+    [Header("범위")]
     public float attackRange; //공격 범위
     public float playerDetectionRange; //인지 범위
     public float randomMoveRange; //랜덤 이동 범위
     public float damageRange; //플레이어 공격 인지 범위
 
-    [Header("Drop item")]
+    [Header("드랍 아이템")]
     public GameObject[] dropItems; //드랍 아이템 리스트
     public float[] dropProbability; //아이템 별 드랍 확률
     public int[] maxDropItems; //아이템 별 최대 드랍 갯수
@@ -46,12 +46,10 @@ public abstract class MonsterBase : MonoBehaviour
     protected Collider coll;
     protected ThirdPersonController thirdPersonController;
 
-    [SerializeField]
     private bool canDamage; //플레이어 공격 인지 범위 내에 있는지 체크 변수
     private bool isDamage; //데미지를 입었는지 체크 변수
     private bool RandomPositionDecide = false; //랜덤 경로가 정해졌는지 체크 변수
 
-    [SerializeField]
     private float distanceToPlayer; //플레이어와의 거리
 
     protected void Start()

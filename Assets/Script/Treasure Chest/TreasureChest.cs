@@ -5,29 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class TreasureChest : MonoBehaviour
 {
+    [Header("보물상자 Information")]
     [SerializeField]
     private GameObject treasureChest; //보물상자 오브젝트
     private Animator animator;
 
     private bool isPlayerNearby = false; //플레이어 감지
 
-    [SerializeField]
     private GameObject treasuteChestPanel; //보물상자 UI
-    [SerializeField]
     private GameObject inventorypanel; //인벤토리 UI
-
-
-    [SerializeField]
     private GameObject slotsSetting; //슬롯 셋팅
+
+    [Header("보물상자에 나오는 아이템")]
     [SerializeField]
     private List<Item> possibleItems; //생성 가능한 아이템 리스트
-
+    [Header("아이템 갯수")]
     [SerializeField]
     private int minItemCount = 1; //최소 아이템 수
     [SerializeField]
     private int maxItemCount = 3; //최대 아이템 수
 
-    [SerializeField]
     private Slot[] chestSlots; //보물상자 슬롯 배열
     private bool isOpenChest = false; //보물상자 오픈 여부
     public static bool openingChest = false; //오픈중인지 여부
@@ -39,6 +36,10 @@ public class TreasureChest : MonoBehaviour
         if (treasureChest != null)
         {
             animator = treasureChest.GetComponent<Animator>();
+            treasuteChestPanel = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBase");
+            inventorypanel = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBase");
+            slotsSetting = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBase/Slot Setting");
+
         }
         else
         {

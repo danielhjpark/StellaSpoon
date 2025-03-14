@@ -7,6 +7,7 @@ public class ChargeMonster : MonsterBase
 {
     private float chargeDuration = 2f;
     private bool isCharging = false;
+    [Header("돌격 몬스터 information")]
     [SerializeField]
     private float chargeSpeed = 10f; //돌격속도
     private new void Start()
