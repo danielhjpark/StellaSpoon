@@ -100,6 +100,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524411113276028, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_TagString
       value: Monster
       objectReference: {fileID: 0}
@@ -177,15 +181,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4544219117696442, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.34
+      value: 7.6666784
       objectReference: {fileID: 0}
     - target: {fileID: 4544219117696442, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0000009536743
       objectReference: {fileID: 0}
     - target: {fileID: 4544219117696442, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.19
+      value: 3.9255157
       objectReference: {fileID: 0}
     - target: {fileID: 4544219117696442, guid: e2aafa8770d34a9591b41bedf4e318ba, type: 3}
       propertyPath: m_LocalRotation.w
@@ -291,6 +295,10 @@ MonoBehaviour:
   currentHealth: 0
   damage: 0
   isDead: 0
+  isAttack: 0
+  attackColl: 0
+  damageDelayTime: 0
+  idleMoveInterval: 0
   attackRange: 7
   playerDetectionRange: 0
   randomMoveRange: 0
@@ -298,8 +306,6 @@ MonoBehaviour:
   dropItems: []
   dropProbability: []
   maxDropItems: 
-  canDamage: 0
-  distanceToPlayer: 0
   projectilePrefab: {fileID: 5228796602694931412, guid: a3054c4061ee2264e8ccd7c7bd890ac5, type: 3}
   AttackTF: {fileID: 180209265481437564}
 --- !u!65 &2635258128732476541
@@ -321,8 +327,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1, y: 0.8746611, z: 1.1}
-  m_Center: {x: 0, y: 0.47261566, z: 0}
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &1621032181211569969
 Rigidbody:
   m_ObjectHideFlags: 0
