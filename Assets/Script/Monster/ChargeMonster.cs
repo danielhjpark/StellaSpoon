@@ -10,32 +10,11 @@ public class ChargeMonster : MonsterBase
     [Header("돌격 몬스터 information")]
     [SerializeField]
     private float chargeSpeed = 10f; //돌격속도
-    private new void Start()
-    {
-        base.Start();
-        maxHealth = 100;
-        currentHealth = maxHealth;
-        damage = 10;
-        idleMoveInterval = 2f;
-        damageDelayTime = 5f;
-
-
-        isDead = false;
-        isMove = false;
-
-        attackRange = 5f;
-        playerDetectionRange = 6f;
-        randomMoveRange = 7f;
-        damageRange = 10f;
-        nav.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
-    }
 
     protected override void HandleAttack()
     {
-        if (!isAttack || Time.time - lastAttackTime >= damageDelayTime)
+        if (!isAttack)
         {
-            //공격 구현
-            lastAttackTime = Time.time;
             isAttack = true;
             animator.SetBool("Walk", false);
             animator.SetBool("Attack", true);
@@ -73,7 +52,6 @@ public class ChargeMonster : MonsterBase
 
             yield return null;
         }
-
         Debug.Log("돌격 종료!");
         StartCoroutine(WaitCharge());
         isCharging = false;
@@ -85,16 +63,10 @@ public class ChargeMonster : MonsterBase
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("플레이어와 충돌됨");
-        }
         if (other.gameObject.CompareTag("Player") && isCharging)
         {
             Debug.Log("플레이어와 충돌! 돌격 종료.");
             StopCharging();
-            Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향
-            thirdPersonController.TakeDamage(damage, attackerPosition);
         }
     }
     private void StopCharging()

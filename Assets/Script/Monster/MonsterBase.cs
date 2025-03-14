@@ -20,13 +20,16 @@ public abstract class MonsterBase : MonoBehaviour
     public int currentHealth; //현재 체력
     public int damage; //공격력
     protected Vector3 initialPosition; //최초 위치
-    public bool isDead; //죽음 체크 변수
-    protected bool isMove; //움직임 체크 변수
+    public bool isDead = false; //죽음 체크 변수
+    protected bool isMove = false; //움직임 체크 변수
     protected float wanderTimer;
-    protected float idleMoveInterval; //랜덤 이동 대기시간
     protected float damageDelayTime; //공격 딜레이 시간
     protected float lastAttackTime; //마지막 공격 시간
-    protected bool isAttack = false; //공격중 체크 변수
+    public bool isAttack = false; //공격중 체크 변수
+    public bool attackColl = false; //공격 충돌 체크 변수
+
+    [Header("몬스터 랜덤이동 대기시간")]
+    public float idleMoveInterval; //랜덤 이동 대기시간
 
     [Header("범위")]
     public float attackRange; //공격 범위
@@ -66,6 +69,8 @@ public abstract class MonsterBase : MonoBehaviour
         currentState = MonsterStates.Idle; //시작시 Idle상태
 
         lastAttackTime = -damageDelayTime; //공격 딜레이 초기화
+
+        nav.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
     }
 
     protected void Update()
@@ -156,9 +161,8 @@ public abstract class MonsterBase : MonoBehaviour
     protected virtual void HandleAttack()
     {
         animator.SetBool("Walk", false);
-        if (!isAttack || Time.time - lastAttackTime >= damageDelayTime)
+        if (!isAttack)
         {
-            lastAttackTime = Time.time;
             isAttack = true;
             animator.SetBool("Walk", false);
             animator.SetBool("Attack", true); //Attack 애니메이션 실행
@@ -175,7 +179,7 @@ public abstract class MonsterBase : MonoBehaviour
             return;
         }
         animator.SetBool("Walk", true);
-        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 0.8f);
+        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 1f);
         if (canDamage && isDamage)
         {
             //5초 뒤에 idle 상태로 변환
@@ -382,6 +386,20 @@ public abstract class MonsterBase : MonoBehaviour
             }
             k++;
         }
+    }
+
+    public void AttackCheck()
+    {
+        if(attackColl)
+        {
+            PlayerDamage();
+        }
+    }
+
+    public bool IsAttacking()
+    {
+        // 공격 애니메이션이 실행 중인지 확인
+        return animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
     }
 
     public void PlayerDamage()
