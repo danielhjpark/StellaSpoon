@@ -23,11 +23,12 @@ public abstract class MonsterBase : MonoBehaviour
     public bool isDead = false; //죽음 체크 변수
     protected bool isMove = false; //움직임 체크 변수
     protected float wanderTimer;
-    protected float damageDelayTime; //공격 딜레이 시간
     protected float lastAttackTime; //마지막 공격 시간
     public bool isAttack = false; //공격중 체크 변수
     public bool attackColl = false; //공격 충돌 체크 변수
 
+    [Header("몬스터 공격 딜레이 시간")]
+    public float damageDelayTime; //공격 딜레이 시간
     [Header("몬스터 랜덤이동 대기시간")]
     public float idleMoveInterval; //랜덤 이동 대기시간
 
