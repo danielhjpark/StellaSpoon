@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class RangedMonster : MonsterBase
 {
+    [Header("원거리 몬스터 information")]
     [SerializeField]
     private GameObject projectilePrefab; //공격 투사체
     [SerializeField]
