@@ -232,14 +232,13 @@ namespace StarterAssets
         private void Dodge()
         {
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
-            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isReload || isAiming) return;
+            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isReload || isAiming || isHit) return;
 
             if (Grounded && _input.dodge)
             {
                 StartCoroutine(DodgeCoroutine());
             }
         }
-
         private IEnumerator DodgeCoroutine()
         {
             isDodge = true;
@@ -254,28 +253,45 @@ namespace StarterAssets
             float dodgeDistance = 7f;
             float dodgeDuration = 0.5f;
             float elapsedTime = 0f;
+            float verticalVelocity = 0f;
+            float minDodgeDistance = 6.5f; // 최소 이동 거리
 
             Vector3 startPosition = transform.position;
             Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
 
-            // 경사면 보정
-            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 1f, GroundLayers))
+            // 경사면 보정 (Raycast 거리 증가 및 중심보다 위에서 감지)
+            if (Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, out RaycastHit slopeHit, 2f, GroundLayers))
             {
                 Vector3 slopeNormal = slopeHit.normal;
                 dodgeDirection = Vector3.ProjectOnPlane(dodgeDirection, slopeNormal).normalized;
             }
 
-            // 충돌 체크
+            // 충돌 체크 (최소 이동 거리 보장)
             if (Physics.Raycast(transform.position, dodgeDirection, out RaycastHit hit, dodgeDistance, GroundLayers))
             {
-                dodgeDistance = hit.distance;
+                dodgeDistance = Mathf.Max(hit.distance, minDodgeDistance);
                 targetPosition = startPosition + dodgeDirection * dodgeDistance;
             }
+
+            // CharacterController 슬로프 보정
+            _characterController.slopeLimit = 60f;
 
             while (elapsedTime < dodgeDuration)
             {
                 float step = (dodgeDistance / dodgeDuration) * Time.deltaTime;
                 Vector3 moveStep = dodgeDirection * step;
+
+                // 중력 적용
+                if (!Physics.Raycast(transform.position, Vector3.down, 1.1f, GroundLayers)) // 공중에 있는 경우
+                {
+                    verticalVelocity += Gravity * Time.deltaTime; // 중력 가속도 증가
+                }
+                else
+                {
+                    verticalVelocity = 0f; // 지면에 있으면 중력 리셋
+                }
+
+                moveStep.y += verticalVelocity * Time.deltaTime; // y 방향 중력 추가
                 _characterController.Move(moveStep);
 
                 elapsedTime += Time.deltaTime;
@@ -290,6 +306,7 @@ namespace StarterAssets
             yield return new WaitForSeconds(3f);
             dodgeCooldownActive = false;
         }
+
 
         private void GroundedCheck()
         {
@@ -586,6 +603,7 @@ namespace StarterAssets
             _animator.ResetTrigger("Hit");
             _animator.ResetTrigger("Reload");
             _animator.ResetTrigger("Shot");
+            _animator.ResetTrigger("Dodge");
 
             // 🔹 모든 레이어의 애니메이션 가중치 초기화 (총기 애니메이션 비활성화)
             for (int i = 1; i < _animator.layerCount; i++)

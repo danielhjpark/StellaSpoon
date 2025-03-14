@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSpawn : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player)
@@ -12,6 +12,4 @@ public class PlayerSpawn : MonoBehaviour
             player.transform.position = transform.position; // 씬 이동 후 스폰 포인트로 이동
         }
     }
-
-
 }
