@@ -118,9 +118,6 @@ namespace StarterAssets
         public bool isDie = false; // 죽음 상태를 나타내는 플래그
 
         // Respawn
-        //[Header("Respawn Point")]
-        //[SerializeField]
-        //private GameObject ReSpawnPoint;
         private PlayerRespawn playerRespawn;
 
         // HPBar
@@ -536,7 +533,7 @@ namespace StarterAssets
 
             if (monsterDam <= 0)
             {
-                monsterDam = 100;
+                monsterDam = 10;
             }
 
             curHP -= monsterDam;
