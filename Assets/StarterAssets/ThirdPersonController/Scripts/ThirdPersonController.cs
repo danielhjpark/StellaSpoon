@@ -118,9 +118,10 @@ namespace StarterAssets
         public bool isDie = false; // 죽음 상태를 나타내는 플래그
 
         // Respawn
-        [Header("Respawn Point")]
-        [SerializeField]
-        private GameObject ReSpawnPoint;
+        //[Header("Respawn Point")]
+        //[SerializeField]
+        //private GameObject ReSpawnPoint;
+        private PlayerRespawn playerRespawn;
 
         // HPBar
         [SerializeField]
@@ -189,6 +190,8 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            playerRespawn = GetComponent<PlayerRespawn>();
         }
 
         private void Update()
@@ -533,7 +536,7 @@ namespace StarterAssets
 
             if (monsterDam <= 0)
             {
-                monsterDam = 10;
+                monsterDam = 100;
             }
 
             curHP -= monsterDam;
@@ -627,6 +630,19 @@ namespace StarterAssets
         {
             yield return new WaitForSeconds(5f); // 5초 대기
 
+            // playerRespawn이 null이면 찾아서 할당
+            if (playerRespawn == null)
+            {
+                playerRespawn = FindObjectOfType<PlayerRespawn>();
+            }
+
+            // playerRespawn이 여전히 null이면 리스폰 중단
+            if (playerRespawn == null || playerRespawn.ReSpawnPoint == null)
+            {
+                Debug.LogError("리스폰 실패! playerRespawn 또는 ReSpawnPoint가 설정되지 않았습니다.");
+                yield break;
+            }
+
             curHP = MaxHP; // HP 초기화
             SetMaxHealth(MaxHP); // HPBar 초기화
             isDie = false; // 죽음 상태 해제
@@ -634,10 +650,12 @@ namespace StarterAssets
             isInvincible = false; // 무적 상태 해제
             _animator.SetTrigger("ReSpawn");
             _characterController.enabled = false;
-            transform.position = ReSpawnPoint.transform.position; // 리스폰 위치로 이동
+            transform.position = playerRespawn.ReSpawnPoint.position; // 🔥 이제 Null 오류 발생 안 함!
             _characterController.enabled = true;
-            Debug.Log("Player Respawned");
+
+            Debug.Log("Player Respawned at: " + playerRespawn.ReSpawnPoint.position);
         }
+
 
         private void SetMaxHealth(float health)
         {

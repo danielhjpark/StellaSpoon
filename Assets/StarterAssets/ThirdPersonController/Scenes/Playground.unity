@@ -798,7 +798,7 @@ GameObject:
   - component: {fileID: 141233375}
   m_Layer: 0
   m_Name: RespawnPoint
-  m_TagString: Untagged
+  m_TagString: RespawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12702,8 +12702,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1916189959650990886, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1928137593072395783}
   m_SourcePrefab: {fileID: 100100000, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+--- !u!1 &1928137593072395782 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1916189959650990886, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+  m_PrefabInstance: {fileID: 1928137593072395781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1928137593072395783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928137593072395782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd2486fa58487c40bc5f833eb2e911d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReSpawnPoint: {fileID: 0}
 --- !u!1 &2011886141946913470
 GameObject:
   m_ObjectHideFlags: 0
