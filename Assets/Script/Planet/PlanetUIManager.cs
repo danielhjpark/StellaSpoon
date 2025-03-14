@@ -9,16 +9,12 @@ public class PlanetUIManager : MonoBehaviour
     public static PlanetUIManager instance;
     public PlanetManager planetManager;
 
-    public TextMeshProUGUI planetNameText;
-    public TextMeshProUGUI descriptionText;
-    public TextMeshProUGUI weatherText;
-    public TextMeshProUGUI gravityText;
-    public TextMeshProUGUI monstersText;
+    public TextMeshProUGUI PlanetInformationText;
 
     private void Awake()
     {
         planetManager = GameObject.Find("GameManager/PlanetManager").GetComponent<PlanetManager>();
-        if (planetNameText == null || descriptionText == null || weatherText == null || gravityText == null || monstersText == null)
+        if (PlanetInformationText == null)
         {
             Debug.LogError("UI Text elements are not correctly assigned or found in the scene.");
         }
@@ -60,10 +56,10 @@ public class PlanetUIManager : MonoBehaviour
             return;
         }
 
-        planetNameText.text = $"Name: {planetInfo.planetName}";
-        descriptionText.text = $"Description: {planetInfo.description}";
-        weatherText.text = $"Weather: {planetInfo.weather}";
-        gravityText.text = $"Gravity: {planetInfo.gravity}";
-        monstersText.text = $"Monsters: {string.Join(", ", planetInfo.monsters)}";
+        PlanetInformationText.text = $"Name: {planetInfo.planetName}\n"
+            + $"Description: {planetInfo.description}\n"
+            + $"Weather: {planetInfo.weather} \n"
+            + $"Gravity: {planetInfo.gravity} \n"
+            + $"Monsters: {string.Join(", ", planetInfo.monsters)}";
     }
 }
