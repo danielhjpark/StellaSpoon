@@ -30,26 +30,6 @@ public class EscapeMonster : MonsterBase
 
     private bool isDie; //죽음 체크 변수
 
-    private new void Start()
-    {
-        base.Start();
-        maxHealth = 100;
-        currentHealth = maxHealth;
-        damage = 10;
-        idleMoveInterval = 2f;
-        damageDelayTime = 5f;
-
-
-        isDead = false;
-        isMove = false;
-
-        attackRange = 0f;
-        playerDetectionRange = 5f;
-        randomMoveRange = 7f;
-        damageRange = 10f;
-
-        nav.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
-    }
 
     //도망 몬스터는 쫒는 것이 아닌 도망가는 것으로 수정
     protected override void HandleChasing()
