@@ -56,7 +56,6 @@ public class RifleManager : MonoBehaviour
         recoilScript = GetComponent<GunRecoil>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         bulletText.text = currentBullet + "";
@@ -78,29 +77,43 @@ public class RifleManager : MonoBehaviour
         currentBullet -= 1;
         currentShootDelay = 0;
 
-        Instantiate(weaponFlashFX, bulletPoint);
-        Instantiate(bulletCaseFX, bulletCasePoint);
-
         Vector3 aim = (targetPosition - bulletPoint.position).normalized;
-        GameObject newBullet = Instantiate(bulletObj, bulletPoint.position, Quaternion.LookRotation(aim, Vector3.up));
 
-        BulletManager bullet = newBullet.GetComponent<BulletManager>();
+        GameObject flashFX = BulletPoolManager.instance.ActivateObj(1);
+        SetObjPosition(flashFX, bulletPoint);
+        flashFX.transform.rotation = Quaternion.LookRotation(aim, Vector3.up);
+
+        GameObject caseFX = BulletPoolManager.instance.ActivateObj(2);
+        SetObjPosition(caseFX, bulletCasePoint);
+
+        GameObject prefabToSpawn = BulletPoolManager.instance.ActivateObj(0);
+        
+        SetObjPosition(prefabToSpawn, bulletPoint);
+        prefabToSpawn.transform.rotation = Quaternion.LookRotation(aim, Vector3.up);
+
+        BulletManager bullet = prefabToSpawn.GetComponent<BulletManager>();
+
         if (bullet != null)
         {
             bullet.SetDamage(attackDamage); // RifleManager의 공격력 전달
         }
-        // 반동 적용
-        recoilScript.ApplyRecoil();
+        //// 반동 적용
+        //recoilScript.ApplyRecoil();
     }
 
     public void ReloadClip()
     {
-        Instantiate(weaponClipFX, weaponClipPoint);
-        //InitBullet();
+        GameObject clipFX = BulletPoolManager.instance.ActivateObj(3);
+        SetObjPosition(clipFX, weaponClipPoint);
     }
 
     public void InitBullet()
     {
         currentBullet = maxBullet;
+    }
+
+    private void SetObjPosition(GameObject obj, Transform targerTransform)
+    {
+        obj.transform.position = targerTransform.position;
     }
 }

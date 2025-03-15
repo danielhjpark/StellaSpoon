@@ -1194,6 +1194,7 @@ GameObject:
   - component: {fileID: 491427282122228136}
   - component: {fileID: 6916859760504399156}
   - component: {fileID: 1018364671972305711}
+  - component: {fileID: 1312860720756874258}
   m_Layer: 3
   m_Name: "\uC0AC\uB0E5\uD558\uC9C4"
   m_TagString: Player
@@ -1265,9 +1266,9 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.28
-  m_SlopeLimit: 45
-  m_StepOffset: 0.25
-  m_SkinWidth: 0.02
+  m_SlopeLimit: 90
+  m_StepOffset: 0.4
+  m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7793530864257532296
@@ -1357,8 +1358,8 @@ MonoBehaviour:
   LockCameraPosition: 0
   MaxHP: 100
   Def: 20
+  isHit: 0
   isDie: 0
-  ReSpawnPoint: {fileID: 0}
   _hpBar: {fileID: 0}
   damageTextPrefab: {fileID: 4666749656009798378, guid: 19b22e92d2239c84c853ac845433544e, type: 3}
   uiCanvas: {fileID: 0}
@@ -1443,6 +1444,19 @@ MonoBehaviour:
   defenseText: {fileID: 0}
   healthText: {fileID: 0}
   speedText: {fileID: 0}
+--- !u!114 &1312860720756874258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916189959650990886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fd2486fa58487c40bc5f833eb2e911d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReSpawnPoint: {fileID: 0}
 --- !u!1 &1974318691749167718
 GameObject:
   m_ObjectHideFlags: 0

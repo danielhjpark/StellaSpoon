@@ -1022,7 +1022,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2704833951638032025, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1182842250}
   m_SourcePrefab: {fileID: 100100000, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
 --- !u!1 &195259301
 GameObject:
@@ -5650,6 +5653,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176720721}
   m_CullTransparentMesh: 1
+--- !u!1 &1182842248 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2704833951638032025, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+  m_PrefabInstance: {fileID: 177292067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1182842250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182842248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1acfb91d2202bb34288a04a9281f9610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 5341742223406746680, guid: 9c3cddd6060b7cc4eadfb9cefcf6e7db, type: 3}
+  - {fileID: 5676534307023899356, guid: 72311095530d9bd418b9f6c48492c5a8, type: 3}
+  - {fileID: 8772931668020583075, guid: 757de962d5415194f8d8b2d9b70f5640, type: 3}
+  - {fileID: 8772931668020583075, guid: 4a3bb0f143fa41a4ea9a5cdc04c0af02, type: 3}
 --- !u!114 &1221041501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12436,14 +12461,6 @@ PrefabInstance:
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 418015176}
-    - target: {fileID: 1790894398525121130, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      propertyPath: m_Effectors.Array.data[4].m_Transform
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1790894398525121130, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      propertyPath: m_Effectors.Array.data[8].m_Transform
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1916189959650990886, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: m_Name
       value: "\uC0AC\uB0E5\uD558\uC9C4"
@@ -12496,48 +12513,11 @@ PrefabInstance:
       propertyPath: uiCanvas
       value: 
       objectReference: {fileID: 1024527981}
-    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      propertyPath: ReSpawnPoint
-      value: 
-      objectReference: {fileID: 141233374}
-    - target: {fileID: 7996429914746578627, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      propertyPath: m_SkinWidth
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 7996429914746578627, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      propertyPath: m_SlopeLimit
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 7996429914746578627, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      propertyPath: m_StepOffset
-      value: 0.4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1916189959650990886, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1928137593072395783}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
---- !u!1 &1928137593072395782 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1916189959650990886, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
-  m_PrefabInstance: {fileID: 1928137593072395781}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1928137593072395783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1928137593072395782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fd2486fa58487c40bc5f833eb2e911d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReSpawnPoint: {fileID: 0}
 --- !u!1 &2011886141946913470
 GameObject:
   m_ObjectHideFlags: 0
