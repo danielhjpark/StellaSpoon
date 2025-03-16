@@ -21,10 +21,15 @@ public class FryingPanUI : MonoBehaviour
     private float currentPos;
     private bool isEnd;
 
+
     void Start()
     {
-        SetSections();
         fryingPanUIObject.SetActive(false);
+    }
+
+    public void Initialize(FryingSetting fryingSetting) {
+        sectionRange = fryingSetting.sectionRange;
+        SetSections();
     }
 
     public void OnFryingPanUI() {
@@ -34,11 +39,11 @@ public class FryingPanUI : MonoBehaviour
 
 
     void SetSections() {
-        sections[0].sizeDelta = new Vector2(FixedWidth, 300);
-        sections[1].sizeDelta = new Vector2(FixedWidth, 150);
-        sections[2].sizeDelta = new Vector2(FixedWidth, 300);
+        sections[0].sizeDelta = new Vector2(FixedWidth, sectionRange[0]);
+        sections[1].sizeDelta = new Vector2(FixedWidth, sectionRange[1]);
+        sections[2].sizeDelta = new Vector2(FixedWidth, sectionRange[2]);
+
         sections[1].anchoredPosition = new Vector2(0, -sections[0].sizeDelta.y);
-        sectionRange = new int[3]{300, 150, 300};
     }
     
     public IEnumerator MoveMark() {

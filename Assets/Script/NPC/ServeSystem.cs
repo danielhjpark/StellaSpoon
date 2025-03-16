@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using System;
 
 public class ServeSystem : MonoBehaviour
 {
-    [SerializeField] Transform playerHand;
-    public Recipe currentMenu;
+    [SerializeField] private Transform playerHand;
+    [NonSerialized] public Recipe currentMenu;
     private GameObject serveObject;
 
     public void PickUpMenu(GameObject menuObject)

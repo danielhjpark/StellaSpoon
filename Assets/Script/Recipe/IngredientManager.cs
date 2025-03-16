@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.IO;
 
 public class IngredientManager : MonoBehaviour
 {
@@ -26,8 +27,10 @@ public class IngredientManager : MonoBehaviour
     void IngredientAmountInit() {
         Ingredient[] IngredientScriptable = Resources.LoadAll<Ingredient>("Scriptable/Ingredient");
         foreach (Ingredient ingredient in IngredientScriptable) {
-            IngredientList.Add(ingredient.name, ingredient);
-            IngredientAmount.Add(ingredient, 0);
+            if(!IngredientList.ContainsKey(ingredient.name)) {
+                IngredientList.Add(ingredient.name, ingredient);
+                IngredientAmount.Add(ingredient, 0);
+            }
         }
     }
 

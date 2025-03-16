@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
+using UnityEditor.Rendering;
 
 public class RestaurantOpenSystem : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class RestaurantOpenSystem : MonoBehaviour
     [SerializeField] private LayerMask layerMask; 
 
     [SerializeField] PlayableDirector signTimeline;
+
+    [SerializeField] Image pressGagueImage;
 
     private bool isOpened; 
     private bool isRewinding;
@@ -31,12 +34,20 @@ public class RestaurantOpenSystem : MonoBehaviour
     void Update()
     {
         CheckSign();
-        if (Input.GetKeyDown(KeyCode.R)&& isCheckedSign)
-        {
-            if(!isRewinding) StartCoroutine(OpenSign());
-            else StartCoroutine(CloseSign());
-        }
+        // if (Input.GetKeyDown(KeyCode.R)&& isCheckedSign)
+        // {
+        //     if(!isRewinding) StartCoroutine(OpenSign());
+        //     else StartCoroutine(CloseSign());
+        // }
          // 항상 아이템이 사정 거리 안에 있는지 체크
+    }
+
+    public void FillGague() {
+        pressGagueImage.fillAmount += Time.deltaTime * 0.5f;
+    }
+
+    public void ResetGague() {
+        pressGagueImage.fillAmount = 0f;
     }
 
 

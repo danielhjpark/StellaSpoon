@@ -105,6 +105,10 @@ public class DailyMenuManager : MonoBehaviour
             menu.transform.SetParent(recipePanel.transform);
             menu.GetComponent<MenuSlot>().MenuUISetup(recipe);
         }
+        RectTransform recipePanelRect = recipePanel.GetComponent<RectTransform>();
+        int rectWidth = 400, rectHeight = recipeList.Count * 120;//size + spacing
+        recipePanelRect.sizeDelta = new Vector2(rectWidth, rectHeight);
+        recipePanelRect.pivot = new Vector2(0.5f, 1);
     }
 
     public void DetailUIUpdate(Recipe currentRecipe, int Amount) {
