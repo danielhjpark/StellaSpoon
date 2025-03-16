@@ -10,7 +10,19 @@ public class BulletPoolManager : MonoBehaviour
     private GameObject[] prefabs;
     private int poolSize = 1;
     private List<GameObject>[] objPools;
-    // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 유지
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 생성 방지
+        }
+    }
     void Start()
     {
         instance = this;
@@ -29,6 +41,7 @@ public class BulletPoolManager : MonoBehaviour
             {
                 GameObject obj = Instantiate(prefabs[i]);
                 obj.SetActive(false);
+                DontDestroyOnLoad(obj);
                 objPools[i].Add(obj);
             }
         }
