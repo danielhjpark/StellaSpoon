@@ -29,7 +29,7 @@ public class RefrigeratorManager : MonoBehaviour
     }
 
     void Update() {
-        OpenInventorySystem();
+        //OpenInventorySystem();
     }
 
     //------------------Button----------------------//

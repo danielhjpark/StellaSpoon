@@ -6,34 +6,30 @@ using UnityEngine.UI;
 
 public class PotViewportSystem : MonoBehaviour
 {
-    //---------------lid Controll TimeLine-------------------------//
+    [Header("TimeLine")]
     [SerializeField] PlayableDirector lidTimeline;
 
-    //------------- Viewport Change Cinemachine -------------------//
+    [Header("Cinemachine")]
     [SerializeField] CinemachineVirtualCamera virtualCamera;
-    [SerializeField] CinemachineSmoothPath basicPath;
-    [SerializeField] CinemachineSmoothPath buttonPath;
-    [SerializeField] Transform basicViewTarget;
-    [SerializeField] Transform buttonViewTarget;
     private CinemachineTrackedDolly dolly;
 
     //------------Button In Game View Objects----------------//
+    [Header("Button Objects")]
     [SerializeField] GameObject buttonViewObject;
     [SerializeField] GameObject buttonUIObject;
 
-    //------------ Off UISystem for change viewport ----------//
+    [Header("Off UI Panel")]
     [SerializeField] CanvasGroup ingredientInventoryPanel;
 
 
     private bool movingForward = true;
     private bool isRewinding = false;
-    private bool isForward = true;
     private float viewportSpeed = 2f; 
 
     void Start()
     {
         dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
-        dolly.m_PathPosition = 0;
+        dolly.m_PathPosition = 1;
 
         ingredientInventoryPanel.interactable = false;   // 버튼 등 이벤트 차단
         ingredientInventoryPanel.blocksRaycasts = false;
@@ -53,25 +49,6 @@ public class PotViewportSystem : MonoBehaviour
         }
     }
 
-    //Button Path
-    public void SwitchTrack()
-    {
-        isForward = !isForward; // 진행 방향 변경
-        float currentPos = dolly.m_PathPosition; // 현재 경로 위치 저장
-
-        if (isForward)
-        {
-            dolly.m_Path = basicPath;
-            dolly.m_PathPosition = basicPath.PathLength - currentPos; // 역방향 -> 정방향 전환 시 보정
-        }
-        else
-        {
-            virtualCamera.LookAt = buttonViewTarget;
-            dolly.m_Path = buttonPath;
-            //dolly.m_PathPosition = buttonPath.PathLength - currentPos; // 정방향 -> 역방향 전환 시 보정
-        }
-    }
-
     // Button Change TopView
     public void PutIngredient() {
         StartCoroutine(TopView());
@@ -79,7 +56,6 @@ public class PotViewportSystem : MonoBehaviour
 
 
     public void BoilingPot() {
-        //StartCoroutine(FrontView());
         StartCoroutine(ButtonView());
     }
 
@@ -88,7 +64,6 @@ public class PotViewportSystem : MonoBehaviour
         lidTimeline.Play();
         lidTimeline.time = 0; // 타임라인 시작점
         lidTimeline.playableGraph.GetRootPlayable(0).SetSpeed(1); // 정방향 재생
-        
     }
 
     public void PlayBackward()
@@ -97,22 +72,7 @@ public class PotViewportSystem : MonoBehaviour
         lidTimeline.Pause();
     }
 
-
-    IEnumerator ButtonView() {
-        PlayBackward();
-        SwitchTrack();
-        while(!movingForward) {
-            dolly.m_PathPosition -= viewportSpeed * Time.deltaTime;
-            if (dolly.m_PathPosition <= 0) // 최소 WayPoint 도달
-                movingForward = true;
-            yield return null;
-        }
-        yield return new WaitForSeconds(0.8f);
-        buttonViewObject.SetActive(false);
-        buttonUIObject.SetActive(true);
-    }
-
-    public IEnumerator TopView() {
+    IEnumerator TopView() {
         PlayForward();
         while(movingForward) {
             dolly.m_PathPosition += viewportSpeed * Time.deltaTime;
@@ -122,9 +82,10 @@ public class PotViewportSystem : MonoBehaviour
         }
         ingredientInventoryPanel.interactable = true; 
         ingredientInventoryPanel.blocksRaycasts = true;
+
     }
 
-    IEnumerator FrontView() {
+    IEnumerator ButtonView() {
         PlayBackward();
         while(!movingForward) {
             dolly.m_PathPosition -= viewportSpeed * Time.deltaTime;
@@ -132,12 +93,12 @@ public class PotViewportSystem : MonoBehaviour
                 movingForward = true;
             yield return null;
         }
+        yield return new WaitForSeconds(0.8f);
+        buttonViewObject.SetActive(false);
+        buttonUIObject.SetActive(true);
+
     }
 
-    public void SetDirection(bool forward)
-    {
-        movingForward = forward;
-    }
 
 
 }

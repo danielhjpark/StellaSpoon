@@ -42,6 +42,8 @@ public class FryingPanManager : CookManagerBase
     {
         base.SelectRecipe(menu);
         //fryingCount = menu.fryingSetting.fryingCount; fix
+        fryingCount = menu.fryingSetting.fryingCount;
+        fryingPanUI.Initialize(menu.fryingSetting);
     }
 
     public override void CookCompleteCheck() {

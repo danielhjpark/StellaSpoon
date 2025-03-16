@@ -51,14 +51,14 @@ public enum BoilType
 public class TossingSetting
 {
     public int tossingCount;
-    public int successRange;
 }
 
 [System.Serializable]
 public class FryingSetting
 {
     public int fryingCount;
-    public int successRange;
+    [Header("Total Value = 750")]
+    public int[] sectionRange = new int[3];
 }
 
 [System.Serializable]

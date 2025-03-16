@@ -49,11 +49,11 @@ public class RefrigeratorSlot : Slot
     }
 
     private bool IsTypeIngredient(Item _item) {
-        if(_item.itemType.ToString() != "Ingredient") {
-            Debug.Log("AddItem.Type == "+_item.itemType.ToString());
-            return false;
+        if(_item.itemType.ToString() == "Ingredient" ||_item.itemType.ToString() == "contaminatedIngredient") {
+            return true;
+           
         }
-        return true;
+         return false;
     }
 
     public override void OnDrop(PointerEventData eventData)

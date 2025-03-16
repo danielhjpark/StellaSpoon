@@ -132,12 +132,16 @@ public class PotManager : CookManagerBase
     public void OpenSceneView() {
         potViewCamera.SetActive(true);
         uiObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     //Change to MainCamera
     public void CloseSceneView() {
         potViewCamera.SetActive(false);
         uiObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
 
