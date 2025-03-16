@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem.XR;
+
 
 
 
@@ -129,6 +131,10 @@ namespace StarterAssets
         private GameObject damageTextPrefab; // 데미지 텍스트 프리팹 (Inspector에서 할당)
         public Transform uiCanvas; // UI 캔버스 (Inspector에서 할당)
 
+        public float slopeLimit = 50f;
+        public float slideSpeed = 5f;
+        private bool isSliding;
+
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -193,6 +199,17 @@ namespace StarterAssets
 
         private void Update()
         {
+            if (_controller.isGrounded)
+            {
+                CheckSlope();
+            }
+
+            if (isSliding)
+            {
+                Vector3 slideDirection = Vector3.ProjectOnPlane(Vector3.down, GetGroundNormal()).normalized;
+                _controller.Move(slideDirection * slideSpeed * Time.deltaTime);
+            }
+
             if (!DeviceManager.isDeactived || TreasureChest.openingChest)
             {
                 if (_hasAnimator)
@@ -713,6 +730,33 @@ namespace StarterAssets
             _animator.ResetTrigger("Reload");
             _animator.SetLayerWeight(2, 0);
             isReload = false;
+        }
+        void CheckSlope()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _controller.height / 2 + 0.1f))
+            {
+                float angle = Vector3.Angle(hit.normal, Vector3.up);
+
+                // 경사가 너무 높으면 점프 불가
+                if (angle > slopeLimit)
+                {
+                    isSliding = true;
+                    Grounded = false;
+                }
+                else
+                {
+                    isSliding = false;
+                    Grounded = true;
+                }
+            }
+        }
+        Vector3 GetGroundNormal()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _controller.height / 2 + 0.1f))
+            {
+                return hit.normal;
+            }
+            return Vector3.up;
         }
     }
 }
