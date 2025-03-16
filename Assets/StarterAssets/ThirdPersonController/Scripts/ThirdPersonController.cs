@@ -740,8 +740,9 @@ namespace StarterAssets
                 // 경사가 너무 높으면 점프 불가
                 if (angle > slopeLimit)
                 {
-                    isSliding = true;
+                    isSliding = true;            
                     Grounded = false;
+                    _input.jump = false;
                 }
                 else
                 {
