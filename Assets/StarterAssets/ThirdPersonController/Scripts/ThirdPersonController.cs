@@ -206,14 +206,8 @@ namespace StarterAssets
 
             if (isSliding)
             {
-                if (_hasAnimator)
-                {
-                    _animator.SetFloat(_animIDSpeed, 0f);
-                    _animator.SetFloat(_animIDMotionSpeed, 0f);
-                }
                 Vector3 slideDirection = Vector3.ProjectOnPlane(Vector3.down, GetGroundNormal()).normalized;
                 _controller.Move(slideDirection * slideSpeed * Time.deltaTime);
-                Debug.Log("Sliding");
             }
 
             if (!DeviceManager.isDeactived || TreasureChest.openingChest)
