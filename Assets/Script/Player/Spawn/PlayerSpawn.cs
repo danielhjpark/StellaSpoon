@@ -5,41 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSpawn : MonoBehaviour
 {
-    private void OnEnable()
+    private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(SetPlayerPosition());
-    }
-
-    private IEnumerator SetPlayerPosition()
-    {
-        yield return null; // 한 프레임 대기
-
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player)
         {
-            CharacterController controller = player.GetComponent<CharacterController>();
-            if (controller)
-            {
-                controller.enabled = false; // 충돌 방지
-                player.transform.position = transform.position;
-                controller.enabled = true;
-            }
-            else
-            {
-                player.transform.position = transform.position;
-            }
+            player.transform.position = transform.position; // 씬 이동 후 스폰 포인트로 이동
+            player.transform.rotation = transform.rotation;
         }
     }
-}
 
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+}
 
