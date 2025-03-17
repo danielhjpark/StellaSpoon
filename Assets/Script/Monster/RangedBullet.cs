@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class RangedBullet : RangedMonster
 {
-    public GameObject player; // 플레이어
-    protected ThirdPersonController thirdPersonController;
+    public GameObject player_; // 플레이어
+    protected ThirdPersonController thirdPersonController_;
     public Transform playerTr; // 플레이어의 위치
     public float moveSpeed = 5f; // 이동 속도
 
@@ -14,9 +14,9 @@ public class RangedBullet : RangedMonster
 
     private new void Start()
     {
-        player = GameObject.FindWithTag("Player");
-        playerTr = player.transform;
-        thirdPersonController = player.GetComponent<ThirdPersonController>();
+        player_ = GameObject.FindWithTag("Player");
+        playerTr = player_.transform;
+        thirdPersonController_ = player.GetComponent<ThirdPersonController>();
 
         if (playerTr != null )
         {
