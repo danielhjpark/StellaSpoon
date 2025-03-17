@@ -13,14 +13,12 @@ public class RangedMonster : MonsterBase
 
     protected override void HandleAttack()
     {
-        if(!isAttack || Time.time - lastAttackTime >= damageDelayTime)
+        base.HandleAttack();
+        // 현재 시간이 마지막 공격 시간 + 쿨타임 이상인지 확인
+        if (Time.time >= lastAttackTime + damageDelayTime)
         {
-            lastAttackTime = Time.time;
-            isAttack = true;
-            animator.SetBool("Walk", false);
-            animator.SetBool("Attack", true); //Attack 애니메이션 실행
+            lastAttackTime = Time.time; // 마지막 공격 시간 업데이트
             Instantiate(projectilePrefab, AttackTF.position, AttackTF.rotation);
         }
-        //공격 구현
     }
 }
