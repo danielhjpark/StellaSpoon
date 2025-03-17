@@ -45,7 +45,8 @@ public class MonsterSpawner : MonoBehaviour
 
             if (validPosition)
             {
-                GameObject monster = Instantiate(monsterprefab, spawnposition, Quaternion.identity);
+                GameObject monster = Instantiate(monsterprefab, spawnposition, Quaternion.identity, transform);
+
                 monsters.Add(monster);
                 StartCoroutine(RespawnMonster(monster));
             }
