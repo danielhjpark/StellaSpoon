@@ -100,6 +100,7 @@ public abstract class MonsterBase : MonoBehaviour
 
                     if (distanceToPlayer <= attackRange)
                     {
+                        nav.ResetPath();
                         currentState = MonsterStates.Attack;
                     }
                     else if (distanceToPlayer > attackRange && distanceToPlayer <= playerDetectionRange)
