@@ -17,6 +17,8 @@ public class WokManager : CookManagerBase
     [SerializeField] Transform dropPos;
     [SerializeField] GameObject dropIngredient;
 
+    [Header("Liquid System")]
+    [SerializeField] WokLiquidSystem wokLiquidSystem;
     //----------------------------------------------------------------------//
     private List<GameObject> wokIngredients = new List<GameObject>();
     private List<Ingredient> checkIngredients = new List<Ingredient>();
@@ -47,6 +49,12 @@ public class WokManager : CookManagerBase
         }
     }
     //--------------------------Virtual Method -----------------------------//
+    public override void SelectRecipe(Recipe menu)
+    {
+        base.SelectRecipe(menu);
+        tossingCount = menu.tossingSetting.tossingCount;
+        wokLiquidSystem.Initialize(tossingCount);
+    }
     public override void CookCompleteCheck() {
         //success
         if(currentMenu.tossingSetting.tossingCount <= successTossingCount){
@@ -68,7 +76,7 @@ public class WokManager : CookManagerBase
     //----------------------------------------------------------------------//
     public void AddIngredientList(GameObject ingredients) {
         ingredients.transform.SetParent(dropIngredient.transform);
-        foreach(GameObject ingredient in ingredients.transform) {
+        foreach(Transform ingredient in ingredients.transform) {
             wokIngredients.Add(ingredient.gameObject);
             ingredient.GetComponent<Rigidbody>().isKinematic = false;
             ingredient.GetComponent<Rigidbody>().useGravity = true;
@@ -85,7 +93,6 @@ public class WokManager : CookManagerBase
     }
 
     public void StartTossing() {
-        tossingCount = 3;
         StartCoroutine(WokTossing());   
         StartCoroutine(cookUIManager.HidePanel());
     }
@@ -122,6 +129,7 @@ public class WokManager : CookManagerBase
             yield return null;
         }
 
+        wokLiquidSystem.IncreaseLiquidLevel();
         tossingCount--;
         yield return new WaitForSeconds(0.5f);
         if(tossingCount > 0) StartCoroutine(WokTossing());

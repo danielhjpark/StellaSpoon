@@ -7,7 +7,7 @@ public class RecipeManager : MonoBehaviour
 {
     static public RecipeManager instance = null;
 
-    Recipe[] RecipeList; //?„?‹œ ?°?´?„° ë² ì´?Š¤
+    public Recipe[] RecipeList; //?„?‹œ ?°?´?„° ë² ì´?Š¤
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     
     void Awake()

@@ -23,6 +23,15 @@ public class IngredientInventory : MonoBehaviour
         }
     }
 
+    public void IngredientAdd(Ingredient ingredient) {
+        foreach(IngredientSlot ingredientSlot in ingredientSlots) {
+            if(ingredientSlot.IsEmpty()) {
+                ingredientSlot.BindingIngredient(ingredient);
+                break;
+            }
+        }
+    }
+
     public void IngredientSlotClear() {
         foreach(IngredientSlot ingredientSlot in ingredientSlots) {
             ingredientSlot.SlotClear();
