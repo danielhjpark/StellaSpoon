@@ -2,72 +2,99 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class MakeRecipeUI : MonoBehaviour
 {
+    [Header("Inventory")]
     [SerializeField] RefrigeratorInventory refrigeratorInventory;
-    [SerializeField] GameObject[] ingredientParents;
+    [SerializeField] IngredientInventory ingredientInventory;
+
+    [Header("IngredientUI")]
+    [SerializeField] GameObject mainIngredientUI;
+    [SerializeField] GameObject mainIngredientParent;
+    [SerializeField] GameObject sauceIngredientUI;
+    [SerializeField] GameObject sauceIngredientParent;
     [SerializeField] GameObject slotPrefab;
 
-    [SerializeField] GameObject mainIngredientUI;
-    [SerializeField] GameObject subIngredientUI;
-    [SerializeField] GameObject sauceIngredientUI;
+    [Header("ScrollView")]
+    [SerializeField] ScrollViewSystem scrollViewSystem;
 
-    [SerializeField] Ingredient ingredient;
+    private List<Ingredient> addedIngredient;
 
-    void Start() {
-        CombineIngredient(ingredient);
+    //Button
+    public void Start()
+    {
+        MainIngredientList();
+        sauceIngredientUI.SetActive(false);
     }
 
     void Update()
     {
-        
+
     }
 
+    //Event
+    public void OnAddedIngredient(Ingredient addIngredient)
+    {
+        addedIngredient.Add(addIngredient);
+    }
 
-    public void MainIngredientList() {
-
-        foreach (Ingredient ingredient in  IngredientManager.IngredientAmount.Keys)
+    public void MainIngredientList()
+    {
+        ingredientInventory.IngredientSlotClear();
+        foreach (KeyValuePair<Ingredient, int> ingredientPair in IngredientManager.IngredientAmount)
         {
+            Ingredient ingredient = ingredientPair.Key;
+            int ingredientAmount = ingredientPair.Value;
+            if (ingredientAmount <= 0) continue;
             GameObject slotObject = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity);
-            switch(ingredient.ingredientType) {
+            switch (ingredient.ingredientType)
+            {
                 case IngredientType.Main:
-                    slotObject.transform.SetParent(mainIngredientUI.transform);
-                    break;
-                case IngredientType.Sub:
-                    slotObject.transform.SetParent(subIngredientUI.transform);
+                    slotObject.transform.SetParent(mainIngredientParent.transform);
+                    slotObject.AddComponent<MainIngredientSlot>();
+                    slotObject.GetComponent<MainIngredientSlot>().SlotUISetup(ingredient, ingredientInventory);
                     break;
                 case IngredientType.Sauce:
-                    slotObject.transform.SetParent(sauceIngredientUI.transform);
+                    slotObject.transform.SetParent(sauceIngredientParent.transform);
+                    slotObject.AddComponent<SauceIngredientSlot>();
+                    slotObject.GetComponent<MainIngredientSlot>().SlotUISetup(ingredient, ingredientInventory);
                     break;
+                default:
+                    ingredientInventory.IngredientAdd(ingredient);
+                    break;
+
             }
-            
-            MakeRecipeSlot makeRecipeSlot = slotObject.GetComponent<MakeRecipeSlot>();
-            makeRecipeSlot.SlotUISetup(ingredient);
             //selectRecipe.OnSelectRecipe += RecipeUpdate;
         }
         //ingredientInventory.IngredientSlotClear();
     }
 
-    public void NextUI() {
-        
+    public void NextUI()
+    {
+
     }
 
-    public void CheckCanMakeNewRecipe() {
+    public void CheckCanMakeNewRecipe()
+    {
         bool isCanMakeNewRecipe = true;
-    
-        if(isCanMakeNewRecipe) {
+
+        if (isCanMakeNewRecipe)
+        {
 
         }
-        else {
+        else
+        {
 
         }
     }
 
-    List<Recipe> CombineIngredient(Ingredient ingredient) {
+    List<Recipe> CombineIngredient(Ingredient ingredient)
+    {
         Ingredient mainIngredient = ingredient;
         List<Recipe> recipe = RecipeManager.instance.RecipeList.
-            Where(recipe =>recipe.ingredients.
+            Where(recipe => recipe.ingredients.
             Any(target => target.ingredient == mainIngredient)).ToList();
         Debug.Log(recipe[0].menuName);
 

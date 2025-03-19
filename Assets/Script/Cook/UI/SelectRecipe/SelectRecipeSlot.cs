@@ -8,7 +8,7 @@ using System;
 public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     Recipe currentRecipe;
-    [SerializeField]Image image;
+    Image image;
     bool isEnter;
     private Color initColor;
     private Color disableColor;
@@ -17,6 +17,7 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     void Start()
     {
+        image = GetComponent<Image>();
         initColor = Color.white;
         disableColor = Color.grey;
     }
@@ -24,13 +25,15 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)) {
-            if(isEnter) {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (isEnter)
+            {
                 ingredientInventory.gameObject.SetActive(true);
                 ingredientInventory.IngredientSlotClear();
                 ingredientInventory.IngredientAdd(currentRecipe);
                 CookManager.instance.SelectRecipe(currentRecipe);
-                
+
                 //Hide Panel
                 this.transform.parent.gameObject.SetActive(false);
                 OnSelectRecipe?.Invoke();
@@ -42,7 +45,8 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
     }
 
-    public void RecipeUISetup(Recipe recipe, IngredientInventory ingredientInventory) {
+    public void RecipeUISetup(Recipe recipe, IngredientInventory ingredientInventory)
+    {
         this.ingredientInventory = ingredientInventory;
         currentRecipe = recipe;
         image.sprite = recipe.menuImage;

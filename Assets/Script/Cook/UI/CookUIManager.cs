@@ -5,26 +5,48 @@ using UnityEngine;
 public class CookUIManager : MonoBehaviour
 {
     [SerializeField] RectTransform inventoryPanel;
-    [SerializeField] GameObject RecipeSelectPanel;
-    [SerializeField] int panelSpeed;
-    
-    void Awake()
+    [SerializeField] GameObject SelectRecipePanel;
+    [SerializeField] GameObject MakeRecipePanel;
+    [SerializeField] GameObject SelectModePanel;
+
+    private int panelSpeed;
+
+    void Start()
     {
         panelSpeed = 5;
+        SelectRecipePanel.SetActive(false);
+        MakeRecipePanel.SetActive(false);
     }
 
-    private void Update() {
-
+    private void Update()
+    {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    public IEnumerator HidePanel() {
+    //-------------------Button-------------------
+    public void SelectRecipeMode()
+    {
+        SelectRecipePanel.SetActive(true);
+        SelectModePanel.SetActive(false);
+    }
+
+    public void MakeRecipeMode()
+    {
+        MakeRecipePanel.SetActive(true);
+        SelectModePanel.SetActive(false);
+    }
+
+
+    public IEnumerator HidePanel()
+    {
         int startPos = -250;
-        while(true) {
+        while (true)
+        {
             startPos += panelSpeed;
             inventoryPanel.anchoredPosition = new Vector2(startPos, inventoryPanel.anchoredPosition.y);
-            if(inventoryPanel.anchoredPosition.x >= 250) {
+            if (inventoryPanel.anchoredPosition.x >= 250)
+            {
                 inventoryPanel.anchoredPosition = new Vector2(250, inventoryPanel.anchoredPosition.y);
                 break;
             }
@@ -32,12 +54,15 @@ public class CookUIManager : MonoBehaviour
         }
     }
 
-    public IEnumerator VisiblePanel() {
+    public IEnumerator VisiblePanel()
+    {
         int startPos = 250;
-        while(true) {
+        while (true)
+        {
             startPos -= panelSpeed;
             inventoryPanel.anchoredPosition = new Vector2(startPos, inventoryPanel.anchoredPosition.y);
-            if(inventoryPanel.anchoredPosition.x <= -250) {
+            if (inventoryPanel.anchoredPosition.x <= -250)
+            {
                 inventoryPanel.anchoredPosition = new Vector2(-250, inventoryPanel.anchoredPosition.y);
                 break;
             }
