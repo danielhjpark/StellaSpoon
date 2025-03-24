@@ -36,6 +36,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Rig aimRig;
 
+    private bool noAim = true;
+
     void Start()
     {
         _input = GetComponent<StarterAssetsInputs>();
@@ -57,7 +59,7 @@ public class PlayerManager : MonoBehaviour
         {
             _input.reload = false;
 
-            if(controller.isReload || InventoryManager.instance.isWeaponRifle == false)
+            if(controller.isReload || InventoryManager.instance.isWeaponRifle == false || anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload"))
             {
                 return;
             }
@@ -76,6 +78,12 @@ public class PlayerManager : MonoBehaviour
 
         if (_input.aiming && InventoryManager.instance.isWeaponRifle == true)
         {
+            // 조준 중 닷지 안되게
+            if(!noAim)
+            {
+                return;
+            }
+
             AimControll(true);
 
             anim.SetLayerWeight(2, 1);
@@ -193,5 +201,16 @@ public class PlayerManager : MonoBehaviour
         if (controller.isHit) return;
 
         RifleManager.instance.InitBullet();
+    }
+
+    public void TrueAim()
+    {
+        Debug.Log("sasdsdadass");
+        noAim = true;
+    }
+
+    public void FalseAim()
+    {
+        noAim = false;
     }
 }

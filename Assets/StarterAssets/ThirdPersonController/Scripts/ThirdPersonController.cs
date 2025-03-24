@@ -103,7 +103,7 @@ namespace StarterAssets
         private int _animDDodge;
 
         // Dodge
-        private bool isDodge = false;
+        public bool isDodge = false;
         private bool dodgeCooldownActive;
 
         // 캐릭터 기본 스테이터스
@@ -729,10 +729,11 @@ namespace StarterAssets
             Destroy(textObj); // 끝나면 삭제
         }
 
-        private void CancelReload()
+        public void CancelReload()
         {
             _animator.ResetTrigger("Reload");
             _animator.SetLayerWeight(2, 0);
+            _animator.CrossFade("Empty", 0.1f, 2);
             isReload = false;
         }
         void CheckSlope()
