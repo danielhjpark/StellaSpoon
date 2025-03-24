@@ -15,7 +15,7 @@ public class RefrigeratorManager : MonoBehaviour
     {
         if (instance == null) {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else {
             if (instance != this) Destroy(this.gameObject);
@@ -28,18 +28,10 @@ public class RefrigeratorManager : MonoBehaviour
 
     }
 
-    void Update() {
-        //OpenInventorySystem();
+    public RefrigeratorInventory BindInventory() {
+        return refrigeratorInventory;
     }
 
-    //------------------Button----------------------//
-    void NextInventory() {
-
-    }
-
-    void PreviousInventory() {
-
-    }
     //----------------Input System------------------//
     void OpenInventorySystem() {
         if (Input.GetKeyDown(KeyCode.Tab))

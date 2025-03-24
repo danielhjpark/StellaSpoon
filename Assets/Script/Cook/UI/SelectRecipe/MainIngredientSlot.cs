@@ -22,7 +22,7 @@ public class MainIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             if (isEnter)
             {
-                //ingredientInventory.IngredientAdd(ingredient);
+                ingredientInventory.IngredientAdd(ingredient);
                 //OnAddedIngredient?.Invoke();
                 GameObject ingredientObject = Instantiate(ingredient.ingredientPrefab, Input.mousePosition, ingredient.ingredientPrefab.transform.rotation);
                 ingredientObject.transform.SetParent(CookManager.instance.spawnPoint, false);

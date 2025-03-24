@@ -55,6 +55,13 @@ public class PotManager : CookManagerBase
     }
 
     //--------------- virtual Method ----------------------//
+
+   public override IEnumerator UseCookingStep()
+    {
+        yield return null;
+    }
+
+
     public override void CookCompleteCheck() {
         if(currentTime >= completeTime) {
             CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);

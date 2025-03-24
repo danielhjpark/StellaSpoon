@@ -56,11 +56,11 @@ public class MakeRecipeUI : MonoBehaviour
                     slotObject.AddComponent<MainIngredientSlot>();
                     slotObject.GetComponent<MainIngredientSlot>().SlotUISetup(ingredient, ingredientInventory);
                     break;
-                case IngredientType.Sauce:
-                    slotObject.transform.SetParent(sauceIngredientParent.transform);
-                    slotObject.AddComponent<SauceIngredientSlot>();
-                    slotObject.GetComponent<MainIngredientSlot>().SlotUISetup(ingredient, ingredientInventory);
-                    break;
+                // case IngredientType.Sauce:
+                //     slotObject.transform.SetParent(sauceIngredientParent.transform);
+                //     slotObject.AddComponent<SauceIngredientSlot>();
+                //     slotObject.GetComponent<MainIngredientSlot>().SlotUISetup(ingredient, ingredientInventory);
+                //     break;
                 default:
                     ingredientInventory.IngredientAdd(ingredient);
                     break;
@@ -88,17 +88,6 @@ public class MakeRecipeUI : MonoBehaviour
         {
 
         }
-    }
-
-    List<Recipe> CombineIngredient(Ingredient ingredient)
-    {
-        Ingredient mainIngredient = ingredient;
-        List<Recipe> recipe = RecipeManager.instance.RecipeList.
-            Where(recipe => recipe.ingredients.
-            Any(target => target.ingredient == mainIngredient)).ToList();
-        Debug.Log(recipe[0].menuName);
-
-        return recipe;
     }
 
 }

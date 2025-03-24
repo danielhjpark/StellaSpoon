@@ -35,12 +35,13 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 CookManager.instance.SelectRecipe(currentRecipe);
 
                 //Hide Panel
-                this.transform.parent.gameObject.SetActive(false);
                 OnSelectRecipe?.Invoke();
+                this.transform.parent.gameObject.SetActive(false);
+                
 
                 //DailyMenu Count decrease
-                DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
-                OrderManager.instance.UpdateMenu();
+                //DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
+               // OrderManager.instance.UpdateMenu();
             }
         }
     }
@@ -49,7 +50,7 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         this.ingredientInventory = ingredientInventory;
         currentRecipe = recipe;
-        image.sprite = recipe.menuImage;
+        //image.sprite = recipe.menuImage;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

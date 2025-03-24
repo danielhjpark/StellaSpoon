@@ -19,6 +19,8 @@ public class CookManager : MonoBehaviour
     [NonSerialized] public Transform spawnPoint;
     [NonSerialized] public Recipe currentMenu;
     [SerializeField] public Recipe failMenu;
+    public enum CookMode {Select, Make};
+    public CookMode cookMode;
 
     void Awake()
     {
@@ -118,6 +120,7 @@ public class CookManager : MonoBehaviour
 
     public void DropObject(GameObject ingredientObject, Ingredient ingredient)
     {
+        Debug.Log(ingredient.ingredientCookType);
         switch (ingredient.ingredientCookType)
         {
             case IngredientCookType.Cutting:

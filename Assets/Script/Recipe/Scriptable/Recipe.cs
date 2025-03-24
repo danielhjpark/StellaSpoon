@@ -14,6 +14,7 @@ public class Recipe : ScriptableObject
     public GameObject menuPrefab;
 
     [Header("Ingrdient Setting")]
+    public Ingredient mainIngredient;
     public List<IngredientAmount> ingredients;
 
     [Header("CookType Setting ")]
@@ -41,16 +42,11 @@ public class BoilingSetting
     public BoilType boilType;
 }
 
-public enum BoilType
-{
-    Boil,
-    Steam,
-}
-
 [System.Serializable]
 public class TossingSetting
 {
     public int tossingCount;
+    public SauceType sauceType;
 }
 
 [System.Serializable]
@@ -73,4 +69,14 @@ public class IngredientAmount
 {
     public Ingredient ingredient;
     public int amount;
+
+    public IngredientAmount(Ingredient ingredient, int amount) {
+        this.ingredient = ingredient;
+        this.amount = amount;
+    }
 }
+
+public enum SauceType {Brown, Red, White, None};
+public enum BoilType {Boil, Steam}
+
+

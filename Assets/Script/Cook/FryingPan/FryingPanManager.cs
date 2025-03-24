@@ -38,6 +38,11 @@ public class FryingPanManager : CookManagerBase
     }
 
     //--------------- virtual Method ----------------------//
+    public override IEnumerator UseCookingStep()
+    {
+        yield return null;
+    }
+
     public override void SelectRecipe(Recipe menu)
     {
         base.SelectRecipe(menu);

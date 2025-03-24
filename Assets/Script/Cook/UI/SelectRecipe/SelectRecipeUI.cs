@@ -47,8 +47,9 @@ public class SelectRecipeUI : MonoBehaviour
 
             recipeObject.AddComponent<SelectRecipeSlot>();
             SelectRecipeSlot selectRecipe = recipeObject.GetComponent<SelectRecipeSlot>();
-            selectRecipe.RecipeUISetup(recipe, ingredientInventory);
             selectRecipe.OnSelectRecipe += RecipeUpdate;
+            selectRecipe.RecipeUISetup(recipe, ingredientInventory);
+            
         }
 
     }

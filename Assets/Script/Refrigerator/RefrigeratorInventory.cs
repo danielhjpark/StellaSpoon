@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RefrigeratorInventory : Inventory
 {
-    RefrigeratorSlot[] refrigeratorSlots;
+    public RefrigeratorSlot[] refrigeratorSlots;
     List<Item> items;
     void Start()
     {

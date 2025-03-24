@@ -1,76 +1,137 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.Playables;
+using System.Linq;
 
 public class WokManager : CookManagerBase
 {
-    [Header("TimeLine")]
-    [SerializeField] PlayableDirector wokTimeLine;
-
     [Header("UI Objects")]
     [SerializeField] WokUI wokUI;
     [SerializeField] CookUIManager cookUIManager;
-    
+    [SerializeField] IngredientInventory ingredientInventory;
+
     [Header("Transform Objects")]
     [SerializeField] Transform dropPos;
     [SerializeField] GameObject dropIngredient;
 
-    [Header("Liquid System")]
-    [SerializeField] WokLiquidSystem wokLiquidSystem;
+    [Header("Wok System")]
+    [SerializeField] WokTossingSystem wokTossingSystem;
+    [SerializeField] WokSauceSystem wokSauceSystem;
     //----------------------------------------------------------------------//
     private List<GameObject> wokIngredients = new List<GameObject>();
-    private List<Ingredient> checkIngredients = new List<Ingredient>();
-    
+    private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
     //----------------------------------------------------------------------//
-    private bool isTossing = false;
-    private int tossingCount;
+    private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
-    
+    private int targetTossingCount;
+    private List<IngredientAmount> currentIngredients = new List<IngredientAmount>();
+    //---------------------------------------------------------------------//
 
     void Awake() {
         CookManager.instance.BindingManager(this);
+        cookUIManager.Initialize(this);
     }
 
-    void Start()
-    {
-        wokUI.OnWokSystem += CheckTossing;   
+    void Start() {
+        wokTossingSystem = GetComponent<WokTossingSystem>();
+        successTossingCount = 0;
     }
 
     void Update() {
         if(Input.GetKeyDown(KeyCode.Escape)) {
             CookSceneManager.instance.UnloadScene();
         }
-        if(CheckRequireIngredient()) {
-            checkIngredients.Clear();
-            wokUI.OnWokUI();
-            StartTossing();
-        }
     }
+
     //--------------------------Virtual Method -----------------------------//
+
+    public override IEnumerator UseCookingStep() {
+        yield return StartCoroutine(AddMainIngredient());//Sub ingredient add
+        yield return StartCoroutine(InherentMotion(firstTossingCount));
+        yield return StartCoroutine(AddSubIngredient());//Sub ingredient add
+        yield return StartCoroutine(AddSauce());//Sauce motion
+        yield return StartCoroutine(InherentMotion(secondTossingCount));
+  
+        CookCompleteCheck();
+    }
+
     public override void SelectRecipe(Recipe menu)
     {
         base.SelectRecipe(menu);
-        tossingCount = menu.tossingSetting.tossingCount;
-        wokLiquidSystem.Initialize(tossingCount);
+        firstTossingCount = menu.tossingSetting.tossingCount;
+        secondTossingCount = menu.tossingSetting.tossingCount;
+        StartCoroutine(UseCookingStep());
     }
+
+    public void MakeRecipe() {
+        int randTossingCount = 2;
+        if(targetRecipe.tossingSetting.tossingCount <= 0) {
+            firstTossingCount = randTossingCount;
+            secondTossingCount = randTossingCount;
+            return;
+        }
+        firstTossingCount = targetRecipe.tossingSetting.tossingCount + 1;
+        secondTossingCount = targetRecipe.tossingSetting.tossingCount + 1;
+        targetTossingCount = firstTossingCount + secondTossingCount - 1;
+    }   
+
+
     public override void CookCompleteCheck() {
         //success
-        if(currentMenu.tossingSetting.tossingCount <= successTossingCount){
+        if(CookManager.instance.cookMode == CookManager.CookMode.Select) {
+            if(currentMenu.tossingSetting.tossingCount <= successTossingCount){
+                CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+            } 
+            //fail 조건
+            else {
+                //음쓰 소환
+            } 
             CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
-        } 
-        //fail 조건
+        }
         else {
-            //음쓰 소환
-        } 
-        CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+            if(targetRecipe.cookType != CookType.Tossing) { 
+                Debug.Log("Wrong cook type");
+                return;
+            }
+
+            if(!CompareIngredient(currentIngredients, checkIngredients)) {
+                 Debug.Log("Ingredient mismatch");
+                 return;
+             }
+
+            if(successTossingCount < targetTossingCount) {
+                Debug.Log("Not enough tossing");
+                return;
+            }
+
+            if(wokSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType) {
+                Debug.Log("Wrong sauce type");
+                return;
+            }
+
+            //UnLock New Recipe;
+            RecipeManager.instance.RecipeUnLock(targetRecipe);
+            Debug.Log("Success");
+            return;
+        
+        }
+    }    
+    public override void AddIngredient(GameObject ingredients, Ingredient ingredient) {
+        ingredients.transform.position = dropPos.position;
+        IngredientAddAmount(checkIngredients, ingredient, 1);
+        AddIngredientList(ingredients);
+        StartCoroutine(cookUIManager.VisiblePanel());
     }
-    
-    public override void AddIngredient(GameObject obj, Ingredient ingredient) {
-        obj.transform.position = dropPos.position;
-        checkIngredients.Add(ingredient);
-        AddIngredientList(obj);
+
+    void IngredientAddAmount(List<IngredientAmount> list, Ingredient ingredient, int count) {
+        var existing = list.FirstOrDefault(i => i.ingredient.Equals(ingredient));
+        if (existing != null) {
+            existing.amount += count;
+        } else {
+            list.Add(new IngredientAmount(ingredient, count));
+        }
     }
 
     //----------------------------------------------------------------------//
@@ -82,79 +143,109 @@ public class WokManager : CookManagerBase
             ingredient.GetComponent<Rigidbody>().useGravity = true;
             ingredient.GetComponent<Collider>().enabled = true;
         }
-        StartCoroutine(cookUIManager.VisiblePanel());
+        
     }
 
-    bool CheckRequireIngredient() {
-        if(currentMenu == null || currentMenu.ingredients.Count != checkIngredients.Count) {
-            return false;
+    public bool CompareIngredient(List<IngredientAmount> currentIngredients, List<IngredientAmount> targetIngredients) {
+        bool isCompare = currentIngredients.Count == targetIngredients.Count;
+        Debug.Log(currentIngredients.Count +" = "+ targetIngredients.Count);
+        int findCompareCount = 0;
+
+        foreach(IngredientAmount currentIngredient in currentIngredients) {
+            Debug.Log(currentIngredient.ingredient.ingredientName);
+            foreach(IngredientAmount targetIngredient in targetIngredients) {
+                Debug.Log(targetIngredient.ingredient.ingredientName);
+                if(currentIngredient.ingredient.ingredientName == targetIngredient.ingredient.ingredientName) {
+                    if(currentIngredient.amount == targetIngredient.amount) {
+                        findCompareCount++;
+                        break;
+                    }
+                }
+            }
         }
-        else return true;
+        if(isCompare) return currentIngredients.Count == findCompareCount;
+        else return isCompare;
     }
 
-    public void StartTossing() {
-        StartCoroutine(WokTossing());   
-        StartCoroutine(cookUIManager.HidePanel());
+    //---------------Wok Cooking Method---------------//
+
+    IEnumerator InherentMotion(int tossingCount) {
+        wokTossingSystem.BindTossingObject(wokIngredients);
+        yield return StartCoroutine(wokTossingSystem.WokTossing(tossingCount, (callbackValue) => 
+        {
+            successTossingCount += callbackValue;
+        }
+        ));
+        Debug.Log(successTossingCount);
     }
 
-    IEnumerator WokTossing() {
-        bool isStartTimeLine = false;
-        bool isAddForce = false;
-        Coroutine wokUIMark = StartCoroutine(wokUI.MoveMark());
+    IEnumerator AddMainIngredient() {
+        if(CookManager.instance.cookMode == CookManager.CookMode.Select) {
+            GameObject mainIngredient = currentMenu.mainIngredient.ingredientPrefab;
+            AddIngredient(Instantiate(mainIngredient, Vector3.zero, Quaternion.identity), currentMenu.mainIngredient);
+            yield return new WaitForSeconds(0.5f);
+            yield break;
+        }
+        else if(CookManager.instance.cookMode == CookManager.CookMode.Make) {
+            ingredientInventory.AddMainIngredients();
+        }
 
+        int currentCount = checkIngredients.Count;
         while(true) {
-            if(Input.GetKeyDown(KeyCode.V)&& !isStartTimeLine) {
-                if(isTossing) {
-                    wokTimeLine.time = 0;
-                    wokTimeLine.Play();
-                    isAddForce = false;
-                    isStartTimeLine = true;
-                    AddForceForwardIngredient();
-                    StopCoroutine(wokUIMark);
-                }
-                else {
-                    StopCoroutine(wokUIMark);
-                    break;
-                }
+            Debug.Log(currentCount +" "+ checkIngredients.Count);
+            if(currentCount < checkIngredients.Count) {
+                break;
+                //cookUIManager.TimerReset();
             }
-            if(!isAddForce && wokTimeLine.time >= wokTimeLine.duration * 0.45) {
-                isAddForce = true;
-                AddForceUpIngredient();
-            }
-            else if(wokTimeLine.time >= wokTimeLine.duration) {
-                 break;
-            }
-            else if(wokUI.IsCheckEnd()) break;
-
+            
             yield return null;
         }
+        targetRecipe = FindRecipe(checkIngredients[0].ingredient);
+        currentIngredients = targetRecipe.ingredients;
+        checkIngredients.Clear();
+        MakeRecipe();
+    }
 
-        wokLiquidSystem.IncreaseLiquidLevel();
-        tossingCount--;
-        yield return new WaitForSeconds(0.5f);
-        if(tossingCount > 0) StartCoroutine(WokTossing());
+    IEnumerator AddSubIngredient() {
+        wokUI.OnFridgeUI();
+        if(CookManager.instance.cookMode == CookManager.CookMode.Make) {
+            StartCoroutine(cookUIManager.TimerStart());
+            ingredientInventory.AddSubIngredients();
+        }
+
+        int currentCount = checkIngredients.Count;
+        while(true) {
+            if(CookManager.instance.cookMode == CookManager.CookMode.Select) {
+                if(CompareIngredient(currentIngredients, checkIngredients)) break;
+            }
+            else if(CookManager.instance.cookMode == CookManager.CookMode.Make) {
+                if(cookUIManager.TimerEnd()) {break;}
+                else if(currentCount < checkIngredients.Count) {
+                    currentCount = checkIngredients.Count;
+                    cookUIManager.TimerReset();
+                }
+            }
+            yield return null;
+        }
+        yield return StartCoroutine(cookUIManager.HidePanel());
+    }
+
+    IEnumerator AddSauce() {
+        if(CookManager.instance.cookMode == CookManager.CookMode.Make) {
+            wokSauceSystem.InitializeMakeMode();
+        }
         else {
-            CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+            if(currentMenu.tossingSetting.sauceType == SauceType.None) {
+                yield break;
+            }
+            else {
+                wokSauceSystem.Initialize(currentMenu.tossingSetting);
+            }
+        }
+
+        while (!wokSauceSystem.IsLiquidFilled()) {
+            yield return null; 
         }
     }
 
-    void CheckTossing(bool isTossing) {
-        this.isTossing = isTossing;
-    }
-
-    public void AddForceForwardIngredient() {
-        foreach(GameObject ingredient in wokIngredients) {
-            ingredient.GetComponent<Rigidbody>().AddForce(Vector3.forward * 3, ForceMode.VelocityChange);
-        }
-    }
-
-    public void AddForceUpIngredient() {
-        foreach(GameObject ingredient in wokIngredients) {
-            ingredient.GetComponent<Rigidbody>().AddForce(Vector3.up * 3, ForceMode.VelocityChange);
-            ingredient.GetComponent<Rigidbody>().AddForce(Vector3.back * 1, ForceMode.VelocityChange);
-        }
-    }
-
-
-    
 }

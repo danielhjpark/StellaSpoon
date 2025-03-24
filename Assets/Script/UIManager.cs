@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject DeviceUI;
     [SerializeField] GameObject CookUI;
     [SerializeField] Inventory inventory;
+    [SerializeField] GameObject NewRecipeUI;
 
     [SerializeField] Item[] items;
 
@@ -43,6 +44,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void NewRecipePanelVisible() {
+        NewRecipeUI.SetActive(true);
+        
+    }
+    
 
     void OpenUI()
     {

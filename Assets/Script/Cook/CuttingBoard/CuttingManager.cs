@@ -59,6 +59,13 @@ public class CuttingManager : CookManagerBase
         }
     }
     /// --------------Virtual Method --------------------------//
+
+    public override IEnumerator UseCookingStep()
+    {
+        yield return null;
+    }
+
+    
     public override void CookCompleteCheck() {
 
     }

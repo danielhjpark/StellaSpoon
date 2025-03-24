@@ -8,14 +8,22 @@ public class CookUIManager : MonoBehaviour
     [SerializeField] GameObject SelectRecipePanel;
     [SerializeField] GameObject MakeRecipePanel;
     [SerializeField] GameObject SelectModePanel;
-
+    [SerializeField] GameObject TimerPanel;
+    CookManagerBase currentCookManager;
+    TimerSystem timerSystem;
     private int panelSpeed;
 
     void Start()
     {
         panelSpeed = 5;
+        timerSystem = TimerPanel.GetComponent<TimerSystem>();
         SelectRecipePanel.SetActive(false);
         MakeRecipePanel.SetActive(false);
+        TimerPanel.SetActive(false);
+    }
+
+    public void Initialize(CookManagerBase cookManagerBase) {
+        this.currentCookManager = cookManagerBase;
     }
 
     private void Update()
@@ -27,16 +35,36 @@ public class CookUIManager : MonoBehaviour
     //-------------------Button-------------------
     public void SelectRecipeMode()
     {
+        inventoryPanel.gameObject.SetActive(false);
         SelectRecipePanel.SetActive(true);
         SelectModePanel.SetActive(false);
+        CookManager.instance.cookMode = CookManager.CookMode.Select;
     }
 
     public void MakeRecipeMode()
     {
-        MakeRecipePanel.SetActive(true);
+        inventoryPanel.gameObject.SetActive(true);
+        MakeRecipePanel.SetActive(false);
         SelectModePanel.SetActive(false);
+        //inventoryPanel.GetComponent<IngredientInventory>().AddAllIngredients();
+        CookManager.instance.cookMode = CookManager.CookMode.Make;
+        StartCoroutine(VisiblePanel());
+        StartCoroutine(currentCookManager.UseCookingStep());
     }
 
+    public IEnumerator TimerStart() {
+        TimerPanel.SetActive(true);
+        yield return StartCoroutine(timerSystem.TimerStart());
+        TimerPanel.SetActive(false);
+    }
+
+    public void TimerReset() { 
+        timerSystem.TimerReset();
+    }
+
+    public bool TimerEnd() { 
+        return timerSystem.TimerEnd();
+    }
 
     public IEnumerator HidePanel()
     {
