@@ -133,6 +133,12 @@ namespace StarterAssets
         private float slopeLimit = 60f;
         private float slideSpeed = 10f;
 
+        [Header("Dodge Distance")]
+        [SerializeField]
+        float dodgeDistance = 7f; // 닷지 이동 거리
+        [SerializeField]
+        float minDodgeDistance = 7f; // 최소 이동 거리
+
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -262,11 +268,9 @@ namespace StarterAssets
             Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
             dodgeDirection = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f) * dodgeDirection;
 
-            float dodgeDistance = 7f;
             float dodgeDuration = 0.5f;
             float elapsedTime = 0f;
             float verticalVelocity = 0f;
-            float minDodgeDistance = 6.5f; // 최소 이동 거리
 
             Vector3 startPosition = transform.position;
             Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
