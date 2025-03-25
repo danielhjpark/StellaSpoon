@@ -42,6 +42,10 @@ public class PlayerManager : MonoBehaviour
     // ** 새로운 아바타 및 애니메이터 관련 변수 추가 **
     [Header("Avatar & Animator")]
     [SerializeField]
+    private Avatar defaultAvatar;
+    [SerializeField] 
+    private Avatar specialAvatar;
+    [SerializeField]
     private RuntimeAnimatorController defaultAnimator;
     [SerializeField]
     private RuntimeAnimatorController specialAnimator;
@@ -78,17 +82,18 @@ public class PlayerManager : MonoBehaviour
         if (scene.name == specialSceneName)
         {
             isRestaurant = true;
-            ChangeAvatar(specialMesh ,specialAnimator, specialMaterial); // 특정 씬일 경우 변경
+            ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경
         }
         else
         {
             isRestaurant = false;
-            ChangeAvatar(normalMesh, defaultAnimator, normalMaterial); // 기본 씬이면 원래대로
+            ChangeAvatar(defaultAvatar, normalMesh, defaultAnimator, normalMaterial); // 기본 씬이면 원래대로
         }
     }
 
-    private void ChangeAvatar(Mesh mesh, RuntimeAnimatorController newAnimator, Material material)
+    private void ChangeAvatar(Avatar avatar, Mesh mesh, RuntimeAnimatorController newAnimator, Material material)
     {
+        anim.avatar = avatar;
         skinnedMeshRenderer.sharedMesh = mesh;
         skinnedMeshRenderer.material = material;
         anim.runtimeAnimatorController = newAnimator;
@@ -223,6 +228,11 @@ public class PlayerManager : MonoBehaviour
 
     private void SetRigWeight(float weight)
     {
+        if(isRestaurant)
+        {
+            aimRig.weight = 0;
+            handRig.weight = 0;
+        }
         aimRig.weight = weight;
         handRig.weight = weight;
     }
