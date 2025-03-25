@@ -16,8 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] Recipe[] recipes;
     void Start()
     {
-        InventoryUI();
-        InventoryUI();
+        //InventoryUI(); 변경 요청 해야징
+        //InventoryUI();
         DailyMenuAdd();
     }
     void Update()

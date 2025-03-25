@@ -3003,7 +3003,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &544204389
 Transform:
   m_ObjectHideFlags: 0
@@ -5438,7 +5438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &803571128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6085,6 +6085,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 872209170}
   m_CullTransparentMesh: 1
+--- !u!1 &883763946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883763948}
+  - component: {fileID: 883763947}
+  m_Layer: 0
+  m_Name: Spawn
+  m_TagString: RespawnPoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &883763947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883763946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9828d6566fd1794499dcd61dfc0bed58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &883763948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883763946}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 0, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &888441118
 GameObject:
   m_ObjectHideFlags: 0
@@ -6118,7 +6162,7 @@ RectTransform:
   m_Father: {fileID: 824205274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8043,7 +8087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1149864261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8507,6 +8551,7 @@ MonoBehaviour:
   equipmentPanel: {fileID: 0}
   optionPanel: {fileID: 0}
   planetPanel: {fileID: 0}
+  showText: {fileID: 0}
   inventoryButton: {fileID: 0}
   inventoryButtonImage: {fileID: 0}
   defaultSprite: {fileID: 0}
@@ -17538,7 +17583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1948540088505544563
 Transform:
   m_ObjectHideFlags: 0
@@ -17619,7 +17664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2070925441757318930
 Transform:
   m_ObjectHideFlags: 0
@@ -18374,13 +18419,16 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  isDodge: 0
   MaxHP: 100
   Def: 20
+  isHit: 0
   isDie: 0
-  ReSpawnPoint: {fileID: 0}
   _hpBar: {fileID: 1023118489}
   damageTextPrefab: {fileID: 4666749656009798378, guid: 19b22e92d2239c84c853ac845433544e, type: 3}
   uiCanvas: {fileID: 0}
+  dodgeDistance: 7
+  minDodgeDistance: 7
   isAiming: 0
   isReload: 0
 --- !u!1 &3611843635802963890
@@ -20604,3 +20652,4 @@ SceneRoots:
   - {fileID: 1128361652}
   - {fileID: 1255797168}
   - {fileID: 1794372671}
+  - {fileID: 883763948}

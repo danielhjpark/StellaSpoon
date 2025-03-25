@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.SceneManagement; // 씬 변경 감지를 위해 추가
 
 public class PlayerManager : MonoBehaviour
 {
@@ -38,16 +39,69 @@ public class PlayerManager : MonoBehaviour
 
     private bool noAim = true;
 
+    // ** 새로운 아바타 및 애니메이터 관련 변수 추가 **
+    [Header("Avatar & Animator")]
+    [SerializeField]
+    private RuntimeAnimatorController defaultAnimator;
+    [SerializeField]
+    private RuntimeAnimatorController specialAnimator;
+    [SerializeField]
+    private SkinnedMeshRenderer skinnedMeshRenderer; // 플레이어의 SkinnedMeshRenderer
+    [SerializeField]
+    private Mesh normalMesh; // 기본 외형
+    [SerializeField]
+    private Mesh specialMesh; // 바뀔 외형
+    [SerializeField]
+    private Material normalMaterial;
+    [SerializeField]
+    private Material specialMaterial;
+
+    private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
+    public bool isRestaurant;
+
     void Start()
     {
         _input = GetComponent<StarterAssetsInputs>();
         controller = GetComponent<ThirdPersonController>();
         anim = GetComponent<Animator>();
+
+        SceneManager.sceneLoaded += OnSceneLoaded; // 씬 변경 이벤트 등록
     }
 
-    // Update is called once per frame
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // 이벤트 해제
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == specialSceneName)
+        {
+            isRestaurant = true;
+            ChangeAvatar(specialMesh ,specialAnimator, specialMaterial); // 특정 씬일 경우 변경
+        }
+        else
+        {
+            isRestaurant = false;
+            ChangeAvatar(normalMesh, defaultAnimator, normalMaterial); // 기본 씬이면 원래대로
+        }
+    }
+
+    private void ChangeAvatar(Mesh mesh, RuntimeAnimatorController newAnimator, Material material)
+    {
+        skinnedMeshRenderer.sharedMesh = mesh;
+        skinnedMeshRenderer.material = material;
+        anim.runtimeAnimatorController = newAnimator;
+        anim.Rebind();
+        anim.Update(0);
+    }
+
     void Update()
     {
+        if (isRestaurant)
+        {
+            return;
+        }
         AimCheck();
         EquipRifleCheck();
         CheckJumpOrDodge();
@@ -55,11 +109,11 @@ public class PlayerManager : MonoBehaviour
 
     private void AimCheck()
     {
-        if(_input.reload)
+        if (_input.reload)
         {
             _input.reload = false;
 
-            if(controller.isReload || InventoryManager.instance.isWeaponRifle == false || anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload"))
+            if (controller.isReload || InventoryManager.instance.isWeaponRifle == false || anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload"))
             {
                 return;
             }
@@ -78,8 +132,7 @@ public class PlayerManager : MonoBehaviour
 
         if (_input.aiming && InventoryManager.instance.isWeaponRifle == true)
         {
-            // 조준 중 닷지 안되게
-            if(!noAim)
+            if (!noAim)
             {
                 return;
             }
@@ -112,7 +165,7 @@ public class PlayerManager : MonoBehaviour
 
             if (_input.shoot)
             {
-                if(RifleManager.instance.currentBullet <= 0)
+                if (RifleManager.instance.currentBullet <= 0)
                 {
                     _input.reload = true;
                 }
@@ -148,7 +201,6 @@ public class PlayerManager : MonoBehaviour
         anim.SetLayerWeight(2, 0);
     }
 
-    // 총을 들고 있는 변수가 true면 Rifle을 보이게 하고 들고 있게 하는 애니메이션 LayerWeight를 증가
     private void EquipRifleCheck()
     {
         if (controller.isDie) return;
@@ -177,7 +229,6 @@ public class PlayerManager : MonoBehaviour
 
     private void CheckJumpOrDodge()
     {
-        // 애니메이터에서 점프 또는 닷지 애니메이션이 실행 중인지 확인
         bool isJumping = anim.GetCurrentAnimatorStateInfo(1).IsTag("Jump");
         bool isDodging = anim.GetCurrentAnimatorStateInfo(1).IsTag("Dodge");
         bool isReloading = anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload");
@@ -185,7 +236,7 @@ public class PlayerManager : MonoBehaviour
 
         if (isJumping || isDodging || isReloading || isHitting)
         {
-            SetRigWeight(0); // 점프/닷지 중에는 IK 비활성화
+            SetRigWeight(0);
         }
     }
 
