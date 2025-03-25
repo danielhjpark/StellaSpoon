@@ -16,18 +16,21 @@ public class SauceSystem : MonoBehaviour
     protected bool isCanFillLiquid;
     protected bool isLiquidFilled;
 
-    public void SetSauceColor(SauceType sauceType) {
+    public void SetSauceColor(SauceType sauceType)
+    {
         this.sauceType = sauceType;
         SetSauceColor();
     }
 
-    protected void SetSauceColor() {
+    protected void SetSauceColor()
+    {
         liquidVolume.alpha = 0.1f;
-        switch(sauceType) {
+        switch (sauceType)
+        {
             case SauceType.Brown:
-                liquidVolume.liquidColor1 = new Color32(159, 100, 0 , 255);
+                liquidVolume.liquidColor1 = new Color32(159, 100, 0, 255);
                 liquidVolume.liquidScale1 = 4.85f;
-                liquidVolume.liquidColor2 = new Color32(255, 125, 0 , 255);
+                liquidVolume.liquidColor2 = new Color32(255, 125, 0, 255);
                 liquidVolume.liquidScale2 = 4.85f;
                 break;
             case SauceType.Red:
@@ -39,33 +42,38 @@ public class SauceSystem : MonoBehaviour
                 liquidVolume.liquidColor2 = Color.white;
                 break;
         }
-        
+
     }
 
-    public LiquidVolume GetLiquidVolume() {
+    public LiquidVolume GetLiquidVolume()
+    {
         return liquidVolume;
     }
-    
-    public void UpdateLiquidLevel() {
-        if(!isCanFillLiquid) return;
+
+    public void UpdateLiquidLevel()
+    {
+        if (!isCanFillLiquid) return;
 
         float range = maxRange - minRange;
         float levelValue = range / totalLevel;
         liquidVolume.level = maxRange - (currentLevel * levelValue);
     }
 
-    public IEnumerator StartLiquidLevel() {
+    public virtual IEnumerator StartLiquidLevel()
+    {
         float levelValue = 0.005f;
-        while(true) {
-            if(liquidVolume.level >= maxRange) {
+        while (true)
+        {
+            if (liquidVolume.level >= maxRange)
+            {
                 liquidVolume.level = maxRange;
                 break;
             }
-            liquidVolume.level +=levelValue;
+            liquidVolume.level += levelValue;
             yield return new WaitForSeconds(0.01f);
         }
     }
 
-    public void IsLiquidFilled(bool isLiquidFilled) {this.isLiquidFilled = isLiquidFilled; }
-    public bool IsLiquidFilled() {return isLiquidFilled;}
+    public void IsLiquidFilled(bool isLiquidFilled) { this.isLiquidFilled = isLiquidFilled; }
+    public bool IsLiquidFilled() { return isLiquidFilled; }
 }

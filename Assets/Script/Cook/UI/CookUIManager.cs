@@ -6,7 +6,6 @@ public class CookUIManager : MonoBehaviour
 {
     [SerializeField] RectTransform inventoryPanel;
     [SerializeField] GameObject SelectRecipePanel;
-    [SerializeField] GameObject MakeRecipePanel;
     [SerializeField] GameObject SelectModePanel;
     [SerializeField] GameObject TimerPanel;
     CookManagerBase currentCookManager;
@@ -18,11 +17,11 @@ public class CookUIManager : MonoBehaviour
         panelSpeed = 5;
         timerSystem = TimerPanel.GetComponent<TimerSystem>();
         SelectRecipePanel.SetActive(false);
-        MakeRecipePanel.SetActive(false);
         TimerPanel.SetActive(false);
     }
 
-    public void Initialize(CookManagerBase cookManagerBase) {
+    public void Initialize(CookManagerBase cookManagerBase)
+    {
         this.currentCookManager = cookManagerBase;
     }
 
@@ -44,7 +43,6 @@ public class CookUIManager : MonoBehaviour
     public void MakeRecipeMode()
     {
         inventoryPanel.gameObject.SetActive(true);
-        MakeRecipePanel.SetActive(false);
         SelectModePanel.SetActive(false);
         //inventoryPanel.GetComponent<IngredientInventory>().AddAllIngredients();
         CookManager.instance.cookMode = CookManager.CookMode.Make;
@@ -52,17 +50,20 @@ public class CookUIManager : MonoBehaviour
         StartCoroutine(currentCookManager.UseCookingStep());
     }
 
-    public IEnumerator TimerStart() {
+    public IEnumerator TimerStart()
+    {
         TimerPanel.SetActive(true);
         yield return StartCoroutine(timerSystem.TimerStart());
         TimerPanel.SetActive(false);
     }
 
-    public void TimerReset() { 
+    public void TimerReset()
+    {
         timerSystem.TimerReset();
     }
 
-    public bool TimerEnd() { 
+    public bool TimerEnd()
+    {
         return timerSystem.TimerEnd();
     }
 

@@ -14,48 +14,47 @@ public class SauceController : MonoBehaviour
     [SerializeField] SauceSystem bottomSauceSystem;
 
     private SauceAnimator sauceAnimator;
-    private GameObject controllObject;
+    [SerializeField] GameObject controllObject;
     private Vector3 initPos;
     private bool isControll;
     private SauceType sauceType;
 
-    void Start() {
+    void Start()
+    {
         sauceAnimator = GetComponent<SauceAnimator>();
         outlineEffect.enabled = false;
         isControll = false;
     }
 
-    private void OnEnable() {
-        outlineEffect.enabled = true;
-        foreach(GameObject sauceContainer in sauceContainers) {
-            sauceContainer.GetComponent<Collider>().enabled = false;
-        }
-    }
-
     void Update()
     {
         ControllCheck();
-        if(controllObject != null && isControll) {
+        if (controllObject != null && isControll)
+        {
             ObjectMove();
         }
-        if(isControll) {
+        if (isControll)
+        {
             ObjectDrop();
         }
     }
 
-    public void Initialize(SauceType sauceType) {
+    public void Initialize(SauceType sauceType)
+    {
         this.sauceType = sauceType;
         outlineEffect.enabled = true;
-        if(sauceType == SauceType.None) return;
-        
+        if (sauceType == SauceType.None) return;
+
         sauceContainers[(int)sauceType].GetComponent<Collider>().enabled = true;
         sauceContainers[(int)sauceType].GetComponent<SauceSystem>().SetSauceColor(sauceType);
         sauceContainers[(int)sauceType].transform.GetChild(0).AddComponent<cakeslice.Outline>().enabled = true;
     }
 
-    public void InitializeMakeMode() {
+    public void InitializeMakeMode()
+    {
         outlineEffect.enabled = true;
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             sauceContainers[i].GetComponent<Collider>().enabled = true;
             sauceContainers[i].GetComponent<SauceSystem>().SetSauceColor((SauceType)i);
             sauceContainers[i].transform.GetChild(0).AddComponent<cakeslice.Outline>().enabled = true;
@@ -63,10 +62,12 @@ public class SauceController : MonoBehaviour
 
     }
 
-    private void OutlineDisable() {
-        for(int i = 0; i < 3; i++) {
+    private void OutlineDisable()
+    {
+        for (int i = 0; i < 3; i++)
+        {
             GameObject outlineObject = sauceContainers[i].transform.GetChild(0).gameObject;
-            if(outlineObject.TryGetComponent<cakeslice.Outline>(out cakeslice.Outline outline))
+            if (outlineObject.TryGetComponent<cakeslice.Outline>(out cakeslice.Outline outline))
                 outline.enabled = false;
         }
     }
@@ -74,18 +75,23 @@ public class SauceController : MonoBehaviour
     public void ObjectMove()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("ControllArea"))){
+        if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("ControllArea")))
+        {
             controllObject.transform.position = hitLayerMask.point;
         }
-        else {
+        else
+        {
             controllObject.transform.position = Input.mousePosition;
         }
     }
 
-    public void ObjectDrop() {
-        if(Input.GetMouseButtonUp(0)) {
+    public void ObjectDrop()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
             bool isCanDrop = DropCheck();
-            if(isCanDrop) {
+            if (isCanDrop)
+            {
                 isControll = false;
                 controllObject.transform.position = SaucePos.transform.position;
                 sauceAnimator = controllObject.GetComponent<SauceAnimator>();
@@ -93,17 +99,19 @@ public class SauceController : MonoBehaviour
                 OutlineDisable();
                 StartCoroutine(AddSauce());
             }
-            else {
+            else
+            {
                 controllObject.transform.position = initPos;
                 controllObject = null;
                 isControll = false;
             }
-            
+
         }
 
     }
 
-    public IEnumerator AddSauce() {
+    public IEnumerator AddSauce()
+    {
         yield return StartCoroutine(sauceAnimator.TiltSauceContainer());
         yield return new WaitForSeconds(0.1f);
         controllObject.transform.position = initPos;
@@ -116,7 +124,7 @@ public class SauceController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, Mathf.Infinity, LayerMask.GetMask("DropArea")))
         {
-            return  true;
+            return true;
         }
         else
         {
@@ -124,17 +132,19 @@ public class SauceController : MonoBehaviour
         }
     }
 
-
     public void ControllCheck()
     {
-        if(!Input.GetMouseButton(0)){return;}
+        if (!Input.GetMouseButton(0)) { return; }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitObject, Mathf.Infinity, LayerMask.GetMask("Item")))
         {
-            if(hitObject.transform.name == "Sauce" && controllObject == null) {
+            Debug.Log(hitObject.transform.name);
+            if (hitObject.transform.name == "Sauce" && controllObject == null)
+            {
+                Debug.Log("Interact");
                 initPos = hitObject.transform.position;
                 controllObject = hitObject.transform.gameObject;
-                isControll = true;                
+                isControll = true;
             }
         }
     }

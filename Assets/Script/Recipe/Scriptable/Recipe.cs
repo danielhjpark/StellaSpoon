@@ -39,7 +39,9 @@ public enum CookType
 [System.Serializable]
 public class BoilingSetting
 {
+    public int cookTime;
     public BoilType boilType;
+    public SauceType sauceType;
 }
 
 [System.Serializable]
@@ -53,6 +55,7 @@ public class TossingSetting
 public class FryingSetting
 {
     public int fryingCount;
+    public SauceType sauceType;
     [Header("Total Value = 750")]
     public int[] sectionRange = new int[3];
 }
@@ -70,13 +73,14 @@ public class IngredientAmount
     public Ingredient ingredient;
     public int amount;
 
-    public IngredientAmount(Ingredient ingredient, int amount) {
+    public IngredientAmount(Ingredient ingredient, int amount)
+    {
         this.ingredient = ingredient;
         this.amount = amount;
     }
 }
 
-public enum SauceType {Brown, Red, White, None};
-public enum BoilType {Boil, Steam}
+public enum SauceType { Brown, Red, White, None };
+public enum BoilType { Boil, Steam }
 
 
