@@ -6,6 +6,11 @@ using System.Linq;
 
 public class FryingPanManager : CookManagerBase
 {
+    //------------"FryingPan System"---------------//
+    private FryingSystem fryingSystem;
+    private FryingSauceSystem fryingSauceSystem;
+    private FryingIngredientSystem fryingIngredientSystem;
+
     [Header("UI Object")]
     [SerializeField] FryingPanUI fryingPanUI;
     [SerializeField] CookUIManager cookUIManager;
@@ -15,21 +20,20 @@ public class FryingPanManager : CookManagerBase
     [SerializeField] private Transform dropPos;
     [SerializeField] private GameObject dropIngredient;
 
-    [Header("FryingPan System")]
-    [SerializeField] FryingSystem fryingSystem;
-    [SerializeField] FryingSauceSystem fryingSauceSystem;
-
     private List<GameObject> fryingIngredients = new List<GameObject>();
-    private List<IngredientAmount> checkIngredients;
-    private List<IngredientAmount> currentIngredients;
+    private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
+    private List<IngredientAmount> currentIngredients = new List<IngredientAmount>();
     //---------------------------------------//
-    private GameObject currentIngredient;
-    public int firstFryingCount, secondFryingCount;
-    public int successFryingCount;
+    private int firstFryingCount, secondFryingCount;
+    private int successFryingCount;
 
     void Awake()
     {
         CookManager.instance.BindingManager(this);
+        fryingSystem = GetComponent<FryingSystem>();
+        fryingSauceSystem = GetComponent<FryingSauceSystem>();
+        fryingIngredientSystem = GetComponent<FryingIngredientSystem>();
+
     }
 
     void Update()
@@ -62,63 +66,29 @@ public class FryingPanManager : CookManagerBase
         CookCompleteCheck();
     }
 
-
     public override void CookCompleteCheck()
     {
         CookSceneManager.instance.UnloadScene("FryingPanMergeTest", currentMenu);
     }
+    //----------------------- Ingredient System ----------------------------------//
 
-    public override void AddIngredient(GameObject obj, Ingredient ingredient)
+
+    public override void AddIngredient(GameObject ingredientObject, Ingredient ingredient)
     {
-        currentIngredient = obj;
-        obj.transform.position = dropPos.position;
-        obj.transform.SetParent(dropIngredient.transform);
-        IngredientAddAmount(checkIngredients, ingredient, 1);
-        AddIngredientList(obj);
-        StartCoroutine(DropIngredient());
-    }
-    void IngredientAddAmount(List<IngredientAmount> list, Ingredient ingredient, int count)
-    {
-        var existing = list.FirstOrDefault(i => i.ingredient.Equals(ingredient));
-        if (existing != null)
+        if (ingredient.ingredientType == IngredientType.Main)
         {
-            existing.amount += count;
+            fryingIngredientSystem.AddMainIngredient(ingredientObject, ingredient);
         }
         else
         {
-            list.Add(new IngredientAmount(ingredient, count));
-        }
-    }
-
-    //----------------------------------------------------------------------//
-    public void AddIngredientList(GameObject ingredients)
-    {
-        ingredients.transform.SetParent(dropIngredient.transform);
-        foreach (Transform ingredient in ingredients.transform)
-        {
-            fryingIngredients.Add(ingredient.gameObject);
-            ingredient.GetComponent<Rigidbody>().isKinematic = false;
-            ingredient.GetComponent<Rigidbody>().useGravity = true;
-            ingredient.GetComponent<Collider>().enabled = true;
-        }
-    }
-
-    IEnumerator DropIngredient()
-    {
-        fryingPanUI.OnFryingPanUI();
-        float time = 0;
-        while (true)
-        {
-            time += Time.deltaTime * 5;
-            currentIngredient.transform.localPosition = Vector3.Lerp(dropPos.localPosition, Vector3.zero, time);
-            if (currentIngredient.transform.localPosition.y <= 0) break;
-            yield return null;
+            fryingIngredientSystem.AddSubIngredient(ingredientObject, ingredient);
         }
     }
 
     //--------------FryingPan System Method------------------//
     IEnumerator InherentMotion(int fryingCount)
     {
+        fryingPanUI.OnFryingPanUI();
         //wokTossingSystem.BindTossingObject(wokIngredients);
         yield return StartCoroutine(fryingSystem.InherentMotion(fryingCount, (callbackValue) =>
         {
@@ -156,57 +126,41 @@ public class FryingPanManager : CookManagerBase
     {
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
-            GameObject mainIngredient = currentMenu.mainIngredient.ingredientPrefab;
-            AddIngredient(Instantiate(mainIngredient, Vector3.zero, Quaternion.identity), currentMenu.mainIngredient);
+            GameObject mainIngredient = Instantiate(currentMenu.mainIngredient.ingredientPrefab, Vector3.zero, Quaternion.identity);
+            AddIngredient(mainIngredient, currentMenu.mainIngredient);
             yield return new WaitForSeconds(0.5f);
-            yield break;
+
         }
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             ingredientInventory.AddMainIngredients();
+            fryingPanUI.OnIngredientUI();
         }
+        yield return new WaitUntil(() => fryingIngredientSystem.fryingMainIngredient != null);
 
-        int currentCount = checkIngredients.Count;
-        while (true)
-        {
-            if (currentCount < checkIngredients.Count)
-            {
-                break;
-                //cookUIManager.TimerReset();
-            }
-
-            yield return null;
-        }
-        targetRecipe = FindRecipe(checkIngredients[0].ingredient);
+        targetRecipe = FindRecipe(fryingIngredientSystem.checkIngredients[0].ingredient);
         currentIngredients = targetRecipe.ingredients;
         checkIngredients.Clear();
-        // MakeRecipe();
     }
 
     IEnumerator AddSubIngredient()
     {
-        //wokUI.OnFridgeUI();
+        fryingPanUI.OnIngredientUI();
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             StartCoroutine(cookUIManager.TimerStart());
             ingredientInventory.AddSubIngredients();
         }
 
-        int currentCount = checkIngredients.Count;
         while (true)
         {
             if (CookManager.instance.cookMode == CookManager.CookMode.Select)
             {
-                if (CompareIngredient(currentIngredients, checkIngredients)) break;
+                if (CompareIngredient(currentIngredients, checkIngredients)) { break; }
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
                 if (cookUIManager.TimerEnd()) { break; }
-                else if (currentCount < checkIngredients.Count)
-                {
-                    currentCount = checkIngredients.Count;
-                    cookUIManager.TimerReset();
-                }
             }
             yield return null;
         }

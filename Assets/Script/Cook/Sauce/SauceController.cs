@@ -24,6 +24,10 @@ public class SauceController : MonoBehaviour
         sauceAnimator = GetComponent<SauceAnimator>();
         outlineEffect.enabled = false;
         isControll = false;
+        for (int i = 0; i < 3; i++)
+        {
+            sauceContainers[i].GetComponent<Collider>().enabled = false;
+        }
     }
 
     void Update()

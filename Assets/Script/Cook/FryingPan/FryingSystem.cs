@@ -12,29 +12,23 @@ public class FryingSystem : MonoBehaviour
     [SerializeField] FryingPanUI fryingPanUI;
 
     [Header("Set Objects")]
-    [SerializeField] private GameObject tongs;
+    [SerializeField] private GameObject tongsObject;
 
     private GameObject currentIngredient;
     private bool isHalf;
     public int successFryingCount;
-    // Start is called before the first frame update
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void Initialize()
     {
         isHalf = false;
         successFryingCount = 0;
+        TongsSetting(10);
+    }
 
+    void TongsSetting(float ingredientSize)
+    {
+        SkinnedMeshRenderer tongsMeshRenderer = tongsObject.GetComponent<SkinnedMeshRenderer>();
+        tongsMeshRenderer.SetBlendShapeWeight(0, ingredientSize);
+        //tongsObject.transform.localScale = grabPoint;
     }
 
     public IEnumerator InherentMotion(int fryingCount, System.Action<int> callback)
@@ -86,13 +80,13 @@ public class FryingSystem : MonoBehaviour
 
         if (!isHalf)
         {
-            if (timeline.time >= timeline.duration / 2 - invisibleTime) tongs.SetActive(false);
-            else if (timeline.time >= invisibleTime) tongs.SetActive(true);
+            if (timeline.time >= timeline.duration / 2 - invisibleTime) tongsObject.SetActive(false);
+            else if (timeline.time >= invisibleTime) tongsObject.SetActive(true);
         }
         else
         {
-            if (timeline.time >= timeline.duration - invisibleTime) tongs.SetActive(false);
-            else if (timeline.time >= timeline.duration / 2 + invisibleTime) tongs.SetActive(true);
+            if (timeline.time >= timeline.duration - invisibleTime) tongsObject.SetActive(false);
+            else if (timeline.time >= timeline.duration / 2 + invisibleTime) tongsObject.SetActive(true);
         }
     }
 }
