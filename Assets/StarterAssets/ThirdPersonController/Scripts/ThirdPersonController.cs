@@ -214,6 +214,15 @@ namespace StarterAssets
                 _controller.Move(slideDirection * slideSpeed * Time.deltaTime);
             }
 
+            if(playerManager.isRestaurant)
+            {
+                _hpBar.gameObject.SetActive(false);
+            }
+            else
+            {
+                _hpBar.gameObject.SetActive(true);
+            }
+
             if (!DeviceManager.isDeactived || TreasureChest.openingChest)
             {
                 if (_hasAnimator)
