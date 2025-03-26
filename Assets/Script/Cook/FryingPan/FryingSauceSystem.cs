@@ -6,10 +6,10 @@ public class FryingSauceSystem : SauceSystem
 {
     [SerializeField] SauceController sauceController;
     [SerializeField] GameObject sauceObject;
-    Vector3 scale = new Vector3(20, 2, 20);
+    Vector3 Maxscale = new Vector3(20, 2, 20);
+
     void Start()
     {
-        //sauceController.enabled = false;
         isLiquidFilled = false;
         liquidVolume.level = 0;
         isCanFillLiquid = false;
@@ -27,12 +27,6 @@ public class FryingSauceSystem : SauceSystem
         this.sauceController.InitializeMakeMode();
     }
 
-
-    void Update()
-    {
-        //UpdateLiquidLevel();
-    }
-
     public void AddSauce()
     {
         sauceController.enabled = true;
@@ -41,10 +35,11 @@ public class FryingSauceSystem : SauceSystem
 
     public override IEnumerator StartLiquidLevel()
     {
-
         float levelValue = 0.005f;
+
         while (true)
         {
+            liquidVolume.gameObject.transform.localScale = Maxscale;
             if (liquidVolume.level >= maxRange)
             {
                 liquidVolume.level = maxRange;

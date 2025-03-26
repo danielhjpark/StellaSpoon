@@ -9,8 +9,9 @@ using UnityEngine.UI;
 
 public class PotManager : CookManagerBase
 {
-    private PotViewportSystem potViewportSystem;
-    [SerializeField] PotSauceSystem potSauceSystem;
+    [Header("UI Objects")]
+    [SerializeField] CookUIManager cookUIManager;
+    [SerializeField] IngredientInventory ingredientInventory;
 
     [Header("Transform Objects")]
     [SerializeField] Transform dropPos;
@@ -23,6 +24,10 @@ public class PotManager : CookManagerBase
 
     [Header("Button UI Text")]
     [SerializeField] TextMeshProUGUI powerText;
+
+    [Header("Wok System")]
+    [SerializeField] PotSauceSystem potSauceSystem;
+    private PotViewportSystem potViewportSystem;
 
     //--------------- Save List ------------------------//
     private List<GameObject> potIngredients = new List<GameObject>();
@@ -86,6 +91,7 @@ public class PotManager : CookManagerBase
             if (CheckRequireIngredient()) break;
             yield return null;
         }
+        yield return StartCoroutine(cookUIManager.HidePanel());
 
     }
 
