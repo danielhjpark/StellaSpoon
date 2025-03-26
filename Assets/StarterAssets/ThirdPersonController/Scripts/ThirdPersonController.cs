@@ -139,6 +139,8 @@ namespace StarterAssets
         [SerializeField]
         float minDodgeDistance = 7f; // 최소 이동 거리
 
+        private PlayerManager playerManager;
+
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -199,6 +201,7 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
 
             playerRespawn = GetComponent<PlayerRespawn>();
+            playerManager = GetComponent<PlayerManager>();
         }
 
         private void Update()
@@ -209,6 +212,15 @@ namespace StarterAssets
             {
                 Vector3 slideDirection = Vector3.ProjectOnPlane(Vector3.down, GetGroundNormal()).normalized;
                 _controller.Move(slideDirection * slideSpeed * Time.deltaTime);
+            }
+
+            if(playerManager.isRestaurant)
+            {
+                _hpBar.gameObject.SetActive(false);
+            }
+            else
+            {
+                _hpBar.gameObject.SetActive(true);
             }
 
             if (!DeviceManager.isDeactived || TreasureChest.openingChest)
@@ -250,7 +262,7 @@ namespace StarterAssets
         private void Dodge()
         {
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
-            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isAiming || isHit) return;
+            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isAiming || isHit || playerManager.isRestaurant) return;
 
             if (Grounded && _input.dodge)
             {
