@@ -109,7 +109,7 @@ public class WokManager : CookManagerBase
                 return;
             }
 
-            if (!CompareIngredient(currentIngredients, checkIngredients))
+            if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
             {
                 Debug.Log("Ingredient mismatch");
                 return;
@@ -207,8 +207,7 @@ public class WokManager : CookManagerBase
 
             yield return null;
         }
-        targetRecipe = FindRecipe(checkIngredients[0].ingredient);
-        currentIngredients = targetRecipe.ingredients;
+        targetRecipe = RecipeManager.instance.FindRecipe(checkIngredients[0].ingredient);
         checkIngredients.Clear();
         MakeRecipe();
     }
@@ -227,7 +226,7 @@ public class WokManager : CookManagerBase
         {
             if (CookManager.instance.cookMode == CookManager.CookMode.Select)
             {
-                if (CompareIngredient(currentIngredients, checkIngredients)) break;
+                if (RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients)) break;
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {

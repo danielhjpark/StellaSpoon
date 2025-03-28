@@ -120,19 +120,18 @@ public class CookManager : MonoBehaviour
 
     public void DropObject(GameObject ingredientObject, Ingredient ingredient)
     {
-        Debug.Log(ingredient.ingredientCookType);
-        switch (ingredient.ingredientCookType)
+        switch (currentCookType)
         {
-            case IngredientCookType.Cutting:
+            case CookType.Cutting:
                 cuttingManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Frying:
+            case CookType.Frying:
                 fryingPanManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Tossing:
+            case CookType.Tossing:
                 wokManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Boiling:
+            case CookType.Boiling:
                 potManager.AddIngredient(ingredientObject, ingredient);
                 break;
 

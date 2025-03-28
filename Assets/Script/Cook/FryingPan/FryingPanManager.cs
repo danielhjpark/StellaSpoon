@@ -21,8 +21,6 @@ public class FryingPanManager : CookManagerBase
     [SerializeField] private GameObject dropIngredient;
 
     private List<GameObject> fryingIngredients = new List<GameObject>();
-    private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
-    private List<IngredientAmount> currentIngredients = new List<IngredientAmount>();
     //---------------------------------------//
     private int firstFryingCount, secondFryingCount;
     private int successFryingCount;
@@ -30,6 +28,7 @@ public class FryingPanManager : CookManagerBase
     void Awake()
     {
         CookManager.instance.BindingManager(this);
+        cookUIManager.Initialize(this);
         fryingSystem = GetComponent<FryingSystem>();
         fryingSauceSystem = GetComponent<FryingSauceSystem>();
         fryingIngredientSystem = GetComponent<FryingIngredientSystem>();
@@ -52,8 +51,26 @@ public class FryingPanManager : CookManagerBase
         base.SelectRecipe(menu);
         firstFryingCount = menu.fryingSetting.fryingCount;
         secondFryingCount = menu.fryingSetting.fryingCount;
-        fryingPanUI.Initialize(menu.fryingSetting);
+        fryingPanUI.Initialize(menu.fryingSetting.sectionRange);
         StartCoroutine(UseCookingStep());
+    }
+
+    public void RecipeSetting(Recipe menu) {
+        base.SelectRecipe(menu);
+        
+        if(menu.cookType != CookType.Frying) {
+            int[] defaultRange = {300, 100, 300};
+            firstFryingCount = 2;
+            secondFryingCount = 2;
+            fryingPanUI.Initialize(defaultRange);
+            return;
+        } 
+        else {
+            firstFryingCount = menu.fryingSetting.fryingCount;
+            secondFryingCount = menu.fryingSetting.fryingCount;
+            fryingPanUI.Initialize(menu.fryingSetting.sectionRange);
+        }
+
     }
 
     public override IEnumerator UseCookingStep()
@@ -75,6 +92,7 @@ public class FryingPanManager : CookManagerBase
 
     public override void AddIngredient(GameObject ingredientObject, Ingredient ingredient)
     {
+        Debug.Log(ingredient.ingredientType);
         if (ingredient.ingredientType == IngredientType.Main)
         {
             fryingIngredientSystem.AddMainIngredient(ingredientObject, ingredient);
@@ -99,7 +117,6 @@ public class FryingPanManager : CookManagerBase
 
     IEnumerator AddSauce()
     {
-        Debug.Log("Sauce Step");
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             fryingSauceSystem.InitializeMakeMode();
@@ -134,18 +151,21 @@ public class FryingPanManager : CookManagerBase
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             ingredientInventory.AddMainIngredients();
-            fryingPanUI.OnIngredientUI();
+            yield return new WaitUntil(() => fryingIngredientSystem.fryingMainIngredient != null);
+            targetRecipe = RecipeManager.instance.FindRecipe(fryingIngredientSystem.checkIngredients[0].ingredient);
+            RecipeSetting(targetRecipe);
+            yield return new WaitForSeconds(0.5f);
+            
         }
-        yield return new WaitUntil(() => fryingIngredientSystem.fryingMainIngredient != null);
-
-        targetRecipe = FindRecipe(fryingIngredientSystem.checkIngredients[0].ingredient);
-        currentIngredients = targetRecipe.ingredients;
-        checkIngredients.Clear();
+        
+        fryingIngredientSystem.checkIngredients.Clear();
+        fryingSystem.Initialize(fryingIngredientSystem.fryingMainIngredient);
     }
 
     IEnumerator AddSubIngredient()
     {
         fryingPanUI.OnIngredientUI();
+        StartCoroutine(cookUIManager.VisiblePanel());
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             StartCoroutine(cookUIManager.TimerStart());
@@ -156,7 +176,7 @@ public class FryingPanManager : CookManagerBase
         {
             if (CookManager.instance.cookMode == CookManager.CookMode.Select)
             {
-                if (CompareIngredient(currentIngredients, checkIngredients)) { break; }
+                if (RecipeManager.instance.CompareRecipe(currentMenu, fryingIngredientSystem.checkIngredients)) { break; }
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {

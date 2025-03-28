@@ -39,6 +39,18 @@ public class IngredientInventory : MonoBehaviour
         }
     }
 
+    public void AddAllIngredientsToRecipe(Recipe recipe) {
+        ingredientSlots[0].BindingIngredient(recipe.mainIngredient);
+        foreach(IngredientAmount ingredient in recipe.ingredients) {
+            foreach(IngredientSlot ingredientSlot in ingredientSlots) {
+                if(ingredientSlot.IsEmpty()) {
+                    ingredientSlot.BindingIngredient(ingredient.ingredient);
+                    break;
+                }
+            }
+        }
+    }
+
     public void AddMainIngredients() {
         IngredientSlotClear();
         foreach(RefrigeratorSlot refrigeratorSlot in refrigeratorSlots) {
@@ -71,6 +83,7 @@ public class IngredientInventory : MonoBehaviour
             }
         }
     }
+
 
 
     public void IngredientAdd(Recipe recipe) {

@@ -9,14 +9,28 @@ public class TimerSystem : MonoBehaviour
     [SerializeField] Image timerGague;
     [SerializeField] RectTransform clickHand;
     [SerializeField] Image clickHandImage;
+    [SerializeField] bool onBillboard;
     Color32 DangerColor = new Color32(255, 0, 0, 255);
     Color32 CautionColor = new Color32(255, 255, 0, 255);
     Color32 SafeColor = new Color32(0, 255, 0, 255);
 
     bool isTimerEnd = false;
-
+    void Start()
+    {
+        StartCoroutine(TimerStart());
+    }
     void Update()
     {
+        if(onBillboard) {
+            Vector3 targetPosition = Camera.main.transform.position; // 바라볼 대상
+            Vector3 direction = targetPosition - transform.position;
+            direction.y = 0;
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = targetRotation;
+
+            //this.transform.LookAt(this.transform.position + mainCam.rotation * Vector3.forward, mainCam.rotation * Vector3.up);
+        }
         // if(timerGague.fillAmount <= 0.2f) {
         //     clickHandImage.color = DangerColor;
         //     timerGague.color = DangerColor;
@@ -29,7 +43,7 @@ public class TimerSystem : MonoBehaviour
         //     clickHandImage.color = SafeColor;
         //     timerGague.color = SafeColor;
         // }
-        ClickHandUpdate();
+       // ClickHandUpdate();
     }
 
     void ClickHandUpdate() {

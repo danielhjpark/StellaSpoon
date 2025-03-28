@@ -93,4 +93,39 @@ public class RecipeManager : MonoBehaviour
             IngredientManager.IngredientAmount[currentIngdeient] += requireIngredientAmount;
         }
     }
+
+    //------------------Find Recipe for Main Ingredient------------------------//
+    public Recipe FindRecipe(Ingredient ingredient)
+    {
+
+        Ingredient mainIngredient = ingredient;
+        Recipe recipe = RecipeList.SingleOrDefault(recipe => recipe.mainIngredient == mainIngredient);
+
+        return recipe;
+    }
+
+    public bool CompareRecipe(Recipe currentRecipe, List<IngredientAmount> checkIngredients)
+    {
+        List<IngredientAmount> currentIngredients = currentRecipe.ingredients;
+
+        bool isCompare = currentIngredients.Count == checkIngredients.Count;
+        int findCompareCount = 0;
+        foreach (IngredientAmount currentIngredient in currentIngredients)
+        {
+            foreach (IngredientAmount checkIngredient in checkIngredients)
+            {
+                if (currentIngredient.ingredient.ingredientName == checkIngredient.ingredient.ingredientName)
+                {
+                    if (currentIngredient.amount == checkIngredient.amount)
+                    {
+                        findCompareCount++;
+                        break;
+                    }
+                }
+            }
+        }
+        if (isCompare) return currentIngredients.Count == findCompareCount;
+        else return isCompare;
+    }
+
 }

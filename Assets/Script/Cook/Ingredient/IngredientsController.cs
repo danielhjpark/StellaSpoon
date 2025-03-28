@@ -107,8 +107,8 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
             ingredientObject = ingredientSlot.currentIngredient.ingredientPrefab;
         }
         else return;
-
-        controllObject = Instantiate(ingredientObject, Input.mousePosition, ingredientObject.transform.rotation);
+        controllObject = Instantiate(ingredientObject, Vector3.zero, ingredientObject.transform.rotation);
+        
         controllObject.transform.SetParent(CookManager.instance.spawnPoint, false);
         StartCoroutine(cookInventoryManager.HidePanel());
         isControll = true;

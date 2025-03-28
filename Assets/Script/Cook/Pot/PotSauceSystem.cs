@@ -9,10 +9,10 @@ public class PotSauceSystem : SauceSystem
     [SerializeField] SauceController sauceController;
     void Start()
     {
-        //sauceController.enabled = false;
         isLiquidFilled = false;
-        liquidVolume.level = 0;
         isCanFillLiquid = false;
+        liquidVolume.level = 0;
+        
     }
 
     public void Initialize(BoilingSetting boilingSetting)
@@ -20,7 +20,6 @@ public class PotSauceSystem : SauceSystem
         this.sauceType = boilingSetting.sauceType;
         this.sauceController.Initialize(sauceType);
         this.SetSauceColor();
-        StartCoroutine(StartAddSauce());
     }
 
     public void InitializeMakeMode()
@@ -28,16 +27,9 @@ public class PotSauceSystem : SauceSystem
         this.sauceController.InitializeMakeMode();
     }
 
-
-    void Update()
-    {
-        //UpdateLiquidLevel();
-    }
-
     public void AddSauce()
     {
         sauceController.enabled = true;
-
     }
 
     Color targetColor1;
@@ -66,7 +58,8 @@ public class PotSauceSystem : SauceSystem
         }
     }
 
-    public IEnumerator StartAddSauce()
+
+    public override IEnumerator StartLiquidLevel()
     {
         SetTargetColor();
         targetColor1.a = 0;
@@ -74,8 +67,8 @@ public class PotSauceSystem : SauceSystem
         liquidVolume.level = 0.6f;
         while (true)
         {
-            targetColor1.a += 0.01f;
-            targetColor2.a += 0.01f;
+            targetColor1.a += 0.005f;
+            targetColor2.a += 0.005f;
             liquidVolume.liquidColor1 = targetColor1;
             liquidVolume.liquidColor2 = targetColor2;
 
@@ -91,20 +84,5 @@ public class PotSauceSystem : SauceSystem
         }
     }
 
-    public override IEnumerator StartLiquidLevel()
-    {
-
-        float levelValue = 0.005f;
-        while (true)
-        {
-            if (liquidVolume.level >= maxRange)
-            {
-                liquidVolume.level = maxRange;
-                break;
-            }
-            liquidVolume.level += levelValue;
-            yield return new WaitForSeconds(0.01f);
-        }
-    }
     public void IncreaseLiquidLevel() { currentLevel++; }
 }

@@ -27,16 +27,16 @@ public class FryingPanUI : MonoBehaviour
         fryingPanUIObject.SetActive(false);
     }
 
-    public void Initialize(FryingSetting fryingSetting)
+    public void Initialize(int[] sectionRange)
     {
-        sectionRange = fryingSetting.sectionRange;
+        this.sectionRange = sectionRange;
         SetSections();
     }
 
     public void OnFryingPanUI()
     {
         fryingPanUIObject.SetActive(true);
-        ingredientUIObejct.SetActive(false);
+        //ingredientUIObejct.SetActive(false);
     }
 
     public void OnIngredientUI()

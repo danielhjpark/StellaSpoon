@@ -783,81 +783,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173112121}
   m_CullTransparentMesh: 1
---- !u!1 &208564628
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 208564629}
-  - component: {fileID: 208564631}
-  - component: {fileID: 208564630}
-  m_Layer: 5
-  m_Name: FullArea
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &208564629
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 208564628}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1231025642}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 750}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &208564630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 208564628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.26118433, g: 1, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6999f93a8a929d94288c2b69727b1586, type: 3}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 1
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &208564631
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 208564628}
-  m_CullTransparentMesh: 1
 --- !u!1 &225755960
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +808,7 @@ Transform:
   m_GameObject: {fileID: 225755960}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.31, y: 1.19, z: 2.34}
+  m_LocalPosition: {x: 0.72, y: 1.687, z: 1.966}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1265,10 +1190,10 @@ RectTransform:
   - {fileID: 1605479127}
   m_Father: {fileID: 34010195}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 70, y: -70}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &334564026
 MonoBehaviour:
@@ -13954,10 +13879,10 @@ RectTransform:
   - {fileID: 173112122}
   m_Father: {fileID: 34010195}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 310, y: -70}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &610084455
 MonoBehaviour:
@@ -14029,6 +13954,97 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610084453}
   m_CullTransparentMesh: 1
+--- !u!21 &624080959
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LiquidVolumeDefaultNoFlask(Clone)
+  m_Shader: {fileID: 4800000, guid: 045a60f5db3314d55b5609a847d062a8, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - LIQUID_VOLUME_CYLINDER
+  - LIQUID_VOLUME_IGNORE_GRAVITY
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3100
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 11700000, guid: cf5740ccd8e2d4200aaa67e31ff22ed0, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex2D:
+        m_Texture: {fileID: 2800000, guid: 2e25f51e1f31e4da8bdac5d08b0f578f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 1
+    - _AlphaCombined: 0.7921569
+    - _BasePos: -1
+    - _CullMode: 2
+    - _DeepAtten: 0
+    - _DoubleSidedBias: 0.05
+    - _FlaskBlurIntensity: 0.75
+    - _FlaskThickness: 0.05
+    - _FoamBottom: 1
+    - _FoamDensity: -1
+    - _FoamMaxPos: -1.6288043
+    - _FoamRaySteps: 1
+    - _FoamTurbulence: 1
+    - _FoamWeight: 100
+    - _Glossiness: 0.1
+    - _GlossinessInt: 0.5
+    - _Level: 1
+    - _LevelPos: -1.8228043
+    - _LiquidRaySteps: 23
+    - _LowerLimit: -1
+    - _Metallic: 0
+    - _Muddy: 1
+    - _Radius: 0.5
+    - _SmokeAtten: 2
+    - _SmokeRaySteps: -74
+    - _SmokeSpeed: 5
+    - _Sparkling: 1
+    - _SparklingIntensity: 25
+    - _SparklingThreshold: 0.8
+    - _Topology: 0
+    - _Turbulence: 1
+    - _Turbulence2: 1
+    - _TurbulenceSpeed: 1
+    - _UpperLimit: 1.5
+    - _ZTestMode: 4
+    m_Colors:
+    - _Bounds: {r: 1, g: 1, b: 1, a: 1}
+    - _Center: {r: 102.748, g: -0.6588043, b: 203.52501, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 0, g: 0.33448273, b: 0, a: 0.1}
+    - _Color2: {r: 1, g: 0, b: 0, a: 0.09803922}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FlaskColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlaskThickness: {r: 0.97, g: 0.97, b: 0.97, a: 0}
+    - _FoamColor: {r: 1, g: 0, b: 0, a: 1}
+    - _GlossinessInt: {r: 49, g: 512, b: 1, a: 0}
+    - _Scale: {r: 0.25015008, g: 1.0006003, b: 4.8529115, a: 4.8529115}
+    - _Size: {r: 2.0008, g: 2, b: 0.040000014, a: 0.019400004}
+    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.25}
+    - _Turbulence: {r: 0.5, g: 0.2, b: 12.566371, a: 3.1415927}
+    - _ViewDir: {r: 0, g: 0, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &629300679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14052,7 +14068,7 @@ PrefabInstance:
     - target: {fileID: 7600535462163211113, guid: d9600b4c322ecdb4ab8c55dee0942638, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1907260912}
+      objectReference: {fileID: 624080959}
     - target: {fileID: 8077631197066449799, guid: d9600b4c322ecdb4ab8c55dee0942638, type: 3}
       propertyPath: liqMat
       value: 
@@ -14558,83 +14574,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &789591120
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 789591121}
-  - component: {fileID: 789591123}
-  - component: {fileID: 789591122}
-  m_Layer: 5
-  m_Name: GuidePanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &789591121
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789591120}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1067562242}
-  m_Father: {fileID: 2023188203}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &789591122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789591120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &789591123
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789591120}
-  m_CullTransparentMesh: 1
---- !u!21 &830344236
+--- !u!21 &751042922
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -14647,11 +14587,12 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - LIQUID_VOLUME_CYLINDER
+  - LIQUID_VOLUME_IGNORE_GRAVITY
   m_InvalidKeywords: []
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: 3100
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -14672,28 +14613,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.1
-    - _AlphaCombined: 0.1
+    - _Alpha: 1
+    - _AlphaCombined: 0.7921569
     - _BasePos: -1
     - _CullMode: 2
-    - _DeepAtten: 2
+    - _DeepAtten: 0
     - _DoubleSidedBias: 0.05
     - _FlaskBlurIntensity: 0.75
     - _FlaskThickness: 0.05
     - _FoamBottom: 1
     - _FoamDensity: -1
-    - _FoamMaxPos: -0.80599993
+    - _FoamMaxPos: -1.6288043
     - _FoamRaySteps: 1
     - _FoamTurbulence: 1
     - _FoamWeight: 100
-    - _Glossiness: 0.767
+    - _Glossiness: 0.1
     - _GlossinessInt: 0.5
     - _Level: 1
-    - _LevelPos: -0.80599993
+    - _LevelPos: -1.8228043
     - _LiquidRaySteps: 23
     - _LowerLimit: -1
     - _Metallic: 0
-    - _Muddy: 0.901
+    - _Muddy: 1
     - _Radius: 0.5
     - _SmokeAtten: 2
     - _SmokeRaySteps: -74
@@ -14709,18 +14650,18 @@ Material:
     - _ZTestMode: 4
     m_Colors:
     - _Bounds: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: 100, g: -1, b: 202.15, a: 0}
+    - _Center: {r: 101.248, g: -0.6588043, b: 203.52501, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.62352943, g: 0.34278798, b: 0.0039215656, a: 0.1}
-    - _Color2: {r: 1, g: 0.4878049, b: 0, a: 0.1}
+    - _Color1: {r: 0, g: 0.33448273, b: 0, a: 0.1}
+    - _Color2: {r: 1, g: 0, b: 0, a: 0.09803922}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _FlaskColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlaskThickness: {r: 0.97, g: 0.97, b: 0.97, a: 0}
-    - _FoamColor: {r: 1, g: 0, b: 0, a: 0.1}
+    - _FoamColor: {r: 1, g: 0, b: 0, a: 1}
     - _GlossinessInt: {r: 49, g: 512, b: 1, a: 0}
-    - _Scale: {r: 0.2617801, g: 1.0471205, b: 5.078534, a: 5.078534}
-    - _Size: {r: 4.690416, g: 2, b: 3.0000007, a: 1.4550003}
-    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.025}
+    - _Scale: {r: 0.25015008, g: 1.0006003, b: 4.8529115, a: 4.8529115}
+    - _Size: {r: 2.0008, g: 2, b: 0.040000014, a: 0.019400004}
+    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.25}
     - _Turbulence: {r: 0.5, g: 0.2, b: 12.566371, a: 3.1415927}
     - _ViewDir: {r: 0, g: 0, b: 1, a: 1}
   m_BuildTextureStacks: []
@@ -15050,82 +14991,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915148663}
   m_CullTransparentMesh: 1
---- !u!1 &929307415
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 929307416}
-  - component: {fileID: 929307418}
-  - component: {fileID: 929307417}
-  m_Layer: 5
-  m_Name: TimerPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &929307416
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929307415}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1231025642}
-  m_Father: {fileID: 2023188203}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 927, y: 940}
-  m_SizeDelta: {x: 100, y: 800}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &929307417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929307415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &929307418
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929307415}
-  m_CullTransparentMesh: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -15186,11 +15051,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.2
-  far clip plane: 500
-  field of view: 40
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
   orthographic: 0
-  orthographic size: 10
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -15214,8 +15079,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.81, y: 1.5, z: -7.34}
+  m_LocalRotation: {x: -0.009003275, y: 0.000000017222481, z: 1.55065e-10, w: 0.99995947}
+  m_LocalPosition: {x: 100, y: -1.7918725, z: 199.67488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15417,7 +15282,7 @@ PrefabInstance:
     - target: {fileID: 7600535462163211113, guid: d9600b4c322ecdb4ab8c55dee0942638, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2121544468}
+      objectReference: {fileID: 751042922}
     - target: {fileID: 8077631197066449799, guid: d9600b4c322ecdb4ab8c55dee0942638, type: 3}
       propertyPath: liqMat
       value: 
@@ -15648,7 +15513,7 @@ Transform:
   m_GameObject: {fileID: 1026920936}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.13, y: 2.22, z: -0.25}
+  m_LocalPosition: {x: -0.06, y: 1.48, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15656,142 +15521,6 @@ Transform:
   - {fileID: 326953648}
   m_Father: {fileID: 2098325020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1067562241
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1067562242}
-  - component: {fileID: 1067562244}
-  - component: {fileID: 1067562243}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1067562242
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067562241}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 789591121}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1067562243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067562241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: 'Cooking completed
-
-'
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4278255360
-  m_fontColor: {r: 0, g: 1, b: 0, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1067562244
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067562241}
-  m_CullTransparentMesh: 1
 --- !u!1 &1069895824
 GameObject:
   m_ObjectHideFlags: 0
@@ -15874,8 +15603,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098325022}
-        m_TargetAssemblyTypeName: PotManager, Assembly-CSharp
+      - m_Target: {fileID: 2098325025}
+        m_TargetAssemblyTypeName: PotBoilingSystem, Assembly-CSharp
         m_MethodName: OnIncreasePower
         m_Mode: 1
         m_Arguments:
@@ -16233,97 +15962,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &1201380813
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidVolumeDefaultNoFlask(Clone)
-  m_Shader: {fileID: 4800000, guid: 045a60f5db3314d55b5609a847d062a8, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - LIQUID_VOLUME_CYLINDER
-  - LIQUID_VOLUME_IGNORE_GRAVITY
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3100
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTex:
-        m_Texture: {fileID: 11700000, guid: cf5740ccd8e2d4200aaa67e31ff22ed0, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTex2D:
-        m_Texture: {fileID: 2800000, guid: 2e25f51e1f31e4da8bdac5d08b0f578f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 1
-    - _AlphaCombined: 0.7921569
-    - _BasePos: -1
-    - _CullMode: 2
-    - _DeepAtten: 0
-    - _DoubleSidedBias: 0.05
-    - _FlaskBlurIntensity: 0.75
-    - _FlaskThickness: 0.05
-    - _FoamBottom: 1
-    - _FoamDensity: -1
-    - _FoamMaxPos: -0.8888042
-    - _FoamRaySteps: 1
-    - _FoamTurbulence: 1
-    - _FoamWeight: 100
-    - _Glossiness: 0.1
-    - _GlossinessInt: 0.5
-    - _Level: 1
-    - _LevelPos: -1.0828042
-    - _LiquidRaySteps: 23
-    - _LowerLimit: -1
-    - _Metallic: 0
-    - _Muddy: 1
-    - _Radius: 0.5
-    - _SmokeAtten: 2
-    - _SmokeRaySteps: -74
-    - _SmokeSpeed: 5
-    - _Sparkling: 1
-    - _SparklingIntensity: 25
-    - _SparklingThreshold: 0.8
-    - _Topology: 0
-    - _Turbulence: 1
-    - _Turbulence2: 1
-    - _TurbulenceSpeed: 1
-    - _UpperLimit: 1.5
-    - _ZTestMode: 4
-    m_Colors:
-    - _Bounds: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: 101.928, g: 0.08119583, b: 203.085, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0, g: 0.33448273, b: 0, a: 0.1}
-    - _Color2: {r: 1, g: 0, b: 0, a: 0.09803922}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _FlaskColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FlaskThickness: {r: 0.97, g: 0.97, b: 0.97, a: 0}
-    - _FoamColor: {r: 1, g: 0, b: 0, a: 1}
-    - _GlossinessInt: {r: 49, g: 512, b: 1, a: 0}
-    - _Scale: {r: 0.25015008, g: 1.0006003, b: 4.8529115, a: 4.8529115}
-    - _Size: {r: 2.0008, g: 2, b: 0.040000014, a: 0.019400004}
-    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.25}
-    - _Turbulence: {r: 0.5, g: 0.2, b: 12.566371, a: 3.1415927}
-    - _ViewDir: {r: 0, g: 0, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1212111561
 GameObject:
   m_ObjectHideFlags: 0
@@ -16562,82 +16200,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!1 &1231025641
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1231025642}
-  - component: {fileID: 1231025644}
-  - component: {fileID: 1231025643}
-  m_Layer: 5
-  m_Name: GagueBar
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1231025642
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231025641}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 208564629}
-  m_Father: {fileID: 929307416}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 75, y: 775}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1231025643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231025641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1231025644
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231025641}
-  m_CullTransparentMesh: 1
 --- !u!21 &1251165985
 Material:
   serializedVersion: 8
@@ -17038,7 +16600,6 @@ Transform:
   m_Children:
   - {fileID: 1521232536}
   - {fileID: 869227923}
-  - {fileID: 2023188203}
   - {fileID: 464732395}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17091,11 +16652,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 1, z: 2}
+  m_Size: {x: 3, y: 1, z: 3}
   m_Center: {x: 0, y: 2.5, z: 2}
 --- !u!54 &1477466505
 Rigidbody:
@@ -17648,7 +17209,7 @@ PrefabInstance:
     - target: {fileID: 7600535462163211113, guid: d9600b4c322ecdb4ab8c55dee0942638, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1201380813}
+      objectReference: {fileID: 1666237339}
     - target: {fileID: 8077631197066449799, guid: d9600b4c322ecdb4ab8c55dee0942638, type: 3}
       propertyPath: liqMat
       value: 
@@ -17827,10 +17388,10 @@ RectTransform:
   - {fileID: 1530435927}
   m_Father: {fileID: 34010195}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 190, y: -70}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1648779533
 MonoBehaviour:
@@ -17902,6 +17463,97 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648779531}
   m_CullTransparentMesh: 1
+--- !u!21 &1666237339
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LiquidVolumeDefaultNoFlask(Clone)
+  m_Shader: {fileID: 4800000, guid: 045a60f5db3314d55b5609a847d062a8, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - LIQUID_VOLUME_CYLINDER
+  - LIQUID_VOLUME_IGNORE_GRAVITY
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3100
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 11700000, guid: cf5740ccd8e2d4200aaa67e31ff22ed0, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex2D:
+        m_Texture: {fileID: 2800000, guid: 2e25f51e1f31e4da8bdac5d08b0f578f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 1
+    - _AlphaCombined: 0.7921569
+    - _BasePos: -1
+    - _CullMode: 2
+    - _DeepAtten: 0
+    - _DoubleSidedBias: 0.05
+    - _FlaskBlurIntensity: 0.75
+    - _FlaskThickness: 0.05
+    - _FoamBottom: 1
+    - _FoamDensity: -1
+    - _FoamMaxPos: -1.6288043
+    - _FoamRaySteps: 1
+    - _FoamTurbulence: 1
+    - _FoamWeight: 100
+    - _Glossiness: 0.1
+    - _GlossinessInt: 0.5
+    - _Level: 1
+    - _LevelPos: -1.8228043
+    - _LiquidRaySteps: 23
+    - _LowerLimit: -1
+    - _Metallic: 0
+    - _Muddy: 1
+    - _Radius: 0.5
+    - _SmokeAtten: 2
+    - _SmokeRaySteps: -74
+    - _SmokeSpeed: 5
+    - _Sparkling: 1
+    - _SparklingIntensity: 25
+    - _SparklingThreshold: 0.8
+    - _Topology: 0
+    - _Turbulence: 1
+    - _Turbulence2: 1
+    - _TurbulenceSpeed: 1
+    - _UpperLimit: 1.5
+    - _ZTestMode: 4
+    m_Colors:
+    - _Bounds: {r: 1, g: 1, b: 1, a: 1}
+    - _Center: {r: 101.998, g: -0.6588043, b: 203.52501, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 0, g: 0.33448273, b: 0, a: 0.1}
+    - _Color2: {r: 1, g: 0, b: 0, a: 0.09803922}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FlaskColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlaskThickness: {r: 0.97, g: 0.97, b: 0.97, a: 0}
+    - _FoamColor: {r: 1, g: 0, b: 0, a: 1}
+    - _GlossinessInt: {r: 49, g: 512, b: 1, a: 0}
+    - _Scale: {r: 0.25015008, g: 1.0006003, b: 4.8529115, a: 4.8529115}
+    - _Size: {r: 2.0008, g: 2, b: 0.040000014, a: 0.019400004}
+    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.25}
+    - _Turbulence: {r: 0.5, g: 0.2, b: 12.566371, a: 3.1415927}
+    - _ViewDir: {r: 0, g: 0, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1674546925
 GameObject:
   m_ObjectHideFlags: 0
@@ -18131,6 +17783,96 @@ MonoBehaviour:
   m_PositionUnits: 1
   m_Speed: 5
   m_Position: 10.050469
+--- !u!21 &1723032680
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LiquidVolumeDefaultNoFlask(Clone)
+  m_Shader: {fileID: 4800000, guid: 045a60f5db3314d55b5609a847d062a8, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - LIQUID_VOLUME_CYLINDER
+  m_InvalidKeywords: []
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3001
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 11700000, guid: cf5740ccd8e2d4200aaa67e31ff22ed0, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex2D:
+        m_Texture: {fileID: 2800000, guid: 2e25f51e1f31e4da8bdac5d08b0f578f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 0.1
+    - _AlphaCombined: 0.1
+    - _BasePos: -1
+    - _CullMode: 2
+    - _DeepAtten: 2
+    - _DoubleSidedBias: 0.05
+    - _FlaskBlurIntensity: 0.75
+    - _FlaskThickness: 0.05
+    - _FoamBottom: 1
+    - _FoamDensity: -1
+    - _FoamMaxPos: -0.80599993
+    - _FoamRaySteps: 1
+    - _FoamTurbulence: 1
+    - _FoamWeight: 100
+    - _Glossiness: 0.767
+    - _GlossinessInt: 0.5
+    - _Level: 1
+    - _LevelPos: -0.80599993
+    - _LiquidRaySteps: 23
+    - _LowerLimit: -1
+    - _Metallic: 0
+    - _Muddy: 0.901
+    - _Radius: 0.5
+    - _SmokeAtten: 2
+    - _SmokeRaySteps: -74
+    - _SmokeSpeed: 5
+    - _Sparkling: 1
+    - _SparklingIntensity: 25
+    - _SparklingThreshold: 0.8
+    - _Topology: 0
+    - _Turbulence: 1
+    - _Turbulence2: 1
+    - _TurbulenceSpeed: 1
+    - _UpperLimit: 1.5
+    - _ZTestMode: 4
+    m_Colors:
+    - _Bounds: {r: 1, g: 1, b: 1, a: 1}
+    - _Center: {r: 100, g: -1, b: 202.15, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 0.62352943, g: 0.34278798, b: 0.0039215656, a: 0.1}
+    - _Color2: {r: 1, g: 0.4878049, b: 0, a: 0.1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FlaskColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlaskThickness: {r: 0.97, g: 0.97, b: 0.97, a: 0}
+    - _FoamColor: {r: 1, g: 0, b: 0, a: 0.1}
+    - _GlossinessInt: {r: 49, g: 512, b: 1, a: 0}
+    - _Scale: {r: 0.2617801, g: 1.0471205, b: 5.078534, a: 5.078534}
+    - _Size: {r: 4.690416, g: 2, b: 3.0000007, a: 1.4550003}
+    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.025}
+    - _Turbulence: {r: 0.5, g: 0.2, b: 12.566371, a: 3.1415927}
+    - _ViewDir: {r: 0, g: 0, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!84 &1746355978
 RenderTexture:
   m_ObjectHideFlags: 0
@@ -18673,97 +18415,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898555534}
   m_CullTransparentMesh: 1
---- !u!21 &1907260912
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidVolumeDefaultNoFlask(Clone)
-  m_Shader: {fileID: 4800000, guid: 045a60f5db3314d55b5609a847d062a8, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - LIQUID_VOLUME_CYLINDER
-  - LIQUID_VOLUME_IGNORE_GRAVITY
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3100
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTex:
-        m_Texture: {fileID: 11700000, guid: cf5740ccd8e2d4200aaa67e31ff22ed0, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTex2D:
-        m_Texture: {fileID: 2800000, guid: 2e25f51e1f31e4da8bdac5d08b0f578f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 1
-    - _AlphaCombined: 0.7921569
-    - _BasePos: -1
-    - _CullMode: 2
-    - _DeepAtten: 0
-    - _DoubleSidedBias: 0.05
-    - _FlaskBlurIntensity: 0.75
-    - _FlaskThickness: 0.05
-    - _FoamBottom: 1
-    - _FoamDensity: -1
-    - _FoamMaxPos: -0.8888042
-    - _FoamRaySteps: 1
-    - _FoamTurbulence: 1
-    - _FoamWeight: 100
-    - _Glossiness: 0.1
-    - _GlossinessInt: 0.5
-    - _Level: 1
-    - _LevelPos: -1.0828042
-    - _LiquidRaySteps: 23
-    - _LowerLimit: -1
-    - _Metallic: 0
-    - _Muddy: 1
-    - _Radius: 0.5
-    - _SmokeAtten: 2
-    - _SmokeRaySteps: -74
-    - _SmokeSpeed: 5
-    - _Sparkling: 1
-    - _SparklingIntensity: 25
-    - _SparklingThreshold: 0.8
-    - _Topology: 0
-    - _Turbulence: 1
-    - _Turbulence2: 1
-    - _TurbulenceSpeed: 1
-    - _UpperLimit: 1.5
-    - _ZTestMode: 4
-    m_Colors:
-    - _Bounds: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: 102.678, g: 0.08119583, b: 203.085, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0, g: 0.33448273, b: 0, a: 0.1}
-    - _Color2: {r: 1, g: 0, b: 0, a: 0.09803922}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _FlaskColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FlaskThickness: {r: 0.97, g: 0.97, b: 0.97, a: 0}
-    - _FoamColor: {r: 1, g: 0, b: 0, a: 1}
-    - _GlossinessInt: {r: 49, g: 512, b: 1, a: 0}
-    - _Scale: {r: 0.25015008, g: 1.0006003, b: 4.8529115, a: 4.8529115}
-    - _Size: {r: 2.0008, g: 2, b: 0.040000014, a: 0.019400004}
-    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.25}
-    - _Turbulence: {r: 0.5, g: 0.2, b: 12.566371, a: 3.1415927}
-    - _ViewDir: {r: 0, g: 0, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1987258845
 GameObject:
   m_ObjectHideFlags: 0
@@ -18846,8 +18497,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2098325022}
-        m_TargetAssemblyTypeName: PotManager, Assembly-CSharp
+      - m_Target: {fileID: 2098325025}
+        m_TargetAssemblyTypeName: PotBoilingSystem, Assembly-CSharp
         m_MethodName: OnDecreasePower
         m_Mode: 1
         m_Arguments:
@@ -18896,109 +18547,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &2023188202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2023188203}
-  - component: {fileID: 2023188206}
-  - component: {fileID: 2023188205}
-  - component: {fileID: 2023188204}
-  m_Layer: 0
-  m_Name: Canvas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &2023188203
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023188202}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 929307416}
-  - {fileID: 789591121}
-  m_Father: {fileID: 1445845279}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
---- !u!114 &2023188204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023188202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &2023188205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023188202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
---- !u!223 &2023188206
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023188202}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!1 &2032852641
 GameObject:
   m_ObjectHideFlags: 0
@@ -19086,6 +18634,7 @@ GameObject:
   - component: {fileID: 2098325022}
   - component: {fileID: 2098325023}
   - component: {fileID: 2098325024}
+  - component: {fileID: 2098325025}
   m_Layer: 0
   m_Name: PotSystem
   m_TagString: Untagged
@@ -19128,15 +18677,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e1911eff54b2349922cdb179e6b6cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potSauceSystem: {fileID: 2098325024}
+  cookUIManager: {fileID: 1521232537}
+  ingredientInventory: {fileID: 1213530960}
   dropPos: {fileID: 1860377225}
   dropIngredient: {fileID: 1860377224}
-  centerPos: {fileID: 1429745812}
   potViewCamera: {fileID: 1393513214}
   uiObject: {fileID: 1445845278}
-  powerText: {fileID: 1212111563}
-  radius: 1.5
-  applyRight: 1
 --- !u!114 &2098325023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19171,97 +18717,21 @@ MonoBehaviour:
   minRange: 0.6
   sauceType: 0
   sauceController: {fileID: 326953649}
---- !u!21 &2121544468
-Material:
-  serializedVersion: 8
+--- !u!114 &2098325025
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidVolumeDefaultNoFlask(Clone)
-  m_Shader: {fileID: 4800000, guid: 045a60f5db3314d55b5609a847d062a8, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - LIQUID_VOLUME_CYLINDER
-  - LIQUID_VOLUME_IGNORE_GRAVITY
-  m_InvalidKeywords: []
-  m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3100
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTex:
-        m_Texture: {fileID: 11700000, guid: cf5740ccd8e2d4200aaa67e31ff22ed0, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTex2D:
-        m_Texture: {fileID: 2800000, guid: 2e25f51e1f31e4da8bdac5d08b0f578f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Alpha: 1
-    - _AlphaCombined: 0.7921569
-    - _BasePos: -1
-    - _CullMode: 2
-    - _DeepAtten: 0
-    - _DoubleSidedBias: 0.05
-    - _FlaskBlurIntensity: 0.75
-    - _FlaskThickness: 0.05
-    - _FoamBottom: 1
-    - _FoamDensity: -1
-    - _FoamMaxPos: -0.8888042
-    - _FoamRaySteps: 1
-    - _FoamTurbulence: 1
-    - _FoamWeight: 100
-    - _Glossiness: 0.1
-    - _GlossinessInt: 0.5
-    - _Level: 1
-    - _LevelPos: -1.0828042
-    - _LiquidRaySteps: 23
-    - _LowerLimit: -1
-    - _Metallic: 0
-    - _Muddy: 1
-    - _Radius: 0.5
-    - _SmokeAtten: 2
-    - _SmokeRaySteps: -74
-    - _SmokeSpeed: 5
-    - _Sparkling: 1
-    - _SparklingIntensity: 25
-    - _SparklingThreshold: 0.8
-    - _Topology: 0
-    - _Turbulence: 1
-    - _Turbulence2: 1
-    - _TurbulenceSpeed: 1
-    - _UpperLimit: 1.5
-    - _ZTestMode: 4
-    m_Colors:
-    - _Bounds: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: 101.178, g: 0.08119583, b: 203.085, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0, g: 0.33448273, b: 0, a: 0.1}
-    - _Color2: {r: 1, g: 0, b: 0, a: 0.09803922}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _FlaskColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FlaskThickness: {r: 0.97, g: 0.97, b: 0.97, a: 0}
-    - _FoamColor: {r: 1, g: 0, b: 0, a: 1}
-    - _GlossinessInt: {r: 49, g: 512, b: 1, a: 0}
-    - _Scale: {r: 0.25015008, g: 1.0006003, b: 4.8529115, a: 4.8529115}
-    - _Size: {r: 2.0008, g: 2, b: 0.040000014, a: 0.019400004}
-    - _SmokeColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.25}
-    - _Turbulence: {r: 0.5, g: 0.2, b: 12.566371, a: 3.1415927}
-    - _ViewDir: {r: 0, g: 0, b: 1, a: 1}
-  m_BuildTextureStacks: []
+  m_GameObject: {fileID: 2098325014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75e6e7816f603d94c926e4bf3fc78c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerText: {fileID: 1212111563}
+  centerPos: {fileID: 1429745812}
+  applyRight: 1
 --- !u!1 &2139321765
 GameObject:
   m_ObjectHideFlags: 0
@@ -19367,7 +18837,7 @@ MonoBehaviour:
   _reflectionTexture: {fileID: 0}
   _physicsMass: 1
   _physicsAngularDamp: 0.02
-  liqMat: {fileID: 830344236}
+  liqMat: {fileID: 1723032680}
 --- !u!23 &2139321767
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19388,7 +18858,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 830344236}
+  - {fileID: 1723032680}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19643,6 +19113,6 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 1445845279}
-  - {fileID: 1835444567}
   - {fileID: 2098325020}
+  - {fileID: 1835444567}
   - {fileID: 314158720}

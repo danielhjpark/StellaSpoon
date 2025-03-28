@@ -8,10 +8,8 @@ public class FryingIngredientSystem : MonoBehaviour
     [SerializeField] private Transform dropPos;
     [SerializeField] private GameObject mainIngredientParent;
     [SerializeField] private GameObject subIngredientParent;
-
     public GameObject fryingMainIngredient;
     public List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
-    private List<IngredientAmount> currentIngredients = new List<IngredientAmount>();
     //---------------------------------------//
 
     public IEnumerator DropIngredient()
@@ -20,7 +18,8 @@ public class FryingIngredientSystem : MonoBehaviour
         float time = 0;
         while (true)
         {
-            time += Time.deltaTime * 5;
+            time += Time.deltaTime * 5f;
+            //fryingMainIngredient.transform.localPosition = Vector3.Lerp(dropPos.localPosition, Vector3.zero, time);
             fryingMainIngredient.transform.localPosition = Vector3.Lerp(dropPos.localPosition, Vector3.zero, time);
             if (fryingMainIngredient.transform.localPosition.y <= 0) break;
             yield return null;
@@ -35,7 +34,7 @@ public class FryingIngredientSystem : MonoBehaviour
         ingredients.transform.SetParent(mainIngredientParent.transform);
         IngredientAddAmount(checkIngredients, ingredient, 1);
 
-        DropIngredient();
+        StartCoroutine(DropIngredient());
     }
 
     public void AddSubIngredient(GameObject ingredients, Ingredient ingredientData)
@@ -64,6 +63,7 @@ public class FryingIngredientSystem : MonoBehaviour
             list.Add(new IngredientAmount(ingredient, count));
         }
     }
+
 
 
 }

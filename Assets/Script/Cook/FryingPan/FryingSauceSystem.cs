@@ -7,11 +7,13 @@ public class FryingSauceSystem : SauceSystem
     [SerializeField] SauceController sauceController;
     [SerializeField] GameObject sauceObject;
     [SerializeField] float minScale, maxScale;
+    
     void Start()
     {
         isLiquidFilled = false;
-        liquidVolume.level = 0;
         isCanFillLiquid = false;
+        maxScale = 20;
+        minScale = 0;
     }
 
     public void Initialize(FryingSetting fryingSetting)
