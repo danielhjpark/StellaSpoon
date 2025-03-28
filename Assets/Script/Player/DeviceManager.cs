@@ -17,6 +17,9 @@ public class DeviceManager : MonoBehaviour
     private GameObject optionPanel; //옵션 패널
     [SerializeField]
     private GameObject planetPanel; //행성 패널
+    [SerializeField]
+    private GameObject showText; //상호작용 패널
+    private bool wasShowTextActive; //showText의 이전 상태
 
     [Header("초기의 인벤토리 버튼")]
     [SerializeField] private Button inventoryButton;
@@ -53,6 +56,13 @@ public class DeviceManager : MonoBehaviour
 
     private void OpenUI()
     {
+        // showText의 이전 상태 저장
+        wasShowTextActive = showText.activeSelf;
+        if (wasShowTextActive)
+        {
+            showText.SetActive(false);
+        }
+
         uiPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -83,5 +93,11 @@ public class DeviceManager : MonoBehaviour
 
         Option.OptionActivated = false;
         Planet.planetActivated = false;
+
+        // showText의 이전 상태 복원
+        if (wasShowTextActive)
+        {
+            showText.SetActive(true);
+        }
     }
 }

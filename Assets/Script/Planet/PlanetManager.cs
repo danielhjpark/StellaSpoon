@@ -10,7 +10,9 @@ public class PlanetManager : MonoBehaviour
         Moon, //달
         Earth, //지구
         Mars, //화성
-        aRedForest // 민근이가 만든거
+        aRedForest, // 민근이가 만든거
+        Store,           //새로운 행성 추가
+        NPCTest // 테스트
     }
 
     [SerializeField]
@@ -21,20 +23,14 @@ public class PlanetManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        { 
-            Destroy(gameObject);
-            return;
-        }
-
         Instance = this;
-        DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴되지 않도록 설정
 
         planetInfoMap = new Dictionary<PlanetType, PlanetInfo>
         {
             { PlanetType.Earth, planetInfos[0] },
             { PlanetType.Moon, planetInfos[1] },
             { PlanetType.Mars, planetInfos[2] }
+            //새로운 행성 추가
         };
     }
 

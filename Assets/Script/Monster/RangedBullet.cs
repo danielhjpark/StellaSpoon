@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class RangedBullet : RangedMonster
 {
+    public GameObject player_; // 플레이어
+    protected ThirdPersonController thirdPersonController_;
     public Transform playerTr; // 플레이어의 위치
     public float moveSpeed = 5f; // 이동 속도
 
     private Vector3 direction; //총알 방향
 
-    private Rigidbody rb;
-
     private new void Start()
     {
-        base.Start();
-
-        playerTr = GameObject.FindWithTag("Player").transform;
+        player_ = GameObject.FindWithTag("Player");
+        playerTr = player_.transform;
+        thirdPersonController_ = player.GetComponent<ThirdPersonController>();
 
         if (playerTr != null )
         {
@@ -24,7 +24,6 @@ public class RangedBullet : RangedMonster
             direction = (playerTr.position - transform.position).normalized;
 
             direction.y = 0;
-
         }
 
         Destroy(gameObject, 1.5f);

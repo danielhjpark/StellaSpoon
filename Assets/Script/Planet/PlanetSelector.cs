@@ -32,4 +32,12 @@ public class PlanetSelector : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
+    public void GameStartNPCTest()
+    {
+        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.NPCTest);
+        mapPanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 }

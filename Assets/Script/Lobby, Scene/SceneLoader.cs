@@ -1,35 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Linq;
 
-
-public enum SceneNames { Lobby = 0, Playground, aRedForest }
+public enum SceneNames { Lobby = 0, Playground, aRedForest, NPCTest }
 
 namespace UnityNote
 {
     public class SceneLoader : MonoBehaviour
     {
-        public static SceneLoader Instance {  get; private set; }
+        public static SceneLoader Instance { get; private set; }
 
         [SerializeField]
-        private GameObject loadingScreen; // 로딩 화면
+        private GameObject loadingScreen;
         [SerializeField]
-        private Image loadingBackground; // 로딩 화면에 출력되는 배경 이미지
+        private Image loadingBackground;
         [SerializeField]
-        private TextMeshProUGUI[] tipText; // 출력될 팁 목록
+        private TextMeshProUGUI[] tipText;
         [SerializeField]
-        private Slider loadingProgress; // 로딩 진행도
+        private Slider loadingProgress;
         [SerializeField]
-        private TextMeshProUGUI textProgress; // 로딩 진행도 텍스트
+        private TextMeshProUGUI textProgress;
 
-        private WaitForSeconds waitChangeDelay; // 씬 변경 지연 시간
+        private WaitForSeconds waitChangeDelay;
 
         private void Awake()
         {
-            if(Instance != null && Instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
             }
@@ -39,64 +38,111 @@ namespace UnityNote
                 waitChangeDelay = new WaitForSeconds(0.5f);
 
                 DontDestroyOnLoad(gameObject);
+                SceneManager.sceneLoaded += OnSceneLoaded;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            // 씬 로드 후 연결된 이벤트를 해제
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Debug.Log($"씬 로딩됨: {scene.name}");
+            StartCoroutine(DelayedAssignButtonEvents());  // 일정 시간 후 버튼 찾기
+        }
+
+        private IEnumerator DelayedAssignButtonEvents()
+        {
+            yield return new WaitForSeconds(0.1f); // UI 로드될 시간을 기다림
+            AssignButtonEvents();
+        }
+
+        private void AssignButtonEvents()
+        {
+            // 1. FindWithTag() 사용 (활성화된 오브젝트 찾기)
+            GameObject buttonObject = GameObject.FindWithTag("YesButton");
+
+            if (buttonObject == null)
+            {
+                // 2. FindObjectsOfTypeAll() 사용 (비활성화된 오브젝트도 찾기)
+                Button[] allButtons = Resources.FindObjectsOfTypeAll<Button>();
+                Button titleButton = allButtons.FirstOrDefault(b => b.name == "YesButton");
+
+                if (titleButton != null)
+                {
+                    buttonObject = titleButton.gameObject;
+                }
+            }
+
+            if (buttonObject != null)
+            {
+                Button titleButton = buttonObject.GetComponent<Button>();
+
+                // 버튼 활성화
+                if (!titleButton.gameObject.activeSelf)
+                {
+                    titleButton.gameObject.SetActive(true);
+                    Debug.Log("YesButton이 비활성화되어 있었으므로 활성화 시킴.");
+                }
+
+                // 기존 이벤트 제거 후 다시 연결
+                titleButton.onClick.RemoveAllListeners();
+                titleButton.onClick.AddListener(() => LoadScene(SceneNames.Lobby));
+                Debug.Log("YesButton을 찾음, 이벤트 추가 완료.");
+            }
+            else
+            {
+                Debug.LogWarning("YesButton을 찾을 수 없음. 태그 설정 또는 비활성화 상태 확인 필요.");
             }
         }
 
         public void LoadScene(string name)
         {
-            // 모든 팁을 비활성화
             foreach (var text in tipText)
             {
-                text.gameObject.SetActive(false);
+                text.gameObject.SetActive(false);  // 모든 팁 비활성화
             }
 
-            int index = Random.Range(0, tipText.Length);
+            int index = Random.Range(0, tipText.Length);  // 팁 중 하나를 랜덤으로 활성화
             tipText[index].gameObject.SetActive(true);
+
             loadingProgress.value = 0f;
-            loadingScreen.SetActive(true);
+            loadingScreen.SetActive(true);  // 로딩 화면 활성화
 
             StartCoroutine(LoadSceneAsync(name));
         }
 
         public void LoadScene(SceneNames name)
         {
-            LoadScene(name.ToString());
+            LoadScene(name.ToString());  // 열고자 하는 씬의 이름을 받아서 로드
         }
 
         private IEnumerator LoadSceneAsync(string name)
         {
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(name);
-            asyncOperation.allowSceneActivation = false; // 씬 자동 전환 방지
+            asyncOperation.allowSceneActivation = false;  // 씬을 자동으로 전환하지 않도록 설정
 
-            // 비동기 작업(씬 불러오기)이 완료될 때까지 반복
-            /*
-            while(asyncOperation.isDone == false)
-            {
-                // 비동기 작업의 진행 상황 (0.0 ~ 1.0)
-                loadingProgress.value = asyncOperation.progress;
-                textProgress.text = $"{Mathf.RoundToInt(asyncOperation.progress * 100)}%";
-
-                yield return null;
-            }
-            */
-
-            // 너무 빠르기 때문에 임의의 시간만큼 로딩을 지속하도록 수정
             float percent = 0f;
             float loadingTime = 2.5f;
 
-            while(percent < 1f)
+            // 씬 로딩 진행상황 표시
+            while (percent < 1f)
             {
                 percent += Time.deltaTime / loadingTime;
                 loadingProgress.value = percent;
-                textProgress.text = $"{Mathf.RoundToInt(percent * 100)}%";
+                textProgress.text = $"{Mathf.RoundToInt(percent * 100)}%";  // 진행도 텍스트 업데이트
 
                 yield return null;
             }
 
+            // 로딩 후 지연을 두고 씬 활성화
             yield return waitChangeDelay;
             asyncOperation.allowSceneActivation = true;
 
-            loadingScreen.SetActive(false);
+            loadingScreen.SetActive(false);  // 로딩 화면 비활성화
         }
     }
 }

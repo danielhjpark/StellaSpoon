@@ -103,7 +103,7 @@ namespace StarterAssets
         private int _animDDodge;
 
         // Dodge
-        private bool isDodge = false;
+        public bool isDodge = false;
         private bool dodgeCooldownActive;
 
         // 캐릭터 기본 스테이터스
@@ -128,6 +128,18 @@ namespace StarterAssets
         [SerializeField]
         private GameObject damageTextPrefab; // 데미지 텍스트 프리팹 (Inspector에서 할당)
         public Transform uiCanvas; // UI 캔버스 (Inspector에서 할당)
+
+        private bool isSliding;
+        private float slopeLimit = 60f;
+        private float slideSpeed = 10f;
+
+        [Header("Dodge Distance")]
+        [SerializeField]
+        float dodgeDistance = 7f; // 닷지 이동 거리
+        [SerializeField]
+        float minDodgeDistance = 7f; // 최소 이동 거리
+
+        private PlayerManager playerManager;
 
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
@@ -189,10 +201,28 @@ namespace StarterAssets
             _fallTimeoutDelta = FallTimeout;
 
             playerRespawn = GetComponent<PlayerRespawn>();
+            playerManager = GetComponent<PlayerManager>();
         }
 
         private void Update()
         {
+            CheckSlope();
+
+            if (isSliding)
+            {
+                Vector3 slideDirection = Vector3.ProjectOnPlane(Vector3.down, GetGroundNormal()).normalized;
+                _controller.Move(slideDirection * slideSpeed * Time.deltaTime);
+            }
+
+            if(playerManager.isRestaurant)
+            {
+                _hpBar.gameObject.SetActive(false);
+            }
+            else
+            {
+                _hpBar.gameObject.SetActive(true);
+            }
+
             if (!DeviceManager.isDeactived || TreasureChest.openingChest)
             {
                 if (_hasAnimator)
@@ -232,10 +262,15 @@ namespace StarterAssets
         private void Dodge()
         {
             // 가만히 있거나, 이미 닷지 중일 때는 닷지가 실행되지 않도록 함
-            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isReload || isAiming || isHit) return;
+            if (_input.move == Vector2.zero || isDodge || dodgeCooldownActive || isAiming || isHit || playerManager.isRestaurant) return;
 
             if (Grounded && _input.dodge)
             {
+                if(isReload)
+                {
+                    CancelReload();
+                }
+
                 StartCoroutine(DodgeCoroutine());
             }
         }
@@ -250,11 +285,9 @@ namespace StarterAssets
             Vector3 dodgeDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
             dodgeDirection = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f) * dodgeDirection;
 
-            float dodgeDistance = 7f;
             float dodgeDuration = 0.5f;
             float elapsedTime = 0f;
             float verticalVelocity = 0f;
-            float minDodgeDistance = 6.5f; // 최소 이동 거리
 
             Vector3 startPosition = transform.position;
             Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
@@ -708,11 +741,38 @@ namespace StarterAssets
             Destroy(textObj); // 끝나면 삭제
         }
 
-        private void CancelReload()
+        public void CancelReload()
         {
             _animator.ResetTrigger("Reload");
             _animator.SetLayerWeight(2, 0);
+            _animator.CrossFade("Empty", 0.1f, 2);
             isReload = false;
+        }
+        void CheckSlope()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _controller.height / 2 + 0.1f))
+            {
+                float angle = Vector3.Angle(hit.normal, Vector3.up);
+
+                // 경사가 너무 높으면 점프 불가
+                if (angle > slopeLimit)
+                {
+                    isSliding = true;
+                    _input.jump = false;
+                }
+                else
+                {
+                    isSliding = false;
+                }
+            }
+        }
+        Vector3 GetGroundNormal()
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, _controller.height / 2 + 0.1f))
+            {
+                return hit.normal;
+            }
+            return Vector3.up;
         }
     }
 }
