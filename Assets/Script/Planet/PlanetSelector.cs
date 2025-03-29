@@ -15,10 +15,7 @@ public class PlanetSelector : MonoBehaviour
         if (System.Enum.TryParse(planetName, out PlanetManager.PlanetType selectedPlanet))
         {
             PlanetManager.SetSelectedPlanet(selectedPlanet);
-
-            mapPanel.SetActive(false);
-            // 씬 전환
-            SceneManager.LoadScene(planetName); // 전환할 씬 이름
+            StartGame(planetName); // StartGame 호출하여 씬 전환
         }
         else
         {
@@ -26,16 +23,9 @@ public class PlanetSelector : MonoBehaviour
         }
     }
 
-    public void GameStartEvent()
+    private void StartGame(string sceneName)
     {
-        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.aRedForest);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    public void GameStartNPCTest()
-    {
-        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.NPCTest);
+        UnityNote.SceneLoader.Instance.LoadScene(sceneName);
         mapPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

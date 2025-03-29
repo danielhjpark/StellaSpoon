@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
 
-public enum SceneNames { Lobby = 0, Playground, aRedForest, NPCTest }
+public enum SceneNames { Lobby = 0, Playground }
 
 namespace UnityNote
 {

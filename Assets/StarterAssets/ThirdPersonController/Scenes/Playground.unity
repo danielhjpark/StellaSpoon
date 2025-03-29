@@ -324,6 +324,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 512101235}
     - target: {fileID: 4738287082304738624, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738287082304738624, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738287082304738624, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 512101235}
@@ -331,6 +339,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 512101235}
+    - target: {fileID: 4738287082304738624, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectPlanet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738287082304738624, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlanetSelector, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738287082304738624, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: aRedForest
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738287082304738624, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6057659281839395182, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -425,11 +449,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -438,14 +462,22 @@ PrefabInstance:
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 454093668}
+      objectReference: {fileID: 512101235}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GameStartNPCTest
+      value: SelectPlanet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlanetSelector, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -453,10 +485,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 
+      value: NPCTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: NPCTest
       objectReference: {fileID: 0}
     - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279615533445088565, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1019,10 +1059,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4184331654754844023, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: cinemachineCamera
-      value: 
-      objectReference: {fileID: 6762344277788346783}
     - target: {fileID: 4778543437052432649, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: totalWeightText
       value: 
@@ -2367,11 +2403,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &454093668 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8027345548731220229, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-  m_PrefabInstance: {fileID: 177292067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &458148377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2759,7 +2790,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1165363847365910181, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
   m_PrefabInstance: {fileID: 177292067}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 454093668}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a9898886436f440a09d338567d8492, type: 3}
