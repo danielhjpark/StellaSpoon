@@ -16,6 +16,16 @@ public class StoreNPCManager : MonoBehaviour
     [SerializeField]
     private GameObject ingredientBase;
 
+    [SerializeField]
+    private StoreUIManager storeUIManager;
+
+    static public bool isIngredient = false;
+
+    private void Awake()
+    {
+        storeUIManager = GetComponent<StoreUIManager>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
@@ -26,6 +36,7 @@ public class StoreNPCManager : MonoBehaviour
             {
                 case NPCType.IngredientNPC:
                     ingredientBase.SetActive(true);//재료상점 UI 출력
+                    isIngredient = true;
                     break;
                 case NPCType.KitchenNPC:
                     //주방상점 UI 출력
@@ -34,6 +45,7 @@ public class StoreNPCManager : MonoBehaviour
                     //무기상점 UI 출력
                     break;
             }
+            storeUIManager.CallChatUI(); //대화창 UI 출력
         }
     }
 
@@ -47,6 +59,7 @@ public class StoreNPCManager : MonoBehaviour
             {
                 case NPCType.IngredientNPC:
                     ingredientBase.SetActive(false);//재료상점 UI 끄기
+                    isIngredient = false;
                     break;
                 case NPCType.KitchenNPC:
                     //주방상점 UI 끄기
@@ -55,6 +68,7 @@ public class StoreNPCManager : MonoBehaviour
                     //무기상점 UI 끄기
                     break;
             }
+            storeUIManager.CloseChatUI(); //대화창 UI 닫기
         }
     }
     //UI 별로 스크립트 작성
