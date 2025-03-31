@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     {
         InventoryUI(); //변경 요청 해야징
         InventoryUI();
-        //DailyMenuAdd();
+        DailyMenuAdd();
     }
     void Update()
     {
@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
     void DailyMenuAdd()
     {
         foreach (Recipe recipe in recipes)
-            DailyMenuManager.dailyMenuList.Add(recipe, 3);
+            RecipeManager.instance.RecipeUnLock(recipe);
     }
 
     public void RecipeUnLockUI() {

@@ -98,14 +98,18 @@ public class RefrigeratorManager : MonoBehaviour
 
     //----------------Use Ingredients------------------------//
     public void UseIngredientToInventory(Recipe recipe, int amount) {
+        refrigeratorInventory.UseIngredient(recipe.mainIngredient, amount);
+
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
-            refrigeratorInventory.UseIngredient(currentIngdeient,requireIngredientAmount);
+            refrigeratorInventory.UseIngredient(currentIngdeient, requireIngredientAmount);
         }
     }
     //-----------------Recall Ingredients ----------------------//
-        public void RecallIngredientToInventory(Recipe recipe, int amount) {
+    public void RecallIngredientToInventory(Recipe recipe, int amount) {
+        refrigeratorInventory.RecallIngredient(recipe.mainIngredient, amount);
+
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
