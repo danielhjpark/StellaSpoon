@@ -17,7 +17,7 @@ public class TimerSystem : MonoBehaviour
     bool isTimerEnd = false;
     void Start()
     {
-        StartCoroutine(TimerStart());
+        //StartCoroutine(TimerStart());
     }
     void Update()
     {

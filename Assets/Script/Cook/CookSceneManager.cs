@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CookSceneManager : MonoBehaviour
 {
     static public CookSceneManager instance;
-
+    public Camera mainCamera;
     private const string potSceneName = "PotMergeTest";
     private const string cuttingSceneName = "CuttingBoardMergeTest";
     private const string wokSceneName = "WokMergeTest";
@@ -20,11 +20,17 @@ public class CookSceneManager : MonoBehaviour
 
     void Awake() {
         instance = this;
+        mainCamera = Camera.main;
+    }
+
+    public void RecipeUnLockUI() {
+        
     }
 
     public void LoadScene(string objName) {
         if (!isSceneLoaded)
         {
+            mainCamera.transform.gameObject.SetActive(false);
             switch(objName) {
                 case "CuttingBoard":
                     currentSceneName = cuttingSceneName;
@@ -49,6 +55,7 @@ public class CookSceneManager : MonoBehaviour
     }
 
     public void UnloadScene() {
+        mainCamera.transform.gameObject.SetActive(true);
         if (isSceneLoaded) {
             SceneManager.UnloadSceneAsync(currentSceneName);
             isSceneLoaded = false;
@@ -57,10 +64,30 @@ public class CookSceneManager : MonoBehaviour
         }
     }
 
+    public void SpawnMenu(Recipe menu) {
+        switch(currentSceneName) {
+            case cuttingSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[3].transform.position, Quaternion.identity);
+                break;
+            case potSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[0].transform.position, Quaternion.identity);
+                break;
+            case panSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[1].transform.position, Quaternion.identity);
+                break;
+            case wokSceneName:
+                Instantiate(menu.menuPrefab, SpawnPoint[2].transform.position, Quaternion.identity);
+                break;
+            default:
+                break;
+        }
+    }
+
 
     public void UnloadScene(string sceneName, Recipe menu)
     {
         if (isSceneLoaded) {}
+        mainCamera.transform.gameObject.SetActive(true);
         SceneManager.UnloadSceneAsync(sceneName);
         isSceneLoaded = false;
         Cursor.lockState = CursorLockMode.Locked;

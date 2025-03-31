@@ -16,12 +16,18 @@ public class FryingIngredientSystem : MonoBehaviour
     {
         if (fryingMainIngredient == null) yield break;
         float time = 0;
+        foreach (Transform ingredient in fryingMainIngredient.transform)
+        {
+            ingredient.GetComponent<Rigidbody>().isKinematic = true;
+            ingredient.GetComponent<Rigidbody>().useGravity = false;
+            ingredient.GetComponent<Collider>().enabled = false;
+        }
+        
         while (true)
         {
             time += Time.deltaTime * 5f;
-            //fryingMainIngredient.transform.localPosition = Vector3.Lerp(dropPos.localPosition, Vector3.zero, time);
-            fryingMainIngredient.transform.localPosition = Vector3.Lerp(dropPos.localPosition, Vector3.zero, time);
-            if (fryingMainIngredient.transform.localPosition.y <= 0) break;
+            fryingMainIngredient.transform.localPosition = Vector3.Lerp(dropPos.localPosition, new Vector3(0, 0, 0), time);
+            if (fryingMainIngredient.transform.localPosition.y <= 0f) break;
             yield return null;
         }
     }
@@ -63,7 +69,5 @@ public class FryingIngredientSystem : MonoBehaviour
             list.Add(new IngredientAmount(ingredient, count));
         }
     }
-
-
 
 }

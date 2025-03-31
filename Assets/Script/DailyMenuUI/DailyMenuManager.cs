@@ -5,6 +5,7 @@ using System;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Linq;
+using OpenCover.Framework.Model;
 
 public class DailyMenuManager : MonoBehaviour
 {
@@ -19,12 +20,16 @@ public class DailyMenuManager : MonoBehaviour
     
     //-------------------------------------------------------//
     [SerializeField] GameObject recipePrefab;
+    RecipeUnLockSystem recipeUnLockSystem;
 
-    void Awake (){instance = this;}
+    void Awake(){
+        instance = this;
+        recipeUnLockSystem = GetComponent<RecipeUnLockSystem>();
+    }
 
-    void Start(){
-        //DailyMenuInit();
-        MakeRecipeList();
+    private void OnEnable() {
+        //MakeRecipeList();
+        recipeUnLockSystem.RecipeListUpdate();
     }
 
     void Update() {
@@ -99,7 +104,7 @@ public class DailyMenuManager : MonoBehaviour
 
     void MakeRecipeList() {
         List<Recipe> recipeList = RecipeManager.instance.MakeRecipeUnLockList();
-
+        
         foreach (Recipe recipe in recipeList) {
             GameObject menu = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             menu.transform.SetParent(recipePanel.transform);
@@ -111,9 +116,10 @@ public class DailyMenuManager : MonoBehaviour
         recipePanelRect.pivot = new Vector2(0.5f, 1);
     }
 
+
     public void DetailUIUpdate(Recipe currentRecipe, int Amount) {
         detailMenuUI.DetailUpdate(currentRecipe, Amount);
     }
 
-
 }
+

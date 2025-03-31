@@ -37,7 +37,7 @@ public class PotSauceSystem : SauceSystem
 
     public void SetTargetColor()
     {
-        liquidVolume.alpha = 0.1f;
+        liquidVolume.alpha = 0.075f;
         liquidVolume.liquidScale1 = 4.85f;
         liquidVolume.liquidScale2 = 4.85f;
         //liquidVolume.liquidColor1.WithAlpha

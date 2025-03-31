@@ -7,6 +7,7 @@ public class IngredientInventory : MonoBehaviour
     RefrigeratorInventory refrigeratorInventory;
     RefrigeratorSlot[] refrigeratorSlots;
     IngredientSlot[] ingredientSlots;
+    [SerializeField] GameObject ingredientSlotPrefab;
 
     void Awake()
     {
@@ -37,6 +38,7 @@ public class IngredientInventory : MonoBehaviour
                 }
             }
         }
+        IngredientSlotEmpty();
     }
 
     public void AddAllIngredientsToRecipe(Recipe recipe) {
@@ -49,6 +51,7 @@ public class IngredientInventory : MonoBehaviour
                 }
             }
         }
+        IngredientSlotEmpty();
     }
 
     public void AddMainIngredients() {
@@ -66,6 +69,7 @@ public class IngredientInventory : MonoBehaviour
                 }
             }
         }
+        IngredientSlotEmpty();
     }
 
     public void AddSubIngredients() {
@@ -82,9 +86,8 @@ public class IngredientInventory : MonoBehaviour
                 }
             }
         }
+        IngredientSlotEmpty();
     }
-
-
 
     public void IngredientAdd(Recipe recipe) {
         foreach(IngredientAmount ingredient in recipe.ingredients) {
@@ -109,6 +112,15 @@ public class IngredientInventory : MonoBehaviour
     public void IngredientSlotClear() {
         foreach(IngredientSlot ingredientSlot in ingredientSlots) {
             ingredientSlot.SlotClear();
+            ingredientSlot.gameObject.SetActive(true);
+        }
+    }
+
+    private void IngredientSlotEmpty() {
+        foreach(IngredientSlot ingredientSlot in ingredientSlots) {
+            if(ingredientSlot.IsEmpty()) {
+                ingredientSlot.gameObject.SetActive(false);
+            }
         }
     }
 }

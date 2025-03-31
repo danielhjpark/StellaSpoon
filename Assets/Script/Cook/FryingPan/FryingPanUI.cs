@@ -36,7 +36,7 @@ public class FryingPanUI : MonoBehaviour
     public void OnFryingPanUI()
     {
         fryingPanUIObject.SetActive(true);
-        //ingredientUIObejct.SetActive(false);
+        ingredientUIObejct.SetActive(false);
     }
 
     public void OnIngredientUI()
@@ -77,17 +77,22 @@ public class FryingPanUI : MonoBehaviour
         }
     }
 
-    public void GetCurrentSection()
+    public bool GetCurrentSection()
     {
         if (currentPos <= sectionRange[0])
         {
             Debug.Log("Rare");
+            return false;
         }
         else if (currentPos <= sectionRange[0] + sectionRange[1])
         {
             Debug.Log("Medium");
+            return true;
         }
-        else Debug.Log("Well Done");
+        else {
+            Debug.Log("Well Done");
+            return false;
+        }
     }
 
     public bool IsCheckEnd()

@@ -7,6 +7,7 @@ public abstract class CookManagerBase : MonoBehaviour
 {
     protected Recipe currentMenu;
     protected Recipe targetRecipe;
+    protected bool isCanEscape;
 
     public virtual void SelectRecipe(Recipe menu)
     {

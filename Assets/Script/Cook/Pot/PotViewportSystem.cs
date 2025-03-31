@@ -49,15 +49,19 @@ public class PotViewportSystem : MonoBehaviour
         }
     }
 
-    // Button Change TopView
+    // Button Change TopView /// Upper Button Active
     public void PutIngredient() {
         StartCoroutine(TopView());
     }
 
-
+    // Button Change TopView  /// down Button Active
     public void BoilingPot() {
         StartCoroutine(ButtonView());
     }
+
+
+    //////////////////////////////////////////////
+
 
     public void PlayForward()
     {
@@ -74,6 +78,8 @@ public class PotViewportSystem : MonoBehaviour
 
     IEnumerator TopView() {
         PlayForward();
+        buttonViewObject.SetActive(true);
+        buttonUIObject.SetActive(false);
         while(movingForward) {
             dolly.m_PathPosition += viewportSpeed * Time.deltaTime;
             if (dolly.m_PathPosition >= 2) // 최대 WayPoint 도달

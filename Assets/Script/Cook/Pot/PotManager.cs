@@ -13,6 +13,7 @@ public class PotManager : CookManagerBase
     private PotSauceSystem potSauceSystem;
     private PotViewportSystem potViewportSystem;
     private PotIngredientSystem potIngredientSystem;
+    private PotUI potUI;
 
     [Header("UI Objects")]
     [SerializeField] CookUIManager cookUIManager;
@@ -23,6 +24,7 @@ public class PotManager : CookManagerBase
     [SerializeField] GameObject dropIngredient;
 
     [Header("Disable Objects")]
+    [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject potViewCamera;
     [SerializeField] GameObject uiObject;
 
@@ -35,11 +37,13 @@ public class PotManager : CookManagerBase
     void Awake()
     {
         CookManager.instance.BindingManager(this);
+        CookManager.instance.spawnPoint = dropPos;
         cookUIManager.Initialize(this);
         
         potBoilingSystem = GetComponent<PotBoilingSystem>();
         potSauceSystem = GetComponent<PotSauceSystem>();
         potViewportSystem = GetComponent<PotViewportSystem>();
+        potUI = GetComponent<PotUI>();
     }
 
     void Update()
@@ -56,6 +60,24 @@ public class PotManager : CookManagerBase
         base.SelectRecipe(menu);
         //potBoilingSystem.Initialize(menu.boilingSetting);
         StartCoroutine(UseCookingStep());
+    }
+
+    public void RecipeSetting(Recipe menu) {
+        base.SelectRecipe(menu);
+
+    }
+
+    public override void AddIngredient(GameObject obj, Ingredient ingredient)
+    {
+        obj.transform.position = dropPos.position;
+        AddIngredientList(obj);
+        StartCoroutine(cookUIManager.VisiblePanel());
+
+        if(ingredient.ingredientType == IngredientType.Main) {
+            mainIngredient = ingredient;
+            return;
+        }
+        IngredientAddAmount(checkIngredients, ingredient, 1);
     }
 
     public override IEnumerator UseCookingStep()
@@ -78,6 +100,10 @@ public class PotManager : CookManagerBase
         {
             ingredientInventory.AddAllIngredients();
             StartCoroutine(cookUIManager.TimerStart());
+            yield return new WaitUntil(() => mainIngredient != null);
+            targetRecipe = RecipeManager.instance.FindRecipe(mainIngredient);
+            RecipeSetting(targetRecipe);
+            yield return new WaitForSeconds(0.5f);
         }
         while (true)
         {
@@ -97,27 +123,35 @@ public class PotManager : CookManagerBase
 
     public override void CookCompleteCheck()
     {
-        List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
-        if (targetRecipe.cookType != CookType.Tossing)
+        
+        if (targetRecipe.cookType != CookType.Boiling)
         {
             Debug.Log("Wrong cook type");
+            CookSceneManager.instance.UnloadScene();
             return;
         }
 
         if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
         {
             Debug.Log("Ingredient mismatch");
+            CookSceneManager.instance.UnloadScene();
             return;
         }
 
-        if (potSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
+        if (potSauceSystem.sauceType != targetRecipe.boilingSetting.sauceType)
         {
             Debug.Log("Wrong sauce type");
+            CookSceneManager.instance.UnloadScene();
             return;
         }
+
+        //if(targetRecipe.boilingSetting.power != potBoilingSystem.rotatePower) {
+        // return;
+        //}
 
         //UnLock New Recipe;
         RecipeManager.instance.RecipeUnLock(targetRecipe);
+        UIManager.instance.RecipeUnLockUI();
         CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
         Debug.Log("Success");
         return;
@@ -132,7 +166,7 @@ public class PotManager : CookManagerBase
         }
         else
         {
-            if (currentMenu.tossingSetting.sauceType == SauceType.None)
+            if (currentMenu.boilingSetting.sauceType == SauceType.None)
             {
                 yield break;
             }
@@ -149,28 +183,15 @@ public class PotManager : CookManagerBase
         potViewportSystem.BoilingPot();
     }
 
-
     public IEnumerator InherentMotion()
     {
         potBoilingSystem.Initialize(currentMenu.boilingSetting, potIngredients);
         yield return StartCoroutine(potBoilingSystem.StartBoilingSystem());
-        yield return StartCoroutine(cookUIManager.TimerStart());
+        //yield return StartCoroutine(cookUIManager.TimerStart());
+        yield return StartCoroutine(potUI.LinkTimerStart());
+
     }
 
-
-
-    public override void AddIngredient(GameObject obj, Ingredient ingredient)
-    {
-        obj.transform.position = dropPos.position;
-        AddIngredientList(obj);
-        StartCoroutine(cookUIManager.VisiblePanel());
-
-        if(ingredient.ingredientType == IngredientType.Main) {
-            mainIngredient = ingredient;
-            return;
-        }
-        IngredientAddAmount(checkIngredients, ingredient, 1);
-    }
 
     void IngredientAddAmount(List<IngredientAmount> list, Ingredient ingredient, int count)
     {
@@ -185,7 +206,6 @@ public class PotManager : CookManagerBase
         }
     }
 
-
     //-------------------------------------------------------------//
 
     public void AddIngredientList(GameObject ingredients)
@@ -194,6 +214,7 @@ public class PotManager : CookManagerBase
         foreach (Transform ingredient in ingredients.transform)
         {
             potIngredients.Add(ingredient.gameObject);
+            ingredient.GetComponent<Rigidbody>().mass = 10;
             ingredient.GetComponent<Rigidbody>().isKinematic = false;
             ingredient.GetComponent<Rigidbody>().useGravity = true;
             ingredient.GetComponent<Collider>().enabled = true;
@@ -204,8 +225,14 @@ public class PotManager : CookManagerBase
     //---------------SceneView Controll--------------//
     public void OpenSceneView()
     {
+        mainCamera.SetActive(true);
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         potViewCamera.SetActive(true);
-        uiObject.SetActive(true);
+        CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true; 
+        canvasGroup.blocksRaycasts = true; 
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -213,8 +240,15 @@ public class PotManager : CookManagerBase
     //Change to MainCamera
     public void CloseSceneView()
     {
+        mainCamera.SetActive(false);
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(true);
         potViewCamera.SetActive(false);
-        uiObject.SetActive(false);
+        CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false; // 클릭 불가능하게 설정 (필요 시)
+        canvasGroup.blocksRaycasts = false; // 레이캐스트 차단 (필요 시)
+
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

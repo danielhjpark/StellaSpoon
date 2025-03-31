@@ -6,7 +6,7 @@ using TMPro;
 
 public class IngredientSlot : Slot
 {
-     bool isEmpty;
+    bool isEmpty;
     public RefrigeratorInventory refrigeratorInventory;
     [SerializeField] Image ingredientImage;
     [SerializeField] TextMeshProUGUI ingredientName;

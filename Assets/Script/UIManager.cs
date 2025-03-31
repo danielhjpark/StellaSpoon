@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    static public UIManager instance { get; private set;}
     [Header("UI")]
     [SerializeField] GameObject DailyMenuUI;
     [SerializeField] GameObject RefrigeratorUI;
@@ -15,11 +16,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] Item[] items;
 
     [SerializeField] Recipe[] recipes;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
-        //InventoryUI(); 변경 요청 해야징
-        //InventoryUI();
-        DailyMenuAdd();
+        InventoryUI(); //변경 요청 해야징
+        InventoryUI();
+        //DailyMenuAdd();
     }
     void Update()
     {
@@ -81,6 +88,19 @@ public class UIManager : MonoBehaviour
     void DailyMenuAdd()
     {
         foreach (Recipe recipe in recipes)
-            DailyMenuManager.dailyMenuList.Add(recipe, 1);
+            DailyMenuManager.dailyMenuList.Add(recipe, 3);
     }
+
+    public void RecipeUnLockUI() {
+        StartCoroutine(RecipeUnLockFade());
+    }
+
+    IEnumerator RecipeUnLockFade() {
+        NewRecipeUI.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        NewRecipeUI.SetActive(false);
+        
+    }
+
+    
 }

@@ -1871,13 +1871,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372601951}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.029999996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1687876001}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 1.324}
@@ -2986,7 +2986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &544204389
 Transform:
   m_ObjectHideFlags: 0
@@ -5421,7 +5421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &803571128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6191,7 +6191,7 @@ RectTransform:
   m_Father: {fileID: 824205274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7886,13 +7886,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1125514561}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.029999996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1687876001}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 1.3240001}
@@ -8192,7 +8192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1149864261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9270,7 +9270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
-  m_DragThreshold: 10
+  m_DragThreshold: 20
 --- !u!4 &1255797168
 Transform:
   m_ObjectHideFlags: 0
@@ -13257,8 +13257,9 @@ GameObject:
   - component: {fileID: 1687876003}
   - component: {fileID: 1687876002}
   - component: {fileID: 1687876005}
+  - component: {fileID: 1687876006}
   m_Layer: 13
-  m_Name: Timer
+  m_Name: PotTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13364,6 +13365,18 @@ MonoBehaviour:
   clickHand: {fileID: 0}
   clickHandImage: {fileID: 0}
   onBillboard: 1
+--- !u!225 &1687876006
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687876000}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1728980548
 GameObject:
   m_ObjectHideFlags: 0
@@ -13852,17 +13865,24 @@ MonoBehaviour:
   DeviceUI: {fileID: 6362709883928109065}
   CookUI: {fileID: 0}
   inventory: {fileID: 1351937612}
-  NewRecipeUI: {fileID: 0}
+  NewRecipeUI: {fileID: 2141810345}
   items:
   - {fileID: 11400000, guid: bc2ef22ae0193434b8527b1d21b70e80, type: 2}
   - {fileID: 11400000, guid: 0c97bd687dbf89041bccee90ddcf6c56, type: 2}
   - {fileID: 11400000, guid: fb25ca4fce4f9934883ba923c046799f, type: 2}
+  - {fileID: 11400000, guid: a11a8776abfff4247a83cbbf4016307b, type: 2}
+  - {fileID: 11400000, guid: 86270c4fb7f3c4e448b1330dd7ed9fde, type: 2}
+  - {fileID: 11400000, guid: 72af6ddf44496eb479644d771a947f31, type: 2}
+  - {fileID: 11400000, guid: 1089611bd2115d24f99c616a50f3cedc, type: 2}
   recipes:
   - {fileID: 11400000, guid: 90b456a63a6bb77429f36592aa7fb116, type: 2}
   - {fileID: 11400000, guid: d1574193c8dd12246a457e2a16aa865b, type: 2}
   - {fileID: 11400000, guid: 28e5248f9edc1a245ab0956b61c2f7d4, type: 2}
   - {fileID: 11400000, guid: 0fe24b26819230b4cad189b288f29c4f, type: 2}
   - {fileID: 11400000, guid: 9f0fd08a4e813d9458703b578e453032, type: 2}
+  - {fileID: 11400000, guid: f5eaa9cd9f652294b9d9b12196290b09, type: 2}
+  - {fileID: 11400000, guid: 2387cadb1266e094bbf5c0f40f24c71d, type: 2}
+  - {fileID: 11400000, guid: 42ac946217855f5459f06dd469947090, type: 2}
 --- !u!114 &1794372669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13935,6 +13955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   failMenu: {fileID: 0}
+  TimerObject: {fileID: 1687876000}
   cookMode: 0
 --- !u!114 &1794372675
 MonoBehaviour:
@@ -13948,6 +13969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc531ada8f7d97945809eb646a9e9de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
   isSceneLoaded: 0
   currentSceneName: 
   SpawnPoint:
@@ -15433,6 +15455,7 @@ GameObject:
   - component: {fileID: 1955708615}
   - component: {fileID: 1955708614}
   - component: {fileID: 1955708613}
+  - component: {fileID: 1955708618}
   m_Layer: 5
   m_Name: DailyMenuUI
   m_TagString: Untagged
@@ -15542,6 +15565,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1955708618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955708612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0d9669c99122e94993c25579016c9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipePanel: {fileID: 1961418050}
+  recipePrefab: {fileID: 1363222531234151186, guid: b94433291cc03884594420dc1d92ec6d, type: 3}
 --- !u!1001 &1959074580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17954,13 +17991,14 @@ GameObject:
   - component: {fileID: 4706045968191784627}
   - component: {fileID: 7996429913449375651}
   - component: {fileID: 7996429913449375652}
+  - component: {fileID: 7996429913449375653}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1948540088505544563
 Transform:
   m_ObjectHideFlags: 0
@@ -18041,7 +18079,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2070925441757318930
 Transform:
   m_ObjectHideFlags: 0
@@ -18209,12 +18247,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Right_RingProximal'\n\tTransform 'Right_Hand'\n\tTransform
-    'Chest'\n\tTransform 'joint2'\n\tTransform 'Spine'\n\tTransform 'Right_IndexProximal'\n\tTransform
-    'Right_UpperArm'\n\tTransform 'head'\n\tTransform 'Right_Foot'\n\tTransform 'Right_Toes'\n\tand
-    more ...\n\tFrom animation clip 'mixamo.com'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -20425,6 +20458,38 @@ MonoBehaviour:
     m_Bits: 512
   InteractPanel: {fileID: 1905577098}
   OpenAndClosePanel: {fileID: 1558882171}
+--- !u!114 &7996429913449375653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916189961050724935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfe80dc267157a42be19e6bebc71495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimCam: {fileID: 0}
+  aimImage: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  aimObject: {fileID: 0}
+  aimObjDis: 10
+  rifle: {fileID: 0}
+  handRig: {fileID: 0}
+  aimRig: {fileID: 0}
+  defaultAvatar: {fileID: 0}
+  specialAvatar: {fileID: 0}
+  defaultAnimator: {fileID: 0}
+  specialAnimator: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 0}
+  normalMesh: {fileID: 0}
+  specialMesh: {fileID: 0}
+  normalMaterial: {fileID: 0}
+  specialMaterial: {fileID: 0}
+  isRestaurant: 1
 --- !u!1 &8030683627083213375
 GameObject:
   m_ObjectHideFlags: 0

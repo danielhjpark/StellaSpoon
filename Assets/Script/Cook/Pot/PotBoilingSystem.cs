@@ -9,7 +9,7 @@ public class PotBoilingSystem : MonoBehaviour
     [Header("Button UI Text")]
     [SerializeField] TextMeshProUGUI powerText;
     [SerializeField] Transform centerPos;
-
+    [SerializeField] GameObject gravityLimitLine;
     private float rotatePower = 0;
     
     public bool applyRight = true;
@@ -18,7 +18,13 @@ public class PotBoilingSystem : MonoBehaviour
 
     private bool isRotate;
     private List<GameObject> potIngredients;
+    private Coroutine rotateCoroutine;
 
+    void Awake()
+    {
+        gravityLimitLine.SetActive(false);
+    }
+    
     public void Initialize(BoilingSetting boilingSetting, List<GameObject>potIngredients) {
         isRotate = false;
         currentTime = 0;
@@ -31,7 +37,7 @@ public class PotBoilingSystem : MonoBehaviour
     {
         if (rotatePower < 3) rotatePower++;
         powerText.text = rotatePower.ToString();
-        if (!isRotate) {
+        if (rotateCoroutine == null) {
             StartCoroutine(AddForceWithRotation());
         }
 
@@ -41,8 +47,8 @@ public class PotBoilingSystem : MonoBehaviour
     {
         if (rotatePower > 0) rotatePower--;
         powerText.text = rotatePower.ToString();
-        if (!isRotate) {
-            StartCoroutine(AddForceWithRotation());
+        if (rotateCoroutine == null) {
+            rotateCoroutine = StartCoroutine(AddForceWithRotation());
         }
     }
 
@@ -54,9 +60,10 @@ public class PotBoilingSystem : MonoBehaviour
 
     IEnumerator AddForceWithRotation()
     {
-        isRotate = true;
         WaitForSeconds addForceTime = new WaitForSeconds(0.1f);
-        float radius = 1f;
+        gravityLimitLine.SetActive(true);
+        float radius = 3f;
+        isRotate = true;
         while (true)
         {
             if (currentTime >= completeTime)
@@ -67,6 +74,7 @@ public class PotBoilingSystem : MonoBehaviour
             {
                 if (obj.TryGetComponent<Rigidbody>(out Rigidbody rb))
                 {
+                    rb.useGravity = false;
                     Vector3 center = centerPos.position;
                     Vector3 position = obj.transform.position;
                     Vector3 direction = position - center;
@@ -91,6 +99,8 @@ public class PotBoilingSystem : MonoBehaviour
             currentTime += 0.1f;
             yield return addForceTime;
         }
+        
+        rotateCoroutine = null;
     }
 
 

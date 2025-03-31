@@ -15,8 +15,8 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private IngredientInventory ingredientInventory;
     public event Action OnSelectRecipe;
 
-    void Start()
-    {
+    private void Awake() {
+        
         image = GetComponent<Image>();
         initColor = Color.white;
         disableColor = Color.grey;
@@ -29,7 +29,7 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         {
             if (isEnter)
             {
-                ingredientInventory.gameObject.SetActive(true);
+                //ingredientInventory.gameObject.SetActive(true);
                 ingredientInventory.IngredientSlotClear();
                 ingredientInventory.IngredientAdd(currentRecipe);
                 CookManager.instance.SelectRecipe(currentRecipe);
@@ -50,7 +50,8 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         this.ingredientInventory = ingredientInventory;
         currentRecipe = recipe;
-        //image.sprite = recipe.menuImage;
+        Debug.Log(recipe.menuImage);
+        image.sprite = recipe.menuImage;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

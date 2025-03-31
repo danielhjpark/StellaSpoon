@@ -28,7 +28,7 @@ public class RecipeManager : MonoBehaviour
 
     void RecipeUnlockInit() {
         foreach (Recipe recipe in RecipeList) {
-            RecipeUnlockCheck.Add(recipe, true);
+            RecipeUnlockCheck.Add(recipe, false);
         }
     }
 
@@ -52,6 +52,7 @@ public class RecipeManager : MonoBehaviour
     //?‹¨?ˆ˜
     public bool IsCanMakeMenu(Recipe recipe) {
         if(recipe == null) return false;
+        if(IngredientManager.IngredientAmount[recipe.mainIngredient] <= 0) return false;
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount;
@@ -65,6 +66,7 @@ public class RecipeManager : MonoBehaviour
     //ë³µìˆ˜
     public bool IsCanMakeMenu(Recipe recipe, int amount) {
         if(recipe == null) return false;
+        if(IngredientManager.IngredientAmount[recipe.mainIngredient] * amount <= 0) return false;
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
@@ -79,6 +81,8 @@ public class RecipeManager : MonoBehaviour
 
     //----------------?ž¬ë£? ?‚¬?š©?•˜ê¸?------------------------//
     public void UseIngredientFromRecipe(Recipe recipe, int amount) {
+        IngredientManager.IngredientAmount[recipe.mainIngredient] -= amount;
+
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
@@ -87,6 +91,8 @@ public class RecipeManager : MonoBehaviour
     }
     //-----------------?ž¬ë£? ë°˜í™˜?•˜ê¸? ----------------------//
         public void RecallIngredientFromRecipe(Recipe recipe, int amount) {
+        IngredientManager.IngredientAmount[recipe.mainIngredient] += amount;
+
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
              int requireIngredientAmount = currentIngredient.amount * amount;
@@ -97,10 +103,8 @@ public class RecipeManager : MonoBehaviour
     //------------------Find Recipe for Main Ingredient------------------------//
     public Recipe FindRecipe(Ingredient ingredient)
     {
-
         Ingredient mainIngredient = ingredient;
         Recipe recipe = RecipeList.SingleOrDefault(recipe => recipe.mainIngredient == mainIngredient);
-
         return recipe;
     }
 
