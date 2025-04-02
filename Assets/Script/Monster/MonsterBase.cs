@@ -26,6 +26,7 @@ public abstract class MonsterBase : MonoBehaviour
     protected float lastAttackTime; //마지막 공격 시간
     public bool isAttack = false; //공격중 체크 변수
     public bool attackColl = false; //공격 충돌 체크 변수
+    public bool inAttackRange = false; //공격 범위 내에 있는지 체크 변수
 
     [Header("몬스터 공격 딜레이 시간")]
     public float damageDelayTime; //공격 딜레이 시간
@@ -101,11 +102,17 @@ public abstract class MonsterBase : MonoBehaviour
                     if (distanceToPlayer <= attackRange)
                     {
                         nav.ResetPath();
+                        inAttackRange = true;
                         currentState = MonsterStates.Attack;
                     }
                     else if (distanceToPlayer > attackRange && distanceToPlayer <= playerDetectionRange)
                     {
                         currentState = MonsterStates.Chasing;
+                        inAttackRange = false;
+                    }
+                    else
+                    {
+                        inAttackRange = false;
                     }
                     HandleState();
                 }
