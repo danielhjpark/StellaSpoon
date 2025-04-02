@@ -12,7 +12,7 @@ public class WeaponSlot : Slot
             if (DragSlot.instance.dragSlot.item.itemType == Item.ItemType.Equipment)
             {
                 ChangeSlot(); // 올바른 타입이면 슬롯 교체
-                CheckWeaponRifle(); // 장착한 아이템이 Weapon_02인지 확인
+                //CheckWeaponRifle(); // 장착한 아이템이 Weapon_02인지 확인
             }
             else
             {

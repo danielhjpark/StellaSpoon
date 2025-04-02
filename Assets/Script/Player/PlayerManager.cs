@@ -105,10 +105,17 @@ public class PlayerManager : MonoBehaviour
     {
         if (isRestaurant)
         {
+            InventoryManager.instance.isWeaponRifle = false;
+            EquipRifleCheck();
             return;
         }
+        else
+        {
+            InventoryManager.instance.isWeaponRifle = true;
+            EquipRifleCheck();
+        }
         AimCheck();
-        EquipRifleCheck();
+        //EquipRifleCheck();
         CheckJumpOrDodge();
     }
 
