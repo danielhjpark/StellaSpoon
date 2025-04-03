@@ -20,7 +20,10 @@ public class RifleManager : MonoBehaviour
     [SerializeField]
     private float currentShootDelay = 0.2f;
 
+    // 무기 총알 UI
     public GameObject WeaponUI;
+    // 무기 Sprite UI
+    public GameObject SpriteUI;
 
     [SerializeField]
     public Text bulletText;
