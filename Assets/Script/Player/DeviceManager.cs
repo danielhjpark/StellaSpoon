@@ -31,8 +31,11 @@ public class DeviceManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            //todo 기계장치 오픈시 카메라, 플레이어 움직임 제한 필요
-            ToggleUI();
+            if(!TreasureChest.openingChest)
+            {
+                //todo 기계장치 오픈시 카메라, 플레이어 움직임 제한 필요
+                ToggleUI();
+            }
         }
 
         // Esc 키로 UI 비활성화
