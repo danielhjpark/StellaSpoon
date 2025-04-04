@@ -12,7 +12,7 @@ public class PlanetManager : MonoBehaviour
         Mars, //화성
         aRedForest, // 민근이가 만든거
         Store,           //새로운 행성 추가
-        NPCTest // 테스트
+        NPCTest // 레스토랑 테스트
     }
 
     [SerializeField]

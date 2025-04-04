@@ -266,7 +266,6 @@ public class PlayerManager : MonoBehaviour
 
     public void TrueAim()
     {
-        Debug.Log("sasdsdadass");
         noAim = true;
     }
 
