@@ -31,11 +31,12 @@ public class BearKingMonster : MonsterBase
         base.Start();
         leftHandCollider.enabled = false;
         rightHandCollider.enabled = false;
+        attackRange = 5f;
     }
 
     protected override void HandleAttack()
     {
-        //animator.SetBool("Walk", false);
+        animator.SetBool("Walk", false);
         if (!isAttack)
         {
             isAttack = true;
@@ -51,9 +52,10 @@ public class BearKingMonster : MonsterBase
     {
         if(!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         Debug.Log("기본 공격 시작!");
-        // animator.SetTrigger("Attack");
+        animator.SetTrigger("Attack8");
         yield return new WaitForSeconds(5.0f);
         Debug.Log("기본 공격 종료!");
+        attackRange = 15f;
         nextPattern = JUMP;
         nextPatternPlay();
     }
@@ -62,7 +64,6 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         Debug.Log("내려찍기 시작!");
-        // animator.SetTrigger("Jump");
         yield return StartCoroutine(ShowJumpGroundEffect()); //바닥 경고 효과
 
         if (currentGroundEffect != null)
@@ -71,6 +72,7 @@ public class BearKingMonster : MonsterBase
         }
 
         Debug.Log("충격파 발생!");
+        animator.SetTrigger("Attack5");
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, shockwaveRadius);
         foreach (var hit in hitColliders)
         {
@@ -81,6 +83,7 @@ public class BearKingMonster : MonsterBase
         }
 
         yield return new WaitForSeconds(6.0f);
+        attackRange = 15f;
         nextPattern = CHARGE;
         nextPatternPlay();
     }
@@ -89,6 +92,7 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         Debug.Log("돌진 준비 시작!");
+        animator.SetBool("Run Forward", true);
         // animator.SetTrigger("Charge");
 
         // 돌진 준비 시 플레이어의 현재 위치 저장
@@ -127,10 +131,12 @@ public class BearKingMonster : MonsterBase
             yield return null;
         }
 
+        animator.SetBool("Run Forward", false);
         isCharging = false;
         Debug.Log("돌진 종료!");
-
+        animator.SetTrigger("Attack3");
         yield return new WaitForSeconds(5.0f);
+        attackRange = 5f;
         nextPattern = ATTACK;
         nextPatternPlay();
     }
