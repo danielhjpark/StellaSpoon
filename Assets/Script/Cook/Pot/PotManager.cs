@@ -91,6 +91,7 @@ public class PotManager : CookManagerBase
     public IEnumerator AddAllIngredients()
     {
         potViewportSystem.PutIngredient();
+        StartCoroutine(potViewportSystem.OpenLid());
         Debug.Log("Ingredients Step");
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
@@ -185,10 +186,10 @@ public class PotManager : CookManagerBase
 
     public IEnumerator InherentMotion()
     {
-        potBoilingSystem.Initialize(currentMenu.boilingSetting, potIngredients);
-        yield return StartCoroutine(potBoilingSystem.StartBoilingSystem());
-        //yield return StartCoroutine(cookUIManager.TimerStart());
-        yield return StartCoroutine(potUI.LinkTimerStart());
+        potUI.SetActiveBottomButton(); // Bottom Button Active
+        potBoilingSystem.Initialize(currentMenu.boilingSetting, potIngredients); // Binding Setting
+        yield return StartCoroutine(potBoilingSystem.StartBoilingSystem()); // Call of Button
+        yield return StartCoroutine(potUI.LinkTimerStart()); //
 
     }
 

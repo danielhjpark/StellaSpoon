@@ -9,17 +9,13 @@ public class PotUI : MonoBehaviour
     TimerSystem mainTimerSystem;
     TimerSystem potTimerSystem;
 
+    PotViewportSystem potViewportSystem;
+
     void Start()
     {
         mainTimer = GameObject.Find("PotTimer");
         potTimerSystem = potTimer.GetComponent<TimerSystem>();
         mainTimerSystem = mainTimer.GetComponent<TimerSystem>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public IEnumerator LinkTimerStart() {
@@ -50,6 +46,16 @@ public class PotUI : MonoBehaviour
     public bool TimerEnd()
     {
         return potTimerSystem.TimerEnd();
+    }
+
+    //---------------------ViewPort-----------------------------//
+
+    public void SetActiveBottomButton() {
+        potViewportSystem.bottomButton.SetActive(true);
+    }
+
+    public void SetActiveFrontButton() {
+        potViewportSystem.frontButton.SetActive(true);
     }
 
 }

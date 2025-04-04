@@ -10,9 +10,10 @@ public class PotBoilingSystem : MonoBehaviour
     [SerializeField] TextMeshProUGUI powerText;
     [SerializeField] Transform centerPos;
     [SerializeField] GameObject gravityLimitLine;
+    PotUI potUI;
+    PotViewportSystem  potViewportSystem;
+
     private float rotatePower = 0;
-    
-    public bool applyRight = true;
     private float completeTime;
     private float currentTime;
 
@@ -23,6 +24,7 @@ public class PotBoilingSystem : MonoBehaviour
     void Awake()
     {
         gravityLimitLine.SetActive(false);
+        potUI = this.GetComponent<PotUI>();
     }
     
     public void Initialize(BoilingSetting boilingSetting, List<GameObject>potIngredients) {
@@ -53,16 +55,26 @@ public class PotBoilingSystem : MonoBehaviour
     }
 
     public IEnumerator StartBoilingSystem() {
-        Debug.Log("Start");
         yield return new WaitUntil(() => isRotate);
-        Debug.Log("end");
+        potUI.SetActiveBottomButton();
+        while(true) {
+            if(Input.GetKeyDown(KeyCode.V)) {
+                yield return StartCoroutine(potViewportSystem.CloseLid());
+                break;
+            }
+            yield return null;
+        }
+
+        yield return StartCoroutine(potUI.LinkTimerStart()); 
     }
 
     IEnumerator AddForceWithRotation()
     {
+        potUI.SetActiveFrontButton();
         WaitForSeconds addForceTime = new WaitForSeconds(0.1f);
         gravityLimitLine.SetActive(true);
         float radius = 3f;
+        bool applyRight = true;
         isRotate = true;
         while (true)
         {

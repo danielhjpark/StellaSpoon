@@ -38,6 +38,7 @@ public class FryingSystem : MonoBehaviour
             mainIngredientPreviousPos.Add(t.transform.localPosition);
         }
 
+
     }
 
     public void InitializeInherentMotion() {
@@ -57,6 +58,17 @@ public class FryingSystem : MonoBehaviour
         MeshRenderer meshRenderer = mainIngredientPart[0].GetComponent<MeshRenderer>();
         Vector3 size = meshRenderer.bounds.size;
 
+    }
+
+    void lilToonShaderSet() {
+        Renderer targetRenderer = mainIngredientPart[0].GetComponent<Renderer>();
+        Material mat = targetRenderer.material;
+        if (mat.HasProperty("_Color2nd"))
+        {
+            Color currentColor = mat.GetColor("_Color2nd"); // 기존 색상 가져오기
+            currentColor.a -= 0.1f; // 알파 값만 변경
+            mat.SetColor("_Color2nd", currentColor); // 새로운 색상 적용
+        }
     }
 
     IEnumerator RotatePan()
@@ -93,6 +105,7 @@ public class FryingSystem : MonoBehaviour
 
         while (true)
         {
+            
             SetActiveTongs();
             if (isHalf && timeline.time >= timeline.duration)
             {
@@ -131,7 +144,8 @@ public class FryingSystem : MonoBehaviour
     }
 
     private void GrabObject() {
-        grabNum = grabQueue.Dequeue();
+        lilToonShaderSet();
+        if(grabQueue.Count != 0) grabNum = grabQueue.Dequeue();
         mainIngredientPart[grabNum].transform.SetParent(grabPos);
         mainIngredientPart[grabNum].transform.localPosition = Vector3.zero;
     }
