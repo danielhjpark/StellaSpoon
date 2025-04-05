@@ -1305,7 +1305,7 @@ MonoBehaviour:
   inAttackRange: 0
   damageDelayTime: 5
   idleMoveInterval: 5
-  attackRange: 15
+  attackRange: 3
   playerDetectionRange: 17
   randomMoveRange: 2
   damageRange: 0
@@ -1320,6 +1320,7 @@ MonoBehaviour:
   rightHandCollider: {fileID: 6973038572108594295}
   jumpGroundEffectPrefab: {fileID: 7362739426228543933, guid: 171b0f73c2ef99d48979da69c7d84ee4, type: 3}
   chargeGoundEffectPrefab: {fileID: 7875724690157075665, guid: 7a23de3f5e0a8074384aa854d409d048, type: 3}
+  isJumping: 0
   currentGroundEffect: {fileID: 0}
 --- !u!195 &6334015971420277287
 NavMeshAgent:
@@ -1365,8 +1366,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -1479,6 +1480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3180619817429023636}
   - component: {fileID: 677020246462848043}
+  - component: {fileID: 5181716481129248661}
   m_Layer: 0
   m_Name: Fingers1_L
   m_TagString: Untagged
@@ -1517,12 +1519,26 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5181716481129248661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4438342910228786140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2aadd799e0aa146bb5363e891c9dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 10
+  thirdPersonController: {fileID: 0}
 --- !u!1 &4476973114664381848
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,6 +1644,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8822405502676006493}
   - component: {fileID: 6973038572108594295}
+  - component: {fileID: 935468949844963691}
   m_Layer: 0
   m_Name: Fingers1_R
   m_TagString: Untagged
@@ -1666,12 +1683,26 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &935468949844963691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5252371299881103643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2aadd799e0aa146bb5363e891c9dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 10
+  thirdPersonController: {fileID: 0}
 --- !u!1 &5548448742426596707
 GameObject:
   m_ObjectHideFlags: 0
