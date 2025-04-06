@@ -23,17 +23,19 @@ public class DeviceManager : MonoBehaviour
     [SerializeField] private Sprite selectedSprite;
 
     private ThirdPersonController playerController;
+    private StarterAssetsInputs _input;
 
     private void Awake()
     {
         playerController = FindObjectOfType<ThirdPersonController>();
+        _input = FindObjectOfType<StarterAssetsInputs>();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false)
+            if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false)
             {
                 ToggleUI();
             }
