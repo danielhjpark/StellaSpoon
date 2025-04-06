@@ -1,3 +1,4 @@
+using StarterAssets;
 using UnityEngine;
 
 public class BearKingHand : MonoBehaviour
@@ -5,6 +6,12 @@ public class BearKingHand : MonoBehaviour
 
     public int attackDamage = 10;      // 공격 데미지
 
+    public ThirdPersonController thirdPersonController; // 플레이어의 ThirdPersonController 스크립트 참조
+
+    private void Start()
+    {
+        thirdPersonController = GameObject.FindGameObjectWithTag("Player").GetComponent<ThirdPersonController>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,8 +19,8 @@ public class BearKingHand : MonoBehaviour
         {
             Debug.Log($"{other.name}가 공격을 맞았습니다!");
 
-            // 플레이어에 데미지 처리 로직
-            
+            thirdPersonController.TakeDamage(attackDamage, transform.position); //플레이어 데미지
+
         }
     }
 }
