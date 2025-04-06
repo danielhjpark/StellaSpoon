@@ -9,7 +9,7 @@ public class ChargeMonster : MonsterBase
     private bool isCharging = false;
     [Header("돌격 몬스터 information")]
     [SerializeField]
-    private float chargeSpeed = 10f; //돌격속도
+    private float chargeSpeed = 5f; //돌격속도
 
     protected override void HandleAttack()
     {
@@ -17,7 +17,6 @@ public class ChargeMonster : MonsterBase
         {
             isAttack = true;
             animator.SetBool("Walk", false);
-            animator.SetBool("Attack", true);
             if (!isCharging)
             {
                 Debug.Log("돌격 시작!");
@@ -27,8 +26,9 @@ public class ChargeMonster : MonsterBase
     }
     private IEnumerator Charge()
     {
+        animator.SetBool("Run", true);
         isCharging = true;
-        Vector3 targetPosition = player.transform.position - (player.transform.position - transform.position).normalized * 0.3f; //목표보다 0.3 앞에 멈추게
+        Vector3 targetPosition = player.transform.position - (player.transform.position - transform.position).normalized * 0.8f; //목표보다 0.3 앞에 멈추게
 
         // 돌격 시작 시 NavMeshAgent 비활성화 (직접 이동을 위해)
         nav.isStopped = true;
@@ -43,6 +43,8 @@ public class ChargeMonster : MonsterBase
             // 목표에 도달하면 돌격 종료
             if (distanceToTarget <= 1f)
             {
+                animator.SetBool("Run", false);
+                animator.SetBool("Attack", true);
                 break;
             }
 
@@ -66,6 +68,8 @@ public class ChargeMonster : MonsterBase
         if (other.gameObject.CompareTag("Player") && isCharging)
         {
             Debug.Log("플레이어와 충돌! 돌격 종료.");
+            animator.SetBool("Run", false);
+            animator.SetBool("Attack", true);
             StopCharging();
         }
     }

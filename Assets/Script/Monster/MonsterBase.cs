@@ -176,7 +176,6 @@ public abstract class MonsterBase : MonoBehaviour
             isAttack = true;
             animator.SetBool("Walk", false);
             animator.SetBool("Attack", true); //Attack 애니메이션 실행
-            //플레이어에게 데미지 주기
         }
 
     }

@@ -6,7 +6,6 @@ using UnityEngine;
 public class RangedBullet : RangedMonster
 {
     public GameObject player_; // 플레이어
-    protected ThirdPersonController thirdPersonController_;
     public Transform playerTr; // 플레이어의 위치
     public float moveSpeed = 5f; // 이동 속도
 
@@ -16,7 +15,6 @@ public class RangedBullet : RangedMonster
     {
         player_ = GameObject.FindWithTag("Player");
         playerTr = player_.transform;
-        thirdPersonController_ = player.GetComponent<ThirdPersonController>();
 
         if (playerTr != null )
         {
@@ -47,7 +45,6 @@ public class RangedBullet : RangedMonster
             Destroy(gameObject); //투척물 제거
 
             Vector3 attackerPosition = transform.position; // 플레이어를 공격하는 방향 Y값 보정이 필요
-
             thirdPersonController.TakeDamage(damage, attackerPosition);
         }
         if(other.CompareTag("Wall"))
