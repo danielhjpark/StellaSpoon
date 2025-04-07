@@ -17,16 +17,20 @@ public class WokManager : CookManagerBase
     [SerializeField] GameObject dropIngredient;
 
     [Header("Wok System")]
-    [SerializeField] WokTossingSystem wokTossingSystem;
-    [SerializeField] WokSauceSystem wokSauceSystem;
+    WokTossingSystem wokTossingSystem;
+    WokSauceSystem wokSauceSystem;
+    WokIngredientSystem wokIngredientSystem;
+
     //----------------------------------------------------------------------//
     private List<GameObject> wokIngredients = new List<GameObject>();
     private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
+    private List<IngredientAmount> currentIngredients = new List<IngredientAmount>();
     //----------------------------------------------------------------------//
     private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
     private int targetTossingCount;
-    private List<IngredientAmount> currentIngredients = new List<IngredientAmount>();
+    
+    private GameObject mainIngredient;
     //---------------------------------------------------------------------//
 
     void Awake()
@@ -39,6 +43,9 @@ public class WokManager : CookManagerBase
     void Start()
     {
         wokTossingSystem = GetComponent<WokTossingSystem>();
+        wokSauceSystem = GetComponent<WokSauceSystem>();
+        wokIngredientSystem = GetComponent<WokIngredientSystem>();
+
         successTossingCount = 0;
     }
 
@@ -75,7 +82,7 @@ public class WokManager : CookManagerBase
     {
         base.SelectRecipe(menu);
         if(menu == null || menu.cookType != CookType.Tossing) {
-            int[] defaultRange = {300, 100, 300};
+            int[] defaultRange = {300, 150, 300};
             int randTossingCount = 2;
             firstTossingCount = randTossingCount;
             secondTossingCount = randTossingCount;
@@ -139,60 +146,32 @@ public class WokManager : CookManagerBase
 
         }
     }
+
     public override void AddIngredient(GameObject ingredients, Ingredient ingredient)
     {
-        AddIngredientList(ingredients);
-        if(ingredient.ingredientType == IngredientType.Main) {
-            isMain = true;
-            IngredientAddAmount(checkIngredients, ingredient, 1);
-            return;
-        }
-        else {
-            StartCoroutine(cookUIManager.VisiblePanel());
-            IngredientAddAmount(checkIngredients, ingredient, 1);
-        }
-    }
-
-    void IngredientAddAmount(List<IngredientAmount> list, Ingredient ingredient, int count)
-    {
-        var existing = list.FirstOrDefault(i => i.ingredient.Equals(ingredient));
-        if (existing != null)
+        if (ingredient.ingredientType == IngredientType.Main)
         {
-            existing.amount += count;
+            wokIngredientSystem.AddMainIngredient(ingredients, ingredient);
         }
         else
         {
-            list.Add(new IngredientAmount(ingredient, count));
-        }
+            StartCoroutine(cookUIManager.VisiblePanel());
+            wokIngredientSystem.AddSubIngredient(ingredients, ingredient);
+        } 
     }
 
-    //----------------------------------------------------------------------//
-    public void AddIngredientList(GameObject ingredients)
-    {
-        ingredients.transform.SetParent(dropIngredient.transform, false);
-        //ingredients.transform.position = dropPos.position;
-        ingredients.transform.localPosition = Vector3.zero;
-        foreach (Transform ingredient in ingredients.transform)
-        {
-            wokIngredients.Add(ingredient.gameObject);
-            ingredient.GetComponent<Rigidbody>().isKinematic = false;
-            ingredient.GetComponent<Rigidbody>().useGravity = true;
-            ingredient.GetComponent<Collider>().enabled = true;
-        }
-
-    }
 
     //---------------Wok Cooking Method---------------//
 
     IEnumerator InherentMotion(int tossingCount)
     {
+        wokUI.OnWokUI();
         wokTossingSystem.BindTossingObject(wokIngredients);
         yield return StartCoroutine(wokTossingSystem.WokTossing(tossingCount, (callbackValue) =>
         {
             successTossingCount += callbackValue;
         }
         ));
-        Debug.Log(successTossingCount);
     }
 
     bool isMain = false;
@@ -203,14 +182,14 @@ public class WokManager : CookManagerBase
         {
             GameObject mainIngredient = currentMenu.mainIngredient.ingredientPrefab;
             AddIngredient(Instantiate(mainIngredient, dropPos.position, Quaternion.identity), currentMenu.mainIngredient);
-            yield return new WaitUntil(() => isMain);
+            yield return new WaitUntil(() => wokIngredientSystem.mainIngredient != null);
             yield return new WaitForSeconds(0.5f);
         }
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             ingredientInventory.AddMainIngredients();
-            yield return new WaitUntil(() => isMain);
-            targetRecipe = RecipeManager.instance.FindRecipe(checkIngredients[0].ingredient);
+            yield return new WaitUntil(() => wokIngredientSystem.mainIngredient != null);
+            targetRecipe = RecipeManager.instance.FindRecipe(wokIngredientSystem.checkIngredients[0].ingredient);
             RecipeSetting(targetRecipe);
             yield return new WaitForSeconds(0.5f);
         }
@@ -248,7 +227,7 @@ public class WokManager : CookManagerBase
         Debug.Log("Add Sauce Step");
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
-            wokSauceSystem.InitializeMakeMode();
+            wokSauceSystem.InitializeMakeMode(currentMenu.tossingSetting);
         }
         else
         {

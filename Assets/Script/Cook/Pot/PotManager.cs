@@ -84,6 +84,7 @@ public class PotManager : CookManagerBase
     {
         yield return StartCoroutine(AddAllIngredients());
         yield return StartCoroutine(AddSauce());
+        yield return StartCoroutine(potViewportSystem.ButtonView());
         yield return StartCoroutine(InherentMotion());
         CookCompleteCheck();
     }
@@ -181,15 +182,15 @@ public class PotManager : CookManagerBase
         {
             yield return null;
         }
-        potViewportSystem.BoilingPot();
+        potUI.SetActiveBottomButton();
+        //potViewportSystem.BoilingPot();
     }
 
     public IEnumerator InherentMotion()
     {
-        potUI.SetActiveBottomButton(); // Bottom Button Active
         potBoilingSystem.Initialize(currentMenu.boilingSetting, potIngredients); // Binding Setting
         yield return StartCoroutine(potBoilingSystem.StartBoilingSystem()); // Call of Button
-        yield return StartCoroutine(potUI.LinkTimerStart()); //
+        //yield return StartCoroutine(potUI.LinkTimerStart()); //
 
     }
 

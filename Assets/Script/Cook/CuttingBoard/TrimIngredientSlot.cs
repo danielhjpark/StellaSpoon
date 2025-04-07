@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-public class MainIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     protected Image slotImage;
     protected Ingredient ingredient;
@@ -13,7 +13,7 @@ public class MainIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
     protected Color initColor;
     protected Color disableColor;
     protected IngredientInventory ingredientInventory;
-    public event Action OnAddedIngredient;
+    public event Action OnSelectIngredient;
 
     // Update is called once per frame
     void Update()
@@ -23,19 +23,20 @@ public class MainIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
             if (isEnter)
             {
                 ingredientInventory.IngredientAdd(ingredient);
-                //OnAddedIngredient?.Invoke();
-                GameObject ingredientObject = Instantiate(ingredient.ingredientPrefab, Input.mousePosition, ingredient.ingredientPrefab.transform.rotation);
-                ingredientObject.transform.SetParent(CookManager.instance.spawnPoint, false);
-                CookManager.instance.DropObject(ingredientObject, ingredient);
+                // GameObject ingredientObject = Instantiate(ingredient.ingredientPrefab, Input.mousePosition, ingredient.ingredientPrefab.transform.rotation);
+                // ingredientObject.transform.SetParent(CookManager.instance.spawnPoint, false);
+                // CookManager.instance.DropObject(ingredientObject, ingredient);
+
+                OnSelectIngredient?.Invoke();
             }
         }
     }
-    public void SlotUISetup(Ingredient ingredient, IngredientInventory ingredientInventory)
+    public void SlotUISetup(Recipe recipe, IngredientInventory ingredientInventory)
     {
         initColor = Color.white;
         disableColor = Color.grey;
         slotImage = GetComponent<Image>();
-        this.ingredient = ingredient;
+        this.ingredient = recipe.mainIngredient;
         this.ingredientInventory = ingredientInventory;
         slotImage.sprite = ingredient.ingredientImage;
     }

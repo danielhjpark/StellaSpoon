@@ -3,6 +3,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
+using cakeslice;
 
 public class PotViewportSystem : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class PotViewportSystem : MonoBehaviour
     [SerializeField] public GameObject frontButton;
     [SerializeField] public GameObject bottomButton;
     [SerializeField] public GameObject buttonUI;
-    [SerializeField] GameObject buttonViewObject; //In Game View Object Not UI;
+    [SerializeField] public GameObject buttonViewObject; //In Game View Object Not UI;
 
     [Header("Off UI Panel")]
     [SerializeField] CanvasGroup ingredientInventoryPanel;
@@ -28,7 +29,7 @@ public class PotViewportSystem : MonoBehaviour
     [SerializeField] GameObject lidObject;
 
     private bool movingForward = true;
-    private bool isRewinding = false;
+    private bool isBottomView = false;
     private float viewportSpeed = 2f; 
 
     void Start()
@@ -50,11 +51,14 @@ public class PotViewportSystem : MonoBehaviour
     // Button Change ButtonView  /// down Button Active
     public void BoilingPot() {
         bottomButton.SetActive(false);
-        StartCoroutine(ButtonView());
+        isBottomView = true;
     }
 
     public void FrontButton() {
         frontButton.SetActive(false);
+        buttonUI.SetActive(false);
+        buttonViewObject.SetActive(true);
+        lidObject.AddComponent<cakeslice.Outline>();
         StartCoroutine(FrontView());
     }
 
@@ -73,28 +77,22 @@ public class PotViewportSystem : MonoBehaviour
 
     public IEnumerator CloseLid()
     {
-        isRewinding = true;
         lidTimeline.Pause();
-        if (isRewinding)
-        {
+        Destroy(lidObject.GetComponent<cakeslice.Outline>());
+        while (true) {
             lidTimeline.time -= Time.deltaTime * viewportSpeed; // time 값을 직접 감소
             if (lidTimeline.time <= 0)
             {
                 lidTimeline.time = 0;
-                isRewinding = false;
-            }
-            lidTimeline.Evaluate(); // 즉시 적용
-        }
-        while (true) {
-            if(lidTimeline.time <= 0) {
                 break;
             }
+            lidTimeline.Evaluate(); // 즉시 적용
             yield return null;
         }
     }
 
 
-    IEnumerator FrontView() {
+    public IEnumerator FrontView() {
         //PlayBackward();
         while(movingForward) {
             dolly.m_PathPosition += viewportSpeed * Time.deltaTime;
@@ -118,8 +116,9 @@ public class PotViewportSystem : MonoBehaviour
 
     }
 
-    IEnumerator ButtonView() {
-        //PlayBackward();
+    public IEnumerator ButtonView() {
+        yield return new WaitUntil(() => isBottomView);
+
         while(!movingForward) {
             dolly.m_PathPosition -= viewportSpeed * Time.deltaTime;
             if (dolly.m_PathPosition <= 0) // 최소 WayPoint 도달

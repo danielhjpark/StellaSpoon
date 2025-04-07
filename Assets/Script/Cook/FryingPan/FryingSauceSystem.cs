@@ -7,24 +7,29 @@ public class FryingSauceSystem : SauceSystem
     [SerializeField] SauceController sauceController;
     [SerializeField] GameObject sauceObject;
     [SerializeField] float minScale, maxScale;
+    private float currentScale;
+    private float scaleValue;
+    private WaitForSeconds sauceDelay = new WaitForSeconds(0.01f);
     
     void Start()
     {
         isLiquidFilled = false;
         isCanFillLiquid = false;
-        maxScale = 20;
+        maxScale = 25;
         minScale = 0;
     }
 
     public void Initialize(FryingSetting fryingSetting)
     {
+        scaleValue = maxScale / fryingSetting.fryingCount;
         this.sauceType = fryingSetting.sauceType;
         this.sauceController.Initialize(sauceType);
         this.SetSauceColor();
     }
 
-    public void InitializeMakeMode()
+    public void InitializeMakeMode(FryingSetting fryingSetting)
     {
+        scaleValue = (maxScale /fryingSetting.fryingCount)/2;
         this.sauceController.InitializeMakeMode();
     }
 
@@ -35,27 +40,38 @@ public class FryingSauceSystem : SauceSystem
 
     public override IEnumerator StartLiquidLevel()
     {
-        float currentScale = minScale;
-        liquidVolume.gameObject.transform.localScale = new Vector3(0, 0.2f, 0);
+        currentScale = minScale;
+        liquidVolume.gameObject.transform.localScale = new Vector3(0, 1f, 0);
         while (true)
         {
             currentScale += 0.1f;
-            liquidVolume.gameObject.transform.localScale = new Vector3(currentScale, 0.2f, currentScale);
+            liquidVolume.gameObject.transform.localScale = new Vector3(currentScale, 1f, currentScale);
             if (currentScale >= maxScale)
             {
                 currentScale = maxScale;
-                liquidVolume.gameObject.transform.localScale = new Vector3(maxScale, 0.2f, maxScale);
+                liquidVolume.gameObject.transform.localScale = new Vector3(maxScale, 1f, maxScale);
                 break;
             }
 
-            yield return new WaitForSeconds(0.01f);
+            yield return sauceDelay;
         }
     }
 
-    public void DecreaseLiquidLevel()
+    public IEnumerator UseSauce()
     {
+        float targetScale = currentScale - scaleValue;
+        while (true)
+        {
+            currentScale -= 0.1f;
+            liquidVolume.gameObject.transform.localScale = new Vector3(currentScale, 1f, currentScale);
+            if (currentScale <= targetScale)
+            {
+                currentScale = targetScale;
+                liquidVolume.gameObject.transform.localScale = new Vector3(targetScale, 1f, targetScale);
+                break;
+            }
 
+            yield return sauceDelay;
+        }
     }
-
-    public void IncreaseLiquidLevel() { currentLevel++; }
 }

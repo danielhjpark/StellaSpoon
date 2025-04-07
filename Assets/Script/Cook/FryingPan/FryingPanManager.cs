@@ -175,7 +175,7 @@ public class FryingPanManager : CookManagerBase
     {
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
-            fryingSauceSystem.InitializeMakeMode();
+            fryingSauceSystem.InitializeMakeMode(currentMenu.fryingSetting);
         }
         else
         {

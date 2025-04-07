@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CookUIManager : MonoBehaviour
@@ -15,9 +16,13 @@ public class CookUIManager : MonoBehaviour
     void Start()
     {
         panelSpeed = 5;
-        timerSystem = TimerPanel.GetComponent<TimerSystem>();
-        SelectRecipePanel.SetActive(false);
-        TimerPanel.SetActive(false);
+        //SelectRecipePanel.SetActive(false);
+        if(TimerPanel != null && TimerPanel.TryGetComponent<TimerSystem>(out TimerSystem timerSystem)) {
+            this.timerSystem = timerSystem;
+            TimerPanel.SetActive(false);
+        }
+        
+        
     }
 
     public void Initialize(CookManagerBase cookManagerBase)

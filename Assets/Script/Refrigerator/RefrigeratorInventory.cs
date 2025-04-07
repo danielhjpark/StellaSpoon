@@ -84,6 +84,17 @@ public class RefrigeratorInventory : Inventory
         }
     }
 
+    public void AddIngredient(Ingredient currentIngredient, int Count) {
+        foreach (RefrigeratorSlot slot in refrigeratorSlots) {
+            if(slot.currentIngredient == null) {
+                slot.RecallItem(Count);
+                return;
+            }
+        }
+
+    }
+
+    //Recall Ingredient From DailyMenuSystem
     public void RecallIngredient(Ingredient currentIngredient, int Count) {
         foreach (RefrigeratorSlot slot in refrigeratorSlots) {
             if(slot.currentIngredient == currentIngredient) {
@@ -104,6 +115,7 @@ public class RefrigeratorInventory : Inventory
                 }
             }
         }
+
 
 
     }

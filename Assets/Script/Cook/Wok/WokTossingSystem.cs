@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -14,41 +15,47 @@ public class WokTossingSystem : MonoBehaviour
 
     [Header("Wok System")]
     [SerializeField] WokSauceSystem wokSauceSystem;
-    //----------------------------------------------------------------------//
+    [SerializeField] WokIngredientSystem wokIngredientSystem;
+
     private List<GameObject> wokIngredients = new List<GameObject>();
-    //----------------------------------------------------------------------//
+
     private int successTossingCount;
     private bool isTossing = false;
-    //---------------------------------------------------------------------//
+
 
     void Start() {
+        wokIngredientSystem = GetComponent<WokIngredientSystem>();
         wokUI.OnWokSystem += CheckTossing;   
     }
 
     public void BindTossingObject(List<GameObject> wokIngredients) {
+
         this.wokIngredients = wokIngredients;
         successTossingCount = 0;
     }
+
     public IEnumerator WokTossing(int tossingCount, System.Action<int> callback) {
-        
         if(tossingCount <= 0) {
             callback(successTossingCount);
             yield break;
         }
-
         wokUI.OnWokUI();
+        wokTimeLine.time = 0;
         bool isStartTimeLine = false;
         bool isAddForce = false;
+        bool isUseSauce = false;
+
         Coroutine wokUIMark = StartCoroutine(wokUI.MoveMark());
 
         while(true) {
-            if(Input.GetKeyDown(KeyCode.V)&& !isStartTimeLine) {
-                if(isTossing) {
-                    wokTimeLine.time = 0;
-                    wokTimeLine.Play();
-                    isAddForce = false;
+            if(wokTimeLine.time >= wokTimeLine.duration) break;
+            else if(wokUI.IsCheckEnd()) break;
+
+            if(Input.GetKeyDown(KeyCode.V)) {
+                if(isTossing && !isStartTimeLine) {
                     isStartTimeLine = true;
                     successTossingCount++;
+                    wokTimeLine.Play();
                     AddForceForwardIngredient();
                     StopCoroutine(wokUIMark);
                 }
@@ -57,35 +64,39 @@ public class WokTossingSystem : MonoBehaviour
                     break;
                 }
             }
+
+            //Add Motion
             if(!isAddForce && wokTimeLine.time >= wokTimeLine.duration * 0.45) {
                 isAddForce = true;
+                isUseSauce = true;
                 AddForceUpIngredient();
+                StartCoroutine(wokSauceSystem.UseSauce());
+                wokIngredientSystem.ApplyIngredientShader();
             }
-            else if(wokTimeLine.time >= wokTimeLine.duration) {
-                 break;
-            }
-            else if(wokUI.IsCheckEnd()) break;
-
             yield return null;
         }
-
-        wokSauceSystem.IncreaseLiquidLevel();
+        if(!isUseSauce) {
+            wokIngredientSystem.ApplyIngredientShader();
+            yield return StartCoroutine(wokSauceSystem.UseSauce());
+        }
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(WokTossing(--tossingCount, callback));
     }
 
-    public void AddForceForwardIngredient() {
+
+    private void AddForceForwardIngredient() {
         foreach(GameObject ingredient in wokIngredients) {
             ingredient.GetComponent<Rigidbody>().AddForce(Vector3.forward * 3, ForceMode.VelocityChange);
         }
     }
 
-    public void AddForceUpIngredient() {
+    private void AddForceUpIngredient() {
         foreach(GameObject ingredient in wokIngredients) {
             ingredient.GetComponent<Rigidbody>().AddForce(Vector3.up * 3, ForceMode.VelocityChange);
             ingredient.GetComponent<Rigidbody>().AddForce(Vector3.back * 1, ForceMode.VelocityChange);
         }
     }
+
     void CheckTossing(bool isTossing) {
         this.isTossing = isTossing;
     }

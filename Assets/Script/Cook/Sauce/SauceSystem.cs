@@ -11,8 +11,6 @@ public class SauceSystem : MonoBehaviour
 
     public SauceType sauceType;
 
-    protected int totalLevel;
-    protected int currentLevel;
     protected bool isCanFillLiquid;
     protected bool isLiquidFilled;
 
@@ -50,14 +48,6 @@ public class SauceSystem : MonoBehaviour
         return liquidVolume;
     }
 
-    public void UpdateLiquidLevel()
-    {
-        if (!isCanFillLiquid) return;
-
-        float range = maxRange - minRange;
-        float levelValue = range / totalLevel;
-        liquidVolume.level = maxRange - (currentLevel * levelValue);
-    }
 
     public virtual IEnumerator StartLiquidLevel()
     {

@@ -25,7 +25,6 @@ public class WokUI : MonoBehaviour
     private float power = 1;
     private float currentPos;
 
-
     void Start()
     {
         SetSections();
@@ -45,6 +44,7 @@ public class WokUI : MonoBehaviour
     }
 
     public void OnFridgeUI() {
+        wokUIObject.SetActive(false);
         ingredientUIObejct.SetActive(true);
     }
 

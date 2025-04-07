@@ -6,6 +6,8 @@ using System.Linq;
 
 public class FryingSystem : MonoBehaviour
 {
+    private FryingSauceSystem fryingSauceSystem;
+
     [Header("TimeLine")]
     [SerializeField] PlayableDirector timeline;
 
@@ -20,8 +22,9 @@ public class FryingSystem : MonoBehaviour
     [SerializeField] private Transform center; 
 
     private GameObject mainIngredient;
-    List<GameObject> mainIngredientPart = new List<GameObject>();
-    List<Vector3> mainIngredientPreviousPos = new List<Vector3>();
+    private List<GameObject> mainIngredientPart = new List<GameObject>();
+    private List<Vector3> mainIngredientPreviousPos = new List<Vector3>();
+    private List<IngredientShader> mainIngredientShaders = new List<IngredientShader>();
 
     private bool isHalf;
     public int successFryingCount;
@@ -31,13 +34,19 @@ public class FryingSystem : MonoBehaviour
 
     public void Initialize(GameObject mainIngredient)
     {
+        fryingSauceSystem = GetComponent<FryingSauceSystem>();
+
         this.mainIngredient = mainIngredient;
 
         foreach(Transform t in mainIngredient.transform) {
             mainIngredientPart.Add(t.gameObject);
             mainIngredientPreviousPos.Add(t.transform.localPosition);
+            mainIngredientShaders.Add(t.gameObject.GetComponent<IngredientShader>());
         }
 
+        foreach(IngredientShader mainIngredientShader in mainIngredientShaders) {
+            mainIngredientShader.Initialize(8);
+        }
 
     }
 
@@ -60,16 +69,7 @@ public class FryingSystem : MonoBehaviour
 
     }
 
-    void lilToonShaderSet() {
-        Renderer targetRenderer = mainIngredientPart[0].GetComponent<Renderer>();
-        Material mat = targetRenderer.material;
-        if (mat.HasProperty("_Color2nd"))
-        {
-            Color currentColor = mat.GetColor("_Color2nd"); // 기존 색상 가져오기
-            currentColor.a -= 0.1f; // 알파 값만 변경
-            mat.SetColor("_Color2nd", currentColor); // 새로운 색상 적용
-        }
-    }
+
 
     IEnumerator RotatePan()
     {
@@ -105,8 +105,8 @@ public class FryingSystem : MonoBehaviour
 
         while (true)
         {
-            
             SetActiveTongs();
+            // Check Timeline End
             if (isHalf && timeline.time >= timeline.duration)
             {
                 isHalf = false;
@@ -119,15 +119,18 @@ public class FryingSystem : MonoBehaviour
                 break;
             }
 
+            // Get Key and Start Timeline
             if (Input.GetKeyDown(KeyCode.V) && timeline.state != PlayState.Playing)
             {
                 timeline.Play();
                 GrabObject();
+                StartCoroutine(fryingSauceSystem.UseSauce());
                 StopCoroutine(fryingPanUIMark);
                 StopCoroutine(rotateRoutine);
             }
             else if (fryingPanUI.IsCheckEnd())
             {
+                StartCoroutine(fryingSauceSystem.UseSauce());
                 StopCoroutine(fryingPanUIMark);
                 StopCoroutine(rotateRoutine);
                 break;
@@ -135,6 +138,7 @@ public class FryingSystem : MonoBehaviour
 
             yield return null;
         }
+        
         if(fryingPanUI.GetCurrentSection()) {successFryingCount++;}
         ReturnObject();
         StopCoroutine(rotateRoutine);
@@ -144,7 +148,7 @@ public class FryingSystem : MonoBehaviour
     }
 
     private void GrabObject() {
-        lilToonShaderSet();
+        ApplyIngredientShader();
         if(grabQueue.Count != 0) grabNum = grabQueue.Dequeue();
         mainIngredientPart[grabNum].transform.SetParent(grabPos);
         mainIngredientPart[grabNum].transform.localPosition = Vector3.zero;
@@ -153,6 +157,12 @@ public class FryingSystem : MonoBehaviour
     private void ReturnObject() {
         mainIngredientPart[grabNum].transform.SetParent(previousParent);
         mainIngredientPart[grabNum].transform.localPosition = mainIngredientPreviousPos[grabNum];
+    }
+
+    private void ApplyIngredientShader() {
+        foreach(IngredientShader mainIngredientShader in mainIngredientShaders) {
+            mainIngredientShader.ApplyShaderAlpha();
+        }
     }
 
     void SetActiveTongs()

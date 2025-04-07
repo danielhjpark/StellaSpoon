@@ -84,5 +84,4 @@ public class PotSauceSystem : SauceSystem
         }
     }
 
-    public void IncreaseLiquidLevel() { currentLevel++; }
 }

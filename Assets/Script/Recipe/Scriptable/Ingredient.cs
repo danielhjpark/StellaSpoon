@@ -18,7 +18,7 @@ public class Ingredient : ScriptableObject {
 public enum IngredientType {
     Main, 
     Sub,
-    Sauce
+    Trim
 }
 
 public enum IngredientCookType {

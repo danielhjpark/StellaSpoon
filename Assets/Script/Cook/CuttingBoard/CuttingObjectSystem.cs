@@ -32,8 +32,13 @@ public class CuttingObjectSystem : MonoBehaviour
             GameObject LowerHull = hull.CreateLowerHull(obj, sliceMaterial);
             GameObject upperHull = hull.CreateUpperHull(obj, sliceMaterial);
 
+            Destroy(LowerHull.GetComponent<Collider>());
+            LowerHull.AddComponent<BoxCollider>();
             sliceObjects.Add(LowerHull);
+
             if(i == sliceCount - 1) {
+                Destroy(upperHull.GetComponent<Collider>());
+                upperHull.AddComponent<BoxCollider>();
                 sliceObjects.Add(upperHull);
                 upperHull.transform.SetParent(rotateObject.transform);
             }

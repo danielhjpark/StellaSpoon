@@ -25,6 +25,7 @@ public class PotBoilingSystem : MonoBehaviour
     {
         gravityLimitLine.SetActive(false);
         potUI = this.GetComponent<PotUI>();
+        potViewportSystem = this.GetComponent<PotViewportSystem>();
     }
     
     public void Initialize(BoilingSetting boilingSetting, List<GameObject>potIngredients) {
@@ -40,9 +41,8 @@ public class PotBoilingSystem : MonoBehaviour
         if (rotatePower < 3) rotatePower++;
         powerText.text = rotatePower.ToString();
         if (rotateCoroutine == null) {
-            StartCoroutine(AddForceWithRotation());
+            rotateCoroutine = StartCoroutine(AddForceWithRotation());
         }
-
     }
 
     public void OnDecreasePower()
@@ -56,7 +56,6 @@ public class PotBoilingSystem : MonoBehaviour
 
     public IEnumerator StartBoilingSystem() {
         yield return new WaitUntil(() => isRotate);
-        potUI.SetActiveBottomButton();
         while(true) {
             if(Input.GetKeyDown(KeyCode.V)) {
                 yield return StartCoroutine(potViewportSystem.CloseLid());

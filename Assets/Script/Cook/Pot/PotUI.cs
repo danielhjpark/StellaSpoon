@@ -16,6 +16,7 @@ public class PotUI : MonoBehaviour
         mainTimer = GameObject.Find("PotTimer");
         potTimerSystem = potTimer.GetComponent<TimerSystem>();
         mainTimerSystem = mainTimer.GetComponent<TimerSystem>();
+        potViewportSystem = GetComponent<PotViewportSystem>();
     }
 
     public IEnumerator LinkTimerStart() {

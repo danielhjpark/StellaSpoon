@@ -113,8 +113,12 @@ public class RefrigeratorManager : MonoBehaviour
         foreach(IngredientAmount currentIngredient in recipe.ingredients) {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
-            refrigeratorInventory.RecallIngredient(currentIngdeient,requireIngredientAmount);
+            refrigeratorInventory.RecallIngredient(currentIngdeient, requireIngredientAmount);
         }
+    }
+
+    public void RecallIngredient(Ingredient ingredient, int amount) {
+        refrigeratorInventory.RecallIngredient(ingredient, amount);
     }
 
 }

@@ -38,6 +38,7 @@ public class CuttingManager : CookManagerBase
     
     bool isCutting = false;
     GameObject targetObject;
+    Ingredient currentIngredient;
 
     void Awake() {
         CookManager.instance.BindingManager(this);
@@ -50,7 +51,7 @@ public class CuttingManager : CookManagerBase
         cuttingBoard = GetComponentInChildren<CuttingBoard>();
 
         cuttingBoard.OnCuttingSystem += StartCuttingObject;
-        cuttingLine.OnCuttingSystem += AlreadyCuttingObject;
+        //cuttingLine.OnCuttingSystem += AlreadyCuttingObject;
     }
 
     void Update() {
@@ -62,22 +63,68 @@ public class CuttingManager : CookManagerBase
 
     public override IEnumerator UseCookingStep()
     {
-        yield return null;
+        //SelectRecipe();
+        //yield return AddIngredient();
+        //yield return StartCoroutine(cuttingLine.ScanObject());
+        switch (cuttingMode) {
+            case CuttingMode.Horizontal:  
+                yield return StartCoroutine(CuttingHorizontal());
+                break;
+            case CuttingMode.Cube:
+                yield return StartCoroutine(CuttingCube());
+                break;
+            // case CuttingMode.Quarter:
+            //     break;
+        }
+        CookCompleteCheck();
     }
 
-    
     public override void CookCompleteCheck() {
+        Item trimItem = currentMenu.cuttingSetting.trimItem;
+        int trimItemCount = currentMenu.cuttingSetting.trimItemCount;
+        Ingredient trimIngredient = IngredientManager.instance.FindIngredient(trimItem.itemName);
+        IngredientManager.IngredientAmount[trimIngredient] += trimItemCount;
+        //RefrigeratorManager.instance.RecallIngredient(trimItem, trimItemCount);
 
+        CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest", currentMenu);
     }
+
     public override void AddIngredient(GameObject obj, Ingredient ingredient) {
+        currentIngredient = ingredient;
         targetObject = obj;
         obj.GetComponent<Rigidbody>().useGravity = true;
-        obj.GetComponent<MeshCollider>().enabled = true;
+        obj.GetComponent<Collider>().enabled = true;
         obj.transform.position = dropPos.position;
+        StartCoroutine(UseCookingStep());
     }
 
     //------------------------------------------------------//
+    //On Collision Cutting Board
+    private void StartCuttingObject() {
+        StartCoroutine(cuttingLine.ScanObject());
+    }
+    
+    IEnumerator AddIngredient()
+    {
+        GameObject mainIngredient = Instantiate(currentMenu.mainIngredient.ingredientPrefab, Vector3.zero, Quaternion.identity);
+        AddIngredient(mainIngredient, currentMenu.mainIngredient);
+        yield return new WaitForSeconds(0.5f);
+    }
 
+    //is Scanning finish
+    private void AlreadyCuttingObject() {
+        switch (cuttingMode) {
+            case CuttingMode.Horizontal:  
+                StartCoroutine(CuttingHorizontal());
+                break;
+            case CuttingMode.Cube:
+                StartCoroutine(CuttingCube());
+                break;
+            // case CuttingMode.Quarter:
+            //     break;
+        }
+
+    }
     IEnumerator CuttingHorizontal() {
         CuttingSetup();
         CreateCuttingLine(horizontalCount);
@@ -105,7 +152,7 @@ public class CuttingManager : CookManagerBase
 
         ObjectReset(sliceAllObjects);
         CuttingReset();
-        CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest", currentMenu);
+        
         //StartCoroutine(cookUIManager.VisiblePanel());
     }
 
@@ -230,7 +277,6 @@ public class CuttingManager : CookManagerBase
     }
 
 
-
     private void AddPhysics(GameObject obj, Vector3 dir){
         if(!obj.TryGetComponent<Rigidbody>(out Rigidbody objRb) ) {
             obj.AddComponent<Rigidbody>();
@@ -238,26 +284,6 @@ public class CuttingManager : CookManagerBase
         obj.GetComponent<Rigidbody>().mass = 100.0f;
         obj.AddComponent<MeshCollider>().convex = true;
         obj.GetComponentInChildren<Rigidbody>().AddForce(dir * 2, ForceMode.VelocityChange);
-    }
-
-    //On Collision Cutting Board
-    private void StartCuttingObject() {
-        StartCoroutine(cuttingLine.ScanObject());
-    }
-
-    //is Scanning finish
-    private void AlreadyCuttingObject() {
-        switch (cuttingMode) {
-            case CuttingMode.Horizontal:  
-                StartCoroutine(CuttingHorizontal());
-                break;
-            case CuttingMode.Cube:
-                StartCoroutine(CuttingCube());
-                break;
-            // case CuttingMode.Quarter:
-            //     break;
-        }
-
     }
 
     private void CreateCuttingLine(int count) {

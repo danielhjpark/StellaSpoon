@@ -63,8 +63,9 @@ public class FryingSetting
 [System.Serializable]
 public class CuttingSetting
 {
+    public Item trimItem;
+    public int trimItemCount;
     public int cuttingCount;
-    public int successRange;
 }
 
 [System.Serializable]
