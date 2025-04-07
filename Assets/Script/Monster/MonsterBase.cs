@@ -119,7 +119,17 @@ public abstract class MonsterBase : MonoBehaviour
                 }
                 if (!(this is EscapeMonster))
                 {
-                    LookPlayer();
+                    if((this is BearKingMonster))
+                    {
+                        if(!BearKingMonster.isChargeSetting)
+                        {
+                            LookPlayer();
+                        }
+                    }
+                    else
+                    {
+                        LookPlayer();
+                    }
                 }
             }
         }
