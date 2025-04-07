@@ -4,7 +4,7 @@ using UnityEngine;
 public class BearKingHand : MonoBehaviour
 {
 
-    public int attackDamage = 10;      // 공격 데미지
+    public int attackDamage = 40;      // 공격 데미지
 
     public ThirdPersonController thirdPersonController; // 플레이어의 ThirdPersonController 스크립트 참조
 
