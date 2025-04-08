@@ -13,11 +13,13 @@ public class RefrigeratorManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else {
+        else
+        {
             if (instance != this) Destroy(this.gameObject);
         }
     }
@@ -28,17 +30,20 @@ public class RefrigeratorManager : MonoBehaviour
 
     }
 
-    public RefrigeratorInventory BindInventory() {
+    public RefrigeratorInventory BindInventory()
+    {
         return refrigeratorInventory;
     }
 
     //----------------Input System------------------//
-    void OpenInventorySystem() {
+    void OpenInventorySystem()
+    {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             OpenDailyIngredeintsInventory();
         }
-        else if(Input.GetKeyDown(KeyCode.CapsLock)) {
+        else if (Input.GetKeyDown(KeyCode.CapsLock))
+        {
             OpenAllIngredientsInventory();
         }
     }
@@ -51,14 +56,16 @@ public class RefrigeratorManager : MonoBehaviour
         DailyMenuIngredients();
     }
 
-    public void OpenAllIngredientsInventory() {
+    public void OpenAllIngredientsInventory()
+    {
         refrigeratorObject.SetActive(true);
         inventoryActivated = false;
         //AllofIngredients();
     }
 
 
-    public void CloseRefrigeratorInventory() {
+    public void CloseRefrigeratorInventory()
+    {
         refrigeratorObject.SetActive(false);
         inventoryActivated = true;
     }
@@ -73,15 +80,18 @@ public class RefrigeratorManager : MonoBehaviour
     //     }
     // }
 
-    void DailyMenuIngredients() {
-        if(DailyMenuManager.dailyMenuList.Count <= 0) {return;}
+    void DailyMenuIngredients()
+    {
+        if (DailyMenuManager.dailyMenuList.Count <= 0) { return; }
 
-        Dictionary<Ingredient, int> requireIngredients = new Dictionary<Ingredient, int> ();
+        Dictionary<Ingredient, int> requireIngredients = new Dictionary<Ingredient, int>();
         foreach (KeyValuePair<Recipe, int> currentMenu in DailyMenuManager.dailyMenuList)
         {
-            foreach(IngredientAmount currentIngredient in currentMenu.Key.ingredients) {
+            foreach (IngredientAmount currentIngredient in currentMenu.Key.ingredients)
+            {
                 int count = currentIngredient.amount * currentMenu.Value;
-                if(!requireIngredients.ContainsKey(currentIngredient.ingredient))  {
+                if (!requireIngredients.ContainsKey(currentIngredient.ingredient))
+                {
                     requireIngredients.Add(currentIngredient.ingredient, 0);
                 }
                 requireIngredients[currentIngredient.ingredient] += count;
@@ -97,28 +107,38 @@ public class RefrigeratorManager : MonoBehaviour
     }
 
     //----------------Use Ingredients------------------------//
-    public void UseIngredientToInventory(Recipe recipe, int amount) {
+    public void UseIngredientToInventory(Recipe recipe, int amount)
+    {
         refrigeratorInventory.UseIngredient(recipe.mainIngredient, amount);
 
-        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+        foreach (IngredientAmount currentIngredient in recipe.ingredients)
+        {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
             refrigeratorInventory.UseIngredient(currentIngdeient, requireIngredientAmount);
         }
     }
     //-----------------Recall Ingredients ----------------------//
-    public void RecallIngredientToInventory(Recipe recipe, int amount) {
+    public void RecallIngredientToInventory(Recipe recipe, int amount)
+    {
         refrigeratorInventory.RecallIngredient(recipe.mainIngredient, amount);
 
-        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+        foreach (IngredientAmount currentIngredient in recipe.ingredients)
+        {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
             refrigeratorInventory.RecallIngredient(currentIngdeient, requireIngredientAmount);
         }
     }
 
-    public void RecallIngredient(Ingredient ingredient, int amount) {
+    public void RecallIngredient(Ingredient ingredient, int amount)
+    {
         refrigeratorInventory.RecallIngredient(ingredient, amount);
+    }
+
+    public void AddItem(Item item, int amount)
+    {
+        refrigeratorInventory.AcquireItem(item, amount);
     }
 
 }

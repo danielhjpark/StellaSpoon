@@ -21,7 +21,8 @@ public class TimerSystem : MonoBehaviour
     }
     void Update()
     {
-        if(onBillboard) {
+        if (onBillboard && Camera.main != null)
+        {
             Vector3 targetPosition = Camera.main.transform.position; // 바라볼 대상
             Vector3 direction = targetPosition - transform.position;
             direction.y = 0;
@@ -43,19 +44,22 @@ public class TimerSystem : MonoBehaviour
         //     clickHandImage.color = SafeColor;
         //     timerGague.color = SafeColor;
         // }
-       // ClickHandUpdate();
+        // ClickHandUpdate();
     }
 
-    void ClickHandUpdate() {
+    void ClickHandUpdate()
+    {
         float rotationValue = (1 - timerGague.fillAmount) * 360;
 
         clickHand.localRotation = Quaternion.Euler(0, 0, rotationValue);
     }
 
-    public IEnumerator TimerStart() {
+    public IEnumerator TimerStart()
+    {
         isTimerEnd = false;
         timerGague.fillAmount = 0;
-        while(timerGague.fillAmount <= 0.99f) {
+        while (timerGague.fillAmount <= 0.99f)
+        {
             timerGague.fillAmount += Time.deltaTime / 10;
             yield return null;
         }
@@ -64,11 +68,13 @@ public class TimerSystem : MonoBehaviour
         //StartCoroutine(TimerReset());
     }
 
-    public void TimerReset() {
+    public void TimerReset()
+    {
         timerGague.fillAmount = 0;
     }
 
-    public bool TimerEnd() {
+    public bool TimerEnd()
+    {
         return isTimerEnd;
     }
 }

@@ -13,6 +13,7 @@ public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
     protected Color initColor;
     protected Color disableColor;
     protected IngredientInventory ingredientInventory;
+    public Recipe currentRecipe;
     public event Action OnSelectIngredient;
 
     // Update is called once per frame
@@ -23,6 +24,7 @@ public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
             if (isEnter)
             {
                 ingredientInventory.IngredientAdd(ingredient);
+                CookManager.instance.SelectRecipe(currentRecipe);
                 // GameObject ingredientObject = Instantiate(ingredient.ingredientPrefab, Input.mousePosition, ingredient.ingredientPrefab.transform.rotation);
                 // ingredientObject.transform.SetParent(CookManager.instance.spawnPoint, false);
                 // CookManager.instance.DropObject(ingredientObject, ingredient);
@@ -36,8 +38,11 @@ public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
         initColor = Color.white;
         disableColor = Color.grey;
         slotImage = GetComponent<Image>();
+
+
         this.ingredient = recipe.mainIngredient;
         this.ingredientInventory = ingredientInventory;
+        this.currentRecipe = recipe;
         slotImage.sprite = ingredient.ingredientImage;
     }
 
