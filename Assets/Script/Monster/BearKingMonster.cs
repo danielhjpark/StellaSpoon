@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BearKingMonster : MonsterBase
 {
@@ -26,7 +27,10 @@ public class BearKingMonster : MonsterBase
     public GameObject chargeGoundEffectPrefab; //돌진 이펙트 프리팹
 
     private bool isCharging = false;
+    public static bool isChargeSetting = false; //돌진 준비 완료 여부
     public bool isJumping = false;
+
+
     [SerializeField]
     private GameObject currentGroundEffect;
 
@@ -85,6 +89,8 @@ public class BearKingMonster : MonsterBase
             }
         }
 
+        nav.gameObject.GetComponent<NavMeshAgent>().enabled = true; // NavMeshAgent 활성화
+
         attackRange = 15f;
         yield return new WaitForSeconds(6.0f);
         isJumping = false;
@@ -96,6 +102,7 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         Debug.Log("돌진 준비 시작!");
+        isChargeSetting = true;
         animator.SetBool("Run Forward", true);
         // animator.SetTrigger("Charge");
 
@@ -141,6 +148,7 @@ public class BearKingMonster : MonsterBase
                     Debug.Log("플레이어가 돌진에 맞았습니다!");
                     thirdPersonController.TakeDamage(chargeDamage, transform.position); // 플레이어에게 데미지
                     isCharging = false;
+                    isChargeSetting = false;
                     break; // 충돌 후 루프 종료
                 }
             }
@@ -151,9 +159,13 @@ public class BearKingMonster : MonsterBase
         }
 
         animator.SetBool("Run Forward", false);
-        isCharging = false;
-        Debug.Log("돌진 종료!");
         animator.SetTrigger("Attack3");
+        
+        yield return new WaitForSeconds(1f); // 애니메이션 대기 시간
+        isCharging = false;
+        isChargeSetting = false;
+
+        Debug.Log("돌진 종료!");
         attackRange = 3f;
         yield return new WaitForSeconds(5.0f);
 
@@ -190,6 +202,7 @@ public class BearKingMonster : MonsterBase
 
     private IEnumerator ShowJumpGroundEffect()
     {
+        nav.gameObject.GetComponent<NavMeshAgent>().enabled = false; // NavMeshAgent 비활성화
         if (jumpGroundEffectPrefab != null)
         {
             currentGroundEffect = Instantiate(jumpGroundEffectPrefab, new Vector3(transform.position.x, 0.01f, transform.position.z), Quaternion.identity);
