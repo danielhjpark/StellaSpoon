@@ -11,9 +11,9 @@ public class PotBoilingSystem : MonoBehaviour
     [SerializeField] Transform centerPos;
     [SerializeField] GameObject gravityLimitLine;
     PotUI potUI;
-    PotViewportSystem  potViewportSystem;
+    PotViewportSystem potViewportSystem;
 
-    private float rotatePower = 0;
+    public int rotatePower = 0;
     private float completeTime;
     private float currentTime;
 
@@ -27,8 +27,9 @@ public class PotBoilingSystem : MonoBehaviour
         potUI = this.GetComponent<PotUI>();
         potViewportSystem = this.GetComponent<PotViewportSystem>();
     }
-    
-    public void Initialize(BoilingSetting boilingSetting, List<GameObject>potIngredients) {
+
+    public void Initialize(BoilingSetting boilingSetting, List<GameObject> potIngredients)
+    {
         isRotate = false;
         currentTime = 0;
         completeTime = 20f;
@@ -40,7 +41,8 @@ public class PotBoilingSystem : MonoBehaviour
     {
         if (rotatePower < 3) rotatePower++;
         powerText.text = rotatePower.ToString();
-        if (rotateCoroutine == null) {
+        if (rotateCoroutine == null)
+        {
             rotateCoroutine = StartCoroutine(AddForceWithRotation());
         }
     }
@@ -49,22 +51,26 @@ public class PotBoilingSystem : MonoBehaviour
     {
         if (rotatePower > 0) rotatePower--;
         powerText.text = rotatePower.ToString();
-        if (rotateCoroutine == null) {
+        if (rotateCoroutine == null)
+        {
             rotateCoroutine = StartCoroutine(AddForceWithRotation());
         }
     }
 
-    public IEnumerator StartBoilingSystem() {
+    public IEnumerator StartBoilingSystem()
+    {
         yield return new WaitUntil(() => isRotate);
-        while(true) {
-            if(Input.GetKeyDown(KeyCode.V)) {
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
                 yield return StartCoroutine(potViewportSystem.CloseLid());
                 break;
             }
             yield return null;
         }
 
-        yield return StartCoroutine(potUI.LinkTimerStart()); 
+        yield return StartCoroutine(potUI.LinkTimerStart());
     }
 
     IEnumerator AddForceWithRotation()
@@ -110,7 +116,7 @@ public class PotBoilingSystem : MonoBehaviour
             currentTime += 0.1f;
             yield return addForceTime;
         }
-        
+
         rotateCoroutine = null;
     }
 

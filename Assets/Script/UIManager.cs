@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    static public UIManager instance { get; private set;}
+    static public UIManager instance { get; private set; }
     [Header("UI")]
     [SerializeField] GameObject DailyMenuUI;
     [SerializeField] GameObject RefrigeratorUI;
     [SerializeField] GameObject DeviceUI;
     [SerializeField] GameObject CookUI;
-    [SerializeField] Inventory inventory;
+    [SerializeField] RefrigeratorInventory refrigeratorInventory;
     [SerializeField] GameObject NewRecipeUI;
 
     [SerializeField] Item[] items;
@@ -24,17 +24,11 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        InventoryUI(); //변경 요청 해야징
-        InventoryUI();
+        RefrigeratorAddIngredient();
         DailyMenuAdd();
     }
     void Update()
     {
-        OpenUI();
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            OrderManager.instance.OpenRestaurant();
-        }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             DailyMenuUI.SetActive(true);
@@ -51,37 +45,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void NewRecipePanelVisible() {
-        NewRecipeUI.SetActive(true);
-        
-    }
-    
-
-    void OpenUI()
+    public void NewRecipePanelVisible()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            bool currentState = DailyMenuUI.activeSelf;
-            DailyMenuUI.SetActive(!currentState);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            bool currentState = RefrigeratorUI.activeSelf;
-            RefrigeratorUI.SetActive(!currentState);
-            DeviceUI.SetActive(!currentState);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            bool currentState = CookUI.activeSelf;
-            CookUI.SetActive(!currentState);
-        }
+        NewRecipeUI.SetActive(true);
+
     }
 
-    void InventoryUI()
+    void RefrigeratorAddIngredient()
     {
         foreach (var item in items)
         {
-            inventory.AcquireItem(item);
+            RefrigeratorManager.instance.AddItem(item, 10);
         }
     }
 
@@ -91,16 +65,18 @@ public class UIManager : MonoBehaviour
             RecipeManager.instance.RecipeUnLock(recipe);
     }
 
-    public void RecipeUnLockUI() {
+    public void RecipeUnLockUI()
+    {
         StartCoroutine(RecipeUnLockFade());
     }
 
-    IEnumerator RecipeUnLockFade() {
+    IEnumerator RecipeUnLockFade()
+    {
         NewRecipeUI.SetActive(true);
         yield return new WaitForSeconds(3f);
         NewRecipeUI.SetActive(false);
-        
+
     }
 
-    
+
 }

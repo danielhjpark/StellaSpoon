@@ -6,10 +6,11 @@ using UnityEngine;
 public class RefrigeratorInventory : Inventory
 {
     public RefrigeratorSlot[] refrigeratorSlots;
+    [SerializeField] GameObject slotParent;
     List<Item> items;
-    void Start()
+    void Awake()
     {
-        refrigeratorSlots = this.GetComponentsInChildren<RefrigeratorSlot>();
+        refrigeratorSlots = slotParent.GetComponentsInChildren<RefrigeratorSlot>();
         items = new List<Item>();
         foreach (RefrigeratorSlot slot in refrigeratorSlots)
         {

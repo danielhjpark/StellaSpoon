@@ -20,7 +20,8 @@ public class ServeSystem : MonoBehaviour
         Initialize();
     }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         this.playerAnimator = GameObject.FindWithTag("Player").GetComponent<Animator>();
         //this.playerAnimator = playerAnimator;
     }
@@ -30,19 +31,20 @@ public class ServeSystem : MonoBehaviour
         playerAnimator.SetBool(pickupAnimationName, true);
         Recipe menu = menuObject.GetComponent<MenuData>().menu;
         currentMenu = menu;
-
-        serveObject = Instantiate(currentMenu.menuPrefab, playerHand.position, Quaternion.identity);
+        serveObject = menuObject;
+        // serveObject = Instantiate(currentMenu.menuPrefab, playerHand.position, Quaternion.identity);
         //MenuData serveObjectData = serveObject.AddComponent<MenuData>();
         //serveObjectData.Initialize(currentMenu);
         serveObject.transform.SetParent(playerHand);
-         this.transform.localPosition = new Vector3(0, 0, 0);
-         this.transform.localRotation = Quaternion.identity;
+        this.transform.localPosition = new Vector3(0, 0, 0);
+        this.transform.localRotation = Quaternion.identity;
         playerHand.localPosition = new Vector3(-0.05f, 1.123f, 0.3f);
     }
 
     public void ThrowOutMenu()
     {
-        if (serveObject != null) {
+        if (serveObject != null)
+        {
             playerAnimator.SetBool(pickupAnimationName, false);
             Destroy(serveObject);
         }
@@ -52,8 +54,8 @@ public class ServeSystem : MonoBehaviour
     {
         if (hitInfo.transform.gameObject.TryGetComponent<NPCBehavior>(out NPCBehavior behavior))
         {
-            behavior.ReceiveNPC(serveObject);
             playerAnimator.SetBool(pickupAnimationName, false);
+            behavior.ReceiveNPC(serveObject);
         }
     }
 

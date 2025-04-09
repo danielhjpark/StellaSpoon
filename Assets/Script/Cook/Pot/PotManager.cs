@@ -39,7 +39,7 @@ public class PotManager : CookManagerBase
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
         cookUIManager.Initialize(this);
-        
+
         potBoilingSystem = GetComponent<PotBoilingSystem>();
         potSauceSystem = GetComponent<PotSauceSystem>();
         potViewportSystem = GetComponent<PotViewportSystem>();
@@ -62,7 +62,8 @@ public class PotManager : CookManagerBase
         StartCoroutine(UseCookingStep());
     }
 
-    public void RecipeSetting(Recipe menu) {
+    public void RecipeSetting(Recipe menu)
+    {
         base.SelectRecipe(menu);
 
     }
@@ -73,7 +74,8 @@ public class PotManager : CookManagerBase
         AddIngredientList(obj);
         StartCoroutine(cookUIManager.VisiblePanel());
 
-        if(ingredient.ingredientType == IngredientType.Main) {
+        if (ingredient.ingredientType == IngredientType.Main)
+        {
             mainIngredient = ingredient;
             return;
         }
@@ -88,6 +90,43 @@ public class PotManager : CookManagerBase
         yield return StartCoroutine(InherentMotion());
         CookCompleteCheck();
     }
+    public override void CookCompleteCheck()
+    {
+        if (targetRecipe.cookType != CookType.Boiling)
+        {
+            Debug.Log("Wrong cook type");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
+        {
+            Debug.Log("Ingredient mismatch");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        if (potSauceSystem.sauceType != targetRecipe.boilingSetting.sauceType)
+        {
+            Debug.Log("Wrong sauce type");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        if (targetRecipe.boilingSetting.rotatePower != potBoilingSystem.rotatePower)
+        {
+            Debug.Log("Wrong rotatePower");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        //UnLock New Recipe;
+        RecipeManager.instance.RecipeUnLock(targetRecipe);
+        UIManager.instance.RecipeUnLockUI();
+        CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
+        Debug.Log("Success");
+        return;
+    }
 
     public IEnumerator AddAllIngredients()
     {
@@ -98,7 +137,7 @@ public class PotManager : CookManagerBase
         {
             ingredientInventory.AddAllIngredientsToRecipe(currentMenu);
         }
-        else if(CookManager.instance.cookMode == CookManager.CookMode.Make)
+        else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             ingredientInventory.AddAllIngredients();
             StartCoroutine(cookUIManager.TimerStart());
@@ -123,41 +162,6 @@ public class PotManager : CookManagerBase
 
     }
 
-    public override void CookCompleteCheck()
-    {
-        
-        if (targetRecipe.cookType != CookType.Boiling)
-        {
-            Debug.Log("Wrong cook type");
-            CookSceneManager.instance.UnloadScene();
-            return;
-        }
-
-        if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
-        {
-            Debug.Log("Ingredient mismatch");
-            CookSceneManager.instance.UnloadScene();
-            return;
-        }
-
-        if (potSauceSystem.sauceType != targetRecipe.boilingSetting.sauceType)
-        {
-            Debug.Log("Wrong sauce type");
-            CookSceneManager.instance.UnloadScene();
-            return;
-        }
-
-        //if(targetRecipe.boilingSetting.power != potBoilingSystem.rotatePower) {
-        // return;
-        //}
-
-        //UnLock New Recipe;
-        RecipeManager.instance.RecipeUnLock(targetRecipe);
-        UIManager.instance.RecipeUnLockUI();
-        CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
-        Debug.Log("Success");
-        return;
-    }
 
     IEnumerator AddSauce()
     {
@@ -232,8 +236,8 @@ public class PotManager : CookManagerBase
         potViewCamera.SetActive(true);
         CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1f;
-        canvasGroup.interactable = true; 
-        canvasGroup.blocksRaycasts = true; 
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

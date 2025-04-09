@@ -16,15 +16,26 @@ MonoBehaviour:
   menuImage: {fileID: 0}
   menuPrice: 0
   menuPrefab: {fileID: 0}
-  ingredients: []
+  mainIngredient: {fileID: 11400000, guid: 1090dbaadecf09740879274831f00712, type: 2}
+  ingredients:
+  - ingredient: {fileID: 11400000, guid: 7bff2a23d7c39d74e835866c9287a3be, type: 2}
+    amount: 1
+  - ingredient: {fileID: 11400000, guid: c64a53c075b7b1f41b88d9c4a621dfda, type: 2}
+    amount: 1
   cookType: 2
   boilingSetting:
-    boilType: 0
+    cookTime: 0
+    rotatePower: 0
+    sauceType: 0
   tossingSetting:
     tossingCount: 0
+    sauceType: 0
   cuttingSetting:
+    trimItem: {fileID: 0}
+    trimItemCount: 0
     cuttingCount: 0
-    successRange: 0
   fryingSetting:
+    fryingStep: 0
     fryingCount: 3
+    sauceType: 0
     sectionRange: c80000002c010000fa000000

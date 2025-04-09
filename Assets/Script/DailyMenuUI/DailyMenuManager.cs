@@ -13,61 +13,73 @@ public class DailyMenuManager : MonoBehaviour
     [NonSerialized] static public Dictionary<Recipe, int> dailyMenuList = new Dictionary<Recipe, int>();
 
     //-----------------------UI Object ----------------------//
-    
+
     [SerializeField] GameObject dailyMenuPanel;
     [SerializeField] GameObject recipePanel;
     [SerializeField] DetailMenuUI detailMenuUI;
-    
+
     //-------------------------------------------------------//
     [SerializeField] GameObject recipePrefab;
     RecipeUnLockSystem recipeUnLockSystem;
 
-    void Awake(){
+    void Awake()
+    {
         instance = this;
         recipeUnLockSystem = GetComponent<RecipeUnLockSystem>();
     }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         //MakeRecipeList();
         recipeUnLockSystem.RecipeListUpdate();
     }
 
-    void Update() {
-        if(this.gameObject.activeSelf) {
+    void Update()
+    {
+        if (this.gameObject.activeSelf)
+        {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
 
     }
 
-    void DailyMenuInit() {
-        dailyMenuList =  new Dictionary<Recipe, int>();
+    void DailyMenuInit()
+    {
+        dailyMenuList = new Dictionary<Recipe, int>();
     }
 
     //-------------------Button----------------------//
-    public void AddAmount() {
+    public void AddAmount()
+    {
         detailMenuUI.AddAmount();
     }
 
-    public void RemoveAmount() {
+    public void RemoveAmount()
+    {
         detailMenuUI.RemoveAmount();
     }
 
-    public void AddMenu() {
+    public void AddMenu()
+    {
         Recipe currentRecipe = detailMenuUI.currentRecipe;
         int currentAmount = detailMenuUI.currentAmount;
-        if(RecipeManager.instance.IsCanMakeMenu(currentRecipe)) {
+        if (RecipeManager.instance.IsCanMakeMenu(currentRecipe))
+        {
             RecipeManager.instance.UseIngredientFromRecipe(currentRecipe, currentAmount);
             RefrigeratorManager.instance.UseIngredientToInventory(currentRecipe, currentAmount);
             this.DailyMenuAdd(currentRecipe, currentAmount);
             detailMenuUI.DetailUIClear();
-        }     
+        }
     }
 
     //--------------Daily Menu Fuc -------------------//
-    public void DailyMenuRemove(Recipe currentRecipe) {
-        if(dailyMenuList.ContainsKey(currentRecipe)) {
-            if(dailyMenuList[currentRecipe] > 0) {
+    public void DailyMenuRemove(Recipe currentRecipe)
+    {
+        if (dailyMenuList.ContainsKey(currentRecipe))
+        {
+            if (dailyMenuList[currentRecipe] > 0)
+            {
                 dailyMenuList[currentRecipe] -= 1;
             }
             DailyMenuUpdate();
@@ -75,18 +87,23 @@ public class DailyMenuManager : MonoBehaviour
         }
     }
 
-    void DailyMenuAdd(Recipe currentRecipe, int currentAmount) {
+    void DailyMenuAdd(Recipe currentRecipe, int currentAmount)
+    {
         DailyMenuUI[] dailyMenuUIs = dailyMenuPanel.GetComponentsInChildren<DailyMenuUI>();
         DailyMenuUI targetUI = dailyMenuUIs.FirstOrDefault(menu => menu.currentMenu == currentRecipe);
-        
-        if(dailyMenuList.ContainsKey(currentRecipe)) {
-            dailyMenuList[currentRecipe] += 1;   
+
+        if (dailyMenuList.ContainsKey(currentRecipe))
+        {
+            dailyMenuList[currentRecipe] += 1;
             targetUI.AddMenu(currentRecipe, currentAmount);
             return;
         }
-        else {
-            foreach(DailyMenuUI dailyMenuUI in dailyMenuUIs) {
-                if(dailyMenuUI.IsCanAddMenu()) {
+        else
+        {
+            foreach (DailyMenuUI dailyMenuUI in dailyMenuUIs)
+            {
+                if (dailyMenuUI.IsCanAddMenu())
+                {
                     dailyMenuList.Add(currentRecipe, currentAmount);
                     dailyMenuUI.AddMenu(currentRecipe, currentAmount);
                     break;
@@ -95,17 +112,20 @@ public class DailyMenuManager : MonoBehaviour
         }
 
     }
-    
-    void DailyMenuUpdate() {
+
+    void DailyMenuUpdate()
+    {
 
     }
 
     //---------------MenuList Create -----------------//
 
-    void MakeRecipeList() {
+    void MakeRecipeList()
+    {
         List<Recipe> recipeList = RecipeManager.instance.MakeRecipeUnLockList();
-        
-        foreach (Recipe recipe in recipeList) {
+
+        foreach (Recipe recipe in recipeList)
+        {
             GameObject menu = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             menu.transform.SetParent(recipePanel.transform);
             menu.GetComponent<MenuSlot>().MenuUISetup(recipe);
@@ -117,7 +137,8 @@ public class DailyMenuManager : MonoBehaviour
     }
 
 
-    public void DetailUIUpdate(Recipe currentRecipe, int Amount) {
+    public void DetailUIUpdate(Recipe currentRecipe, int Amount)
+    {
         detailMenuUI.DetailUpdate(currentRecipe, Amount);
     }
 

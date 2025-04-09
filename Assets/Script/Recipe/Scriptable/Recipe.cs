@@ -40,7 +40,7 @@ public enum CookType
 public class BoilingSetting
 {
     public int cookTime;
-    public BoilType boilType;
+    public int rotatePower;
     public SauceType sauceType;
 }
 
@@ -54,6 +54,7 @@ public class TossingSetting
 [System.Serializable]
 public class FryingSetting
 {
+    public FryingStep fryingStep;
     public int fryingCount;
     public SauceType sauceType;
     [Header("Total Value = 750")]
@@ -66,6 +67,7 @@ public class CuttingSetting
     public Item trimItem;
     public int trimItemCount;
     public int cuttingCount;
+    public CuttingType cuttingType;
 }
 
 [System.Serializable]
@@ -81,7 +83,9 @@ public class IngredientAmount
     }
 }
 
+public enum CuttingType { Horizontal, Quater };
 public enum SauceType { Brown, Red, White, None };
 public enum BoilType { Boil, Steam }
+public enum FryingStep { Rare, Medium, WellDone };
 
 

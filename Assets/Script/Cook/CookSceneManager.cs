@@ -18,20 +18,24 @@ public class CookSceneManager : MonoBehaviour
     public string currentSceneName;
     public GameObject[] SpawnPoint;
 
-    void Awake() {
+    void Awake()
+    {
         instance = this;
         mainCamera = Camera.main;
     }
 
-    public void RecipeUnLockUI() {
-        
+    public void RecipeUnLockUI()
+    {
+
     }
 
-    public void LoadScene(string objName) {
+    public void LoadScene(string objName)
+    {
         if (!isSceneLoaded)
         {
             mainCamera.transform.gameObject.SetActive(false);
-            switch(objName) {
+            switch (objName)
+            {
                 case "CuttingBoard":
                     currentSceneName = cuttingSceneName;
                     break;
@@ -54,9 +58,11 @@ public class CookSceneManager : MonoBehaviour
         }
     }
 
-    public void UnloadScene() {
+    public void UnloadScene()
+    {
         mainCamera.transform.gameObject.SetActive(true);
-        if (isSceneLoaded) {
+        if (isSceneLoaded)
+        {
             SceneManager.UnloadSceneAsync(currentSceneName);
             isSceneLoaded = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -64,12 +70,13 @@ public class CookSceneManager : MonoBehaviour
         }
     }
 
-    public void SpawnMenu(string sceneName, Recipe menu) {
+    public void SpawnMenu(string sceneName, Recipe menu)
+    {
         GameObject meneInstance = Instantiate(menu.menuPrefab, Vector3.zero, Quaternion.identity);
         meneInstance.AddComponent<MenuData>();
         meneInstance.GetComponent<MenuData>().menu = menu;
-        meneInstance.tag = "Menu";
-        switch(sceneName) {
+        switch (sceneName)
+        {
             case cuttingSceneName:
                 meneInstance.transform.position = SpawnPoint[3].transform.position;
                 break;
@@ -90,7 +97,7 @@ public class CookSceneManager : MonoBehaviour
 
     public void UnloadScene(string sceneName, Recipe menu)
     {
-        if (isSceneLoaded) {}
+        if (isSceneLoaded) { }
         mainCamera.transform.gameObject.SetActive(true);
         SceneManager.UnloadSceneAsync(sceneName);
         isSceneLoaded = false;

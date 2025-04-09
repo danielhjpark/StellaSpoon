@@ -77,21 +77,22 @@ public class FryingPanUI : MonoBehaviour
         }
     }
 
-    public bool GetCurrentSection()
+    public FryingStep GetCurrentSection()
     {
         if (currentPos <= sectionRange[0])
         {
             Debug.Log("Rare");
-            return false;
+            return FryingStep.Rare;
         }
         else if (currentPos <= sectionRange[0] + sectionRange[1])
         {
             Debug.Log("Medium");
-            return true;
+            return FryingStep.Medium;
         }
-        else {
+        else
+        {
             Debug.Log("Well Done");
-            return false;
+            return FryingStep.WellDone;
         }
     }
 

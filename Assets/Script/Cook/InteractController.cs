@@ -31,7 +31,7 @@ public class InteractController : MonoBehaviour
         serveSystem = GetComponent<ServeSystem>();
         isCanInteract = true;
         InteractPanel.SetActive(false);
-        
+
         playerTransfom = GameObject.FindGameObjectWithTag("Player").transform;
         this.transform.SetParent(playerTransfom);
         playerFollowCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
@@ -81,7 +81,6 @@ public class InteractController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 serveSystem.PickUpMenu(hitInfo.transform.gameObject);
-                Destroy(hitInfo.transform.gameObject);
             }
 
         }
@@ -101,7 +100,8 @@ public class InteractController : MonoBehaviour
             actionText.gameObject.SetActive(true);
             serveSystem.ServeMenu(hitInfo.transform.gameObject);
         }
-        else {
+        else
+        {
             actionText.gameObject.SetActive(false);
         }
 
@@ -117,11 +117,13 @@ public class InteractController : MonoBehaviour
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, interactLayer))
         {
             string objectName = hitInfo.transform.gameObject.name;
-            switch(objectName) {
+            switch (objectName)
+            {
                 case "Menu":
                     ChangeActionText("Menu");
                     actionText.gameObject.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.F)){
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
                         serveSystem.PickUpMenu(hitInfo.transform.gameObject);
                         Destroy(hitInfo.transform.gameObject);
                     }
