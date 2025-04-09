@@ -16,7 +16,7 @@ public class CookUIManager : MonoBehaviour
     void Start()
     {
         panelSpeed = 5;
-        //SelectRecipePanel.SetActive(false);
+        SelectRecipePanel.SetActive(false);
         if(TimerPanel != null && TimerPanel.TryGetComponent<TimerSystem>(out TimerSystem timerSystem)) {
             this.timerSystem = timerSystem;
             TimerPanel.SetActive(false);

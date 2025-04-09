@@ -8,7 +8,7 @@ using UnityEditor.Rendering;
 public class RestaurantOpenSystem : MonoBehaviour
 {
     [SerializeField] private float range = 2.0f; 
-    [SerializeField] private Transform playerTransform; 
+    private Transform playerTransform; 
     
     [SerializeField] Image pressGagueImage;
 
@@ -27,6 +27,7 @@ public class RestaurantOpenSystem : MonoBehaviour
     
 
     void Start() {
+        playerTransform = GameObject.FindWithTag("Player").transform;
         isOpened = false;
         signRenderer.material = signMaterial[(int)signState.Close];
     }

@@ -15,8 +15,14 @@ public class ServeSystem : MonoBehaviour
     private Animator playerAnimator;
     private string pickupAnimationName = "BringDish";
 
-    public void Initialize(Animator playerAnimator) {
-        this.playerAnimator = playerAnimator;
+    public void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize() {
+        this.playerAnimator = GameObject.FindWithTag("Player").GetComponent<Animator>();
+        //this.playerAnimator = playerAnimator;
     }
 
     public void PickUpMenu(GameObject menuObject)
@@ -26,9 +32,12 @@ public class ServeSystem : MonoBehaviour
         currentMenu = menu;
 
         serveObject = Instantiate(currentMenu.menuPrefab, playerHand.position, Quaternion.identity);
-        MenuData serveObjectData = serveObject.AddComponent<MenuData>();
+        //MenuData serveObjectData = serveObject.AddComponent<MenuData>();
         //serveObjectData.Initialize(currentMenu);
         serveObject.transform.SetParent(playerHand);
+         this.transform.localPosition = new Vector3(0, 0, 0);
+         this.transform.localRotation = Quaternion.identity;
+        playerHand.localPosition = new Vector3(-0.05f, 1.123f, 0.3f);
     }
 
     public void ThrowOutMenu()

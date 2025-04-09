@@ -79,7 +79,16 @@ public class PlayerManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == specialSceneName)
+        string[] restaurantScenes = {"NPCTest","WokMergeTest", "FryingPanMergeTest", "CuttingBoardMergeTest", "PotMergeTest"}; 
+        foreach(string restaurantScene in restaurantScenes) {
+            if(scene.name == restaurantScene) {
+                isRestaurant = true;
+                break;
+            }
+            else isRestaurant = false;
+        }
+        
+        if (isRestaurant)
         {
             isRestaurant = true;
             ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경

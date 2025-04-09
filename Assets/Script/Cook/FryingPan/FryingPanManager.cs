@@ -90,18 +90,21 @@ public class FryingPanManager : CookManagerBase
 
     public override void CookCompleteCheck()
     {
+        string currentSceneName = "FryingPanMergeTest";
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
             if (currentMenu.tossingSetting.tossingCount <= successCount)
             {
-                CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+                CookSceneManager.instance.UnloadScene(currentSceneName, currentMenu);
+                return;
             }
             //fail 조건
             else
             {
                 //음쓰 소환
             }
-            CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+            CookSceneManager.instance.UnloadScene(currentSceneName, currentMenu);
+            return;
         }
         else
         {
