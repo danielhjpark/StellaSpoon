@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour
     private float aimObjDis = 10f;
 
     [SerializeField]
-    private GameObject rifle; // 보여질 총
+    private GameObject[] rifleObjects;
 
     [Header("IK")]
     [SerializeField]
@@ -68,7 +68,7 @@ public class PlayerManager : MonoBehaviour
         _input = GetComponent<StarterAssetsInputs>();
         controller = GetComponent<ThirdPersonController>();
         anim = GetComponent<Animator>();
-
+        RifleManager.instance.SwitchWeapon(0);
         SceneManager.sceneLoaded += OnSceneLoaded; // 씬 변경 이벤트 등록
     }
 
@@ -216,9 +216,24 @@ public class PlayerManager : MonoBehaviour
     {
         if (controller.isDie) return;
 
-        if (InventoryManager.instance.isWeaponRifle == true)
+        bool hasWeapon = InventoryManager.instance.isWeaponRifle;
+
+        // 모두 비활성화 (초기화)
+        foreach (var rifle in rifleObjects)
         {
-            rifle.gameObject.SetActive(true);
+            rifle.SetActive(false);
+        }
+
+        if (hasWeapon)
+        {
+            int level = RifleManager.instance.CurrentWeaponLevel; // currentWeaponIndex 기반
+
+            // 예외 방지
+            if (level >= 0 && level < rifleObjects.Length)
+            {
+                rifleObjects[level].SetActive(true); // 해당 레벨의 총만 보이게
+            }
+
             anim.SetLayerWeight(1, 1);
             handRig.weight = 1;
             RifleManager.instance.WeaponUI.SetActive(true);
@@ -226,13 +241,13 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            rifle.gameObject.SetActive(false);
             anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
             RifleManager.instance.WeaponUI.SetActive(false);
-            RifleManager.instance.SpriteUI.SetActive (false);
+            RifleManager.instance.SpriteUI.SetActive(false);
         }
     }
+
 
     private void SetRigWeight(float weight)
     {
