@@ -6,20 +6,15 @@ using UnityEngine.UI;
 
 public class DeviceManager : MonoBehaviour
 {
-    public static bool isDeactived = true; // 초기 상태는 비활성화
+    public static bool isDeactived = true;
 
-    public GameObject uiPanel; // UI 패널
-    [SerializeField]
-    private GameObject inventoryPanel; // 인벤토리 패널
-    [SerializeField]
-    private GameObject equipmentPanel; // 장비 패널
-    [SerializeField]
-    private GameObject optionPanel; //옵션 패널
-    [SerializeField]
-    private GameObject planetPanel; //행성 패널
-    [SerializeField]
-    private GameObject showText; //상호작용 패널
-    private bool wasShowTextActive; //showText의 이전 상태
+    public GameObject uiPanel;
+    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private GameObject equipmentPanel;
+    [SerializeField] private GameObject optionPanel;
+    [SerializeField] private GameObject planetPanel;
+    [SerializeField] private GameObject showText;
+    private bool wasShowTextActive;
 
     [Header("초기의 인벤토리 버튼")]
     [SerializeField] private Button inventoryButton;
@@ -27,18 +22,25 @@ public class DeviceManager : MonoBehaviour
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Sprite selectedSprite;
 
+    private ThirdPersonController playerController;
+    private StarterAssetsInputs _input;
+
+    private void Awake()
+    {
+        playerController = FindObjectOfType<ThirdPersonController>();
+        _input = FindObjectOfType<StarterAssetsInputs>();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if(!TreasureChest.openingChest)
+            if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false)
             {
-                //todo 기계장치 오픈시 카메라, 플레이어 움직임 제한 필요
                 ToggleUI();
             }
         }
 
-        // Esc 키로 UI 비활성화
         if (Input.GetKeyDown(KeyCode.Escape) && !isDeactived)
         {
             CloseUI();
@@ -59,7 +61,6 @@ public class DeviceManager : MonoBehaviour
 
     private void OpenUI()
     {
-        // showText의 이전 상태 저장
         wasShowTextActive = showText.activeSelf;
         if (wasShowTextActive)
         {
@@ -73,7 +74,7 @@ public class DeviceManager : MonoBehaviour
         inventoryPanel.SetActive(true);
         equipmentPanel.SetActive(true);
 
-        inventoryButtonImage.sprite = selectedSprite; // 버튼 이미지 변경
+        inventoryButtonImage.sprite = selectedSprite;
 
         isDeactived = false;
     }
@@ -84,20 +85,18 @@ public class DeviceManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        //모든 창 false 필요
-        inventoryPanel.SetActive(false); //인벤토리
-        equipmentPanel.SetActive(false); //장비
-        optionPanel.SetActive(false); //옵션
-        planetPanel.SetActive(false); //행성
+        inventoryPanel.SetActive(false);
+        equipmentPanel.SetActive(false);
+        optionPanel.SetActive(false);
+        planetPanel.SetActive(false);
 
-        inventoryButtonImage.sprite = defaultSprite; // 버튼 이미지 복귀
+        inventoryButtonImage.sprite = defaultSprite;
 
         isDeactived = true;
 
         Option.OptionActivated = false;
         Planet.planetActivated = false;
 
-        // showText의 이전 상태 복원
         if (wasShowTextActive)
         {
             showText.SetActive(true);

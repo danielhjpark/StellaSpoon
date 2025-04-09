@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Rendering.ShadowCascadeGUI;
 
 
 public enum MonsterStates //몬스터 상태
@@ -118,7 +119,17 @@ public abstract class MonsterBase : MonoBehaviour
                 }
                 if (!(this is EscapeMonster))
                 {
-                    LookPlayer();
+                    if((this is BearKingMonster))
+                    {
+                        if(!BearKingMonster.isChargeSetting)
+                        {
+                            LookPlayer();
+                        }
+                    }
+                    else
+                    {
+                        LookPlayer();
+                    }
                 }
             }
         }
@@ -175,7 +186,6 @@ public abstract class MonsterBase : MonoBehaviour
             isAttack = true;
             animator.SetBool("Walk", false);
             animator.SetBool("Attack", true); //Attack 애니메이션 실행
-            //플레이어에게 데미지 주기
         }
 
     }
@@ -207,9 +217,17 @@ public abstract class MonsterBase : MonoBehaviour
     protected virtual void HandleRandomMove()
     {
         wanderTimer += Time.deltaTime; //시간 체크
+        if (!nav.pathPending && nav.remainingDistance <= 0.2f) //도착지에서 0.1 내에 있는지
+        {
+            animator.SetBool("Walk", false);
+            currentState = MonsterStates.Idle;
+            HandleState();
+            RandomPositionDecide = false; // 랜덤 경로 설정 해제
+        }
+
         if (wanderTimer >= idleMoveInterval)
         {
-            if (!RandomPositionDecide) // 랜덤 경로가 설정되지 않았을 때
+            if (!RandomPositionDecide) // 랜덤 경로가 설정되었을 때
             {
                 Debug.Log("랜덤 위치 생성");
                 Vector3 newDestination = GetRandomPoint(initialPosition, randomMoveRange);
@@ -217,16 +235,6 @@ public abstract class MonsterBase : MonoBehaviour
                 RandomPositionDecide = true;
                 animator.SetBool("Walk", true);
                 wanderTimer = 0; // 타이머 초기화
-            }
-            else
-            {
-                // 생성한 위치로 이동
-                if (!nav.pathPending && nav.remainingDistance <= 0.5f) //도착지에서 0.3 내에 있는지
-                {
-                    animator.SetBool("Walk", false);
-                    currentState = MonsterStates.Idle;
-                    RandomPositionDecide = false; // 랜덤 경로 설정 해제
-                }
             }
             //랜덤 위치 생성
         }
@@ -279,7 +287,7 @@ public abstract class MonsterBase : MonoBehaviour
         }
         else
         {
-            if(!isDamage) //첫 피격일 때
+            if (!isDamage) //첫 피격일 때
             {
                 isDamage = true;
                 animator.SetBool("Hit", true);
@@ -292,7 +300,7 @@ public abstract class MonsterBase : MonoBehaviour
                 currentState = MonsterStates.Idle;
                 HandleState();
             }
-            
+
         }
         if (canDamage)
         {
@@ -399,7 +407,7 @@ public abstract class MonsterBase : MonoBehaviour
 
     public void AttackCheck()
     {
-        if(attackColl)
+        if (attackColl)
         {
             PlayerDamage();
         }

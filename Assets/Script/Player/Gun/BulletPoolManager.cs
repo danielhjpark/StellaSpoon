@@ -8,7 +8,7 @@ public class BulletPoolManager : MonoBehaviour
 
     [SerializeField]
     private GameObject[] prefabs;
-    private int poolSize = 1;
+    private int poolSize = 10;
     private List<GameObject>[] objPools;
 
     private void Awake()
@@ -51,7 +51,7 @@ public class BulletPoolManager : MonoBehaviour
     {
         GameObject obj = null;
 
-        for(int i = 0; i < objPools[index].Count; i++)
+        for (int i = 0; i < objPools[index].Count; i++)
         {
             if (!objPools[index][i].activeInHierarchy)
             {
@@ -61,7 +61,16 @@ public class BulletPoolManager : MonoBehaviour
             }
         }
 
+        // 새로 생성
         obj = Instantiate(prefabs[index]);
+
+        // 파티클이면 자동으로 AutoDisable 붙이기
+        if (obj.GetComponent<ParticleSystem>() != null &&
+            obj.GetComponent<AutoDisableOnParticleEnd>() == null)
+        {
+            obj.AddComponent<AutoDisableOnParticleEnd>();
+        }
+
         objPools[index].Add(obj);
         obj.SetActive(true);
 

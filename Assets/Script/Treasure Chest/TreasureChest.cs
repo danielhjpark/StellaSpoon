@@ -20,11 +20,17 @@ public class TreasureChest : MonoBehaviour
     [Header("보물상자에 나오는 아이템")]
     [SerializeField]
     private List<Item> possibleItems; // 생성 가능한 아이템 리스트
+    
     [Header("아이템 갯수")]
     [SerializeField]
-    private int minItemCount = 1; // 최소 아이템 수
+    private List<int> minItemCount; // 최초 생성 아이템 수 리스트
     [SerializeField]
-    private int maxItemCount = 3; // 최대 아이템 수
+    private List<int> maxItemCount; // 최대 아이템 수 리스트
+
+    [Header("아이템별 확률")]
+    [SerializeField]
+    private List<int> itemPrecent; // 아이템 생성 확률
+   
 
     private Slot[] chestSlots; // 보물상자 슬롯 배열
     private bool isOpenChest = false; // 보물상자 오픈 여부
@@ -62,7 +68,7 @@ public class TreasureChest : MonoBehaviour
         treasureChestPanel = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBackGround");
         inventoryPanel = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBase");
         inventoryBackGround = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBackGround");
-        slotsSetting = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBase/Slot Setting");
+        slotsSetting = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBackGround/TreasureChestBase/Slot Setting");
 
         if (slotsSetting != null)
         {
@@ -136,20 +142,28 @@ public class TreasureChest : MonoBehaviour
             Debug.LogWarning("chestSlots가 설정되지 않았습니다. 아이템을 추가할 수 없습니다.");
             return;
         }
+        int itemCount = 0; // 생성된 아이템 수
 
-        int itemCount = Random.Range(minItemCount, maxItemCount + 1);
-
-        for (int i = 0; i < itemCount; i++)
+        for (int i = 0; i < possibleItems.Count; i++) //생성 가능한 아이템 수만큼 반복
         {
-            Item randomItem = possibleItems[Random.Range(0, possibleItems.Count)];
-            if (i < chestSlots.Length)
+            for(int j = 0; j < maxItemCount[i]; j++) //한 아이템의 생성가능한 수만큼 반복
             {
-                chestSlots[i].AddItemWithoutWeight(randomItem, 1);
-            }
-            else
-            {
-                Debug.LogWarning("슬롯 인덱스 초과. 더 이상 아이템을 추가할 슬롯이 없습니다.");
-                break;
+                //firstCreatedCount만큼은 무조건 생성
+                if (j < minItemCount[i])
+                {
+                    chestSlots[itemCount].AddItemWithoutWeight(possibleItems[i], 1); //아이템 생성
+                    itemCount++;
+                }
+                else
+                {
+                    //아이템 생성 확률에 따라 생성
+                    float itemCreatePercent = Random.Range(0, 100f); //아이템 생성 확률
+                    if (itemCreatePercent <= itemPrecent[i])
+                    {
+                        chestSlots[itemCount].AddItemWithoutWeight(possibleItems[i], 1); //아이템 생성
+                        itemCount++;
+                    }
+                }                
             }
         }
     }

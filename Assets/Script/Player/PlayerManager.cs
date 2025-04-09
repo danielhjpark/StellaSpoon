@@ -114,10 +114,16 @@ public class PlayerManager : MonoBehaviour
     {
         if (isRestaurant)
         {
+            InventoryManager.instance.isWeaponRifle = false;
+            EquipRifleCheck();
             return;
         }
+        else // 나중에 무기를 변경할 때 조건을 추가해서 넣기. 안그러면 false를 한번 해도 계속 true로 바뀜
+        {
+            InventoryManager.instance.isWeaponRifle = true;
+            EquipRifleCheck();
+        }
         AimCheck();
-        EquipRifleCheck();
         CheckJumpOrDodge();
     }
 
@@ -225,6 +231,7 @@ public class PlayerManager : MonoBehaviour
             anim.SetLayerWeight(1, 1);
             handRig.weight = 1;
             RifleManager.instance.WeaponUI.SetActive(true);
+            RifleManager.instance.SpriteUI.SetActive(true);
         }
         else
         {
@@ -232,6 +239,7 @@ public class PlayerManager : MonoBehaviour
             anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
             RifleManager.instance.WeaponUI.SetActive(false);
+            RifleManager.instance.SpriteUI.SetActive (false);
         }
     }
 
