@@ -44,19 +44,15 @@ public class FryingSystem : MonoBehaviour
         {
             mainIngredientPart.Add(t.gameObject);
             mainIngredientPreviousPos.Add(t.transform.localPosition);
-            mainIngredientShaders.Add(t.gameObject.GetComponent<IngredientShader>());
+            //mainIngredientShaders.Add(t.gameObject.GetComponent<IngredientShader>());
         }
 
-        foreach (IngredientShader mainIngredientShader in mainIngredientShaders)
-        {
-            mainIngredientShader.Initialize(8);
-        }
 
     }
 
     public void InitializeInherentMotion()
     {
-        isHalf = false;
+        //isHalf = false;
         successFryingCount = 0;
         GrabOrder();
     }

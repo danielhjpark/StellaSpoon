@@ -32,7 +32,7 @@ public class PotBoilingSystem : MonoBehaviour
     {
         isRotate = false;
         currentTime = 0;
-        completeTime = 20f;
+        completeTime = boilingSetting.cookTime;
         //completeTime = boilingSetting.cookTime;
         this.potIngredients = potIngredients;
     }
@@ -70,7 +70,7 @@ public class PotBoilingSystem : MonoBehaviour
             yield return null;
         }
 
-        yield return StartCoroutine(potUI.LinkTimerStart());
+        yield return StartCoroutine(potUI.LinkTimerStart(completeTime));
     }
 
     IEnumerator AddForceWithRotation()

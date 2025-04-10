@@ -7,17 +7,16 @@ using System;
 
 public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    Recipe currentRecipe;
-    Image image;
-    bool isEnter;
+    private Recipe currentRecipe;
+    private Image recipeImage;
+    private bool isEnter;
     private Color initColor;
     private Color disableColor;
     private IngredientInventory ingredientInventory;
     public event Action OnSelectRecipe;
 
     private void Awake() {
-        
-        image = GetComponent<Image>();
+        recipeImage = GetComponent<Image>();
         initColor = Color.white;
         disableColor = Color.grey;
     }
@@ -40,8 +39,8 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 
 
                 //DailyMenu Count decrease
-                //DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
-               // OrderManager.instance.UpdateMenu();
+                DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
+                //OrderManager.instance.UpdateMenu();
             }
         }
     }
@@ -51,18 +50,18 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         this.ingredientInventory = ingredientInventory;
         currentRecipe = recipe;
         Debug.Log(recipe.menuImage);
-        image.sprite = recipe.menuImage;
+        recipeImage.sprite = recipe.menuImage;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         isEnter = true;
-        image.color = disableColor;
+        recipeImage.color = disableColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isEnter = false;
-        image.color = initColor;
+        recipeImage.color = initColor;
     }
 }

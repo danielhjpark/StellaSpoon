@@ -54,8 +54,8 @@ public class FryingPanManager : CookManagerBase
     {
         base.SelectRecipe(menu);
         fryingSetting = menu.fryingSetting;
-        firstFryingCount = menu.fryingSetting.fryingCount;
-        secondFryingCount = menu.fryingSetting.fryingCount;
+        firstFryingCount = menu.fryingSetting.firstFryingCount;
+        secondFryingCount = menu.fryingSetting.secondFryingCount;
         fryingPanUI.Initialize(menu.fryingSetting.sectionRange);
         StartCoroutine(UseCookingStep());
     }
@@ -75,8 +75,8 @@ public class FryingPanManager : CookManagerBase
         }
         else
         {
-            firstFryingCount = menu.fryingSetting.fryingCount;
-            secondFryingCount = menu.fryingSetting.fryingCount;
+            firstFryingCount = menu.fryingSetting.firstFryingCount;
+            secondFryingCount = menu.fryingSetting.secondFryingCount;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
             fryingPanUI.Initialize(menu.fryingSetting.sectionRange);
         }
@@ -233,7 +233,7 @@ public class FryingPanManager : CookManagerBase
 
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
-            StartCoroutine(cookUIManager.TimerStart());
+            StartCoroutine(cookUIManager.TimerStart(10f));
             ingredientInventory.AddSubIngredients();
             StartCoroutine(cookUIManager.VisiblePanel());
         }

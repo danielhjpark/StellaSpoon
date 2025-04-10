@@ -21,7 +21,7 @@ public class FryingSauceSystem : SauceSystem
 
     public void Initialize(FryingSetting fryingSetting)
     {
-        scaleValue = maxScale / fryingSetting.fryingCount;
+        scaleValue = maxScale / fryingSetting.secondFryingCount;
         this.sauceType = fryingSetting.sauceType;
         this.sauceController.Initialize(sauceType);
         this.SetSauceColor();
@@ -29,7 +29,7 @@ public class FryingSauceSystem : SauceSystem
 
     public void InitializeMakeMode(FryingSetting fryingSetting)
     {
-        scaleValue = (maxScale /fryingSetting.fryingCount)/2;
+        scaleValue = (maxScale /fryingSetting.secondFryingCount)/2;
         this.sauceController.InitializeMakeMode();
     }
 

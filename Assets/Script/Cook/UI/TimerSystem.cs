@@ -54,14 +54,15 @@ public class TimerSystem : MonoBehaviour
         clickHand.localRotation = Quaternion.Euler(0, 0, rotationValue);
     }
 
-    public IEnumerator TimerStart()
+    public IEnumerator TimerStart(float second)
     {
+        float secondValue = 1 /(second * 20);
         isTimerEnd = false;
         timerGague.fillAmount = 0;
         while (timerGague.fillAmount <= 0.99f)
         {
-            timerGague.fillAmount += Time.deltaTime / 10;
-            yield return null;
+            timerGague.fillAmount += secondValue;
+            yield return new WaitForSeconds(0.05f);
         }
         timerGague.fillAmount = 1;
         isTimerEnd = true;

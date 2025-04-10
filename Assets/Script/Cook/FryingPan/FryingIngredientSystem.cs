@@ -6,6 +6,7 @@ public class FryingIngredientSystem : MonoBehaviour
 {
     [Header("Set Objects")]
     [SerializeField] private Transform dropPos;
+    [SerializeField] private Transform dropPos2;
     [SerializeField] private GameObject mainIngredientParent;
     [SerializeField] private GameObject subIngredientParent;
     public GameObject fryingMainIngredient;
@@ -34,6 +35,7 @@ public class FryingIngredientSystem : MonoBehaviour
 
     public void AddMainIngredient(GameObject ingredients, Ingredient ingredient)
     {
+        Debug.Log("Main");
         fryingMainIngredient = ingredients;
 
         ingredients.transform.position = dropPos.position;
@@ -45,9 +47,10 @@ public class FryingIngredientSystem : MonoBehaviour
 
     public void AddSubIngredient(GameObject ingredients, Ingredient ingredientData)
     {
-        ingredients.transform.position = dropPos.position;
+        Debug.Log("Sub");
+        ingredients.transform.position = dropPos2.position;
         ingredients.transform.SetParent(subIngredientParent.transform);
-        IngredientAddAmount(checkIngredients, ingredientData, 1);
+        IngredientAddAmount(checkIngredients, ingredientData, ingredientData.ingredientUseCount);
 
         foreach (Transform ingredient in ingredients.transform)
         {

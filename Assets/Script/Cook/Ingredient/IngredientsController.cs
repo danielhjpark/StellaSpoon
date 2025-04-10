@@ -73,17 +73,16 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
 
     void SlotUpdate() {
         ingredientSlot.itemCount --;
-        IngredientManager.IngredientAmount[ingredientSlot.currentIngredient] --;
-        ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, 1);
+
         //ingredientSlot.SetSlotCount(ingredientSlot.itemCount);
         if(ingredientSlot.itemCount <= 0) {
             ingredientSlot.SlotClear();
             ingredientSlot.gameObject.SetActive(false);
 
         }
-        
         if(CookManager.instance.cookMode == CookManager.CookMode.Make) {
-            
+            IngredientManager.IngredientAmount[ingredientSlot.currentIngredient] --;
+            ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, 1);
         }
     }
 

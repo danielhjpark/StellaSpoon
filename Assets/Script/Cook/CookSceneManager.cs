@@ -24,10 +24,6 @@ public class CookSceneManager : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    public void RecipeUnLockUI()
-    {
-
-    }
 
     public void LoadScene(string objName)
     {
@@ -58,17 +54,6 @@ public class CookSceneManager : MonoBehaviour
         }
     }
 
-    public void UnloadScene()
-    {
-        mainCamera.transform.gameObject.SetActive(true);
-        if (isSceneLoaded)
-        {
-            SceneManager.UnloadSceneAsync(currentSceneName);
-            isSceneLoaded = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
 
     public void SpawnMenu(string sceneName, Recipe menu)
     {
@@ -94,6 +79,17 @@ public class CookSceneManager : MonoBehaviour
         }
     }
 
+    public void UnloadScene()
+    {
+        mainCamera.transform.gameObject.SetActive(true);
+        if (isSceneLoaded)
+        {
+            SceneManager.UnloadSceneAsync(currentSceneName);
+            isSceneLoaded = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
 
     public void UnloadScene(string sceneName, Recipe menu)
     {
@@ -104,6 +100,14 @@ public class CookSceneManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         SpawnMenu(sceneName, menu);
+    }
+
+    public void UnloadScene(string sceneName)
+    {
+        mainCamera.transform.gameObject.SetActive(true);
+        SceneManager.UnloadSceneAsync(sceneName);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
 

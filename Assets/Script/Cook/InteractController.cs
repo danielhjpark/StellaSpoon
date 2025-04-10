@@ -51,7 +51,7 @@ public class InteractController : MonoBehaviour
         if (brain != null && brain.ActiveVirtualCamera != null)
         {
             actionText.gameObject.SetActive(false);
-            InteractPanel.SetActive(false);
+            //InteractPanel.SetActive(false);
             return brain.ActiveVirtualCamera.VirtualCameraGameObject == playerFollowCamera.gameObject;
         }
 
@@ -98,7 +98,10 @@ public class InteractController : MonoBehaviour
         {
             ChangeActionText("NPC");
             actionText.gameObject.SetActive(true);
-            serveSystem.ServeMenu(hitInfo.transform.gameObject);
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                serveSystem.ServeMenu(hitInfo.transform.gameObject);
+            }
         }
         else
         {

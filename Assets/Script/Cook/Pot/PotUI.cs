@@ -19,24 +19,17 @@ public class PotUI : MonoBehaviour
         potViewportSystem = GetComponent<PotViewportSystem>();
     }
 
-    public IEnumerator LinkTimerStart() {
+    public IEnumerator LinkTimerStart(float second) {
         potTimer.SetActive(true);
         mainTimer.SetActive(true);
         mainTimer.GetComponent<CanvasGroup>().alpha = 1.0f;
-        StartCoroutine(potTimerSystem.TimerStart());
-        yield return StartCoroutine(mainTimerSystem.TimerStart());
+        StartCoroutine(potTimerSystem.TimerStart(second));
+        yield return StartCoroutine(mainTimerSystem.TimerStart(second));
 
         mainTimer.GetComponent<CanvasGroup>().alpha = 0f;
         potTimer.SetActive(false);
         mainTimer.SetActive(false);
 
-    }
-
-    public IEnumerator TimerStart()
-    {
-        potTimer.SetActive(true);
-        yield return StartCoroutine(potTimerSystem.TimerStart());
-        potTimer.SetActive(false);
     }
 
     public void TimerReset()

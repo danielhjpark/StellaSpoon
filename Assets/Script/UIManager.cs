@@ -9,9 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject DailyMenuUI;
     [SerializeField] GameObject RefrigeratorUI;
     [SerializeField] GameObject DeviceUI;
-    [SerializeField] GameObject CookUI;
-    [SerializeField] RefrigeratorInventory refrigeratorInventory;
     [SerializeField] GameObject NewRecipeUI;
+    [SerializeField] GameObject InteractUI;
 
     [SerializeField] Item[] items;
 
@@ -27,6 +26,7 @@ public class UIManager : MonoBehaviour
         RefrigeratorAddIngredient();
         DailyMenuAdd();
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            DailyMenuUI.SetActive(false);
+           // DailyMenuUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Inventory.inventoryActivated = false;
@@ -64,6 +64,16 @@ public class UIManager : MonoBehaviour
         foreach (Recipe recipe in recipes)
             RecipeManager.instance.RecipeUnLock(recipe);
     }
+
+
+    public void VisibleInteractUI() {
+        InteractUI.SetActive(true);
+    }
+
+    public void HideInteractUI() {
+        InteractUI.SetActive(false);
+    }
+
 
     public void RecipeUnLockUI()
     {

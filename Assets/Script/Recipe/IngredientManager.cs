@@ -34,7 +34,7 @@ public class IngredientManager : MonoBehaviour
             if (!IngredientList.ContainsKey(ingredient.name))
             {
                 IngredientList.Add(ingredient.name, ingredient);
-                IngredientAmount.Add(ingredient, 10);
+                IngredientAmount.Add(ingredient, 0);
             }
         }
     }

@@ -47,7 +47,8 @@ public class BoilingSetting
 [System.Serializable]
 public class TossingSetting
 {
-    public int tossingCount;
+    public int firstTossingCount;
+    public int secondTossingCount;
     public SauceType sauceType;
 }
 
@@ -55,7 +56,8 @@ public class TossingSetting
 public class FryingSetting
 {
     public FryingStep fryingStep;
-    public int fryingCount;
+    public int firstFryingCount;
+    public int secondFryingCount;
     public SauceType sauceType;
     [Header("Total Value = 750")]
     public int[] sectionRange = new int[3];
@@ -68,6 +70,7 @@ public class CuttingSetting
     public int trimItemCount;
     public int cuttingCount;
     public CuttingType cuttingType;
+    public Material surfaceMaterial;
 }
 
 [System.Serializable]

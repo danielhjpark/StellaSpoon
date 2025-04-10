@@ -86,7 +86,7 @@ public class WokTossingSystem : MonoBehaviour
 
     private void AddForceForwardIngredient() {
         foreach(GameObject ingredient in wokIngredients) {
-            ingredient.GetComponent<Rigidbody>().AddForce(Vector3.forward * 3, ForceMode.VelocityChange);
+            ingredient.GetComponent<Rigidbody>().AddForce(Vector3.forward * 1, ForceMode.VelocityChange);
         }
     }
 

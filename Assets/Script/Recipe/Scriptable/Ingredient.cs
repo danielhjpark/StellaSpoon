@@ -7,12 +7,13 @@ public class Ingredient : ScriptableObject {
 
     
     public string ingredientName;
+    public string ingredientText;
     public Sprite ingredientImage;
     public GameObject ingredientPrefab;
-    public bool isPublicIngredient;
     public IngredientType ingredientType;
     public IngredientCookType ingredientCookType;
     public IngredientCookType[] ingredientCookTypes;
+    public int ingredientUseCount;
 }
 
 public enum IngredientType {

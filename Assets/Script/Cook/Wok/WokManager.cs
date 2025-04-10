@@ -28,7 +28,7 @@ public class WokManager : CookManagerBase
     //----------------------------------------------------------------------//
     private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
-    private int targetTossingCount;
+    private int totalTossingCount;
     
     private GameObject mainIngredient;
     //---------------------------------------------------------------------//
@@ -62,7 +62,7 @@ public class WokManager : CookManagerBase
     public override IEnumerator UseCookingStep()
     {
         yield return StartCoroutine(AddMainIngredient());//Main ingredient add
-        yield return StartCoroutine(InherentMotion(firstTossingCount));
+        if(firstTossingCount > 0) yield return StartCoroutine(InherentMotion(firstTossingCount));
         yield return StartCoroutine(AddSubIngredient());//Sub ingredient add
         yield return StartCoroutine(AddSauce());//Sauce motion
         yield return StartCoroutine(InherentMotion(secondTossingCount));
@@ -73,8 +73,9 @@ public class WokManager : CookManagerBase
     public override void SelectRecipe(Recipe menu)
     {
         base.SelectRecipe(menu);
-        firstTossingCount = menu.tossingSetting.tossingCount;
-        secondTossingCount = menu.tossingSetting.tossingCount;
+        firstTossingCount = menu.tossingSetting.firstTossingCount;
+        secondTossingCount = menu.tossingSetting.secondTossingCount;
+        totalTossingCount = firstTossingCount + secondTossingCount - 1;
         StartCoroutine(UseCookingStep());
     }
 
@@ -89,8 +90,8 @@ public class WokManager : CookManagerBase
             return;
         } 
         else {
-            firstTossingCount = menu.tossingSetting.tossingCount;
-            secondTossingCount = menu.tossingSetting.tossingCount;
+            firstTossingCount = menu.tossingSetting.firstTossingCount;
+            secondTossingCount = menu.tossingSetting.secondTossingCount;
         }
 
     }
@@ -100,16 +101,18 @@ public class WokManager : CookManagerBase
         //success
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
-            if (currentMenu.tossingSetting.tossingCount <= successTossingCount)
+            if (totalTossingCount <= successTossingCount)
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+                return;
             }
-            //fail 조건
+            //fail 음쓰 소환
             else
             {
-                //음쓰 소환
+                CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
+                return;  
             }
-            CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
+
         }
         else
         {
@@ -125,7 +128,7 @@ public class WokManager : CookManagerBase
                 return;
             }
 
-            if (successTossingCount < targetTossingCount)
+            if (successTossingCount < totalTossingCount)
             {
                 Debug.Log("Not enough tossing");
                 return;
@@ -166,7 +169,7 @@ public class WokManager : CookManagerBase
     IEnumerator InherentMotion(int tossingCount)
     {
         wokUI.OnWokUI();
-        wokTossingSystem.BindTossingObject(wokIngredients);
+        wokTossingSystem.BindTossingObject(wokIngredientSystem.wokIngredients);
         yield return StartCoroutine(wokTossingSystem.WokTossing(tossingCount, (callbackValue) =>
         {
             successTossingCount += callbackValue;
@@ -194,7 +197,7 @@ public class WokManager : CookManagerBase
             yield return new WaitForSeconds(0.5f);
         }
 
-        checkIngredients.Clear();
+        wokIngredientSystem.checkIngredients.Clear();
     }
 
     IEnumerator AddSubIngredient()
@@ -202,7 +205,7 @@ public class WokManager : CookManagerBase
         wokUI.OnFridgeUI();
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
-            StartCoroutine(cookUIManager.TimerStart());
+            StartCoroutine(cookUIManager.TimerStart(10f));
             ingredientInventory.AddSubIngredients();
             StartCoroutine(cookUIManager.VisiblePanel());
         }
@@ -211,7 +214,7 @@ public class WokManager : CookManagerBase
         {
             if (CookManager.instance.cookMode == CookManager.CookMode.Select)
             {
-                if (RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients)) break;
+                if (RecipeManager.instance.CompareRecipe(currentMenu, wokIngredientSystem.checkIngredients)) break;
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {

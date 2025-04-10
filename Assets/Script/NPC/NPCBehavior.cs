@@ -31,6 +31,7 @@ public class NPCBehavior : MonoBehaviour
 
     private void LateUpdate()
     {
+        mainCam = Camera.main.transform;
         menuObject.transform.LookAt(menuObject.transform.position + mainCam.rotation * Vector3.forward,
             mainCam.rotation * Vector3.up);
     }
@@ -60,18 +61,18 @@ public class NPCBehavior : MonoBehaviour
 
     IEnumerator ReceiveMenu() {
         float waitTime = 0f;
-        float stayDuration = 60f;
+        float stayDuration = 120f;
         // float orderDelay = 10f;
         // float npcWaitTime = 40f;
 
         while(true) {
             if(waitTime < stayDuration) //해당 시간동안 음식을 받는지 체크함.
             {
-                waitTime += Time.deltaTime;
+                waitTime += 1f;
             }
             else if (!hasReceivedMenu) //음식을 받지 못하였을 때
             {
-                OrderManager.instance.UpdateMenu(); //메뉴 회수
+                //OrderManager.instance.UpdateMenu(); //메뉴 회수
                 yield return Exit(this.gameObject, npcSpawnPoint, nav, currentSeatIndex);
                 yield break;
             }
@@ -79,7 +80,7 @@ public class NPCBehavior : MonoBehaviour
                 //yield return Exit(this.gameObject, npcSpawnPoint, nav, currentSeatIndex);
                 break;
             }
-            yield return null;
+            yield return new WaitForSeconds(1f);
         }
     }
     
@@ -134,7 +135,8 @@ public class NPCBehavior : MonoBehaviour
     IEnumerator EatAndExit()
     {
         Debug.Log("NPC Eat Food");
-        float eatingTime = Random.Range(40f, 60f);
+        //float eatingTime = Random.Range(40f, 60f);
+        float eatingTime = Random.Range(5f, 10f);
         yield return new WaitForSeconds(eatingTime);
         NpcManager.instance.totalGold += payPrice;
         yield return Exit(this.gameObject, npcSpawnPoint, nav, currentSeatIndex);

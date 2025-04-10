@@ -20,7 +20,7 @@ public class WokSauceSystem : SauceSystem
     }
 
     public void Initialize(TossingSetting tossingSetting) {
-        this.totalLevel = tossingSetting.tossingCount;
+        this.totalLevel = tossingSetting.secondTossingCount;
         this.sauceType = tossingSetting.sauceType;
         this.sauceController.Initialize(sauceType);
         this.SetSauceColor();
@@ -28,8 +28,8 @@ public class WokSauceSystem : SauceSystem
     }
     
     public void InitializeMakeMode(TossingSetting tossingSetting) {
-        if(tossingSetting.tossingCount == 0) this.totalLevel = 2;
-        else this.totalLevel = tossingSetting.tossingCount;
+        if(tossingSetting.secondTossingCount == 0) this.totalLevel = 2;
+        else this.totalLevel = tossingSetting.secondTossingCount;
         this.sauceController.InitializeMakeMode();
         this.InitLevel();
     }

@@ -8,10 +8,10 @@ using Unity.VisualScripting;
 public class CuttingObjectSystem : MonoBehaviour
 {
 
-    public Material sliceMaterial; // 잘린 면에 적용할 머티리얼
+    //public Material sliceMaterial; // 잘린 면에 적용할 머티리얼
     public GameObject rotateObject;
 
-    public List<GameObject> SliceHorizontal(GameObject obj, int sliceCount)
+    public List<GameObject> SliceHorizontal(GameObject obj, int sliceCount, Material sliceMaterial)
     {
         if (obj == null) return null;
         List<GameObject> sliceObjects = new List<GameObject>();
@@ -51,7 +51,7 @@ public class CuttingObjectSystem : MonoBehaviour
         return sliceObjects;
     }
 
-    public List<GameObject> SliceVertical(GameObject obj, int sliceCount)
+    public List<GameObject> SliceVertical(GameObject obj, int sliceCount, Material sliceMaterial)
     {
         if (obj == null) return null;
         List<GameObject> sliceObjects = new List<GameObject>();
@@ -84,18 +84,18 @@ public class CuttingObjectSystem : MonoBehaviour
         return sliceObjects;
     }
 
-    private List<GameObject> SliceQuarter(GameObject obj) {
+    public List<GameObject> SliceQuarter(GameObject obj, Material sliceMaterial) {
         if (obj == null) return null;
         // 잘릴 방향과 위치 설정 (랜덤 또는 정해진 위치)
-        List<GameObject> sliceObjects = SliceHalf(obj, Vector3.right);
+        List<GameObject> sliceObjects = SliceHalf(obj, Vector3.right, sliceMaterial);
 
-        SliceHalf(sliceObjects[0], Vector3.forward);
-        SliceHalf(sliceObjects[1], Vector3.forward);
-
-        return null;
+        List<GameObject> sliceObjects2 = SliceHalf(sliceObjects[0], Vector3.forward, sliceMaterial);
+        sliceObjects2.AddRange(SliceHalf(sliceObjects[1], Vector3.forward, sliceMaterial));
+        
+        return sliceObjects2;
     }
 
-    private List<GameObject> SliceHalf(GameObject obj, Vector3 dir) {
+    private List<GameObject> SliceHalf(GameObject obj, Vector3 dir, Material sliceMaterial) {
         if (obj == null) return null;
         // 잘릴 방향과 위치 설정 (랜덤 또는 정해진 위치)
         List<GameObject> sliceObjects = new List<GameObject>();

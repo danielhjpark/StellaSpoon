@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using Unity.VisualScripting;
 
 public class WokIngredientSystem : MonoBehaviour
 {
     [SerializeField] private Transform dropPos;
     [SerializeField] private GameObject dropIngredient;
     [NonSerialized] public GameObject mainIngredient;
-    private List<GameObject> wokIngredients = new List<GameObject>();
+    public List<GameObject> wokIngredients = new List<GameObject>();
     public List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
     private List<IngredientShader> mainIngredientShaders = new List<IngredientShader>();
+    public bool isShader = false;
 
 
     public void AddMainIngredient(GameObject ingredients, Ingredient ingredient)
@@ -24,7 +26,7 @@ public class WokIngredientSystem : MonoBehaviour
 
     public void AddSubIngredient(GameObject ingredients, Ingredient ingredientData)
     {
-        IngredientAddAmount(checkIngredients, ingredientData, 1);
+        IngredientAddAmount(checkIngredients, ingredientData, ingredientData.ingredientUseCount);
         AddIngredientList(ingredients);
     }
 
@@ -60,13 +62,23 @@ public class WokIngredientSystem : MonoBehaviour
   
     private void InitializeIngredientShader(GameObject mainIngredientParent) {
         foreach(Transform mainIngredient in mainIngredientParent.transform) {
-            IngredientShader currentShader = mainIngredient.GetComponent<IngredientShader>();
-            currentShader.Initialize(4);
-            mainIngredientShaders.Add(currentShader);
+            IngredientShader currentShader;
+            if(mainIngredient.TryGetComponent<IngredientShader>(out currentShader)) {
+                currentShader = mainIngredient.GetComponent<IngredientShader>();
+                currentShader.Initialize(4);
+                mainIngredientShaders.Add(currentShader);
+                isShader = true;
+            }
+            else {
+                isShader = false;
+                return;
+            }
+
         }
     }
 
     public void ApplyIngredientShader() {
+        if(!isShader) return;
         foreach(IngredientShader mainIngredientShader in mainIngredientShaders) {
             mainIngredientShader.ApplyShaderAlpha();
         }

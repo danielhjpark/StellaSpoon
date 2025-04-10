@@ -55,10 +55,10 @@ public class CookUIManager : MonoBehaviour
         StartCoroutine(currentCookManager.UseCookingStep());
     }
 
-    public IEnumerator TimerStart()
+    public IEnumerator TimerStart(float second)
     {
         TimerPanel.SetActive(true);
-        yield return StartCoroutine(timerSystem.TimerStart());
+        yield return StartCoroutine(timerSystem.TimerStart(second));
         TimerPanel.SetActive(false);
     }
 
@@ -91,6 +91,7 @@ public class CookUIManager : MonoBehaviour
     public IEnumerator VisiblePanel()
     {
         int startPos = 250;
+        inventoryPanel.gameObject.SetActive(true);
         while (true)
         {
             startPos -= panelSpeed;

@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71f3e924013a77b459dde35628116b81, type: 3}
-  m_Name: Bread
+  m_Name: FryingFail
   m_EditorClassIdentifier: 
-  menuName: Bread
-  menuImage: {fileID: 21300000, guid: c5a5c1c855a41a242be2464cb04bec94, type: 3}
-  menuPrice: 150
-  menuPrefab: {fileID: 8460180561519201217, guid: 908a014b81b3b7c40b87c33ae6408d78, type: 3}
+  menuName: 
+  menuImage: {fileID: 0}
+  menuPrice: 0
+  menuPrefab: {fileID: 0}
   mainIngredient: {fileID: 0}
-  ingredients:
-  - ingredient: {fileID: 11400000, guid: 842826996f5a8ff4081ce61aa0d8a1a3, type: 2}
-    amount: 1
-  cookType: 0
+  ingredients: []
+  cookType: 2
   boilingSetting:
     cookTime: 0
-    boilType: 0
+    rotatePower: 0
     sauceType: 0
   tossingSetting:
     tossingCount: 0
@@ -32,7 +30,10 @@ MonoBehaviour:
     trimItem: {fileID: 0}
     trimItemCount: 0
     cuttingCount: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 0
-    sauceType: 0
+    fryingStep: 1
+    fryingCount: 2
+    sauceType: 3
     sectionRange: 000000000000000000000000
