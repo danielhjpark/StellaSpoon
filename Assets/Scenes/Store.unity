@@ -2451,16 +2451,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 328311937}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1409618022}
+  m_Father: {fileID: 1512466766}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 17}
+  m_AnchoredPosition: {x: 0, y: 37}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &328311939
@@ -7171,6 +7171,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatUI: {fileID: 740876167}
+  gunImage: {fileID: 0}
+  gunName: {fileID: 0}
+  gunStats: {fileID: 0}
+  Ingredient01: {fileID: 0}
+  Ingredient01Count: {fileID: 0}
+  Ingredient02: {fileID: 0}
+  Ingredient02Count: {fileID: 0}
+  Gold: 0
 --- !u!4 &804245499
 Transform:
   m_ObjectHideFlags: 0
@@ -11228,7 +11236,6 @@ RectTransform:
   m_Children:
   - {fileID: 1871285458}
   - {fileID: 1803988933}
-  - {fileID: 328311938}
   - {fileID: 1512466766}
   - {fileID: 632121764}
   - {fileID: 1266797955}
@@ -11844,6 +11851,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2045083708}
+  - {fileID: 328311938}
   - {fileID: 502251862}
   - {fileID: 516206196}
   - {fileID: 329088578}
