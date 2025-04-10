@@ -79,7 +79,7 @@ public class PlayerManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        string[] restaurantScenes = {"NPCTest","WokMergeTest", "FryingPanMergeTest", "CuttingBoardMergeTest", "PotMergeTest"}; 
+        string[] restaurantScenes = {"RestaurantTest","WokMergeTest", "FryingPanMergeTest", "CuttingBoardMergeTest", "PotMergeTest"}; 
         foreach(string restaurantScene in restaurantScenes) {
             if(scene.name == restaurantScene) {
                 isRestaurant = true;
@@ -236,7 +236,7 @@ public class PlayerManager : MonoBehaviour
         else
         {
             rifle.gameObject.SetActive(false);
-            anim.SetLayerWeight(1, 0);
+            if(!isRestaurant) anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
             RifleManager.instance.WeaponUI.SetActive(false);
             RifleManager.instance.SpriteUI.SetActive (false);

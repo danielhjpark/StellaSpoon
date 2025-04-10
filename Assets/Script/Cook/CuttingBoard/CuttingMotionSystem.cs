@@ -105,7 +105,8 @@ public class CuttingMotionSystem : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.5f);
-        CuttingReset();
+        //CuttingReset();
+        knifeObject.SetActive(false);
         //slice Object Resetting;
 
         List<GameObject> sliceAllObjects2 = new List<GameObject>();
@@ -129,6 +130,7 @@ public class CuttingMotionSystem : MonoBehaviour
         bool isRot = false;
         rotateUI.SetActive(true);
         sliceUI.SetActive(false);
+        
         Quaternion startRot = Quaternion.Euler(-90, 0, 0);
         Quaternion endRot = Quaternion.Euler(-90, 0, 90);
         while (true)
@@ -191,6 +193,7 @@ public class CuttingMotionSystem : MonoBehaviour
 
     IEnumerator knifeMotion(GameObject cuttingLine)
     {
+        knifeObject.SetActive(true);
         isCutting = true;
         Renderer cuttingLineRenderer = cuttingLine.GetComponent<Renderer>();
 

@@ -20,6 +20,7 @@ public class PotViewportSystem : MonoBehaviour
     [SerializeField] public GameObject frontButton;
     [SerializeField] public GameObject bottomButton;
     [SerializeField] public GameObject buttonUI;
+    [SerializeField] public GameObject lidButton;
     [SerializeField] public GameObject buttonViewObject; //In Game View Object Not UI;
 
     [Header("Off UI Panel")]
@@ -59,6 +60,7 @@ public class PotViewportSystem : MonoBehaviour
         buttonUI.SetActive(false);
         buttonViewObject.SetActive(true);
         lidObject.AddComponent<cakeslice.Outline>();
+        lidButton.SetActive(true);
         StartCoroutine(FrontView());
     }
 

@@ -6,7 +6,7 @@ public class FryingSauceSystem : SauceSystem
 {
     [SerializeField] SauceController sauceController;
     [SerializeField] GameObject sauceObject;
-    [SerializeField] float minScale, maxScale;
+    float minScale, maxScale;
     private float currentScale;
     private float scaleValue;
     private WaitForSeconds sauceDelay = new WaitForSeconds(0.01f);
@@ -21,7 +21,7 @@ public class FryingSauceSystem : SauceSystem
 
     public void Initialize(FryingSetting fryingSetting)
     {
-        scaleValue = maxScale / fryingSetting.secondFryingCount;
+        scaleValue = maxScale /(fryingSetting.secondFryingCount * 2);
         this.sauceType = fryingSetting.sauceType;
         this.sauceController.Initialize(sauceType);
         this.SetSauceColor();
@@ -29,7 +29,7 @@ public class FryingSauceSystem : SauceSystem
 
     public void InitializeMakeMode(FryingSetting fryingSetting)
     {
-        scaleValue = (maxScale /fryingSetting.secondFryingCount)/2;
+        scaleValue = maxScale /(fryingSetting.secondFryingCount * 2);
         this.sauceController.InitializeMakeMode();
     }
 

@@ -101,22 +101,16 @@ public class IngredientInventory : MonoBehaviour
 
     public void IngredientAdd(Recipe recipe) {
         foreach(IngredientAmount ingredient in recipe.ingredients) {
-            foreach(IngredientSlot ingredientSlot in ingredientSlots) {
-                if(ingredientSlot.IsEmpty()) {
-                    ingredientSlot.BindingIngredient(ingredient.ingredient);
-                    break;
-                }
+            if(ingredient.ingredient.ingredientUseCount > 0)
+                CreateIngredientSlot(ingredient.ingredient, ingredient.amount/ingredient.ingredient.ingredientUseCount);
+            else {
+                CreateIngredientSlot(ingredient.ingredient, ingredient.amount);
             }
         }
     }
 
     public void IngredientAdd(Ingredient ingredient) {
-        foreach(IngredientSlot ingredientSlot in ingredientSlots) {
-            if(ingredientSlot.IsEmpty()) {
-                ingredientSlot.BindingIngredient(ingredient);
-                break;
-            }
-        }
+        CreateIngredientSlot(ingredient, 1);
     }
 
     public void IngredientSlotClear() {

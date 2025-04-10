@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PotUI : MonoBehaviour
 {
+    [SerializeField] cakeslice.OutlineEffect outlineEffect;
+    [SerializeField] GameObject lidButton;
     [SerializeField] GameObject potTimer;
     GameObject mainTimer;
     TimerSystem mainTimerSystem;
@@ -17,6 +19,8 @@ public class PotUI : MonoBehaviour
         potTimerSystem = potTimer.GetComponent<TimerSystem>();
         mainTimerSystem = mainTimer.GetComponent<TimerSystem>();
         potViewportSystem = GetComponent<PotViewportSystem>();
+
+        lidButton.SetActive(false);
     }
 
     public IEnumerator LinkTimerStart(float second) {
@@ -52,4 +56,12 @@ public class PotUI : MonoBehaviour
         potViewportSystem.frontButton.SetActive(true);
     }
 
+    public void VisibleLidButton() {
+        lidButton.SetActive(true);
+    }
+
+    public void HideLidButton() {
+        lidButton.SetActive(false);
+        Destroy(outlineEffect);
+    }
 }

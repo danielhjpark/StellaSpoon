@@ -61,10 +61,10 @@ public class InteractController : MonoBehaviour
 
     private void CheckLayer()
     {
-        Vector3 rayOrigin = playerTransfom.position + Vector3.up * 0.5f; // 캐릭터 중심에서 약간 위로
+        Vector3 rayOrigin = playerTransfom.position + Vector3.up; // 캐릭터 중심에서 약간 위로
+        
         Vector3 rayDirection = playerTransfom.forward; // 캐릭터의 forward 방향
         RaycastHit hitInfo;
-
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, utensilLayer))
         {
             ChangeActionText("Utensil");

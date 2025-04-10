@@ -64,6 +64,7 @@ public class PotBoilingSystem : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
+                potUI.HideLidButton();
                 yield return StartCoroutine(potViewportSystem.CloseLid());
                 break;
             }

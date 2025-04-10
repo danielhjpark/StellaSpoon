@@ -101,9 +101,11 @@ public class PotManager : CookManagerBase
         if(cookMode == CookMode.Select) {
             if (currentMenu.boilingSetting.rotatePower != potBoilingSystem.rotatePower) {
                 CookSceneManager.instance.UnloadScene("PotMergeTest", CookManager.instance.failMenu);
+                return;
             }
             else {
                  CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
+                 return;
             }
         }
 
@@ -154,7 +156,8 @@ public class PotManager : CookManagerBase
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
             StartCoroutine(cookUIManager.VisiblePanel());
-            ingredientInventory.AddAllIngredientsToRecipe(currentMenu);
+            //ingredientInventory.AddAllIngredientsToRecipe(currentMenu);
+            ingredientInventory.IngredientAdd(currentMenu.mainIngredient);
         }
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
