@@ -174,7 +174,6 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-
             }
 
             curHP = MaxHP;
@@ -379,6 +378,15 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (_mainCamera == null)
+            {
+                GameObject camObj = GameObject.FindGameObjectWithTag("MainCamera");
+                if (camObj != null)
+                    _mainCamera = camObj;
+                else
+                    return;
+            }
+
             if (isDodge || isHit) return;
 
             float targetSpeed = MoveSpeed;

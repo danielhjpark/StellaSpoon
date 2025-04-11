@@ -70,6 +70,9 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponent<Animator>();
 
         SceneManager.sceneLoaded += OnSceneLoaded; // 씬 변경 이벤트 등록
+
+        // 씬이 이미 로드된 뒤 생성된 경우를 위해 수동 호출
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     void OnDestroy()
@@ -91,6 +94,7 @@ public class PlayerManager : MonoBehaviour
         if (isRestaurant)
         {
             isRestaurant = true;
+            SetRigWeight(0);
             ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경
         }
         else
