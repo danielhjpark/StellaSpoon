@@ -10,6 +10,7 @@ public class DetailMenuUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI menuName;
     [SerializeField] TextMeshProUGUI menuDescription;
     [SerializeField] TextMeshProUGUI menuAmount;
+    [SerializeField] TextMeshProUGUI menuPrice;
     [SerializeField] Image menuImage;
     
     //--------------Ingredient Parent--------------------//
@@ -52,6 +53,7 @@ public class DetailMenuUI : MonoBehaviour
         menuAmount.text = currentAmount.ToString();
         menuName.text = recipe.menuName;
         menuImage.sprite = recipe.menuImage;
+        menuPrice.text = recipe.menuPrice.ToString();
         
         IngredientsUpdate(Amount);
     }
@@ -59,14 +61,18 @@ public class DetailMenuUI : MonoBehaviour
     public void IngredientsUpdate(int Amount) {
         int ingredientPanelCount = ingredients.transform.childCount;
         int ingredientCount = currentRecipe.ingredients.Count;
-        
+
+        GameObject currnetIngredient = ingredients.transform.GetChild(0).gameObject;
+        currnetIngredient.SetActive(true);
+        currnetIngredient.GetComponent<IngredientUI>().IngredientUpdate(currentRecipe.mainIngredient, Amount);
+
         for(int i = 0; i < ingredientCount; i++) {
             
-            GameObject currnetIngredient = ingredients.transform.GetChild(i).gameObject;
+            currnetIngredient = ingredients.transform.GetChild(i + 1).gameObject;
             currnetIngredient.SetActive(true);
             currnetIngredient.GetComponent<IngredientUI>().IngredientUpdate(currentRecipe.ingredients[i], Amount);
         }
-        for(int i = ingredientCount; i <ingredientPanelCount; i++) {
+        for(int i = ingredientCount + 1; i < ingredientPanelCount; i++) {
             ingredients.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
@@ -76,7 +82,7 @@ public class DetailMenuUI : MonoBehaviour
         menuName.text = null;
         menuImage.sprite = null;
 
-        for(int i = 0; i < currentRecipe.ingredients.Count; i++) {
+        for(int i = 0; i < currentRecipe.ingredients.Count + 1; i++) {
             ingredients.transform.GetChild(i).gameObject.SetActive(false);
         }
 

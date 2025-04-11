@@ -10,7 +10,7 @@ public class PlayerChanger : MonoBehaviour
     [SerializeField]
     private GameObject specialCharacter;
 
-    private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
+    private string specialSceneName = "RestaurantTest"; // 아바타가 변경될 씬 이름
 
     private void Start()
     {

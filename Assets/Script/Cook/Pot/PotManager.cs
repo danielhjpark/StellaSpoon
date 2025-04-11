@@ -5,179 +5,283 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Linq;
 
 public class PotManager : CookManagerBase
 {
+    private PotBoilingSystem potBoilingSystem;
+    private PotSauceSystem potSauceSystem;
     private PotViewportSystem potViewportSystem;
-    
+    private PotIngredientSystem potIngredientSystem;
+    private PotUI potUI;
+
+    [Header("UI Objects")]
+    [SerializeField] CookUIManager cookUIManager;
+    [SerializeField] IngredientInventory ingredientInventory;
+
     [Header("Transform Objects")]
     [SerializeField] Transform dropPos;
     [SerializeField] GameObject dropIngredient;
-    [SerializeField] Transform centerPos;
 
     [Header("Disable Objects")]
+    [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject potViewCamera;
     [SerializeField] GameObject uiObject;
 
-    [Header("Button UI Text")]
-    [SerializeField] TextMeshProUGUI powerText;
-
     //--------------- Save List ------------------------//
+    private Ingredient mainIngredient;
     private List<GameObject> potIngredients = new List<GameObject>();
-    private List<Ingredient> checkIngredients = new List<Ingredient>();
-
-    //-------------Pot Rotate Setting ----------------//
-    private float rotatePower = 0;
-    public float radius;
-    public bool applyRight = true;
-    private Coroutine ingredientRotateCoroutine;
-
+    private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
     //------------------------------------------------//
-    private float completeTime;
-    private float currentTime;
 
-    void Awake() {
+    void Awake()
+    {
         CookManager.instance.BindingManager(this);
+        CookManager.instance.spawnPoint = dropPos;
+        cookUIManager.Initialize(this);
+
+        potBoilingSystem = GetComponent<PotBoilingSystem>();
+        potSauceSystem = GetComponent<PotSauceSystem>();
         potViewportSystem = GetComponent<PotViewportSystem>();
+        potUI = GetComponent<PotUI>();
+        isCanEscape = true;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)) {
-            CloseSceneView();
-        }
-
-        if(CheckRequireIngredient()) {
-            checkIngredients.Clear();
-            potViewportSystem.BoilingPot();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(!isCanEscape) CloseSceneView();
+            else CookSceneManager.instance.UnloadScene("PotMergeTest");
         }
     }
 
     //--------------- virtual Method ----------------------//
-    public override void CookCompleteCheck() {
-        if(currentTime >= completeTime) {
-            CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
-        }
-            
-    }
-
-    public override void SelectRecipe(Recipe menu) {
+    public override void SelectRecipe(Recipe menu)
+    {
+        isCanEscape = false;
         base.SelectRecipe(menu);
-        potViewportSystem.PutIngredient();
-        completeTime = 10f; //수정 필요
-        currentTime = 0f;
+        StartCoroutine(UseCookingStep());
     }
 
-    public override void AddIngredient(GameObject obj, Ingredient ingredient) {
+    public void RecipeSetting(Recipe menu)
+    {
+        base.SelectRecipe(menu);
+
+    }
+
+    public override void AddIngredient(GameObject obj, Ingredient ingredient)
+    {
         obj.transform.position = dropPos.position;
-        checkIngredients.Add(ingredient);
         AddIngredientList(obj);
+        StartCoroutine(cookUIManager.VisiblePanel());
+
+        if (ingredient.ingredientType == IngredientType.Main)
+        {
+            mainIngredient = ingredient;
+            //IngredientAddAmount(checkIngredients, ingredient, 1);
+            return;
+        }
+        if(ingredient.ingredientType == IngredientType.Sub) {
+            IngredientAddAmount(checkIngredients, ingredient, ingredient.ingredientUseCount);
+        }
+        
+    }
+
+    public override IEnumerator UseCookingStep()
+    {
+        yield return StartCoroutine(AddAllIngredients());
+        yield return StartCoroutine(AddSauce());
+        yield return StartCoroutine(potViewportSystem.ButtonView());
+        yield return StartCoroutine(InherentMotion());
+        CookCompleteCheck();
+    }
+    public override void CookCompleteCheck()
+    {
+        if(cookMode == CookMode.Select) {
+            if (currentMenu.boilingSetting.rotatePower != potBoilingSystem.rotatePower) {
+                CookSceneManager.instance.UnloadScene("PotMergeTest", CookManager.instance.failMenu);
+                return;
+            }
+            else {
+                 CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
+                 return;
+            }
+        }
+
+
+        if (targetRecipe.cookType != CookType.Boiling)
+        {
+            Debug.Log("Wrong cook type");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
+        {
+            Debug.Log("Ingredient mismatch");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        if (potSauceSystem.sauceType != targetRecipe.boilingSetting.sauceType)
+        {
+            Debug.Log("Wrong sauce type");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        if (targetRecipe.boilingSetting.rotatePower != potBoilingSystem.rotatePower)
+        {
+            Debug.Log("Wrong rotatePower");
+            CookSceneManager.instance.UnloadScene();
+            return;
+        }
+
+        //UnLock New Recipe;
+        RecipeManager.instance.RecipeUnLock(targetRecipe);
+        UIManager.instance.RecipeUnLockUI();
+        CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
+        Debug.Log("Success");
+        return;
+    }
+
+    public IEnumerator AddAllIngredients()
+    {
+        potViewportSystem.PutIngredient();
+        StartCoroutine(potViewportSystem.OpenLid());
+        
+        Debug.Log("Ingredients Step");
+        //Select && Make Choice
+        if (CookManager.instance.cookMode == CookManager.CookMode.Select)
+        {
+            StartCoroutine(cookUIManager.VisiblePanel());
+            //ingredientInventory.AddAllIngredientsToRecipe(currentMenu);
+            ingredientInventory.IngredientAdd(currentMenu.mainIngredient);
+        }
+        else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+        {
+            ingredientInventory.AddAllIngredients();
+            StartCoroutine(cookUIManager.TimerStart(10f));
+            yield return new WaitUntil(() => mainIngredient != null);
+
+            targetRecipe = RecipeManager.instance.FindRecipe(mainIngredient);
+            RecipeSetting(targetRecipe);
+            yield return new WaitForSeconds(0.5f);
+        }
+        //All of Ingredient Drop OR TimeOver Escape Loop
+        while (true)
+        {
+            if (CookManager.instance.cookMode == CookManager.CookMode.Select)
+            {
+                if (RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients) && mainIngredient != null) { break; }
+            }
+            else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+            {
+                if (cookUIManager.TimerEnd()) { break; }
+            }
+            yield return null;
+        }
+        yield return StartCoroutine(cookUIManager.HidePanel());
+
+    }
+
+
+    IEnumerator AddSauce()
+    {
+        Debug.Log("Sauce Step");
+        if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+        {
+            potSauceSystem.InitializeMakeMode();
+        }
+        else
+        {
+            if (currentMenu.boilingSetting.sauceType == SauceType.None)
+            {
+                yield break;
+            }
+            else
+            {
+                potSauceSystem.Initialize(currentMenu.boilingSetting);
+            }
+        }
+
+        while (!potSauceSystem.IsLiquidFilled())
+        {
+            yield return null;
+        }
+        potUI.SetActiveBottomButton();
+    }
+
+    public IEnumerator InherentMotion()
+    {
+        potBoilingSystem.Initialize(currentMenu.boilingSetting, potIngredients); // Binding Setting
+        yield return StartCoroutine(potBoilingSystem.StartBoilingSystem()); // Call of Button
+        //yield return StartCoroutine(potUI.LinkTimerStart()); //
+
+    }
+
+
+    void IngredientAddAmount(List<IngredientAmount> list, Ingredient ingredient, int count)
+    {
+        var existing = list.FirstOrDefault(i => i.ingredient.Equals(ingredient));
+        if (existing != null)
+        {
+            existing.amount += count;
+        }
+        else
+        {
+            list.Add(new IngredientAmount(ingredient, count));
+        }
     }
 
     //-------------------------------------------------------------//
-    
-    public void AddIngredientList(GameObject ingredients) {
+
+    public void AddIngredientList(GameObject ingredients)
+    {
         ingredients.transform.SetParent(dropIngredient.transform);
-        foreach(Transform ingredient in ingredients.transform) {
+        foreach (Transform ingredient in ingredients.transform)
+        {
             potIngredients.Add(ingredient.gameObject);
+            ingredient.GetComponent<Rigidbody>().mass = 10;
             ingredient.GetComponent<Rigidbody>().isKinematic = false;
             ingredient.GetComponent<Rigidbody>().useGravity = true;
             ingredient.GetComponent<Collider>().enabled = true;
         }
     }
 
-    //-------------------Button----------------------------------//
-    
-    public void OnIncreasePower() {
-        if(rotatePower < 3) rotatePower ++;
-        powerText.text = rotatePower.ToString();
-        if (ingredientRotateCoroutine == null)
-        {
-            ingredientRotateCoroutine = StartCoroutine(AddForceWithRotation());
-        }
-        
-    }
 
-    public void OnDecreasePower() {
-        if(rotatePower > 0) rotatePower --;
-        powerText.text = rotatePower.ToString();
-        if (ingredientRotateCoroutine == null)
-        {
-            ingredientRotateCoroutine = StartCoroutine(AddForceWithRotation());
-        }
-    }
-    //----------------Check System----------------------//
-    //메뉴의 재료 갯수로 체크, 정밀 체크 필요할 시 수정 필요
-    bool CheckRequireIngredient() {
-        if(currentMenu == null || currentMenu.ingredients.Count != checkIngredients.Count) {
-            return false;
-        }
-        else return true;
-    }
-
-    //Pot Scene에 접근시 사용
-    public bool CheckCookCompleted() {
-        if(completeTime >= currentTime) { 
-            potViewCamera.SetActive(true);
-            return false;
-        }
-        else {
-            return true;
-            //CookSceneManager.instance.UnloadScene("PotMergeTest", CookManager.instance.currentMenu);
-        }
-    }
-    
     //---------------SceneView Controll--------------//
-    public void OpenSceneView() {
+    public void OpenSceneView()
+    {
+        mainCamera.SetActive(true);
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         potViewCamera.SetActive(true);
-        uiObject.SetActive(true);
+        CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     //Change to MainCamera
-    public void CloseSceneView() {
+    public void CloseSceneView()
+    {
+        mainCamera.SetActive(false);
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(true);
         potViewCamera.SetActive(false);
-        uiObject.SetActive(false);
+        CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false; // 클릭 불가능하게 설정 (필요 시)
+        canvasGroup.blocksRaycasts = false; // 레이캐스트 차단 (필요 시)
+
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
 
-    IEnumerator AddForceWithRotation() {
-        WaitForSeconds addForceTime = new WaitForSeconds(0.1f);
-        while (true) {
-            CookCompleteCheck();
-            foreach (GameObject obj in potIngredients)  
-            {
-                if (obj.TryGetComponent<Rigidbody>(out Rigidbody rb))
-                {
-                    Vector3 center = centerPos.position; 
-                    Vector3 position = obj.transform.position; 
-                    Vector3 direction = position - center; 
-                    
-                    float distance = direction.magnitude; 
-                    Vector3 normal = direction.normalized;
-
-                    Vector3 forceDirection = applyRight 
-                        ? Vector3.Cross(normal, Vector3.up).normalized  // 시계방향
-                        : -Vector3.Cross(normal, Vector3.up).normalized; // 반시계방향
-                    Vector3 forceToCenterOrOutward = (distance > radius * 0.3f) 
-                        ? -direction.normalized  // 바깥 방향
-                        : direction.normalized; // 중심 방향
-
-                    Vector3 finalForce = (forceDirection) + (forceToCenterOrOutward * 3f);
-                    
-                    rb.AddForce(finalForce * 5f * rotatePower, ForceMode.Acceleration);
-                    //rb.AddForce(forceToCenterOrOutward, ForceMode.Impulse);
-
-                }
-            }
-            currentTime += 0.1f;
-            yield return addForceTime;
-        }
-
-    }
 
 }

@@ -13,19 +13,31 @@ MonoBehaviour:
   m_Name: Glasta_Pasta
   m_EditorClassIdentifier: 
   menuName: "\uAE00\uB77C\uC2A4\uD0C0 \uD30C\uC2A4\uD0C0"
-  menuImage: {fileID: 0}
-  menuPrice: 0
-  menuPrefab: {fileID: 0}
-  ingredients: []
+  menuImage: {fileID: 21300000, guid: 344da19f0945ca34584ca789ec1aca2e, type: 3}
+  menuPrice: 200
+  menuPrefab: {fileID: 770143489754738917, guid: f83b38bdc41002946866c04c879b28ae, type: 3}
+  mainIngredient: {fileID: 11400000, guid: da54a8e53e27fb3438c66eab11a122ab, type: 2}
+  ingredients:
+  - ingredient: {fileID: 11400000, guid: ae3a5f3076cca914cb6ee36ae9fd5156, type: 2}
+    amount: 4
   cookType: 3
   boilingSetting:
-    boilType: 0
+    cookTime: 0
+    rotatePower: 0
+    sauceType: 0
   tossingSetting:
-    tossingCount: 0
-    successRange: 0
+    firstTossingCount: 0
+    secondTossingCount: 2
+    sauceType: 2
   cuttingSetting:
+    trimItem: {fileID: 0}
+    trimItemCount: 0
     cuttingCount: 0
-    successRange: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 0
-    successRange: 0
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
+    sauceType: 0
+    sectionRange: 000000000000000000000000

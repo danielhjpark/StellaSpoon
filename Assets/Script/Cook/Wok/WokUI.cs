@@ -25,13 +25,10 @@ public class WokUI : MonoBehaviour
     private float power = 1;
     private float currentPos;
 
-
     void Start()
     {
         SetSections();
         wokUIObject.SetActive(false);
-        
-        //StartCoroutine(MoveMark());
     }
     void SetSections() {
         roastSection[0].sizeDelta = new Vector2(FixedWidth, 300);
@@ -46,10 +43,15 @@ public class WokUI : MonoBehaviour
         ingredientUIObejct.SetActive(false);
     }
 
+    public void OnFridgeUI() {
+        wokUIObject.SetActive(false);
+        ingredientUIObejct.SetActive(true);
+    }
+
     public IEnumerator MoveMark() {
         float startPos = 0;
         float endPos = FullLength;
-        float Speed = 0.1f;
+        float Speed = 0.1f * CookManager.instance.SlideAcceleration;
         isEnd = false;
 
         while(true) {

@@ -19,6 +19,11 @@ public class RefrigeratorSlot : Slot
         base.AddItem(_item, _count);
         previousItem = _item;
         currentIngredient = IngredientManager.instance.FindIngredient(_item.itemName);
+        OnSlotUpdate?.Invoke();
+    }
+
+    public void AddIngredient(Ingredient ingredient, int _count = 1) {
+       currentIngredient = ingredient;
     }
 
     override public void ChangeSlot()

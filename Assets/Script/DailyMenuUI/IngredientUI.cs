@@ -18,7 +18,18 @@ public class IngredientUI : MonoBehaviour
         int RequireIngredientAmount = ingredientAmount;
 
         ingredientImage.sprite = ingredient.ingredientImage;
-        ingredientName.text = ingredient.ingredientName;
+        ingredientName.text = ingredient.ingredientText;
+        ingredientCount.text = TotalIngredientAmount +"/" + RequireIngredientAmount * amount;
+    }
+
+    public void IngredientUpdate(Ingredient currentIngredient, int amount) {
+        Ingredient ingredient = currentIngredient;
+
+        int TotalIngredientAmount = IngredientManager.IngredientAmount[ingredient];
+        int RequireIngredientAmount = 1;
+
+        ingredientImage.sprite = ingredient.ingredientImage;
+        ingredientName.text = ingredient.ingredientText;
         ingredientCount.text = TotalIngredientAmount +"/" + RequireIngredientAmount * amount;
     }
 }

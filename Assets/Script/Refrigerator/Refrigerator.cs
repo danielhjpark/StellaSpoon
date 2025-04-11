@@ -8,10 +8,12 @@ public class Refrigerator : MonoBehaviour
     [SerializeField] private GameObject inventoryUI; //인벤토리 UI
     [SerializeField] private GameObject CloseButton;
     bool isPlayerNearby;
-    // Start is called before the first frame update
+    bool isOpenedRefrigerator;
+
     void Start()
     {
         isPlayerNearby = false;
+        isOpenedRefrigerator = false;
     }
 
     private void Update()
@@ -27,24 +29,27 @@ public class Refrigerator : MonoBehaviour
     }
     private void OpenRefrigeratorUI() //보물상자 UI출력
     {
+        isOpenedRefrigerator = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
         refrigeratorUI.SetActive(true);
         inventoryUI.SetActive(true);
         CloseButton.SetActive(false);
-
+        UIManager.instance.HideInteractUI();
+        
         Inventory.inventoryActivated = true;
     }
     private void CloseRefrigeratorUI() //보물상자 UI 닫기
     {
+        isOpenedRefrigerator = false;
         Cursor.lockState -= CursorLockMode.Locked;
         Cursor.visible = false;
 
         refrigeratorUI.SetActive(false);
         inventoryUI.SetActive(false);
         CloseButton.SetActive(true);
-
+        
         Inventory.inventoryActivated = false;
     }
 
@@ -54,6 +59,15 @@ public class Refrigerator : MonoBehaviour
         {
             Debug.Log("플레이어 감지");
             isPlayerNearby = true;
+            UIManager.instance.VisibleInteractUI();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player")&&!isOpenedRefrigerator)
+        {
+            UIManager.instance.VisibleInteractUI();
         }
     }
 
@@ -63,6 +77,7 @@ public class Refrigerator : MonoBehaviour
         {
             Debug.Log("플레이어 나감");
             isPlayerNearby = false;
+            UIManager.instance.HideInteractUI();
         }
     }
 }

@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class RefrigeratorInventory : Inventory
 {
-    RefrigeratorSlot[] refrigeratorSlots;
+    public RefrigeratorSlot[] refrigeratorSlots;
+    [SerializeField] GameObject slotParent;
     List<Item> items;
-    void Start()
+    void Awake()
     {
-        refrigeratorSlots = this.GetComponentsInChildren<RefrigeratorSlot>();
+        refrigeratorSlots = slotParent.GetComponentsInChildren<RefrigeratorSlot>();
         items = new List<Item>();
-        foreach (RefrigeratorSlot slot in refrigeratorSlots) {
+        foreach (RefrigeratorSlot slot in refrigeratorSlots)
+        {
             slot.OnSlotUpdate += SlotUpate;
         }
     }
@@ -47,16 +49,46 @@ public class RefrigeratorInventory : Inventory
                     }
                 }
             }
+            // 2. 남은 개수를 빈 슬롯에 추가
+            for (int i = 0; i < refrigeratorSlots.Length; i++)
+            {
+                // 슬롯이 비어 있는 경우
+                if (refrigeratorSlots[i].item == null)
+                {
+                    if (_count <= 20)
+                    {
+                        // 남은 아이템이 20개 이하이면 한 슬롯에 모두 추가
+                        refrigeratorSlots[i].AddItem(_item, _count);
+                        return;
+                    }
+                    else
+                    {
+                        // 남은 아이템이 20개 초과이면 가능한 개수만 추가
+                        refrigeratorSlots[i].AddItem(_item, 20);
+                        _count -= 20; // 초과분 저장
+                    }
+                }
+            }
+
+            // 3. 아이템을 모두 추가하지 못한 경우
+            if (_count > 0)
+            {
+                Debug.LogWarning("Not enough inventory space for all items.");
+            }
         }
     }
-    
-    public void SlotUpate() {
-        foreach(Ingredient ingredient in IngredientManager.IngredientAmount.Keys.ToList()) {
-             IngredientManager.IngredientAmount[ingredient] = 0;
+
+    public void SlotUpate()
+    {
+        foreach (Ingredient ingredient in IngredientManager.IngredientAmount.Keys.ToList())
+        {
+            IngredientManager.IngredientAmount[ingredient] = 0;
         }
 
-        foreach (RefrigeratorSlot slot in refrigeratorSlots) {
-            if(slot.item != null) {
+        foreach (RefrigeratorSlot slot in refrigeratorSlots)
+        {
+            if (slot.item != null)
+            {
                 string ingredient = slot.item.itemName;
                 int ingredientAmount = slot.itemCount;
                 Ingredient currentIngredient = IngredientManager.instance.FindIngredient(ingredient);
@@ -65,18 +97,24 @@ public class RefrigeratorInventory : Inventory
         }
     }
 
-    public void UseIngredient(Ingredient currentIngredient, int count) {
+    public void UseIngredient(Ingredient currentIngredient, int count)
+    {
         int currentCount = count;
-        foreach (RefrigeratorSlot slot in refrigeratorSlots) {
-            if(slot.item != null) {
-                if(slot.currentIngredient == currentIngredient) {
-                    if(slot.itemCount < currentCount) {
+        foreach (RefrigeratorSlot slot in refrigeratorSlots)
+        {
+            if (slot.item != null)
+            {
+                if (slot.currentIngredient == currentIngredient)
+                {
+                    if (slot.itemCount < currentCount)
+                    {
                         currentCount -= slot.itemCount;
                         slot.UseItem(slot.itemCount);
                     }
-                    else {
+                    else
+                    {
                         slot.UseItem(currentCount);
-                        if(IngredientManager.IngredientAmount[currentIngredient] <= 0) items.Add(slot.previousItem);
+                        if (IngredientManager.IngredientAmount[currentIngredient] <= 0) items.Add(slot.previousItem);
                         return;
                     }
                 }
@@ -84,18 +122,39 @@ public class RefrigeratorInventory : Inventory
         }
     }
 
-    public void RecallIngredient(Ingredient currentIngredient, int Count) {
-        foreach (RefrigeratorSlot slot in refrigeratorSlots) {
-            if(slot.currentIngredient == currentIngredient) {
+    public void AddIngredient(Ingredient currentIngredient, int Count)
+    {
+        foreach (RefrigeratorSlot slot in refrigeratorSlots)
+        {
+            if (slot.currentIngredient == null)
+            {
                 slot.RecallItem(Count);
                 return;
             }
         }
 
-        foreach(Item item in items) {
-            if(item.itemName == currentIngredient.ingredientName) {
-                foreach(RefrigeratorSlot slot in refrigeratorSlots) {
-                    if(slot.item == null) {
+    }
+
+    //Recall Ingredient From DailyMenuSystem
+    public void RecallIngredient(Ingredient currentIngredient, int Count)
+    {
+        foreach (RefrigeratorSlot slot in refrigeratorSlots)
+        {
+            if (slot.currentIngredient == currentIngredient)
+            {
+                slot.RecallItem(Count);
+                return;
+            }
+        }
+
+        foreach (Item item in items)
+        {
+            if (item.itemName == currentIngredient.ingredientName)
+            {
+                foreach (RefrigeratorSlot slot in refrigeratorSlots)
+                {
+                    if (slot.item == null)
+                    {
                         slot.previousItem = item;
                         slot.RecallItem(Count);
                         items.Remove(item);
@@ -104,6 +163,7 @@ public class RefrigeratorInventory : Inventory
                 }
             }
         }
+
 
 
     }

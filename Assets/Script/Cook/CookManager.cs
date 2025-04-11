@@ -19,6 +19,13 @@ public class CookManager : MonoBehaviour
     [NonSerialized] public Transform spawnPoint;
     [NonSerialized] public Recipe currentMenu;
     [SerializeField] public Recipe failMenu;
+    [SerializeField] public GameObject TimerObject;
+    [SerializeField] [Range(1f, 100f)] public float tiltSauceContainerAcceleration;
+    [SerializeField] [Range(1f, 100f)] public float SauceAcceleration;
+    [SerializeField] [Range(1f, 100f)] public float SlideAcceleration;
+    
+    public enum CookMode {Select, Make};
+    [NonSerialized] public CookMode cookMode;
 
     void Awake()
     {
@@ -82,7 +89,7 @@ public class CookManager : MonoBehaviour
     public void InteractPotObject()
     {
         const string potSceneName = "PotMergeTest";
-
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         if (CookSceneManager.instance.IsSceneLoaded(potSceneName))
         {
             potManager.OpenSceneView();
@@ -118,18 +125,18 @@ public class CookManager : MonoBehaviour
 
     public void DropObject(GameObject ingredientObject, Ingredient ingredient)
     {
-        switch (ingredient.ingredientCookType)
+        switch (currentCookType)
         {
-            case IngredientCookType.Cutting:
+            case CookType.Cutting:
                 cuttingManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Frying:
+            case CookType.Frying:
                 fryingPanManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Tossing:
+            case CookType.Tossing:
                 wokManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Boiling:
+            case CookType.Boiling:
                 potManager.AddIngredient(ingredientObject, ingredient);
                 break;
 

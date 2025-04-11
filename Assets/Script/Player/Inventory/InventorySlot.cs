@@ -24,6 +24,10 @@ public class InventorySlot : Slot
             }
         }
     }
+    public override void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
+    {
+
+    }
 
     public override void ClearSlot()
     {
