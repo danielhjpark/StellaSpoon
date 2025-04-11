@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldTimeManager : MonoBehaviour
@@ -14,6 +15,7 @@ public class WorldTimeManager : MonoBehaviour
 
     private void Update()
     {
+        if(PlanetManager.Instance.GetSelectedPlanet() == PlanetManager.PlanetType.RestaurantTest) return;
         float gameHour = gameTimeManager.gameHours + (gameTimeManager.gameMinutes / 60.0f);
         SunUpdate(gameHour);
     }

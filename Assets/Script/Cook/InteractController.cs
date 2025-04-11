@@ -4,6 +4,7 @@ using Cinemachine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractController : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class InteractController : MonoBehaviour
     [SerializeField] private LayerMask utensilLayer;
     [SerializeField] private LayerMask menuLayer;
     [SerializeField] private LayerMask NPCLayerMask;
-    [SerializeField] private LayerMask GarbageCanLayerMask;
 
     [Header("UI Object")]
     [SerializeField] private GameObject InteractPanel;
@@ -35,6 +35,21 @@ public class InteractController : MonoBehaviour
         playerTransfom = GameObject.FindGameObjectWithTag("Player").transform;
         this.transform.SetParent(playerTransfom);
         playerFollowCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+    private void OnSceneUnloaded(Scene current)
+    {
+        if(current.name == "RestaurantTest")
+            Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -83,16 +98,6 @@ public class InteractController : MonoBehaviour
                 serveSystem.PickUpMenu(hitInfo.transform.gameObject);
             }
 
-        }
-        else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, GarbageCanLayerMask))
-        {
-            ChangeActionText("GarbageCan");
-            actionText.gameObject.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                serveSystem.ThrowOutMenu();
-                //Sound 추가 필요 쓰레기통에 넣는 소리
-            }
         }
         else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, NPCLayerMask))
         {

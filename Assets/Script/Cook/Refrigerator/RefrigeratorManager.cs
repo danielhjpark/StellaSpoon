@@ -16,12 +16,13 @@ public class RefrigeratorManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             if (instance != this) Destroy(this.gameObject);
         }
+        refrigeratorObject = GameObject.Find("RefrigeratorBase");
+        refrigeratorInventory = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)").GetComponent<RefrigeratorInventory>();
     }
 
     void Start()

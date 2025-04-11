@@ -10,10 +10,13 @@ public class Refrigerator : MonoBehaviour
     bool isPlayerNearby;
     bool isOpenedRefrigerator;
 
-    void Start()
+    void Start() 
     {
         isPlayerNearby = false;
         isOpenedRefrigerator = false;
+        refrigeratorUI = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)").transform.GetChild(0).gameObject;
+        inventoryUI = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(1).gameObject;
+        
     }
 
     private void Update()

@@ -10,7 +10,7 @@ public class NpcManager : MonoBehaviour
 {
     public static NpcManager instance;
     public int totalGold;
-    [SerializeField] TextMeshProUGUI totalGoldText;
+    TextMeshProUGUI totalGoldText;
 
     //----------------Seat variable ---------------------//
     public Transform[] sitpositions = new Transform[4]; //ÀÇÀÚ ÁÂÇ¥
@@ -24,6 +24,7 @@ public class NpcManager : MonoBehaviour
 
     private void Awake() {
         npcSpawnpoint = spawnPoint.transform.position;
+        totalGoldText = GameObject.Find("GoldUI").GetComponent<TextMeshProUGUI>();
         instance = this;
     }
     
