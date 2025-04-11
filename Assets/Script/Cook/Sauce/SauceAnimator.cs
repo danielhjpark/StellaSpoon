@@ -27,7 +27,7 @@ public class SauceAnimator : MonoBehaviour
     public IEnumerator TiltSauceContainer() {
         float t = 0;
         while(true) {
-            t += Time.deltaTime;
+            t += Time.deltaTime * CookManager.instance.tiltSauceContainerAcceleration;
             if(Vector3.Distance(sauceContainer.transform.localEulerAngles, endRotation) < 2) break;
             sauceContainer.transform.localEulerAngles = Vector3.Lerp(startRotation, endRotation, t);
             yield return null;
@@ -36,7 +36,7 @@ public class SauceAnimator : MonoBehaviour
     }
 
     IEnumerator AddSauce() {
-        float increaseLevelValue = 0.005f;
+        float increaseLevelValue = 0.005f * CookManager.instance.SauceAcceleration;
         
         while(true) {
             if(flowSauce.level >= 0.95f) break;

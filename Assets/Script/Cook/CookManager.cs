@@ -20,9 +20,12 @@ public class CookManager : MonoBehaviour
     [NonSerialized] public Recipe currentMenu;
     [SerializeField] public Recipe failMenu;
     [SerializeField] public GameObject TimerObject;
+    [SerializeField] [Range(1f, 100f)] public float tiltSauceContainerAcceleration;
+    [SerializeField] [Range(1f, 100f)] public float SauceAcceleration;
+    [SerializeField] [Range(1f, 100f)] public float SlideAcceleration;
     
     public enum CookMode {Select, Make};
-    public CookMode cookMode;
+    [NonSerialized] public CookMode cookMode;
 
     void Awake()
     {

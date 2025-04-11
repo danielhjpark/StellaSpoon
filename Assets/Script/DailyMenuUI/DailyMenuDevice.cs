@@ -20,10 +20,10 @@ public class DailyMenuDevice : MonoBehaviour
         {
             OpenDailyMenuUI();
         }
-        if (DailyMenuUI.activeSelf && Input.GetKeyDown(KeyCode.Escape)) //UI가 열려있고 esc 눌렀을 때
-        {
-            CloseDailyMenuUI();
-        }
+        // if (DailyMenuUI.activeSelf && Input.GetKeyDown(KeyCode.Escape)) //UI가 열려있고 esc 눌렀을 때
+        // {
+        //     CloseDailyMenuUI();
+        // }
     }
     private void OpenDailyMenuUI() //UI출력
     {
@@ -34,7 +34,7 @@ public class DailyMenuDevice : MonoBehaviour
         DailyMenuUI.SetActive(true);
         UIManager.instance.HideInteractUI();
     }
-    private void CloseDailyMenuUI() //UI 닫기
+    public void CloseDailyMenuUI() //UI 닫기
     {
         isOpenedDevice = false;
         Cursor.lockState -= CursorLockMode.Locked;

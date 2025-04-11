@@ -58,7 +58,7 @@ public class FryingPanUI : MonoBehaviour
     {
         float startPos = 0;
         float endPos = FullLength;
-        float Speed = 0.1f;
+        float Speed =  0.1f * CookManager.instance.SlideAcceleration;
         isEnd = false;
 
         while (true)
