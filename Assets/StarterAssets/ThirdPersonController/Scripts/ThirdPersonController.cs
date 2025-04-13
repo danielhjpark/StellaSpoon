@@ -477,7 +477,7 @@ namespace StarterAssets
         private void JumpAndGravity()
         {
 
-            if (isDodge || playerManager.isRestaurant) return; // 닷지 중일 때는 점프 불가
+            if (isDodge) return; // 닷지 중일 때는 점프 불가
 
             if (Grounded)
             {
@@ -496,6 +496,8 @@ namespace StarterAssets
 
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
+                    if (playerManager.isRestaurant) return;
+
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
                     AudioSource.PlayClipAtPoint(Jump_SFX, transform.position + Vector3.up * 0.1f, FootstepAudioVolume);
