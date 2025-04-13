@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using cakeslice;
 using UnityEngine;
 
 public class PotUI : MonoBehaviour
 {
     [SerializeField] cakeslice.OutlineEffect outlineEffect;
+    [SerializeField] cakeslice.OutlineAnimation outlineAnimation;
     [SerializeField] GameObject lidButton;
     [SerializeField] GameObject potTimer;
     GameObject mainTimer;
@@ -63,5 +65,6 @@ public class PotUI : MonoBehaviour
     public void HideLidButton() {
         lidButton.SetActive(false);
         Destroy(outlineEffect);
+        Destroy(outlineAnimation);
     }
 }

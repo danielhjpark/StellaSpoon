@@ -6,7 +6,8 @@ public class Refrigerator : MonoBehaviour
 {
     [SerializeField] private GameObject refrigeratorUI; //보물상자 UI
     [SerializeField] private GameObject inventoryUI; //인벤토리 UI
-    [SerializeField] private GameObject CloseButton;
+    [SerializeField] private GameObject inventoryBG;
+    //[SerializeField] private GameObject CloseButton;
     bool isPlayerNearby;
     bool isOpenedRefrigerator;
 
@@ -39,7 +40,8 @@ public class Refrigerator : MonoBehaviour
 
         refrigeratorUI.SetActive(true);
         inventoryUI.SetActive(true);
-        CloseButton.SetActive(false);
+        inventoryBG.SetActive(true);
+        //CloseButton.SetActive(false);
         UIManager.instance.HideInteractUI();
         
         Inventory.inventoryActivated = true;
@@ -52,7 +54,8 @@ public class Refrigerator : MonoBehaviour
 
         refrigeratorUI.SetActive(false);
         inventoryUI.SetActive(false);
-        CloseButton.SetActive(true);
+        inventoryBG.SetActive(false);
+        //CloseButton.SetActive(true);
         
         Inventory.inventoryActivated = false;
     }
