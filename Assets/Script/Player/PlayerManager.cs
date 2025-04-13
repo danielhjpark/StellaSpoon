@@ -60,6 +60,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Material specialMaterial;
 
+
+    [SerializeField]
+    private AudioClip Reload_SFX; // 재장전 소리
+
     private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
     public bool isRestaurant;
 
@@ -146,6 +150,8 @@ public class PlayerManager : MonoBehaviour
             SetRigWeight(0);
             anim.SetLayerWeight(2, 1);
             anim.SetTrigger("Reload");
+            // 재장전 소리
+            AudioSource.PlayClipAtPoint(Reload_SFX, transform.position, controller.FootstepAudioVolume);
             controller.isReload = true;
         }
 

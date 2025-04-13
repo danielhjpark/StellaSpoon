@@ -155,6 +155,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         else
         {
             DragSlot.instance.SetColor(0);
+            DragSlot.instance.gameObject.SetActive(false); // 여기 추가
             DragSlot.instance.dragSlot = null;
         }
     }

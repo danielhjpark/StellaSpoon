@@ -40155,6 +40155,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 491427282122228136, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Reload_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 8df37aa387eb4704e964de9227df9abf, type: 3}
+    - target: {fileID: 491427282122228136, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: normalMesh
       value: 
       objectReference: {fileID: 1413232140447212815, guid: 708918bc062d9c74d9904c4f4ae7149f, type: 3}
@@ -40295,6 +40299,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1723150443}
     - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Hit_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 0458fc76515bb914285d9e53e36799a8, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Jump_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 793d24cf0af63964e8d8952dfaebc760, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: uiCanvas
       value: 
       objectReference: {fileID: 587927070}
@@ -40303,13 +40315,45 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Rolling_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b144febaa7604c44a0bd1c002217898, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: dodgeDistance
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: LandingAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 08b1b356b53c61a4c8de601f0e2fd0bd, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: minDodgeDistance
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Glass_Footstep_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 372d7a47221397046ab86aef29536867, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: FootstepAudioVolume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Planet_Footstep_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: dd64b0c79b0e421469867b4f9bac4cf9, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Restaurant_Footstep_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: db33ca75e3bb222459eb72cf9fee30f0, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: FootstepAudioClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: FootstepAudioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: dd64b0c79b0e421469867b4f9bac4cf9, type: 3}
     - target: {fileID: 3849661969135170442, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -74292,6 +74336,7 @@ MonoBehaviour:
   specialMesh: {fileID: 0}
   normalMaterial: {fileID: 0}
   specialMaterial: {fileID: 0}
+  Reload_SFX: {fileID: 0}
   isRestaurant: 1
 --- !u!114 &1806817261
 MonoBehaviour:
@@ -74371,7 +74416,6 @@ MonoBehaviour:
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
   LandingAudioClip: {fileID: 0}
-  FootstepAudioClips: []
   FootstepAudioVolume: 0.5
   JumpHeight: 1.2
   Gravity: -15
@@ -74398,6 +74442,12 @@ MonoBehaviour:
   uiCanvas: {fileID: 0}
   dodgeDistance: 7
   minDodgeDistance: 7
+  Restaurant_Footstep_SFX: {fileID: 0}
+  Planet_Footstep_SFX: {fileID: 0}
+  Glass_Footstep_SFX: {fileID: 0}
+  Jump_SFX: {fileID: 0}
+  Rolling_SFX: {fileID: 0}
+  Hit_SFX: {fileID: 0}
   isAiming: 0
   isReload: 0
 --- !u!114 &1806817265
@@ -84531,6 +84581,7 @@ MonoBehaviour:
   actionText: {fileID: 1279722453}
   characterTransform: {fileID: 951550095}
   theInventory: {fileID: 699972638}
+  Item_PickUp_SFX: {fileID: 8300000, guid: df7670e1a4581cf4aa67981315928e07, type: 3}
 --- !u!114 &2102185444
 MonoBehaviour:
   m_ObjectHideFlags: 0

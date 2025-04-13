@@ -17,6 +17,9 @@ public class BulletManager : MonoBehaviour
     [SerializeField]
     private GameObject hitEffectPrefab; // 충돌 시 생성할 파티클 프리팹
 
+    [SerializeField]
+    private AudioClip[] hitSFXClips; // 충돌 시 재생할 오디오 클립들
+
     void Start()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
@@ -63,6 +66,12 @@ public class BulletManager : MonoBehaviour
         if (hitEffectPrefab != null)
         {
             Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+        }
+
+        if (hitSFXClips != null && hitSFXClips.Length > 0)
+        {
+            int index = Random.Range(0, hitSFXClips.Length);
+            AudioSource.PlayClipAtPoint(hitSFXClips[index], transform.position, 1f);
         }
 
         DestroyBullet();
