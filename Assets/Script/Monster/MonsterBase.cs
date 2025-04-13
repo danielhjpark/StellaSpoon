@@ -403,7 +403,7 @@ public abstract class MonsterBase : MonoBehaviour
                 }
                 if (itemToDrop != null)
                 {
-                    Vector3 dropPosition = transform.position + new Vector3(0f, 1f, 0f);
+                    Vector3 dropPosition = transform.position + new Vector3(0f, 2f, 0f);
                     GameObject droppedItem = Instantiate(itemToDrop, dropPosition, Quaternion.identity);
                     droppedItems.Add(droppedItem);
                     // 현재 드랍된 아이템과 이전에 드랍된 아이템들 사이의 충돌 무시
