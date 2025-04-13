@@ -10,6 +10,7 @@ public class FryingPanManager : CookManagerBase
     private FryingSystem fryingSystem;
     private FryingSauceSystem fryingSauceSystem;
     private FryingIngredientSystem fryingIngredientSystem;
+    private FryingPanAudioSystem fryingPanAudioSystem;
 
     [Header("UI Object")]
     [SerializeField] FryingPanUI fryingPanUI;
@@ -32,6 +33,7 @@ public class FryingPanManager : CookManagerBase
         fryingSystem = GetComponent<FryingSystem>();
         fryingSauceSystem = GetComponent<FryingSauceSystem>();
         fryingIngredientSystem = GetComponent<FryingIngredientSystem>();
+        fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
 
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
@@ -178,6 +180,7 @@ public class FryingPanManager : CookManagerBase
             successCount += callbackValue;
         }
         ));
+        //fryingPanAudioSystem.StopAudioSource(FryingPanAudioSystem.AudioType.Frying);
     }
 
     IEnumerator AddSauce()

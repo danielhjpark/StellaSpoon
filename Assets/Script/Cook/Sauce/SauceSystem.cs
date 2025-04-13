@@ -10,9 +10,13 @@ public class SauceSystem : MonoBehaviour
     [SerializeField, Range(0f, 1f)] protected float minRange;
 
     public SauceType sauceType;
-
     protected bool isCanFillLiquid;
     protected bool isLiquidFilled;
+
+    public void Start()
+    {
+        
+    }
 
     public void SetSauceColor(SauceType sauceType)
     {

@@ -7,8 +7,11 @@ using UnityEngine;
 public class PotSauceSystem : SauceSystem
 {
     [SerializeField] SauceController sauceController;
+    PotAudioSystem potAudioSystem;
+
     void Start()
     {
+        potAudioSystem = GetComponent<PotAudioSystem>();
         isLiquidFilled = false;
         isCanFillLiquid = false;
         liquidVolume.level = 0;
@@ -61,6 +64,7 @@ public class PotSauceSystem : SauceSystem
 
     public override IEnumerator StartLiquidLevel()
     {
+        potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.PouringSauce);
         SetTargetColor();
         targetColor1.a = 0;
         targetColor2.a = 0;
@@ -82,6 +86,8 @@ public class PotSauceSystem : SauceSystem
             }
             yield return new WaitForSeconds(0.01f);
         }
+        potAudioSystem.StopAudioSource(PotAudioSystem.AudioType.PouringSauce);
     }
+    
 
 }

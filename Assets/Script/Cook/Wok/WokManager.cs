@@ -7,6 +7,9 @@ using System.Linq;
 
 public class WokManager : CookManagerBase
 {
+    [Header("Audio")]
+    [SerializeField] WokAudioSystem wokAudioSystem;
+
     [Header("UI Objects")]
     [SerializeField] WokUI wokUI;
     [SerializeField] CookUIManager cookUIManager;
@@ -51,7 +54,7 @@ public class WokManager : CookManagerBase
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && isCanEscape)
         {
             CookSceneManager.instance.UnloadScene();
         }
@@ -61,6 +64,7 @@ public class WokManager : CookManagerBase
 
     public override IEnumerator UseCookingStep()
     {
+        isCanEscape = false;
         yield return StartCoroutine(AddMainIngredient());//Main ingredient add
         if(firstTossingCount > 0) yield return StartCoroutine(InherentMotion(firstTossingCount));
         yield return StartCoroutine(AddSubIngredient());//Sub ingredient add

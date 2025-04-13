@@ -7,14 +7,16 @@ using UnityEngine;
 public class WokSauceSystem : SauceSystem
 {
     [SerializeField] SauceController sauceController;
-    private WaitForSeconds sauceDelay = new WaitForSeconds(0.01f);
+    private WokAudioSystem wokAudioSystem;
 
+    private WaitForSeconds sauceDelay = new WaitForSeconds(0.01f);
     private float totalLevel;
     private float currentLevel;
     private float levelValue;
 
     void Start()
     {
+        wokAudioSystem = GetComponent<WokAudioSystem>();
         isLiquidFilled = false;
         isCanFillLiquid = false;
     }
@@ -61,6 +63,13 @@ public class WokSauceSystem : SauceSystem
 
             yield return sauceDelay;
         }
+    }
+
+    public override IEnumerator StartLiquidLevel()
+    {
+        wokAudioSystem.StartAudioSource(WokAudioSystem.AudioType.PouringSauce);
+        yield return base.StartLiquidLevel();
+        wokAudioSystem.StopAudioSource();
     }
 
 }
