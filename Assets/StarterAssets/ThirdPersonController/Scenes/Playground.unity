@@ -3769,10 +3769,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1971355958}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: bulletObj
-      value: 
-      objectReference: {fileID: 5341742223406746680, guid: 9c3cddd6060b7cc4eadfb9cefcf6e7db, type: 3}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: bulletText
       value: 
       objectReference: {fileID: 1678531325}
@@ -3785,14 +3781,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1691979287}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: maxShootDelay
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: weaponFlashFX
-      value: 
-      objectReference: {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: bulletCasePoint
       value: 
       objectReference: {fileID: 552271771}
@@ -3800,22 +3788,10 @@ PrefabInstance:
       propertyPath: weaponClipPoint
       value: 
       objectReference: {fileID: 600941498}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: currentShootDelay
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 1165363847365910181, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: mapPanel
       value: 
       objectReference: {fileID: 2135363620}
-    - target: {fileID: 1327305437507862637, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: prefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 5912344974454636654, guid: 83f8c9cbe221fca4eaae68c50efd83d3, type: 3}
-    - target: {fileID: 1327305437507862637, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: prefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
     - target: {fileID: 1879202760949625833, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: uiButtons.Array.data[0].button
       value: 
@@ -3903,14 +3879,6 @@ PrefabInstance:
     - target: {fileID: 2427601303184606270, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3276584570704568472, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3276584570704568472, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3928233092353660124, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: m_Name
@@ -4000,10 +3968,6 @@ PrefabInstance:
       propertyPath: inventorySlots.Array.data[19]
       value: 
       objectReference: {fileID: 1175626039}
-    - target: {fileID: 5121139120154519981, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7104655076725965515, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: uiPanel
       value: 
@@ -22979,6 +22943,7 @@ MonoBehaviour:
   actionText: {fileID: 1530658661}
   characterTransform: {fileID: 543450653195365010}
   theInventory: {fileID: 1093855651}
+  Item_PickUp_SFX: {fileID: 0}
 --- !u!1 &1221641216
 GameObject:
   m_ObjectHideFlags: 0
@@ -43146,6 +43111,18 @@ PrefabInstance:
       propertyPath: minDodgeDistance
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Glass_Footstep_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 372d7a47221397046ab86aef29536867, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Planet_Footstep_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: dd64b0c79b0e421469867b4f9bac4cf9, type: 3}
+    - target: {fileID: 3546177185825545139, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
+      propertyPath: Restaurant_Footstep_SFX
+      value: 
+      objectReference: {fileID: 8300000, guid: db33ca75e3bb222459eb72cf9fee30f0, type: 3}
     - target: {fileID: 3849661969135170442, guid: 8a8e8d3fffadf914fb26086026074a9c, type: 3}
       propertyPath: m_IsActive
       value: 0

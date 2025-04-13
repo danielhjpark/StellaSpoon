@@ -16,15 +16,15 @@ public class WokTossingSystem : MonoBehaviour
     [Header("Wok System")]
     [SerializeField] WokSauceSystem wokSauceSystem;
     [SerializeField] WokIngredientSystem wokIngredientSystem;
+    private WokAudioSystem wokAudioSystem;
 
     private List<GameObject> wokIngredients = new List<GameObject>();
-
     private int successTossingCount;
     private bool isTossing = false;
 
-
     void Start() {
         wokIngredientSystem = GetComponent<WokIngredientSystem>();
+        wokAudioSystem = GetComponent<WokAudioSystem>();
         wokUI.OnWokSystem += CheckTossing;   
     }
 
@@ -35,6 +35,7 @@ public class WokTossingSystem : MonoBehaviour
     }
 
     public IEnumerator WokTossing(int tossingCount, System.Action<int> callback) {
+        
         if(tossingCount <= 0) {
             callback(successTossingCount);
             yield break;
@@ -46,7 +47,7 @@ public class WokTossingSystem : MonoBehaviour
         bool isUseSauce = false;
 
         Coroutine wokUIMark = StartCoroutine(wokUI.MoveMark());
-
+        wokAudioSystem.StartAudioSource(WokAudioSystem.AudioType.WokDefault);
         while(true) {
             if(wokTimeLine.time >= wokTimeLine.duration) break;
             else if(wokUI.IsCheckEnd()) break;
@@ -56,6 +57,7 @@ public class WokTossingSystem : MonoBehaviour
                     isStartTimeLine = true;
                     successTossingCount++;
                     wokTimeLine.Play();
+                    wokAudioSystem.StartAudioSource(WokAudioSystem.AudioType.WokTossing);
                     AddForceForwardIngredient();
                     StopCoroutine(wokUIMark);
                 }

@@ -13,7 +13,7 @@ public class CuttingMotionSystem : MonoBehaviour
 
     private CuttingObjectSystem cuttingObjectSystem;
     private CuttingLineSystem cuttingLine;
-
+    private CuttingAudioSystem cuttingAudioSystem;
 
     [Header("Objects Setting ")]
     [SerializeField] Transform dropPos;
@@ -43,6 +43,7 @@ public class CuttingMotionSystem : MonoBehaviour
     void Start()
     {
         cuttingObjectSystem = GetComponent<CuttingObjectSystem>();
+        cuttingAudioSystem = GetComponent<CuttingAudioSystem>();
     }
 
     public void Initialize(GameObject targetObject, List<GameObject> cuttingLines, CuttingSetting cuttingSetting)
@@ -196,7 +197,7 @@ public class CuttingMotionSystem : MonoBehaviour
         knifeObject.SetActive(true);
         isCutting = true;
         Renderer cuttingLineRenderer = cuttingLine.GetComponent<Renderer>();
-
+        cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.KnifeMotion);
         Vector3 max = cuttingLineRenderer.bounds.max;
         Vector3 min = cuttingLineRenderer.bounds.min;
 

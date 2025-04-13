@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Linq;
 public class FryingIngredientSystem : MonoBehaviour
 {
+    private FryingPanAudioSystem fryingPanAudioSystem;
+
     [Header("Set Objects")]
     [SerializeField] private Transform dropPos;
     [SerializeField] private Transform dropPos2;
@@ -12,6 +14,11 @@ public class FryingIngredientSystem : MonoBehaviour
     public GameObject fryingMainIngredient;
     public List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
     //---------------------------------------//
+
+    private void Start()
+    {
+        fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
+    }
 
     public IEnumerator DropIngredient()
     {
@@ -31,6 +38,7 @@ public class FryingIngredientSystem : MonoBehaviour
             if (fryingMainIngredient.transform.localPosition.y <= 0f) break;
             yield return null;
         }
+        fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
     }
 
     public void AddMainIngredient(GameObject ingredients, Ingredient ingredient)
