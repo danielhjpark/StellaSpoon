@@ -28,7 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2427601303184606270}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 5341742223406746680, guid: 9c3cddd6060b7cc4eadfb9cefcf6e7db, type: 3}
-  - {fileID: 5676534307023899356, guid: 72311095530d9bd418b9f6c48492c5a8, type: 3}
+  - {fileID: 5912344974454636654, guid: 83f8c9cbe221fca4eaae68c50efd83d3, type: 3}
+  - {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
   - {fileID: 8772931668020583075, guid: 757de962d5415194f8d8b2d9b70f5640, type: 3}
   - {fileID: 8772931668020583075, guid: 4a3bb0f143fa41a4ea9a5cdc04c0af02, type: 3}
 --- !u!1 &3928233092353660124
@@ -476,6 +476,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponFlashFX
+      value: 
+      objectReference: {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
     - target: {fileID: 6165023548225774215, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: m_Name
       value: RifleManager
@@ -502,6 +506,14 @@ PrefabInstance:
       propertyPath: gameTimeManager
       value: 
       objectReference: {fileID: 2185751556979520884}
+    - target: {fileID: 6415672097843985991, guid: e950ad5ca405bca41b718fc834e04b24, type: 3}
+      propertyPath: skyboxes.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20d4f77b9022eab48b4d94599ed4bf82, type: 2}
+    - target: {fileID: 6415672097843985991, guid: e950ad5ca405bca41b718fc834e04b24, type: 3}
+      propertyPath: skyboxes.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: c52c5d7968fa6c9499b0b5752f899bfb, type: 2}
     - target: {fileID: 8567602683902921727, guid: e950ad5ca405bca41b718fc834e04b24, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
