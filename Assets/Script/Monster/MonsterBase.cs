@@ -102,7 +102,14 @@ public abstract class MonsterBase : MonoBehaviour
 
                     if (distanceToPlayer <= attackRange)
                     {
-                        nav.ResetPath();
+                        if(this is BearKingMonster && !BearKingMonster.isJumping)
+                        {
+                            nav.ResetPath();
+                        }
+                        else
+                        {
+                            nav.ResetPath();
+                        }
                         inAttackRange = true;
                         currentState = MonsterStates.Attack;
                     }
@@ -244,8 +251,13 @@ public abstract class MonsterBase : MonoBehaviour
     }
     protected virtual void HandleDeath()
     {
-        animator.SetBool("Walk", false);
-
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(param.name, false);
+            }
+        }
         Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
         currentHealth = 0;
         //애니메이션 죽음 실행

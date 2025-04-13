@@ -28,7 +28,7 @@ public class BearKingMonster : MonsterBase
 
     private bool isCharging = false;
     public static bool isChargeSetting = false; //돌진 준비 완료 여부
-    public bool isJumping = false;
+    public static bool isJumping = false;
 
 
     [SerializeField]
