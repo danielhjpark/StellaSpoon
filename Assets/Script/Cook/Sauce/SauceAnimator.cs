@@ -10,7 +10,7 @@ public class SauceAnimator : MonoBehaviour
     [SerializeField] GameObject sauceContainer;
     [SerializeField] SauceSystem flowSauceSystem;
     [SerializeField] SauceSystem bottomSauceSystem;
-    
+    [SerializeField] AudioClip pouringSauceAudio;
     LiquidVolume flowSauce;
     Vector3 startRotation = new Vector3(0, 0, 0);
     Vector3 endRotation = new Vector3(0, 0, 105f);
@@ -60,7 +60,7 @@ public class SauceAnimator : MonoBehaviour
                 
                 break;    
             }
-            t += Time.deltaTime;
+            t += Time.deltaTime * CookManager.instance.tiltSauceContainerAcceleration;
             sauceContainer.transform.localEulerAngles = Vector3.Lerp(endRotation , startRotation, t);
             yield return null;
         }

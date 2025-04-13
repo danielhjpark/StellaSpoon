@@ -21,11 +21,11 @@ public class IngredientInventory : MonoBehaviour
 
 
     void CreateIngredientSlot(Ingredient ingredient, int ingredientCount) {
-            GameObject ingredientslot = Instantiate(ingredientSlotPrefab);
-            ingredientslot.transform.SetParent(ingredientSlotParent.transform);
-            ingredientslot.GetComponent<IngredientSlot>().refrigeratorInventory = refrigeratorInventory;
-            ingredientslot.GetComponent<IngredientSlot>().BindingIngredient(ingredient);
-            ingredientslot.GetComponent<IngredientSlot>().itemCount = ingredientCount;
+        GameObject ingredientslot = Instantiate(ingredientSlotPrefab);
+        ingredientslot.transform.SetParent(ingredientSlotParent.transform);
+        ingredientslot.GetComponent<IngredientSlot>().refrigeratorInventory = refrigeratorInventory;
+        ingredientslot.GetComponent<IngredientSlot>().BindingIngredient(ingredient);
+        ingredientslot.GetComponent<IngredientSlot>().itemCount = ingredientCount;
         
     }
 

@@ -7,6 +7,7 @@ using System.Linq;
 public class FryingSystem : MonoBehaviour
 {
     private FryingSauceSystem fryingSauceSystem;
+    private FryingPanAudioSystem fryingPanAudioSystem;
 
     [Header("TimeLine")]
     [SerializeField] PlayableDirector timeline;
@@ -36,6 +37,7 @@ public class FryingSystem : MonoBehaviour
     public void Initialize(GameObject mainIngredient, FryingSetting fryingSetting)
     {
         fryingSauceSystem = GetComponent<FryingSauceSystem>();
+        fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
         currentFryingStep = fryingSetting.fryingStep;
 
         this.mainIngredient = mainIngredient;
@@ -108,7 +110,13 @@ public class FryingSystem : MonoBehaviour
         while (true)
         {
             SetActiveTongs();
-            // Check Timeline End
+            //Check Timeline End
+            if(timeline.state == PlayState.Playing) {
+                fryingPanAudioSystem.PauseAudioSource(FryingPanAudioSystem.AudioType.Frying);
+            }
+            else {
+                fryingPanAudioSystem.UnPauseAudioSource(FryingPanAudioSystem.AudioType.Frying);
+            }
             if (isHalf && timeline.time >= timeline.duration)
             {
                 isHalf = false;
