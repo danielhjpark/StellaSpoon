@@ -124,14 +124,16 @@ public class PlayerManager : MonoBehaviour
         {
             InventoryManager.instance.isWeaponRifle = false;
             EquipRifleCheck();
+            return;
         }
         else // 나중에 무기를 변경할 때 조건을 추가해서 넣기. 안그러면 false를 한번 해도 계속 true로 바뀜
         {
             InventoryManager.instance.isWeaponRifle = true;
             EquipRifleCheck();
         }
-        AimCheck();
+
         CheckJumpOrDodge();
+        AimCheck();
     }
 
     private void AimCheck()
