@@ -27,19 +27,19 @@ public class CuttingMotionSystem : MonoBehaviour
     [SerializeField] GameObject sliceUI;
     [SerializeField] GameObject rotateUI;
 
-    [Header("Mode Setting")]
-    public CuttingMode cuttingMode;
-    public int horizontalCount; // 원하는 분할 개수
-    public int verticalCount;
-
     [Header("Motion Speed Setting")]
     [SerializeField] float knifeSpeed;
     [SerializeField] float rotateSpeed;
 
-    bool isCutting = false;
-    GameObject targetObject;
-    List<GameObject> cuttingLines;
-    Material surfaceMaterial;
+
+    private GameObject targetObject;
+    private List<GameObject> cuttingLines;
+    private Material surfaceMaterial;
+
+    private bool isCutting = false;
+    private int horizontalCount; // 원하는 분할 개수
+    private int verticalCount;
+
     void Start()
     {
         cuttingObjectSystem = GetComponent<CuttingObjectSystem>();
@@ -114,7 +114,7 @@ public class CuttingMotionSystem : MonoBehaviour
         foreach (GameObject sliceObject in sliceAllObjects)
         {
             //sliceObject.transform.SetParent(rotateObject.transform);
-            
+
             List<GameObject> sliceVerticals = cuttingObjectSystem.SliceVertical(sliceObject, verticalCount, surfaceMaterial);
             foreach (GameObject sliceVertical in sliceVerticals)
             {
@@ -131,7 +131,7 @@ public class CuttingMotionSystem : MonoBehaviour
         bool isRot = false;
         rotateUI.SetActive(true);
         sliceUI.SetActive(false);
-        
+
         Quaternion startRot = Quaternion.Euler(-90, 0, 0);
         Quaternion endRot = Quaternion.Euler(-90, 0, 90);
         while (true)
@@ -159,7 +159,7 @@ public class CuttingMotionSystem : MonoBehaviour
         //CreateCuttingLine(verticalCount);
         sliceCount = verticalCount;
         currentCount = 0;
-       // cuttingLines = cuttingLine.cuttingLines;
+        // cuttingLines = cuttingLine.cuttingLines;
 
         while (currentCount < sliceCount)
         {

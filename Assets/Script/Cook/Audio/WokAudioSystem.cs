@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class WokAudioSystem : MonoBehaviour
+public class WokAudioSystem : CookAudioSystem<WokAudioSystem.AudioType>
 {
     [Header("Wok Frying Sound")]
     [SerializeField] AudioSource wokDefaultAudio;
@@ -12,48 +13,35 @@ public class WokAudioSystem : MonoBehaviour
     [SerializeField] AudioSource pouringSauceAudio;
 
     [Header("UI")]
-    [SerializeField] AudioClip InherentMotionClickAudio;
-    [SerializeField] AudioClip FireSlideMoveAudio;
+    [SerializeField] AudioSource InherentMotionClickAudio;
+    [SerializeField] AudioSource FireSlideMoveAudio;
 
-    [SerializeField]AudioSource audioSource;
-
-    public enum AudioType {
-        WokDefault, WokTossing, 
+    public enum AudioType
+    {
+        WokDefault, WokTossing,
         PouringSauce,
         InherentMotionClick, FireSlideMove
     }
 
-    void Start()
+    protected override AudioSource CallAudioSource(AudioType audioType)
     {
-        audioSource = GetComponent<AudioSource>();
-    }
 
-    public void StartAudioSource(AudioType audioType) {
-        switch(audioType) {
+        AudioSource currentAudioSource;
+        switch (audioType)
+        {
             case AudioType.WokDefault:
-                wokDefaultAudio.Play();
+                currentAudioSource = wokDefaultAudio;
                 break;
             case AudioType.WokTossing:
-                wokTossingAudio.Play();
+                currentAudioSource = wokTossingAudio;
                 break;
             case AudioType.PouringSauce:
-                pouringSauceAudio.Play();
+                currentAudioSource = pouringSauceAudio;
                 break;
             default:
-            break;
+                currentAudioSource = null;
+                break;
         }
-        
-    }
-    
-    public void StopAudioSource() {
-        if(audioSource.clip != null) {
-            audioSource.Stop();
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return currentAudioSource;
     }
 }

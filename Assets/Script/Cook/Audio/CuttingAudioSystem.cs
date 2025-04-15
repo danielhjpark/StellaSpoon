@@ -2,46 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingAudioSystem : MonoBehaviour
+public class CuttingAudioSystem : CookAudioSystem<CuttingAudioSystem.AudioType>
 {
     [SerializeField] AudioSource IngredientScanAudio;
     [SerializeField] AudioSource KnifeMotionAudio;
 
 
-    public enum AudioType {
+    public enum AudioType
+    {
         IngredientScan, KnifeMotion
     }
 
-    public void StartAudioSource(AudioType audioType)
+    protected override AudioSource CallAudioSource(AudioType audioType)
     {
-        switch(audioType) {
+        AudioSource currentAudioSource;
+        switch (audioType)
+        {
             case AudioType.IngredientScan:
-                IngredientScanAudio.Play();
+                currentAudioSource = IngredientScanAudio;
                 break;
             case AudioType.KnifeMotion:
-                KnifeMotionAudio.Play();
+                currentAudioSource = KnifeMotionAudio;
+                break;
+            default:
+                currentAudioSource = null;
                 break;
         }
-    }
-    public void StopAudioSource(AudioType audioType) {
-        switch(audioType) {
-            case AudioType.IngredientScan:
-                IngredientScanAudio.Stop();
-                break;
-            case AudioType.KnifeMotion:
-                KnifeMotionAudio.Stop();
-                break;
-        }
+        return currentAudioSource;
     }
 
-    public void PauseAudioSource(AudioType audioType) {
-        switch(audioType) {
-            case AudioType.IngredientScan:
-                IngredientScanAudio.Stop();
-                break;
-            case AudioType.KnifeMotion:
-                KnifeMotionAudio.Stop();
-                break;
-        }
-    }
 }

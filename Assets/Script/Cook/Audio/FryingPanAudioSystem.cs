@@ -2,50 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FryingPanAudioSystem : MonoBehaviour
+public class FryingPanAudioSystem : CookAudioSystem<FryingPanAudioSystem.AudioType>
 {
     [SerializeField] AudioSource FryingAudio;
     [SerializeField] AudioSource PouringSauceAudio;
 
-    public enum AudioType {
+    public enum AudioType
+    {
         Frying, PouringSauce
     }
 
-    public void StartAudioSource(AudioType audioType)
+    protected override AudioSource CallAudioSource(AudioType audioType)
     {
-        switch(audioType) {
+        AudioSource currentAudioSource;
+        switch (audioType)
+        {
             case AudioType.Frying:
-                FryingAudio.Play();
+                currentAudioSource = FryingAudio;
                 break;
             case AudioType.PouringSauce:
-                PouringSauceAudio.Play();
+                currentAudioSource = PouringSauceAudio;
+                break;
+            default:
+                currentAudioSource = null;
                 break;
         }
-    }
-    public void StopAudioSource(AudioType audioType) {
-        switch(audioType) {
-            case AudioType.Frying:
-                FryingAudio.Stop();
-                break;
-            case AudioType.PouringSauce:
-                PouringSauceAudio.Stop();
-                break;
-        }
-    }
-
-    public void PauseAudioSource(AudioType audioType) {
-        switch(audioType) {
-            case AudioType.Frying:
-                FryingAudio.Pause();
-                break;
-        }
-    }
-    public void UnPauseAudioSource(AudioType audioType) {
-        switch(audioType) {
-            case AudioType.Frying:
-                FryingAudio.UnPause();
-                break;
-        }
+        return currentAudioSource;
     }
 
 }

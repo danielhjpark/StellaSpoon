@@ -21,29 +21,33 @@ public class WokSauceSystem : SauceSystem
         isCanFillLiquid = false;
     }
 
-    public void Initialize(TossingSetting tossingSetting) {
+    public void Initialize(TossingSetting tossingSetting)
+    {
         this.totalLevel = tossingSetting.secondTossingCount;
         this.sauceType = tossingSetting.sauceType;
         this.sauceController.Initialize(sauceType);
         this.SetSauceColor();
         this.InitLevel();
     }
-    
-    public void InitializeMakeMode(TossingSetting tossingSetting) {
-        if(tossingSetting.secondTossingCount == 0) this.totalLevel = 2;
+
+    public void InitializeMakeMode(TossingSetting tossingSetting)
+    {
+        if (tossingSetting.secondTossingCount == 0) this.totalLevel = 2;
         else this.totalLevel = tossingSetting.secondTossingCount;
         this.sauceController.InitializeMakeMode();
         this.InitLevel();
     }
 
-    private void InitLevel() {
-        levelValue = (maxRange - minRange) /(totalLevel * 2);
+    private void InitLevel()
+    {
+        levelValue = (maxRange - minRange) / (totalLevel * 2);
         currentLevel = maxRange;
         liquidVolume.level = 0;
     }
-    
 
-    public void AddSauce() {
+
+    public void AddSauce()
+    {
         sauceController.enabled = true;
     }
 
@@ -69,7 +73,7 @@ public class WokSauceSystem : SauceSystem
     {
         wokAudioSystem.StartAudioSource(WokAudioSystem.AudioType.PouringSauce);
         yield return base.StartLiquidLevel();
-        wokAudioSystem.StopAudioSource();
+        wokAudioSystem.StopAudioSource(WokAudioSystem.AudioType.PouringSauce);
     }
 
 }

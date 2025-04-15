@@ -1,21 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CookAudioSystem : MonoBehaviour
+public abstract class CookAudioSystem<T> : MonoBehaviour where T : Enum
 {
-    [SerializeField] AudioClip[] audioClipList;
-    AudioSource audioSource;
-    void Start()
+    protected abstract AudioSource CallAudioSource(T audioType);
+
+    public void StartAudioSource(T audioType)
     {
-        audioSource = GetComponent<AudioSource>();
+        CallAudioSource(audioType).Play();
     }
 
-    public void StartAudioSource() {
-        audioSource.clip = audioClipList[0];
-        if(audioSource.clip != null) {
-            audioSource.Play();
-        }
+    public void StopAudioSource(T audioType)
+    {
+        CallAudioSource(audioType).Stop();
     }
 
+    public void PauseAudioSource(T audioType)
+    {
+        CallAudioSource(audioType).Pause();
+    }
+
+    public void UnPauseAudioSource(T audioType)
+    {
+        CallAudioSource(audioType).UnPause();
+    }
 }
