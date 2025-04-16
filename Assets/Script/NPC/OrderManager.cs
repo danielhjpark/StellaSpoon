@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class OrderManager : MonoBehaviour
 {
@@ -10,58 +11,81 @@ public class OrderManager : MonoBehaviour
     [SerializeField] NpcManager npcManager;
 
     Stack<Recipe> menuStack = new Stack<Recipe>();
-    
+    Coroutine restaurantCoroutine;
     public bool isTimeOver;
     public bool isMenuSoldOut;
     private float startInterval = 0f;
     private float minSpwanInterval = 5f; //NPC 积己矫埃 弥家
     private float maxSpwanInterval = 10f; //NPC 积己矫埃 弥家
 
-    private void Awake() {
+    public bool isStoppedOrder;
+
+    private void Awake()
+    {
         instance = this;
     }
 
-    public void UpdateMenu() {
+    public void UpdateMenu()
+    {
         menuStack = CreateRandomStack(DailyMenuManager.dailyMenuList);
     }
 
-    public void OpenRestaurant() {
-        UpdateMenu();
-        StartCoroutine(StartRestaurant());
+    public void OpenRestaurant()
+    {
+        isStoppedOrder = false;
+
+        if (restaurantCoroutine == null)
+        {
+            UpdateMenu();
+            restaurantCoroutine = StartCoroutine(StartRestaurant());
+        }
+
     }
 
-    public void CloseRestaurant() {
-        
+    public void CloseRestaurant()
+    {
+        isStoppedOrder = true;
     }
 
-    IEnumerator StartRestaurant() {
+    IEnumerator StartRestaurant()
+    {
         yield return new WaitForSeconds(startInterval);
         WaitForSeconds npcDelayTime = new WaitForSeconds(5f);
-        while(true) {
-            if(npcManager.IsCanFindSeat() && menuStack.Count > 0)  {
-                if(menuStack.TryPop(out Recipe recipe)) {
+        while (true)
+        {
+            if (isStoppedOrder) break;
+
+            if (npcManager.IsCanFindSeat() && menuStack.Count > 0)
+            {
+                if (menuStack.TryPop(out Recipe recipe))
+                {
                     Debug.Log(recipe.menuName);
                     npcManager.SpwanNPCs(recipe);
                     yield return new WaitForSeconds(UnityEngine.Random.Range(minSpwanInterval, maxSpwanInterval));
                 }
-                else {
+                else
+                {
                     Debug.Log("Empty Menu");
                     //UpdateMenu();
                     yield return npcDelayTime;
-                }    
+                }
             }
-            else {
+            else
+            {
                 //UpdateMenu();
                 yield return npcDelayTime;
             }
-            if(!CheckSpawnNpc()) break;
+            if (!CheckSpawnNpc()) break;
         }
+        restaurantCoroutine = null;
+        isStoppedOrder = false;
     }
 
-    bool CheckSpawnNpc() {
+    bool CheckSpawnNpc()
+    {
         return true;
     }
-        
+
     public Stack<Recipe> CreateRandomStack(Dictionary<Recipe, int> dailyMenuList)
     {
         List<Recipe> tempList = new List<Recipe>();

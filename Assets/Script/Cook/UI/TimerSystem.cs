@@ -9,53 +9,73 @@ public class TimerSystem : MonoBehaviour
     [SerializeField] Image timerGague;
     [SerializeField] RectTransform clickHand;
     [SerializeField] Image clickHandImage;
+    [SerializeField] bool onBillboard;
     Color32 DangerColor = new Color32(255, 0, 0, 255);
     Color32 CautionColor = new Color32(255, 255, 0, 255);
     Color32 SafeColor = new Color32(0, 255, 0, 255);
 
+    bool isTimerEnd = false;
     void Start()
     {
-        StartCoroutine(TimerStart());
+        //StartCoroutine(TimerStart());
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(timerGague.fillAmount <= 0.2f) {
-            clickHandImage.color = DangerColor;
-            timerGague.color = DangerColor;
+        if (onBillboard && Camera.main != null)
+        {
+            Vector3 targetPosition = Camera.main.transform.position; // 바라볼 대상
+            Vector3 direction = targetPosition - transform.position;
+            direction.y = 0;
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = targetRotation;
+
+            //this.transform.LookAt(this.transform.position + mainCam.rotation * Vector3.forward, mainCam.rotation * Vector3.up);
         }
-        else if(timerGague.fillAmount <= 0.4f) {
-            clickHandImage.color = CautionColor;
-            timerGague.color = CautionColor;
-        }
-        else {
-            clickHandImage.color = SafeColor;
-            timerGague.color = SafeColor;
-        }
-        ClickHandUpdate();
+        // if(timerGague.fillAmount <= 0.2f) {
+        //     clickHandImage.color = DangerColor;
+        //     timerGague.color = DangerColor;
+        // }
+        // else if(timerGague.fillAmount <= 0.4f) {
+        //     clickHandImage.color = CautionColor;
+        //     timerGague.color = CautionColor;
+        // }
+        // else {
+        //     clickHandImage.color = SafeColor;
+        //     timerGague.color = SafeColor;
+        // }
+        // ClickHandUpdate();
     }
 
-    void ClickHandUpdate() {
+    void ClickHandUpdate()
+    {
         float rotationValue = (1 - timerGague.fillAmount) * 360;
 
         clickHand.localRotation = Quaternion.Euler(0, 0, rotationValue);
     }
 
-    IEnumerator TimerStart() {
-        timerGague.fillAmount = 1;
-        while(timerGague.fillAmount >= 0.01f) {
-            timerGague.fillAmount -= Time.deltaTime / 10;
-            yield return null;
+    public IEnumerator TimerStart(float second)
+    {
+        float secondValue = 1 /(second * 20);
+        isTimerEnd = false;
+        timerGague.fillAmount = 0;
+        while (timerGague.fillAmount <= 0.99f)
+        {
+            timerGague.fillAmount += secondValue;
+            yield return new WaitForSeconds(0.05f);
         }
-        StartCoroutine(TimerReset());
+        timerGague.fillAmount = 1;
+        isTimerEnd = true;
+        //StartCoroutine(TimerReset());
     }
 
-    IEnumerator TimerReset() {
-        while(timerGague.fillAmount <= 0.99f) {
-            timerGague.fillAmount += Time.deltaTime / 2;
-            yield return null;
-        }
-        StartCoroutine(TimerStart());
+    public void TimerReset()
+    {
+        timerGague.fillAmount = 0;
+    }
+
+    public bool TimerEnd()
+    {
+        return isTimerEnd;
     }
 }

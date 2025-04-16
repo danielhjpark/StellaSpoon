@@ -4,13 +4,14 @@ using Cinemachine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractController : MonoBehaviour
 {
     private ServeSystem serveSystem;
     [SerializeField] private RestaurantOpenSystem restaurantOpenSystem;
 
-    [SerializeField] private Transform playerTransfom;
+    private Transform playerTransfom;
     [SerializeField] private TextMeshProUGUI actionText;
     [SerializeField] private CinemachineVirtualCamera playerFollowCamera;
 
@@ -18,12 +19,9 @@ public class InteractController : MonoBehaviour
     [SerializeField] private LayerMask utensilLayer;
     [SerializeField] private LayerMask menuLayer;
     [SerializeField] private LayerMask NPCLayerMask;
-    [SerializeField] private LayerMask GarbageCanLayerMask;
-    [SerializeField] private LayerMask SignLayer;
 
     [Header("UI Object")]
     [SerializeField] private GameObject InteractPanel;
-    [SerializeField] private GameObject OpenAndClosePanel;
 
     private bool isCanInteract;
     private float range = 1f;
@@ -33,7 +31,25 @@ public class InteractController : MonoBehaviour
         serveSystem = GetComponent<ServeSystem>();
         isCanInteract = true;
         InteractPanel.SetActive(false);
-        OpenAndClosePanel.SetActive(false);
+
+        playerTransfom = GameObject.FindGameObjectWithTag("Player").transform;
+        this.transform.SetParent(playerTransfom);
+        playerFollowCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+    private void OnSceneUnloaded(Scene current)
+    {
+        if(current.name == "RestaurantTest")
+            Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -50,8 +66,7 @@ public class InteractController : MonoBehaviour
         if (brain != null && brain.ActiveVirtualCamera != null)
         {
             actionText.gameObject.SetActive(false);
-            InteractPanel.SetActive(false);
-            OpenAndClosePanel.SetActive(false);
+            //InteractPanel.SetActive(false);
             return brain.ActiveVirtualCamera.VirtualCameraGameObject == playerFollowCamera.gameObject;
         }
 
@@ -61,10 +76,10 @@ public class InteractController : MonoBehaviour
 
     private void CheckLayer()
     {
-        Vector3 rayOrigin = playerTransfom.position + Vector3.up * 0.5f; // 캐릭터 중심에서 약간 위로
+        Vector3 rayOrigin = playerTransfom.position + Vector3.up; // 캐릭터 중심에서 약간 위로
+        
         Vector3 rayDirection = playerTransfom.forward; // 캐릭터의 forward 방향
         RaycastHit hitInfo;
-
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, utensilLayer))
         {
             ChangeActionText("Utensil");
@@ -81,39 +96,21 @@ public class InteractController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 serveSystem.PickUpMenu(hitInfo.transform.gameObject);
-                Destroy(hitInfo.transform.gameObject);
             }
 
-        }
-        else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, GarbageCanLayerMask))
-        {
-            ChangeActionText("GarbageCan");
-            actionText.gameObject.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                serveSystem.ThrowOutMenu();
-                //Sound 추가 필요 쓰레기통에 넣는 소리
-            }
         }
         else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, NPCLayerMask))
         {
             ChangeActionText("NPC");
             actionText.gameObject.SetActive(true);
-            serveSystem.ServeMenu(hitInfo.transform.gameObject);
-        }
-        else if(Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, SignLayer)) {
-      
-            OpenAndClosePanel.SetActive(true);
-            if(Input.GetKey(KeyCode.F)) {
-                restaurantOpenSystem.FillGague();
-            }
-            else {
-                restaurantOpenSystem.ResetGague();
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                serveSystem.ServeMenu(hitInfo.transform.gameObject);
             }
         }
-        else {
+        else
+        {
             actionText.gameObject.SetActive(false);
-            OpenAndClosePanel.SetActive(false);
         }
 
     }
@@ -128,11 +125,13 @@ public class InteractController : MonoBehaviour
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, interactLayer))
         {
             string objectName = hitInfo.transform.gameObject.name;
-            switch(objectName) {
+            switch (objectName)
+            {
                 case "Menu":
                     ChangeActionText("Menu");
                     actionText.gameObject.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.F)){
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
                         serveSystem.PickUpMenu(hitInfo.transform.gameObject);
                         Destroy(hitInfo.transform.gameObject);
                     }

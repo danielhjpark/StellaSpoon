@@ -3,43 +3,39 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Playables;
 using UnityEditor.Rendering;
 
 public class RestaurantOpenSystem : MonoBehaviour
 {
     [SerializeField] private float range = 2.0f; 
-    [SerializeField] private TextMeshProUGUI actionText; 
-    [SerializeField] private Transform characterTransform; 
-    [SerializeField] private LayerMask layerMask; 
-
-    [SerializeField] PlayableDirector signTimeline;
-
+    private Transform playerTransform; 
+    
     [SerializeField] Image pressGagueImage;
 
+    [Header("Sign")]
+    [SerializeField] private Renderer signRenderer;
+    [SerializeField] private Material[] signMaterial;
+    [SerializeField] private LayerMask signLayer; 
+
+    [Header("UI")]
+    [SerializeField] private GameObject OpenAndClosePanel;
+    [SerializeField] private GameObject OpenUI;
+    [SerializeField] private GameObject CloseUI;
+
+    private enum signState { Open = 0, Close = 1}
     private bool isOpened; 
-    private bool isRewinding;
-    private bool isCheckedSign;
-    // private string earlyOpenText = "아직 식당 문을 열기엔 이르다. 오후 6시까지 기다려보자";
-    // private string readyOpenText = "식당을 열 수 있는 시간이다(길게 눌러 식당을 열기)";
-    private string earlyOpenText = "Ealry Open";
-    private string readyOpenText = "Ready Open";
+    
 
     void Start() {
+        playerTransform = GameObject.FindWithTag("Player").transform;
         isOpened = false;
-        isRewinding = false;
-        isCheckedSign = false;
+        signRenderer.material = signMaterial[(int)signState.Close];
     }
 
     void Update()
     {
         CheckSign();
-        // if (Input.GetKeyDown(KeyCode.R)&& isCheckedSign)
-        // {
-        //     if(!isRewinding) StartCoroutine(OpenSign());
-        //     else StartCoroutine(CloseSign());
-        // }
-         // 항상 아이템이 사정 거리 안에 있는지 체크
+        CheckOpenRestaurant();
     }
 
     public void FillGague() {
@@ -50,78 +46,57 @@ public class RestaurantOpenSystem : MonoBehaviour
         pressGagueImage.fillAmount = 0f;
     }
 
-
-    public void PlayForward()
-    {
-        signTimeline.Play();
-        signTimeline.time = 0; // 타임라인 시작점
-        signTimeline.playableGraph.GetRootPlayable(0).SetSpeed(1); // 정방향 재생
-        
-    }
-
-    public void PlayBackward()
-    {
-        isRewinding = true;
-        signTimeline.Pause();
-    }
-
-    //-------------- Hanging Sign Controll------------------//
-    IEnumerator OpenSign() {
-        PlayForward();
-        while (true) {
-            if(signTimeline.time >= signTimeline.duration) {
-                isRewinding = true;
-                break;
-            }
-            yield return null;
-        }
-    }
-
-    IEnumerator CloseSign() {
-        PlayBackward();
-        while (isRewinding) {
-            signTimeline.time -= Time.deltaTime; // time 값을 직접 감소
-            if (signTimeline.time <= 0)
-            {
-                signTimeline.time = 0;
-                isRewinding = false;
-            }
-            signTimeline.Evaluate(); // 즉시 적용
-            yield return null;
-        }
-    }
     //------------------------------------------------------//
     private void CheckSign()
     {
-        Vector3 rayOrigin = characterTransform.position + Vector3.up * 0.5f; // 캐릭터 중심에서 약간 위로
-        Vector3 rayDirection = characterTransform.forward; // 캐릭터의 forward 방향
+        Vector3 rayOrigin = playerTransform.position + Vector3.up * 0.5f; 
+        Vector3 rayDirection = playerTransform.forward; 
 
-        if (Physics.Raycast(rayOrigin, rayDirection, range, layerMask))
-        {
-            isCheckedSign = true;
-            if(isOpened) {
-                ReadyOpenSign();
+        if(Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hitInfo, range, signLayer)) {
+      
+            OpenAndClosePanel.SetActive(true);
+            if(Input.GetKey(KeyCode.F)) {
+                FillGague();
             }
             else {
-                EarlyOpenSign();
+                ResetGague();
             }
-
         }
         else {
-            isCheckedSign = false;
-            actionText.gameObject.SetActive(false);
+            OpenAndClosePanel.SetActive(false);
+            ResetGague();
+        }
+    }
+
+    private void CheckOpenRestaurant() {
+        if(pressGagueImage.fillAmount >= 1 && !isOpened) {
+            isOpened = true;
+            OpenUI.SetActive(false);
+            CloseUI.SetActive(true);
+            pressGagueImage.fillAmount = 0f;
+            signRenderer.material = signMaterial[(int)signState.Open];
+
+            OrderManager.instance.OpenRestaurant();
+        }
+        else if(pressGagueImage.fillAmount >= 1 && isOpened) {
+            isOpened = false;
+            OpenUI.SetActive(true);
+            CloseUI.SetActive(false);
+            pressGagueImage.fillAmount = 0f;
+            signRenderer.material = signMaterial[(int)signState.Close];
+
+            OrderManager.instance.CloseRestaurant();
+
         }
     }
 
     private void ReadyOpenSign()
     {
         //actionText.gameObject.SetActive(true);
-        actionText.text = readyOpenText;
     }
 
     private void EarlyOpenSign()
     {
         //actionText.gameObject.SetActive(true);
-        actionText.text = earlyOpenText;
     }
 }

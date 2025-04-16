@@ -10,12 +10,22 @@ public class InventoryManager : MonoBehaviour
     private bool weightUpdatePaused = false;
 
     public int totalWeight = 0;
+    public int extraWeaponWeight = 100; // 무기가 장착되었을 때 추가할 무게
 
     public Text totalWeightText; // 총 무게를 표시할 텍스트
 
     public List<InventorySlot> inventorySlots; // 모든 인벤토리 슬롯을 담는 리스트
 
-    public bool isWeaponRifle = false; // 무기를 장착하고 있는가 ?
+    private bool _isWeaponRifle = false;
+    public bool isWeaponRifle
+    {
+        get { return _isWeaponRifle; }
+        set
+        {
+            _isWeaponRifle = value;
+            RecalculateTotalWeight(); // 무기 장착 여부가 변경될 때 전체 무게 재계산
+        }
+    }
 
     void Awake()
     {
@@ -48,6 +58,13 @@ public class InventoryManager : MonoBehaviour
         if (!weightUpdatePaused)
         {
             totalWeight += weightChange;
+
+            // 무기가 장착된 경우 추가 무게 반영
+            if (isWeaponRifle)
+            {
+                totalWeight += extraWeaponWeight;
+            }
+
             totalWeightText.text = totalWeight.ToString();
             Debug.Log($"Total Weight: {totalWeight}");
         }
@@ -68,16 +85,22 @@ public class InventoryManager : MonoBehaviour
                 totalWeight += slot.item.itemWeight * slot.itemCount;
             }
         }
+
+        // 무기가 장착되었을 경우 추가 무게 적용
+        if (isWeaponRifle)
+        {
+            totalWeight += extraWeaponWeight;
+        }
+
         totalWeightText.text = totalWeight.ToString();
-        Debug.Log($"Recalculated Total Weight: {totalWeight}");
+        //Debug.Log($"Recalculated Total Weight: {totalWeight}");
     }
 
     public void ClearAllSlots()
     {
-        foreach(var slot in inventorySlots)
+        foreach (var slot in inventorySlots)
         {
             slot.ClearSlot(); // 각 슬롯의 아이템을 초기화
         }
     }
-
 }

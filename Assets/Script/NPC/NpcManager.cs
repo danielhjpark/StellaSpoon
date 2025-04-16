@@ -10,7 +10,7 @@ public class NpcManager : MonoBehaviour
 {
     public static NpcManager instance;
     public int totalGold;
-    [SerializeField] TextMeshProUGUI totalGoldText;
+    TextMeshProUGUI totalGoldText;
 
     //----------------Seat variable ---------------------//
     public Transform[] sitpositions = new Transform[4]; //의자 좌표
@@ -18,10 +18,13 @@ public class NpcManager : MonoBehaviour
 
     //---------------SpawnNpc Setting----------------------//
     public GameObject npcPrefab;
-    private Vector3 npcSpawnpoint = new Vector3(10f, 1f, 0f);
+    public Transform spawnPoint;
+    private Vector3 npcSpawnpoint;
 
 
     private void Awake() {
+        npcSpawnpoint = spawnPoint.transform.position;
+        totalGoldText = GameObject.Find("GoldUI").GetComponent<TextMeshProUGUI>();
         instance = this;
     }
     
@@ -58,7 +61,7 @@ public class NpcManager : MonoBehaviour
         {
             // NPC가 목표 지점에 근접했는지 확인
             if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 2 &&
-                Mathf.Abs(npc.transform.position.y - targetPosition.position.y) <= 2)
+                Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 2)
             {
                 nowPosition = npc.transform.position;
                 nav.enabled = false;

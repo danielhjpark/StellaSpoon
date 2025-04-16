@@ -45,7 +45,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
             controllObject.transform.position = hitLayerMask.point;
         }
         else {
-            controllObject.transform.position = Input.mousePosition;
+            //controllObject.transform.position = Input.mousePosition;
         }
     }
 
@@ -56,8 +56,8 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
                 isControll = false;
                 isCanDrop = false;
                 CookManager.instance.DropObject(controllObject, ingredientSlot.currentIngredient);
-                //ingredientSlot.SlotClear();
-                controllObject = null;
+                SlotUpdate();
+                controllObject = null;  
 
             }
             else {
@@ -69,6 +69,21 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
             
         }
 
+    }
+
+    void SlotUpdate() {
+        ingredientSlot.itemCount --;
+
+        //ingredientSlot.SetSlotCount(ingredientSlot.itemCount);
+        if(ingredientSlot.itemCount <= 0) {
+            ingredientSlot.SlotClear();
+            ingredientSlot.gameObject.SetActive(false);
+
+        }
+        if(CookManager.instance.cookMode == CookManager.CookMode.Make) {
+            IngredientManager.IngredientAmount[ingredientSlot.currentIngredient] --;
+            ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, 1);
+        }
     }
 
     void DropCheck()
@@ -91,9 +106,9 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
             ingredientObject = ingredientSlot.currentIngredient.ingredientPrefab;
         }
         else return;
-
-        controllObject = Instantiate(ingredientObject, Input.mousePosition, ingredientObject.transform.rotation);
-        controllObject.transform.SetParent(CookManager.instance.spawnPoint, false);
+        //controllObject = Instantiate(ingredientObject, CookManager.instance.spawnPoint.position, ingredientObject.transform.rotation);
+        controllObject = Instantiate(ingredientObject, Vector3.zero, ingredientObject.transform.rotation);
+        //controllObject.transform.SetParent(CookManager.instance.spawnPoint, false);
         StartCoroutine(cookInventoryManager.HidePanel());
         isControll = true;
     }

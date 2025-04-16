@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class IngredientSlot : MonoBehaviour
+public class IngredientSlot : Slot
 {
-     bool isEmpty;
+    bool isEmpty;
+    public RefrigeratorInventory refrigeratorInventory;
     [SerializeField] Image ingredientImage;
     [SerializeField] TextMeshProUGUI ingredientName;
     public Ingredient currentIngredient{get; set;}

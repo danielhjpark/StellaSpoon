@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    static public UIManager instance { get; private set; }
     [Header("UI")]
     [SerializeField] GameObject DailyMenuUI;
-    [SerializeField] GameObject RefrigeratorUI;
-    [SerializeField] GameObject DeviceUI;
-    [SerializeField] GameObject CookUI;
-    [SerializeField] Inventory inventory;
+    [SerializeField] GameObject NewRecipeUI;
+    [SerializeField] GameObject InteractUI;
 
     [SerializeField] Item[] items;
 
     [SerializeField] Recipe[] recipes;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
-        //InventoryUI(); 변경 요청 해야징
-        //InventoryUI();
+        RefrigeratorAddIngredient();
         DailyMenuAdd();
     }
+
     void Update()
     {
-        OpenUI();
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            OrderManager.instance.OpenRestaurant();
-        }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             DailyMenuUI.SetActive(true);
@@ -36,45 +36,55 @@ public class UIManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            DailyMenuUI.SetActive(false);
+           // DailyMenuUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Inventory.inventoryActivated = false;
         }
     }
 
-
-    void OpenUI()
+    public void NewRecipePanelVisible()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            bool currentState = DailyMenuUI.activeSelf;
-            DailyMenuUI.SetActive(!currentState);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            bool currentState = RefrigeratorUI.activeSelf;
-            RefrigeratorUI.SetActive(!currentState);
-            DeviceUI.SetActive(!currentState);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            bool currentState = CookUI.activeSelf;
-            CookUI.SetActive(!currentState);
-        }
+        NewRecipeUI.SetActive(true);
+
     }
 
-    void InventoryUI()
+    void RefrigeratorAddIngredient()
     {
         foreach (var item in items)
         {
-            inventory.AcquireItem(item);
+            RefrigeratorManager.instance.AddItem(item, 10);
         }
     }
 
     void DailyMenuAdd()
     {
         foreach (Recipe recipe in recipes)
-            DailyMenuManager.dailyMenuList.Add(recipe, 1);
+            RecipeManager.instance.RecipeUnLock(recipe);
     }
+
+
+    public void VisibleInteractUI() {
+        InteractUI.SetActive(true);
+    }
+
+    public void HideInteractUI() {
+        InteractUI.SetActive(false);
+    }
+
+
+    public void RecipeUnLockUI()
+    {
+        StartCoroutine(RecipeUnLockFade());
+    }
+
+    IEnumerator RecipeUnLockFade()
+    {
+        NewRecipeUI.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        NewRecipeUI.SetActive(false);
+
+    }
+
+
 }

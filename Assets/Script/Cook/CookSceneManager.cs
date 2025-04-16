@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CookSceneManager : MonoBehaviour
 {
     static public CookSceneManager instance;
-
+    public Camera mainCamera;
     private const string potSceneName = "PotMergeTest";
     private const string cuttingSceneName = "CuttingBoardMergeTest";
     private const string wokSceneName = "WokMergeTest";
@@ -18,14 +18,20 @@ public class CookSceneManager : MonoBehaviour
     public string currentSceneName;
     public GameObject[] SpawnPoint;
 
-    void Awake() {
+    void Awake()
+    {
         instance = this;
+        mainCamera = Camera.main;
     }
 
-    public void LoadScene(string objName) {
+
+    public void LoadScene(string objName)
+    {
         if (!isSceneLoaded)
         {
-            switch(objName) {
+            mainCamera.transform.gameObject.SetActive(false);
+            switch (objName)
+            {
                 case "CuttingBoard":
                     currentSceneName = cuttingSceneName;
                     break;
@@ -48,8 +54,36 @@ public class CookSceneManager : MonoBehaviour
         }
     }
 
-    public void UnloadScene() {
-        if (isSceneLoaded) {
+
+    public void SpawnMenu(string sceneName, Recipe menu)
+    {
+        GameObject meneInstance = Instantiate(menu.menuPrefab, Vector3.zero, Quaternion.identity);
+        meneInstance.AddComponent<MenuData>();
+        meneInstance.GetComponent<MenuData>().menu = menu;
+        switch (sceneName)
+        {
+            case cuttingSceneName:
+                meneInstance.transform.position = SpawnPoint[3].transform.position;
+                break;
+            case potSceneName:
+                meneInstance.transform.position = SpawnPoint[0].transform.position;
+                break;
+            case panSceneName:
+                meneInstance.transform.position = SpawnPoint[1].transform.position;
+                break;
+            case wokSceneName:
+                meneInstance.transform.position = SpawnPoint[2].transform.position;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void UnloadScene()
+    {
+        mainCamera.transform.gameObject.SetActive(true);
+        if (isSceneLoaded)
+        {
             SceneManager.UnloadSceneAsync(currentSceneName);
             isSceneLoaded = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -57,30 +91,23 @@ public class CookSceneManager : MonoBehaviour
         }
     }
 
-
     public void UnloadScene(string sceneName, Recipe menu)
     {
-        if (isSceneLoaded) {}
+        if (isSceneLoaded) { }
+        mainCamera.transform.gameObject.SetActive(true);
         SceneManager.UnloadSceneAsync(sceneName);
         isSceneLoaded = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        switch(sceneName) {
-            case cuttingSceneName:
-                Instantiate(menu.menuPrefab, SpawnPoint[3].transform.position, Quaternion.identity);
-                break;
-            case potSceneName:
-                Instantiate(menu.menuPrefab, SpawnPoint[0].transform.position, Quaternion.identity);
-                break;
-            case panSceneName:
-                Instantiate(menu.menuPrefab, SpawnPoint[1].transform.position, Quaternion.identity);
-                break;
-            case wokSceneName:
-                Instantiate(menu.menuPrefab, SpawnPoint[2].transform.position, Quaternion.identity);
-                break;
-            default:
-                break;
-        }
+        SpawnMenu(sceneName, menu);
+    }
+
+    public void UnloadScene(string sceneName)
+    {
+        mainCamera.transform.gameObject.SetActive(true);
+        SceneManager.UnloadSceneAsync(sceneName);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
 

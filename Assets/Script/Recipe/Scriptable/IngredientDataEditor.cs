@@ -30,12 +30,6 @@ public class IngredientDataEditor : Editor
             }
         }
 
-        if(!isPublicIngredientProp.boolValue) {
-            EditorGUILayout.PropertyField(ingredientCookTypeProp);
-        }
-        else {
-            EditorGUILayout.PropertyField(ingredientCookTypesProp);
-        }
 
         if (EditorGUI.EndChangeCheck())
         {

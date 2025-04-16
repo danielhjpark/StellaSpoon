@@ -27,36 +27,47 @@ public class FryingPanUI : MonoBehaviour
         fryingPanUIObject.SetActive(false);
     }
 
-    public void Initialize(FryingSetting fryingSetting) {
-        sectionRange = fryingSetting.sectionRange;
+    public void Initialize(int[] sectionRange)
+    {
+        this.sectionRange = sectionRange;
         SetSections();
     }
 
-    public void OnFryingPanUI() {
+    public void OnFryingPanUI()
+    {
         fryingPanUIObject.SetActive(true);
         ingredientUIObejct.SetActive(false);
     }
 
+    public void OnIngredientUI()
+    {
+        fryingPanUIObject.SetActive(false);
+        ingredientUIObejct.SetActive(true);
+    }
 
-    void SetSections() {
+    void SetSections()
+    {
         sections[0].sizeDelta = new Vector2(FixedWidth, sectionRange[0]);
         sections[1].sizeDelta = new Vector2(FixedWidth, sectionRange[1]);
         sections[2].sizeDelta = new Vector2(FixedWidth, sectionRange[2]);
 
         sections[1].anchoredPosition = new Vector2(0, -sections[0].sizeDelta.y);
     }
-    
-    public IEnumerator MoveMark() {
+
+    public IEnumerator MoveMark()
+    {
         float startPos = 0;
         float endPos = FullLength;
-        float Speed = 0.1f;
+        float Speed =  0.1f * CookManager.instance.SlideAcceleration;
         isEnd = false;
 
-        while(true) {
+        while (true)
+        {
             startPos += Speed * power;
             sectionMark.anchoredPosition = new Vector2(sectionMark.anchoredPosition.x, startPos);
             currentPos = startPos;
-            if(sectionMark.anchoredPosition.y >= endPos) {
+            if (sectionMark.anchoredPosition.y >= endPos)
+            {
                 sectionMark.anchoredPosition = new Vector2(sectionMark.anchoredPosition.x, endPos);
                 currentPos = endPos;
                 isEnd = true;
@@ -66,21 +77,32 @@ public class FryingPanUI : MonoBehaviour
         }
     }
 
-    public void GetCurrentSection() {
-        if(currentPos <= sectionRange[0]) {
+    public FryingStep GetCurrentSection()
+    {
+        if (currentPos <= sectionRange[0])
+        {
             Debug.Log("Rare");
+            return FryingStep.Rare;
         }
-        else if(currentPos <= sectionRange[0] + sectionRange[1]) {
+        else if (currentPos <= sectionRange[0] + sectionRange[1])
+        {
             Debug.Log("Medium");
+            return FryingStep.Medium;
         }
-        else Debug.Log("Well Done");
+        else
+        {
+            Debug.Log("Well Done");
+            return FryingStep.WellDone;
+        }
     }
-    
-    public bool IsCheckEnd() {
+
+    public bool IsCheckEnd()
+    {
         return isEnd;
     }
 
-    public void OnSliderValueChanged() {
+    public void OnSliderValueChanged()
+    {
         power = powerSlider.value;
     }
 }

@@ -60,6 +60,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Material specialMaterial;
 
+
+    [SerializeField]
+    private AudioClip Reload_SFX; // 재장전 소리
+
     private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
     public bool isRestaurant;
 
@@ -70,6 +74,9 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponent<Animator>();
 
         SceneManager.sceneLoaded += OnSceneLoaded; // 씬 변경 이벤트 등록
+
+        // 씬이 이미 로드된 뒤 생성된 경우를 위해 수동 호출
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     void OnDestroy()
@@ -79,9 +86,19 @@ public class PlayerManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == specialSceneName)
+        string[] restaurantScenes = {"RestaurantTest","WokMergeTest", "FryingPanMergeTest", "CuttingBoardMergeTest", "PotMergeTest"}; 
+        foreach(string restaurantScene in restaurantScenes) {
+            if(scene.name == restaurantScene) {
+                isRestaurant = true;
+                break;
+            }
+            else isRestaurant = false;
+        }
+        
+        if (isRestaurant)
         {
             isRestaurant = true;
+            SetRigWeight(0);
             ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경
         }
         else
@@ -105,11 +122,18 @@ public class PlayerManager : MonoBehaviour
     {
         if (isRestaurant)
         {
+            InventoryManager.instance.isWeaponRifle = false;
+            EquipRifleCheck();
             return;
         }
-        AimCheck();
-        EquipRifleCheck();
+        else // 나중에 무기를 변경할 때 조건을 추가해서 넣기. 안그러면 false를 한번 해도 계속 true로 바뀜
+        {
+            InventoryManager.instance.isWeaponRifle = true;
+            EquipRifleCheck();
+        }
+
         CheckJumpOrDodge();
+        AimCheck();
     }
 
     private void AimCheck()
@@ -127,6 +151,8 @@ public class PlayerManager : MonoBehaviour
             SetRigWeight(0);
             anim.SetLayerWeight(2, 1);
             anim.SetTrigger("Reload");
+            // 재장전 소리
+            AudioSource.PlayClipAtPoint(Reload_SFX, transform.position, controller.FootstepAudioVolume);
             controller.isReload = true;
         }
 
@@ -216,13 +242,15 @@ public class PlayerManager : MonoBehaviour
             anim.SetLayerWeight(1, 1);
             handRig.weight = 1;
             RifleManager.instance.WeaponUI.SetActive(true);
+            RifleManager.instance.SpriteUI.SetActive(true);
         }
         else
         {
             rifle.gameObject.SetActive(false);
-            anim.SetLayerWeight(1, 0);
+            if(!isRestaurant) anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
             RifleManager.instance.WeaponUI.SetActive(false);
+            RifleManager.instance.SpriteUI.SetActive (false);
         }
     }
 

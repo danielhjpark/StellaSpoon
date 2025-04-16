@@ -32,7 +32,7 @@ namespace StarterAssets
         public float SpeedChangeRate = 10.0f;
 
         public AudioClip LandingAudioClip;
-        public AudioClip[] FootstepAudioClips;
+        //public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
         [Space(10)]
@@ -141,7 +141,20 @@ namespace StarterAssets
 
         private PlayerManager playerManager;
 
-#if ENABLE_INPUT_SYSTEM 
+        [SerializeField]
+        private AudioClip Restaurant_Footstep_SFX; // 레스토랑 발소리
+        [SerializeField]
+        private AudioClip Planet_Footstep_SFX; // 일반 발소리
+        [SerializeField]
+        private AudioClip Glass_Footstep_SFX; // 풀에 있을 때 나는 발소리
+        [SerializeField]
+        private AudioClip Jump_SFX; // 점프 소리
+        [SerializeField]
+        private AudioClip Rolling_SFX; // 구르기 소리
+        [SerializeField]
+        private AudioClip Hit_SFX; // 피격 소리
+
+#if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
 #endif
         private Animator _animator;
@@ -174,7 +187,6 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-
             }
 
             curHP = MaxHP;
@@ -289,6 +301,8 @@ namespace StarterAssets
             float elapsedTime = 0f;
             float verticalVelocity = 0f;
 
+            AudioSource.PlayClipAtPoint(Rolling_SFX, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+
             Vector3 startPosition = transform.position;
             Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
 
@@ -379,6 +393,15 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (_mainCamera == null)
+            {
+                GameObject camObj = GameObject.FindGameObjectWithTag("MainCamera");
+                if (camObj != null)
+                    _mainCamera = camObj;
+                else
+                    return;
+            }
+
             if (isDodge || isHit) return;
 
             float targetSpeed = MoveSpeed;
@@ -473,7 +496,11 @@ namespace StarterAssets
 
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
+                    if (playerManager.isRestaurant) return;
+
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    AudioSource.PlayClipAtPoint(Jump_SFX, transform.position + Vector3.up * 0.1f, FootstepAudioVolume);
 
                     if (_hasAnimator)
                     {
@@ -536,17 +563,31 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                if (FootstepAudioClips.Length > 0)
+                Vector3 footstepPosition = transform.TransformPoint(_controller.center);
+
+                if (playerManager.isRestaurant)
                 {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    // 식당에서는 식당 발소리만 재생
+                    AudioSource.PlayClipAtPoint(Restaurant_Footstep_SFX, footstepPosition, FootstepAudioVolume);
+                }
+                else
+                {
+                    // 항상 Planet 발소리 재생
+                    AudioSource.PlayClipAtPoint(Planet_Footstep_SFX, footstepPosition, FootstepAudioVolume);
+
+                    // 70% 확률로 유리 발소리 추가 재생
+                    if (Random.value <= 0.7f)
+                    {
+                        AudioSource.PlayClipAtPoint(Glass_Footstep_SFX, footstepPosition, FootstepAudioVolume);
+                    }
                 }
             }
         }
 
+
         private void OnLand(AnimationEvent animationEvent)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            if (animationEvent.animatorClipInfo.weight > 0.1f)
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
@@ -580,6 +621,8 @@ namespace StarterAssets
             isHit = true; // 피격 상태 활성화
             isInvincible = true; // 무적 상태 활성화
             _animator.SetTrigger("Hit");
+
+            AudioSource.PlayClipAtPoint(Hit_SFX, transform.TransformPoint(_controller.center), FootstepAudioVolume);
 
             Debug.Log("Player HP: " + curHP);
             _hpBar.value = curHP;

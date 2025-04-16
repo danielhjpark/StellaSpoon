@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldTimeManager : MonoBehaviour
@@ -14,6 +15,7 @@ public class WorldTimeManager : MonoBehaviour
 
     private void Update()
     {
+        if(PlanetManager.Instance.GetSelectedPlanet() == PlanetManager.PlanetType.RestaurantTest) return;
         float gameHour = gameTimeManager.gameHours + (gameTimeManager.gameMinutes / 60.0f);
         SunUpdate(gameHour);
     }
@@ -25,22 +27,23 @@ public class WorldTimeManager : MonoBehaviour
             currentHour = (int)gameHour;
             switch (currentHour)
             {
-                case 6:
+                case 0:
                     SetBlendSkyTexture(skyboxes[0]);
+                    skyIdx = 3;
+                    break;
+                case 6:
+                    SetBlendSkyTexture(skyboxes[1]);
                     skyIdx = 0;
                     break;
                 case 12:
-                    SetBlendSkyTexture(skyboxes[1]);
+                    SetBlendSkyTexture(skyboxes[2]);
                     skyIdx = 1;
                     break;
                 case 18:
-                    SetBlendSkyTexture(skyboxes[2]);
+                    SetBlendSkyTexture(skyboxes[3]);
                     skyIdx = 2;
                     break;
-                case 24:
-                    SetBlendSkyTexture(skyboxes[3]);
-                    skyIdx = 3;
-                    break;
+                
             }
         }
 

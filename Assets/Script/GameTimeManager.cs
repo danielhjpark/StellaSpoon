@@ -25,7 +25,7 @@ public class GameTimeManager : MonoBehaviour
         //저장된 시간 가져오기
         LoadGameTime();
 
-        if(gameTimeText == null)
+        if (gameTimeText == null)
         {
             gameTimeText = GameObject.Find("Canvas/Time").GetComponent<TextMeshProUGUI>();
         }
