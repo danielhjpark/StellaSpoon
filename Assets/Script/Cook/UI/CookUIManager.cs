@@ -13,16 +13,21 @@ public class CookUIManager : MonoBehaviour
     TimerSystem timerSystem;
     private int panelSpeed;
 
-    void Start()
+    void Awake()
     {
         panelSpeed = 5;
         SelectRecipePanel.SetActive(false);
-        if(TimerPanel != null && TimerPanel.TryGetComponent<TimerSystem>(out TimerSystem timerSystem)) {
+        if (TimerPanel != null && TimerPanel.TryGetComponent<TimerSystem>(out TimerSystem timerSystem))
+        {
             this.timerSystem = timerSystem;
             TimerPanel.SetActive(false);
         }
-        
-        
+
+    }
+
+    void Start()
+    {
+
     }
 
     public void Initialize(CookManagerBase cookManagerBase)
@@ -37,6 +42,7 @@ public class CookUIManager : MonoBehaviour
     }
 
     //-------------------Button-------------------
+
     public void SelectRecipeMode()
     {
         inventoryPanel.gameObject.SetActive(false);

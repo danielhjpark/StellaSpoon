@@ -30,6 +30,7 @@ public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
                 // CookManager.instance.DropObject(ingredientObject, ingredient);
 
                 OnSelectIngredient?.Invoke();
+
             }
         }
     }

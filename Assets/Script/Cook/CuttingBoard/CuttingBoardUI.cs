@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class CuttingBoardUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("UI Setting")]
+    [SerializeField] GameObject cuttingBoardUI;
+    [SerializeField] GameObject sliceUI;
+    [SerializeField] GameObject rotateUI;
+
+    public void VisibleRotateUI()
     {
-        
+        cuttingBoardUI.SetActive(true);
+        rotateUI.SetActive(true);
+        sliceUI.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void VisibleSliceUI()
     {
-        
+        cuttingBoardUI.SetActive(true);
+        rotateUI.SetActive(false);
+        sliceUI.SetActive(true);
     }
+
+    public void HideCuttingBoardUI()
+    {
+        cuttingBoardUI.SetActive(false);
+        rotateUI.SetActive(false);
+        sliceUI.SetActive(false);
+    }
+
+
 }

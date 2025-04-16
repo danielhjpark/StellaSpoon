@@ -17,7 +17,7 @@ public class CuttingLineSystem : MonoBehaviour
 
     public Action OnCuttingSystem;
 
-    public void CreateLine(Vector3 getPosition, Vector3 getSize)
+    private void CreateLine(Vector3 getPosition, Vector3 getSize)
     {
         Vector3 cuttingPosition = new Vector3(getPosition.x, getPosition.y, getPosition.z);
         Vector3 cuttingSize = new Vector3(0.01f, getSize.y, getSize.z);
@@ -28,7 +28,7 @@ public class CuttingLineSystem : MonoBehaviour
         newObject.SetActive(true);
     }
 
-    public void CalculateCuttingLine(Renderer renderer, float t)
+    private void CalculateCuttingLine(Renderer renderer, float t)
     {
         Vector3 min = renderer.bounds.min;
         Vector3 max = renderer.bounds.max;
@@ -42,6 +42,15 @@ public class CuttingLineSystem : MonoBehaviour
         CreateLine(cuttingPosition, cuttingSize);
     }
 
+    public void CreateCuttingLine(int count, GameObject targetObject)
+    {
+        ScanReset();
+        for (int i = 1; i < count; i++)
+        {
+            float t = i / (float)count;
+            CalculateCuttingLine(targetObject.GetComponent<Renderer>(), t);
+        }
+    }
 
     public IEnumerator ScanObject()
     {

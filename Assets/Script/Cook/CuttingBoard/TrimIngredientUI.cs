@@ -6,6 +6,8 @@ using System;
 
 public class TrimIngredientUI : MonoBehaviour
 {
+    [SerializeField] CookUIManager cookUIManager;
+
     [Header("Inventory")]
     [SerializeField] RefrigeratorInventory refrigeratorInventory;
     [SerializeField] IngredientInventory ingredientInventory;
@@ -28,6 +30,7 @@ public class TrimIngredientUI : MonoBehaviour
     public void UIDisable()
     {
         this.gameObject.SetActive(false);
+
     }
 
     public void TrimRecipeList()
@@ -35,7 +38,7 @@ public class TrimIngredientUI : MonoBehaviour
         ingredientInventory.IngredientSlotClear();
         foreach (Recipe recipe in RecipeManager.instance.RecipeList)
         {
-            if(recipe.cookType == CookType.Cutting && CheckRequireIngredient(recipe))
+            if (recipe.cookType == CookType.Cutting && CheckRequireIngredient(recipe))
             {
                 GameObject slotObject = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity);
                 slotObject.transform.SetParent(trimIngredientUIParent.transform);
@@ -46,8 +49,10 @@ public class TrimIngredientUI : MonoBehaviour
         }
     }
 
-    private bool CheckRequireIngredient(Recipe recipe) {
-        if(IngredientManager.IngredientAmount[recipe.mainIngredient] > 0) {
+    private bool CheckRequireIngredient(Recipe recipe)
+    {
+        if (IngredientManager.IngredientAmount[recipe.mainIngredient] > 0)
+        {
             return true;
         }
         return false;

@@ -4,33 +4,21 @@ using UnityEngine;
 
 public class CuttingManager : CookManagerBase
 {
-
     private CuttingObjectSystem cuttingObjectSystem;
-    private CuttingLineSystem cuttingLine;
+    private CuttingLineSystem cuttingLineSystem;
     private CuttingMotionSystem cuttingMotionSystem;
     private CuttingAudioSystem cuttingAudioSystem;
+    private CuttingBoardUI cuttingBoardUI;
 
     [SerializeField] CookUIManager cookUIManager;
 
     [Header("Objects Setting ")]
     [SerializeField] Transform dropPos;
-    [SerializeField] Transform knifePos;
-    [SerializeField] GameObject knifeObject;
-    [SerializeField] GameObject knifeOriginalObject;
-    [SerializeField] GameObject rotateObject;
-
-    [Header("UI Setting")]
-    [SerializeField] GameObject cuttingBoardUI;
-    [SerializeField] GameObject sliceUI;
-    [SerializeField] GameObject rotateUI;
+    [SerializeField] Transform parentPos;
 
     [Header("Mode Setting")]
     public int horizontalCount; // 원하는 분할 개수
     public int verticalCount;
-
-    [Header("Motion Speed Setting")]
-    [SerializeField] float knifeSpeed;
-    [SerializeField] float rotateSpeed;
 
     GameObject targetObject;
     Ingredient currentIngredient;
@@ -43,10 +31,13 @@ public class CuttingManager : CookManagerBase
     void Start()
     {
         cuttingObjectSystem = GetComponent<CuttingObjectSystem>();
-        cuttingLine = GetComponent<CuttingLineSystem>();
+        cuttingLineSystem = GetComponent<CuttingLineSystem>();
         cuttingMotionSystem = GetComponent<CuttingMotionSystem>();
         cuttingAudioSystem = GetComponent<CuttingAudioSystem>();
-        //cuttingBoard.OnCuttingSystem += StartCuttingObject;
+        cuttingBoardUI = GetComponent<CuttingBoardUI>();
+
+        cookUIManager.SelectRecipeMode();
+
     }
 
     void Update()
@@ -58,26 +49,20 @@ public class CuttingManager : CookManagerBase
     }
     /// --------------Virtual Method --------------------------//
 
+    public override void SelectRecipe(Recipe menu)
+    {
+        base.SelectRecipe(menu);
+        StartCoroutine(cookUIManager.VisiblePanel());
+        horizontalCount = currentMenu.cuttingSetting.cuttingCount;
+        verticalCount = currentMenu.cuttingSetting.cuttingCount;
+    }
+
     public override IEnumerator UseCookingStep()
     {
-        horizontalCount = currentMenu.cuttingSetting.cuttingCount;
-        //SelectRecipe();
-        //yield return AddIngredient();
-        //yield return StartCoroutine(DropIngredient());
-        cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
-        yield return StartCoroutine(cuttingLine.ScanObject());
-        cuttingAudioSystem.StopAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
-        switch (currentMenu.cuttingSetting.cuttingType)
-        {
-            case CuttingType.Horizontal:
-                yield return StartCoroutine(CuttingHorizontalSystem());
-                break;
-            case CuttingType.Quater:
-                yield return StartCoroutine(CuttingCubeSystem());
-                break;
-                // case CuttingMode.Quarter:
-                //     break;
-        }
+        yield return StartCoroutine(DropIngredient());
+        yield return StartCoroutine(ScanIngredient());
+        yield return StartCoroutine(CuttingIngredient());
+
         CookCompleteCheck();
     }
 
@@ -96,89 +81,88 @@ public class CuttingManager : CookManagerBase
     {
         currentIngredient = ingredient;
         targetObject = obj;
-        obj.GetComponent<Rigidbody>().useGravity = true;
-        obj.GetComponent<Collider>().enabled = true;
+        // obj.GetComponent<Rigidbody>().useGravity = true;
+        // obj.GetComponent<Collider>().enabled = true;
         obj.transform.position = dropPos.position;
+        //obj.transform.SetParent(parentPos);
+
         StartCoroutine(UseCookingStep());
     }
 
     //------------------------------------------------------//
-
-    IEnumerator AddIngredient()
+    public IEnumerator DropIngredient()
     {
-        GameObject mainIngredient = Instantiate(currentMenu.mainIngredient.ingredientPrefab, Vector3.zero, Quaternion.identity);
-        AddIngredient(mainIngredient, currentMenu.mainIngredient);
-        yield return new WaitForSeconds(0.5f);
+        if (targetObject == null)
+        {
+            Debug.LogError("Not found Ingredient");
+            yield break;
+        }
+        float time = 0;
+        targetObject.GetComponent<Rigidbody>().isKinematic = true;
+        targetObject.GetComponent<Rigidbody>().useGravity = false;
+        //targetObject.GetComponent<Collider>().enabled = false;
+
+        while (true)
+        {
+            time += Time.deltaTime * 5f;
+            targetObject.transform.position = Vector3.Lerp(dropPos.position, parentPos.position, time);
+            //if (targetObject.transform.localPosition.y <= 0f) break;
+            if (targetObject.transform.position.y <= parentPos.position.y) break;
+            yield return null;
+        }
+        targetObject.GetComponent<Rigidbody>().useGravity = true;
+        targetObject.GetComponent<Collider>().enabled = true;
+
     }
+
+    IEnumerator ScanIngredient()
+    {
+        cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
+        yield return StartCoroutine(cuttingLineSystem.ScanObject());
+        cuttingAudioSystem.StopAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
+    }
+
+    IEnumerator CuttingIngredient()
+    {
+        switch (currentMenu.cuttingSetting.cuttingType)
+        {
+            case CuttingType.Horizontal:
+                yield return StartCoroutine(CuttingHorizontalSystem());
+                break;
+            case CuttingType.Quater:
+                yield return StartCoroutine(CuttingCubeSystem());
+                break;
+                // case CuttingMode.Quarter:
+                //     break;
+        }
+    }
+
 
     IEnumerator CuttingHorizontalSystem()
     {
-        CuttingSetup();
-        CreateCuttingLine(horizontalCount);
-        cuttingMotionSystem.Initialize(targetObject, cuttingLine.cuttingLines, currentMenu.cuttingSetting);
+        cuttingBoardUI.VisibleSliceUI();
+
+        cuttingLineSystem.CreateCuttingLine(horizontalCount, targetObject);
+        cuttingMotionSystem.Initialize(targetObject, currentMenu.cuttingSetting);
         yield return StartCoroutine(cuttingMotionSystem.CuttingHorizontal());
 
-        CuttingReset();
-        StartCoroutine(cookUIManager.VisiblePanel());
+        cuttingBoardUI.HideCuttingBoardUI();
+        cuttingBoardUI.VisibleSliceUI();
+        //StartCoroutine(cookUIManager.VisiblePanel());
     }
 
     IEnumerator CuttingCubeSystem()
     {
-        CuttingSetup();
-        CreateCuttingLine(horizontalCount);
-        cuttingMotionSystem.Initialize(targetObject, cuttingLine.cuttingLines, currentMenu.cuttingSetting);
-        yield return StartCoroutine(cuttingMotionSystem.CuttingCube());
+        cuttingBoardUI.VisibleSliceUI();
+        cuttingLineSystem.CreateCuttingLine(horizontalCount, targetObject);
+        cuttingMotionSystem.Initialize(targetObject, currentMenu.cuttingSetting);
+        //yield return StartCoroutine(cuttingMotionSystem.CuttingCube());
+        yield return StartCoroutine(cuttingMotionSystem.CuttingCube2());
 
-        CuttingReset();
-        StartCoroutine(cookUIManager.VisiblePanel());
+        cuttingBoardUI.HideCuttingBoardUI();
+        cuttingBoardUI.VisibleSliceUI();
+        //StartCoroutine(cookUIManager.VisiblePanel());
     }
 
 
-    private void AddPhysics(GameObject obj, Vector3 dir)
-    {
-        if (!obj.TryGetComponent<Rigidbody>(out Rigidbody objRb))
-        {
-            obj.AddComponent<Rigidbody>();
-        }
-        obj.GetComponent<Rigidbody>().mass = 100.0f;
-        obj.AddComponent<MeshCollider>().convex = true;
-        obj.GetComponentInChildren<Rigidbody>().AddForce(dir * 2, ForceMode.VelocityChange);
-    }
-
-    private void CreateCuttingLine(int count)
-    {
-        cuttingLine.ScanReset();
-        for (int i = 1; i < count; i++)
-        {
-            float t = i / (float)count;
-            cuttingLine.CalculateCuttingLine(targetObject.GetComponent<Renderer>(), t);
-        }
-    }
-
-    private void ObjectReset(List<GameObject> sliceAllObjects)
-    {
-        foreach (GameObject sliceObject in sliceAllObjects)
-        {
-            Destroy(sliceObject);
-        }
-        Destroy(targetObject);
-    }
-
-    private void CuttingSetup()
-    {
-        cuttingBoardUI.SetActive(true);
-        sliceUI.SetActive(true);
-        knifeObject.SetActive(true);
-        knifeObject.transform.position = knifePos.position;
-        knifeOriginalObject.transform.localRotation = Quaternion.Euler(0, 90, -30);
-    }
-
-    private void CuttingReset()
-    {
-        knifeObject.SetActive(false);
-        cuttingBoardUI.SetActive(false);
-        sliceUI.SetActive(false);
-        cuttingLine.ScanReset();
-        rotateObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
-    }
 }
