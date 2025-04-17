@@ -3646,19 +3646,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1678531325}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: bulletPoint
-      value: 
-      objectReference: {fileID: 1045689585}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: maxBulletText
       value: 
       objectReference: {fileID: 1691979287}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: bulletCasePoint
+      propertyPath: weaponLevels.Array.data[0].bulletPoint
       value: 
-      objectReference: {fileID: 552271771}
+      objectReference: {fileID: 1045689585}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: weaponClipPoint
+      propertyPath: weaponLevels.Array.data[0].weaponObject
+      value: 
+      objectReference: {fileID: 1186695910}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[0].bulletCasePoint
+      value: 
+      objectReference: {fileID: 2078485124}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[0].weaponClipPoint
       value: 
       objectReference: {fileID: 600941498}
     - target: {fileID: 1165363847365910181, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
@@ -10159,11 +10163,6 @@ RectTransform:
   m_AnchoredPosition: {x: -80, y: -220}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &552271771 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3416707061458269483, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-  m_PrefabInstance: {fileID: 4079971829446800}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &561122294
 GameObject:
   m_ObjectHideFlags: 0
@@ -21832,6 +21831,11 @@ CanvasRenderer:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5049163656497857009, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
   m_PrefabInstance: {fileID: 42480489}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1186695910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3536970144114840858, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 4079971829446800}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1187784773
 GameObject:
@@ -40538,6 +40542,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a69adb959db5d540837e13343d3d95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2078485124 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1242444687182657545, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 4079971829446800}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2080051197
 GameObject:
   m_ObjectHideFlags: 0
@@ -41404,6 +41413,14 @@ PrefabInstance:
       propertyPath: aimImage
       value: 
       objectReference: {fileID: 254904620}
+    - target: {fileID: 5249210073580575717, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+      propertyPath: rifleObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5249210073580575717, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+      propertyPath: rifleObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 1186695910}
     - target: {fileID: 5547857433016413821, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_Name
       value: PlayerGroup
@@ -41457,7 +41474,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1024527981}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3682553516932787347, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}

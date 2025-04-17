@@ -37,9 +37,12 @@ public class RifleManager : MonoBehaviour
     public int attackDamage = 20;
     public int CurrentWeaponLevel => currentWeaponIndex;
 
-    void Start()
+    private void Awake()
     {
         instance = this;
+    }
+    void Start()
+    {
         currentShootDelay = 0;
         InitBullet();
         //recoilScript = GetComponent<GunRecoil>();
