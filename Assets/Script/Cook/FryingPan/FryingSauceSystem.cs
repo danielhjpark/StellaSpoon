@@ -10,9 +10,11 @@ public class FryingSauceSystem : SauceSystem
     private float currentScale;
     private float scaleValue;
     private WaitForSeconds sauceDelay = new WaitForSeconds(0.01f);
-    
+    private FryingPanAudioSystem fryingPanAudioSystem;
+
     void Start()
     {
+        fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
         isLiquidFilled = false;
         isCanFillLiquid = false;
         maxScale = 25;
@@ -42,6 +44,7 @@ public class FryingSauceSystem : SauceSystem
     {
         currentScale = minScale;
         liquidVolume.gameObject.transform.localScale = new Vector3(0, 1f, 0);
+        fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.PouringSauce);
         while (true)
         {
             currentScale += 0.1f;
@@ -55,6 +58,7 @@ public class FryingSauceSystem : SauceSystem
 
             yield return sauceDelay;
         }
+        fryingPanAudioSystem.StopAudioSource(FryingPanAudioSystem.AudioType.PouringSauce);
     }
 
     public IEnumerator UseSauce()

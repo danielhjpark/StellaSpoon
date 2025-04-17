@@ -12,7 +12,7 @@ public enum MonsterStates //몬스터 상태
     Attack, //공격 상태
     Chasing, //쫒기 상태
     RandomMove, //랜덤 이동 상태
-    Death //죽음 상태
+    Death, //죽음 상태
 }
 public abstract class MonsterBase : MonoBehaviour
 {
@@ -46,6 +46,7 @@ public abstract class MonsterBase : MonoBehaviour
     public int[] maxDropItems; //아이템 별 최대 드랍 갯수
 
     protected MonsterStates currentState;
+    protected MonsterStates previousState; // 이전 상태 저장용
     protected NavMeshAgent nav;
     protected Animator animator;
     protected GameObject player;
@@ -102,7 +103,14 @@ public abstract class MonsterBase : MonoBehaviour
 
                     if (distanceToPlayer <= attackRange)
                     {
-                        nav.ResetPath();
+                        if (this is BearKingMonster && !BearKingMonster.isJumping)
+                        {
+                            nav.ResetPath();
+                        }
+                        else
+                        {
+                            nav.ResetPath();
+                        }
                         inAttackRange = true;
                         currentState = MonsterStates.Attack;
                     }
@@ -119,9 +127,9 @@ public abstract class MonsterBase : MonoBehaviour
                 }
                 if (!(this is EscapeMonster))
                 {
-                    if((this is BearKingMonster))
+                    if ((this is BearKingMonster))
                     {
-                        if(!BearKingMonster.isChargeSetting)
+                        if (!BearKingMonster.isChargeSetting)
                         {
                             LookPlayer();
                         }
@@ -216,6 +224,10 @@ public abstract class MonsterBase : MonoBehaviour
     }
     protected virtual void HandleRandomMove()
     {
+        if (!animator.GetBool("Walk"))
+        {
+            animator.SetBool("Walk", true);
+        }
         wanderTimer += Time.deltaTime; //시간 체크
         if (!nav.pathPending && nav.remainingDistance <= 0.2f) //도착지에서 0.1 내에 있는지
         {
@@ -244,8 +256,13 @@ public abstract class MonsterBase : MonoBehaviour
     }
     protected virtual void HandleDeath()
     {
-        animator.SetBool("Walk", false);
-
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(param.name, false);
+            }
+        }
         Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
         currentHealth = 0;
         //애니메이션 죽음 실행
@@ -287,18 +304,16 @@ public abstract class MonsterBase : MonoBehaviour
         }
         else
         {
+            previousState = currentState; //이전 상태 저장
+
             if (!isDamage) //첫 피격일 때
             {
                 isDamage = true;
                 animator.SetBool("Hit", true);
-                currentState = MonsterStates.Idle;
-                HandleState();
             }
             else
             {
                 animator.Play("GetHit", 0, 0f);
-                currentState = MonsterStates.Idle;
-                HandleState();
             }
 
         }
@@ -391,7 +406,7 @@ public abstract class MonsterBase : MonoBehaviour
                 }
                 if (itemToDrop != null)
                 {
-                    Vector3 dropPosition = transform.position + new Vector3(0f, 1f, 0f);
+                    Vector3 dropPosition = transform.position + new Vector3(0f, 2f, 0f);
                     GameObject droppedItem = Instantiate(itemToDrop, dropPosition, Quaternion.identity);
                     droppedItems.Add(droppedItem);
                     // 현재 드랍된 아이템과 이전에 드랍된 아이템들 사이의 충돌 무시
@@ -434,6 +449,9 @@ public abstract class MonsterBase : MonoBehaviour
         animator.SetBool("Hit", false);
         nav.isStopped = false;
         isDamage = false;
+
+        currentState = previousState; //이전 상태로 복귀
+        HandleState();
     }
 
     IEnumerator EndAttack()

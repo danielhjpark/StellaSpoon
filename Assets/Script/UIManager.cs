@@ -7,8 +7,6 @@ public class UIManager : MonoBehaviour
     static public UIManager instance { get; private set; }
     [Header("UI")]
     [SerializeField] GameObject DailyMenuUI;
-    [SerializeField] GameObject RefrigeratorUI;
-    [SerializeField] GameObject DeviceUI;
     [SerializeField] GameObject NewRecipeUI;
     [SerializeField] GameObject InteractUI;
 

@@ -8,6 +8,7 @@ public class CuttingManager : CookManagerBase
     private CuttingObjectSystem cuttingObjectSystem;
     private CuttingLineSystem cuttingLine;
     private CuttingMotionSystem cuttingMotionSystem;
+    private CuttingAudioSystem cuttingAudioSystem;
 
     [SerializeField] CookUIManager cookUIManager;
 
@@ -44,7 +45,7 @@ public class CuttingManager : CookManagerBase
         cuttingObjectSystem = GetComponent<CuttingObjectSystem>();
         cuttingLine = GetComponent<CuttingLineSystem>();
         cuttingMotionSystem = GetComponent<CuttingMotionSystem>();
-
+        cuttingAudioSystem = GetComponent<CuttingAudioSystem>();
         //cuttingBoard.OnCuttingSystem += StartCuttingObject;
     }
 
@@ -63,7 +64,9 @@ public class CuttingManager : CookManagerBase
         //SelectRecipe();
         //yield return AddIngredient();
         //yield return StartCoroutine(DropIngredient());
+        cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
         yield return StartCoroutine(cuttingLine.ScanObject());
+        cuttingAudioSystem.StopAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
         switch (currentMenu.cuttingSetting.cuttingType)
         {
             case CuttingType.Horizontal:

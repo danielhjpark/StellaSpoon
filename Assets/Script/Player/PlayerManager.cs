@@ -60,6 +60,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Material specialMaterial;
 
+
+    [SerializeField]
+    private AudioClip Reload_SFX; // 재장전 소리
+
     private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
     public bool isRestaurant;
 
@@ -70,6 +74,9 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponent<Animator>();
         RifleManager.instance.SwitchWeapon(0);
         SceneManager.sceneLoaded += OnSceneLoaded; // 씬 변경 이벤트 등록
+
+        // 씬이 이미 로드된 뒤 생성된 경우를 위해 수동 호출
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     void OnDestroy()
@@ -93,6 +100,7 @@ public class PlayerManager : MonoBehaviour
         if (isRestaurant)
         {
             isRestaurant = true;
+            SetRigWeight(0);
             ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경
         }
         else
@@ -125,8 +133,9 @@ public class PlayerManager : MonoBehaviour
             InventoryManager.instance.isWeaponRifle = true;
             EquipRifleCheck();
         }
-        AimCheck();
+
         CheckJumpOrDodge();
+        AimCheck();
     }
 
     private void AimCheck()
@@ -144,6 +153,8 @@ public class PlayerManager : MonoBehaviour
             SetRigWeight(0);
             anim.SetLayerWeight(2, 1);
             anim.SetTrigger("Reload");
+            // 재장전 소리
+            AudioSource.PlayClipAtPoint(Reload_SFX, transform.position, controller.FootstepAudioVolume);
             controller.isReload = true;
         }
 

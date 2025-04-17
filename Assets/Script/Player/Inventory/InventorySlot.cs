@@ -26,7 +26,7 @@ public class InventorySlot : Slot
     }
     public override void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
     {
-
+        base.OnEndDrag(eventData); // 부모의 드래그 종료 처리 실행
     }
 
     public override void ClearSlot()

@@ -6,12 +6,16 @@ using UnityEngine.Diagnostics;
 
 public class PotBoilingSystem : MonoBehaviour
 {
+    //Pot Systems
+    PotViewportSystem potViewportSystem;
+    PotAudioSystem potAudioSystem;
+    PotUI potUI;
+
     [Header("Button UI Text")]
     [SerializeField] TextMeshProUGUI powerText;
     [SerializeField] Transform centerPos;
     [SerializeField] GameObject gravityLimitLine;
-    PotUI potUI;
-    PotViewportSystem potViewportSystem;
+
 
     public int rotatePower = 0;
     private float completeTime;
@@ -24,8 +28,10 @@ public class PotBoilingSystem : MonoBehaviour
     void Awake()
     {
         gravityLimitLine.SetActive(false);
-        potUI = this.GetComponent<PotUI>();
+        
         potViewportSystem = this.GetComponent<PotViewportSystem>();
+        potAudioSystem = this.GetComponent<PotAudioSystem>();
+        potUI = this.GetComponent<PotUI>();
     }
 
     public void Initialize(BoilingSetting boilingSetting, List<GameObject> potIngredients)
@@ -60,12 +66,14 @@ public class PotBoilingSystem : MonoBehaviour
     public IEnumerator StartBoilingSystem()
     {
         yield return new WaitUntil(() => isRotate);
+        potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         while (true)
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
                 potUI.HideLidButton();
                 yield return StartCoroutine(potViewportSystem.CloseLid());
+                potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.PutPotLid);
                 break;
             }
             yield return null;

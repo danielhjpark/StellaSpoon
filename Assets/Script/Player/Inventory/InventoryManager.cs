@@ -93,7 +93,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         totalWeightText.text = totalWeight.ToString();
-        Debug.Log($"Recalculated Total Weight: {totalWeight}");
+        //Debug.Log($"Recalculated Total Weight: {totalWeight}");
     }
 
     public void ClearAllSlots()

@@ -13,6 +13,7 @@ public class PotManager : CookManagerBase
     private PotSauceSystem potSauceSystem;
     private PotViewportSystem potViewportSystem;
     private PotIngredientSystem potIngredientSystem;
+    private PotAudioSystem potAudioSystem;
     private PotUI potUI;
 
     [Header("UI Objects")]
@@ -43,6 +44,7 @@ public class PotManager : CookManagerBase
         potBoilingSystem = GetComponent<PotBoilingSystem>();
         potSauceSystem = GetComponent<PotSauceSystem>();
         potViewportSystem = GetComponent<PotViewportSystem>();
+        potAudioSystem = GetComponent<PotAudioSystem>();
         potUI = GetComponent<PotUI>();
         isCanEscape = true;
     }
@@ -51,7 +53,9 @@ public class PotManager : CookManagerBase
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(!isCanEscape) CloseSceneView();
+            if(!isCanEscape) {
+                CloseSceneView();
+            }
             else CookSceneManager.instance.UnloadScene("PotMergeTest");
         }
     }
@@ -79,11 +83,13 @@ public class PotManager : CookManagerBase
         if (ingredient.ingredientType == IngredientType.Main)
         {
             mainIngredient = ingredient;
+            potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.MainIngredientDrop);
             //IngredientAddAmount(checkIngredients, ingredient, 1);
             return;
         }
         if(ingredient.ingredientType == IngredientType.Sub) {
             IngredientAddAmount(checkIngredients, ingredient, ingredient.ingredientUseCount);
+            potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.SubIngredientDrop);
         }
         
     }
@@ -254,6 +260,7 @@ public class PotManager : CookManagerBase
     //---------------SceneView Controll--------------//
     public void OpenSceneView()
     {
+        potAudioSystem.UnPauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(true);
         CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         potViewCamera.SetActive(true);
@@ -269,6 +276,7 @@ public class PotManager : CookManagerBase
     //Change to MainCamera
     public void CloseSceneView()
     {
+        potAudioSystem.PauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(false);
         CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(true);
         potViewCamera.SetActive(false);
@@ -281,7 +289,5 @@ public class PotManager : CookManagerBase
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
-
 
 }
