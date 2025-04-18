@@ -50,6 +50,10 @@ public class StoreNPCManager : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.F)) //F키 눌렀을 때 
             {
                 openStoreUI = true;
+                //플레이어 이동 제한
+                //카메라 이동 제한
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 switch (NPCTypes)
                 {
                     case NPCType.IngredientNPC:
@@ -75,7 +79,9 @@ public class StoreNPCManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     //플레이어 이동 제한 해제
-                    //카메라 기본으로 돌아가기
+                    //카메라 이동 제한 해제
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     switch (NPCTypes)
                     {
                         case NPCType.IngredientNPC:
