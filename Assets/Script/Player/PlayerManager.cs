@@ -100,6 +100,7 @@ public class PlayerManager : MonoBehaviour
             isRestaurant = true;
             SetRigWeight(0);
             ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경
+
         }
         else
         {
@@ -256,11 +257,6 @@ public class PlayerManager : MonoBehaviour
 
     private void SetRigWeight(float weight)
     {
-        if(isRestaurant)
-        {
-            aimRig.weight = 0;
-            handRig.weight = 0;
-        }
         aimRig.weight = weight;
         handRig.weight = weight;
     }
