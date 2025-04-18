@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Item item; // 획득한 아이템
     public int itemCount; // 획득한 아이템의 개수
@@ -17,6 +17,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public RectTransform deleteImageRect;
 
     public static bool isFull = false;
+
+    private ItemNameData itemNameData;
 
     void Start()
     {
@@ -31,6 +33,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             Debug.LogError("DeleteImage를 찾을 수 없습니다. 이름을 확인하세요.");
         }
         theInputNumber = FindObjectOfType<InputNumber>();
+        itemNameData = FindObjectOfType<ItemNameData>();
     }
 
     // 아이템 이미지의 투명도 조절
@@ -166,6 +169,20 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (DragSlot.instance.dragSlot != null)
             ChangeSlot();
     }
+
+    virtual public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(item != null)
+        {
+            itemNameData.showToolTip(item, transform.position);
+        }
+    }
+
+    virtual public void OnPointerExit(PointerEventData eventData)
+    {
+        itemNameData.HideToolTip();
+    }
+
     // A 슬롯을 드래그 하여 B 슬롯에 드롭하여, A 슬롯 B 슬롯 서로 자리를 바꾸기
     virtual public void ChangeSlot()
     {

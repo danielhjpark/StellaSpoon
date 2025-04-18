@@ -15,12 +15,12 @@ public class Inventory : MonoBehaviour
 
     private Slot[] slots; // 슬롯들 배열
 
-    [SerializeField]
-    private DeviceManager deviceManager;
+    private ItemNameData itemNameData;
 
     void Start()
     {
         slots = go_SlotsParent.GetComponentsInChildren<Slot>();
+        itemNameData = FindObjectOfType<ItemNameData>();
     }
 
     public void OpenInventory()
@@ -37,6 +37,7 @@ public class Inventory : MonoBehaviour
         go_InventoryBase.SetActive(false);
         go_EquipmentBase.SetActive(false);
         inventoryActivated = false;
+        itemNameData.HideToolTip();
     }
 
     // 아이템을 획득하고 인벤토리 슬롯에 추가하는 함수
