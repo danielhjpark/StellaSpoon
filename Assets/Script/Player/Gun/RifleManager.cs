@@ -58,6 +58,19 @@ public class RifleManager : MonoBehaviour
         {
             currentShootDelay += Time.deltaTime;
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SwitchWeapon(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SwitchWeapon(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SwitchWeapon(2);
+        }
     }
 
     public void Shooting(Vector3 targetPosition)

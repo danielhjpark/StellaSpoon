@@ -67,6 +67,9 @@ public class PlayerManager : MonoBehaviour
     private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
     public bool isRestaurant;
 
+    private bool rigTemporarilyDisabled = false;
+    [SerializeField] private TwoBoneIKConstraint leftHandConstraint; // 왼손 IK
+
     void Start()
     {
         _input = GetComponent<StarterAssetsInputs>();
@@ -119,6 +122,8 @@ public class PlayerManager : MonoBehaviour
         anim.runtimeAnimatorController = newAnimator;
         anim.Rebind();
         anim.Update(0);
+
+        if (!isRestaurant) handRig.weight = 1;
     }
 
     void Update()
@@ -152,6 +157,7 @@ public class PlayerManager : MonoBehaviour
 
             AimControll(false);
             SetRigWeight(0);
+
             anim.SetLayerWeight(2, 1);
             anim.SetTrigger("Reload");
             // 재장전 소리
@@ -258,7 +264,7 @@ public class PlayerManager : MonoBehaviour
             }
 
             anim.SetLayerWeight(1, 1);
-            handRig.weight = 1;
+            StartCoroutine(EnableRigDelayed());
             RifleManager.instance.WeaponUI.SetActive(true);
             RifleManager.instance.SpriteUI.SetActive(true);
         }
@@ -287,7 +293,19 @@ public class PlayerManager : MonoBehaviour
 
         if (isJumping || isDodging || isReloading || isHitting)
         {
-            SetRigWeight(0);
+            if (!rigTemporarilyDisabled)
+            {
+                DisableHandIK();
+                rigTemporarilyDisabled = true;
+            }
+        }
+        else
+        {
+            if (rigTemporarilyDisabled && InventoryManager.instance.isWeaponRifle && !isRestaurant)
+            {
+                EnableHandIK();
+                rigTemporarilyDisabled = false;
+            }
         }
     }
 
@@ -313,5 +331,21 @@ public class PlayerManager : MonoBehaviour
     public void FalseAim()
     {
         noAim = false;
+    }
+
+    IEnumerator EnableRigDelayed()
+    {
+        yield return null; // 한 프레임 쉬고
+        handRig.weight = 1;
+        Debug.Log("딜레이 후 handRig.weight: " + handRig.weight);
+    }
+    private void DisableHandIK()
+    {
+        leftHandConstraint.weight = 0;
+    }
+
+    private void EnableHandIK()
+    {
+        leftHandConstraint.weight = 1;
     }
 }
