@@ -48,6 +48,15 @@ public class InventorySlot : Slot
         // 슬롯을 비활성화 색상으로 표시
         SetColor(0);
     }
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
+    }
 
     private void HandleMerge(Slot draggedSlot)
     {

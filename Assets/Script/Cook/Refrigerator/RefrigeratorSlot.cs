@@ -67,6 +67,16 @@ public class RefrigeratorSlot : Slot
         OnSlotUpdate?.Invoke();
     }
 
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
+    }
+
     override public void ClearSlot()
     {
         // 아이템 데이터 초기화
