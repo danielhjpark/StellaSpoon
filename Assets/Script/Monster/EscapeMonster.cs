@@ -129,7 +129,7 @@ public class EscapeMonster : MonsterBase
         return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
     }
 
-    protected override void OnDrawGizmos()
+    protected override void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red; //감지 범위
         Vector3 myPos = transform.position + Vector3.up * 0.5f;

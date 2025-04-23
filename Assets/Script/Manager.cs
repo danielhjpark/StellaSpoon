@@ -8,6 +8,9 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
 
+    public static int Gold; //플레이어 보유 골드
+
+
     private void Awake()
     {
         if (SceneManager.GetActiveScene().name == "Lobby")
