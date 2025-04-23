@@ -25,7 +25,9 @@ public class StoreNPCManager : MonoBehaviour
 
     static public bool isIngredient = false;
 
+    [SerializeField]
     private bool openStoreUI = false; //상점 UI 열었는지
+    [SerializeField]
     private bool iscollPlayer = false; //플레이어와 충돌했는지
 
     private void OnTriggerEnter(Collider other)
@@ -47,34 +49,34 @@ public class StoreNPCManager : MonoBehaviour
     {
         if(iscollPlayer)
         {
-            if(Input.GetKeyDown(KeyCode.F)) //F키 눌렀을 때 
+            if(!openStoreUI)
             {
-                openStoreUI = true;
-                //플레이어 이동 제한
-                //카메라 이동 제한
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                switch (NPCTypes)
+                if (Input.GetKeyDown(KeyCode.F)) //F키 눌렀을 때 
                 {
-                    case NPCType.IngredientNPC:
-                        ingredientBase.SetActive(true);//재료상점 UI 출력
-                        isIngredient = true;
-                        break;
-                    case NPCType.KitchenNPC:
-                        CookBase.SetActive(true);//주방상점 UI 출력
-                        break;
-                    case NPCType.GunNPC:
-                        GunBase.SetActive(true);//무기상점 UI 출력
-                        break;
+                    openStoreUI = true;
+                    //플레이어 이동 제한
+                    //카메라 이동 제한
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                    switch (NPCTypes)
+                    {
+                        case NPCType.IngredientNPC:
+                            ingredientBase.SetActive(true);//재료상점 UI 출력
+                            isIngredient = true;
+                            break;
+                        case NPCType.KitchenNPC:
+                            CookBase.SetActive(true);//주방상점 UI 출력
+                            break;
+                        case NPCType.GunNPC:
+                            GunBase.SetActive(true);//무기상점 UI 출력
+                            break;
+                    }
+                    storeUIManager.CallChatUI(); //대화창 UI 출력
+                                                 //플레이어 이동 제한
+                                                 //카메라 이동
                 }
-                storeUIManager.CallChatUI(); //대화창 UI 출력
-                                             //플레이어 이동 제한
-                                             //카메라 이동
             }
-        }
-        else
-        {
-            if(openStoreUI) //상점 UI가 열려있을 때 
+            else
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
@@ -99,8 +101,8 @@ public class StoreNPCManager : MonoBehaviour
                     openStoreUI = false;
                 }
             }
-        }
-        
+
+        }        
     }
     //UI 별로 스크립트 작성
     //UI 스크립트 내에서 골드 감소 밑 아이템 추가 구현
