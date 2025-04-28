@@ -8,10 +8,17 @@ public class IngredientStore : MonoBehaviour
     private GameObject buyBase;
     [SerializeField]
     private GameObject sellBase;
+    [SerializeField]
+    private GameObject buyButton;
+    [SerializeField]
+    private GameObject sellButton;
     public void ClickBuy()
     {
         sellBase.SetActive(false);
         buyBase.SetActive(true);
+
+        buyButton.SetActive(true);
+        sellButton.SetActive(false);
 
     }
     public void ClickSell()
@@ -19,5 +26,7 @@ public class IngredientStore : MonoBehaviour
         buyBase.SetActive(false);
         sellBase.SetActive(true);
 
+        buyButton.SetActive(false);
+        sellButton.SetActive(true);
     }
 }

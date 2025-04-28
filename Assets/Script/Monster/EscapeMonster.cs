@@ -88,6 +88,9 @@ public class EscapeMonster : MonsterBase
 
         nav.speed = escapeSpeed; //도망속도로 변경
 
+        //애니메이션 RUN 으로 변경 필요
+        //도착시 애니메이션 IDLE로 변경 필요
+
         //도망가는 방향 설정
         Vector3 myPos = transform.position;
         Vector3 direction = (myPos - targetPosition).normalized;

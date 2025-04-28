@@ -39,15 +39,6 @@ public class StoreUIManager : MonoBehaviour
     private int currentPurchaseCount = 0; //현재 구매 갯수
     private int currentSelectedIngredientIndex = -1; //현재 선택된 재료 인덱스
 
-    private void PlusCount()
-    {
-        countText.text = (int.Parse(countText.text) + 1).ToString();
-    }
-    private void MinusCount()
-    {
-        countText.text = (int.Parse(countText.text) - 1).ToString();
-    }
-
 
 
     [Header("Gun")]
@@ -184,7 +175,7 @@ public class StoreUIManager : MonoBehaviour
 
     //cook
 
-        //gunNPC
+    //gunNPC
     public void SelectTempestFang()
     {
         gunType = 0;
