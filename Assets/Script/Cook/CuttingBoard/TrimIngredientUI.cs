@@ -36,7 +36,7 @@ public class TrimIngredientUI : MonoBehaviour
     public void TrimRecipeList()
     {
         ingredientInventory.IngredientSlotClear();
-        foreach (Recipe recipe in RecipeManager.instance.RecipeList)
+        foreach (Recipe recipe in RecipeManager.instance.RecipeList.Values)
         {
             if (recipe.cookType == CookType.Cutting && CheckRequireIngredient(recipe))
             {

@@ -39,6 +39,7 @@ public class ActionController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             CheckItem();
+            CheckRecipe();
             CanPickUp();
         }
     }
@@ -93,6 +94,20 @@ public class ActionController : MonoBehaviour
                 AudioSource.PlayClipAtPoint(Item_PickUp_SFX, characterTransform.position, 0.5f);
                 Destroy(hitInfo.transform.gameObject);
                 ItemInfoDisappear();
+            }
+        }
+    }
+
+    private void CheckRecipe()
+    {
+        if (hitInfo.transform != null)
+        {
+            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemType.Recipe)
+            {
+                Recipe unLockTarget = RecipeManager.instance.FindRecipe(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName);
+                RecipeManager.instance.RecipeUnLock(unLockTarget);
+                AudioSource.PlayClipAtPoint(Item_PickUp_SFX, characterTransform.position, 0.5f);
+                Destroy(hitInfo.transform.gameObject);
             }
         }
     }

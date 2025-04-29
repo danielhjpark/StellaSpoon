@@ -7,72 +7,106 @@ public class RecipeManager : MonoBehaviour
 {
     static public RecipeManager instance = null;
 
-    public Recipe[] RecipeList; //?ûÑ?ãú ?ç∞?ù¥?Ñ∞ Î≤†Ïù¥?ä§
+    public Dictionary<string, Recipe> RecipeList; //?ûÑ?ãú ?ç∞?ù¥?Ñ∞ Î≤†Ïù¥?ä§
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
-    
+    private GameObject NewRecipeUI;
+
     void Awake()
     {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
             //DontDestroyOnLoad(gameObject);
         }
-        else {
+        else
+        {
             if (instance != this) Destroy(this.gameObject);
         }
 
-        RecipeList = Resources.LoadAll<Recipe>("Scriptable/Recipe");
-        RecipeUnlockCheck = new Dictionary<Recipe, bool>();
+        //RecipeList = Resources.LoadAll<Recipe>("Scriptable/Recipe");
+
         RecipeUnlockInit();
         //MakeRecipeUnLockList();
     }
 
-    void RecipeUnlockInit() {
-        foreach (Recipe recipe in RecipeList) {
+    void RecipeUnlockInit()
+    {
+        RecipeList = new Dictionary<string, Recipe>();
+        RecipeUnlockCheck = new Dictionary<Recipe, bool>();
+        Recipe[] RecipeScriptable = Resources.LoadAll<Recipe>("Scriptable/Recipe");
+
+        foreach (Recipe recipe in RecipeScriptable)
+        {
+            RecipeList.Add(recipe.name, recipe);
             RecipeUnlockCheck.Add(recipe, false);
         }
     }
-
-    public void RecipeUnLock(Recipe getRecipe) {
-        RecipeUnlockCheck[getRecipe] = true;
+    //--------------- RecipeUnLock System -----------------//
+    public void RecipeUnLock(Recipe getRecipe)
+    {
+        if (getRecipe != null && !RecipeUnlockCheck[getRecipe])
+        {
+            RecipeUnlockCheck[getRecipe] = true;
+            Debug.Log("RecipeUnLock : " + getRecipe.name);
+            //RecipeUnLockUI();
+        }
     }
 
-    public List<Recipe> MakeRecipeUnLockList() {
+    public void RecipeUnLockUI()
+    {
+        NewRecipeUI.SetActive(true);
+        StartCoroutine(RecipeUnLockFade());
+    }
+
+    IEnumerator RecipeUnLockFade()
+    {
+        NewRecipeUI.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        NewRecipeUI.SetActive(false);
+
+    }
+    //----- Get all of unlock recipelist -------------//
+    public List<Recipe> MakeRecipeUnLockList()
+    {
         List<Recipe> unlockedRecipes = RecipeUnlockCheck
             .Where(Recipe => Recipe.Value) // bool Í∞íÏù¥ true?ù∏ ?ï≠Î™? ?ïÑ?Ñ∞Îß?
             .Select(Recipe => Recipe.Key) // RecipeÎß? Ï∂îÏ∂ú
             .ToList();
-
-        foreach (Recipe recipe in unlockedRecipes) {
-        }
 
         return unlockedRecipes;
     }
 
     //--------------Î©îÎâ¥ ?Éù?Ñ± ?ó¨Î∂??ôï?ù∏------------------------//
     //?ã®?àò
-    public bool IsCanMakeMenu(Recipe recipe) {
-        if(recipe == null) return false;
-        if(IngredientManager.IngredientAmount[recipe.mainIngredient] <= 0) return false;
-        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+    public bool IsCanMakeMenu(Recipe recipe)
+    {
+        if (recipe == null) return false;
+        if (IngredientManager.IngredientAmount[recipe.mainIngredient] <= 0) return false;
+        foreach (IngredientAmount currentIngredient in recipe.ingredients)
+        {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount;
             int currentIngredientAmount = IngredientManager.IngredientAmount[currentIngdeient];
-            if(currentIngredientAmount < requireIngredientAmount) {
+            if (currentIngredientAmount < requireIngredientAmount)
+            {
                 return false;
             }
         }
         return true;
     }
     //Î≥µÏàò
-    public bool IsCanMakeMenu(Recipe recipe, int amount) {
-        if(recipe == null) return false;
-        if(IngredientManager.IngredientAmount[recipe.mainIngredient] * amount <= 0) return false;
-        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+    public bool IsCanMakeMenu(Recipe recipe, int amount)
+    {
+        if (recipe == null) return false;
+        if (IngredientManager.IngredientAmount[recipe.mainIngredient] * amount <= 0) return false;
+        foreach (IngredientAmount currentIngredient in recipe.ingredients)
+        {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
             int currentIngredientAmount = IngredientManager.IngredientAmount[currentIngdeient];
             Debug.Log(currentIngredientAmount + " " + requireIngredientAmount);
-            if(currentIngredientAmount  < requireIngredientAmount) {
+            if (currentIngredientAmount < requireIngredientAmount)
+            {
                 return false;
             }
         }
@@ -80,34 +114,47 @@ public class RecipeManager : MonoBehaviour
     }
 
     //----------------?û¨Î£? ?Ç¨?ö©?ïòÍ∏?------------------------//
-    public void UseIngredientFromRecipe(Recipe recipe, int amount) {
+    public void UseIngredientFromRecipe(Recipe recipe, int amount)
+    {
         IngredientManager.IngredientAmount[recipe.mainIngredient] -= amount;
 
-        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+        foreach (IngredientAmount currentIngredient in recipe.ingredients)
+        {
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
             IngredientManager.IngredientAmount[currentIngdeient] -= requireIngredientAmount;
         }
     }
     //-----------------?û¨Î£? Î∞òÌôò?ïòÍ∏? ----------------------//
-        public void RecallIngredientFromRecipe(Recipe recipe, int amount) {
+    public void RecallIngredientFromRecipe(Recipe recipe, int amount)
+    {
         IngredientManager.IngredientAmount[recipe.mainIngredient] += amount;
 
-        foreach(IngredientAmount currentIngredient in recipe.ingredients) {
+        foreach (IngredientAmount currentIngredient in recipe.ingredients)
+        {
             Ingredient currentIngdeient = currentIngredient.ingredient;
-             int requireIngredientAmount = currentIngredient.amount * amount;
+            int requireIngredientAmount = currentIngredient.amount * amount;
             IngredientManager.IngredientAmount[currentIngdeient] += requireIngredientAmount;
         }
     }
 
-    //------------------Find Recipe for Main Ingredient------------------------//
+    //-----------------    Find Recipe   -----------------------//
+    public Recipe FindRecipe(string recipeName)
+    {
+        //Recipe targetRecipe = RecipeList.Values.SingleOrDefault(recipe => recipe.name.Contains(recipeName));
+
+        Recipe targetRecipe = RecipeList.Values.SingleOrDefault(recipe => recipeName.Contains(recipe.name));
+        Debug.Log(targetRecipe);
+        return targetRecipe;
+    }
+
     public Recipe FindRecipe(Ingredient ingredient)
     {
         Ingredient mainIngredient = ingredient;
-        Recipe recipe = RecipeList.SingleOrDefault(recipe => recipe.mainIngredient == mainIngredient);
-        return recipe;
+        Recipe targetRecipe = RecipeList.Values.SingleOrDefault(recipe => recipe.mainIngredient == mainIngredient);
+        return targetRecipe;
     }
-
+    //-------------Check compare recipe with ingredients ---------//
     public bool CompareRecipe(Recipe currentRecipe, List<IngredientAmount> checkIngredients)
     {
         List<IngredientAmount> currentIngredients = currentRecipe.ingredients;
