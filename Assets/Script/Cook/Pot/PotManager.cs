@@ -34,6 +34,7 @@ public class PotManager : CookManagerBase
     private List<GameObject> potIngredients = new List<GameObject>();
     private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
     //------------------------------------------------//
+    int cookCompleteTime;
 
     void Awake()
     {
@@ -60,7 +61,7 @@ public class PotManager : CookManagerBase
         }
     }
 
-    //--------------- virtual Method ----------------------//
+    //--------------- Recipe Mode ----------------------//
     public override void SelectRecipe(Recipe menu)
     {
         isCanEscape = false;
@@ -68,12 +69,15 @@ public class PotManager : CookManagerBase
         StartCoroutine(UseCookingStep());
     }
 
-    public void RecipeSetting(Recipe menu)
+    public void MakeRecipe(Recipe menu)
     {
+        isCanEscape = false;
         base.SelectRecipe(menu);
-
+        if(menu == null || menu.cookType != CookType.Boiling) {
+            cookCompleteTime = 20;
+        }   
     }
-
+    //---------------------------------------------------//
     public override void AddIngredient(GameObject obj, Ingredient ingredient)
     {
         obj.transform.position = dropPos.position;
@@ -102,6 +106,7 @@ public class PotManager : CookManagerBase
         yield return StartCoroutine(InherentMotion());
         CookCompleteCheck();
     }
+    
     public override void CookCompleteCheck()
     {
         if(cookMode == CookMode.Select) {
@@ -151,18 +156,16 @@ public class PotManager : CookManagerBase
         Debug.Log("Success");
         return;
     }
-
+    //-------------------UseCookingStep -------------------//
     public IEnumerator AddAllIngredients()
     {
         potViewportSystem.PutIngredient();
         StartCoroutine(potViewportSystem.OpenLid());
         
-        Debug.Log("Ingredients Step");
         //Select && Make Choice
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
             StartCoroutine(cookUIManager.VisiblePanel());
-            //ingredientInventory.AddAllIngredientsToRecipe(currentMenu);
             ingredientInventory.IngredientAdd(currentMenu.mainIngredient);
         }
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
@@ -172,9 +175,11 @@ public class PotManager : CookManagerBase
             yield return new WaitUntil(() => mainIngredient != null);
 
             targetRecipe = RecipeManager.instance.FindRecipe(mainIngredient);
-            RecipeSetting(targetRecipe);
+            MakeRecipe(targetRecipe);
+
             yield return new WaitForSeconds(0.5f);
         }
+
         //All of Ingredient Drop OR TimeOver Escape Loop
         while (true)
         {

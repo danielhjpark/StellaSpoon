@@ -22,9 +22,11 @@ public class FryingPanManager : CookManagerBase
     [SerializeField] private GameObject dropIngredient;
 
     private List<GameObject> fryingIngredients = new List<GameObject>();
-    //---------------------------------------//
+    //-------------Frying Setting------------------//
     private FryingSetting fryingSetting;
+    private FryingStep fryingStep;
     private int firstFryingCount, secondFryingCount;
+    //
     private int totalSuccessCount;
     private int successCount;
 
@@ -55,7 +57,9 @@ public class FryingPanManager : CookManagerBase
     public override void SelectRecipe(Recipe menu)
     {
         base.SelectRecipe(menu);
+
         fryingSetting = menu.fryingSetting;
+        fryingStep = menu.fryingSetting.fryingStep;
         firstFryingCount = menu.fryingSetting.firstFryingCount;
         secondFryingCount = menu.fryingSetting.secondFryingCount;
         fryingPanUI.Initialize(menu.fryingSetting.sectionRange);
@@ -69,6 +73,7 @@ public class FryingPanManager : CookManagerBase
         if (menu == null || menu.cookType != CookType.Frying)
         {
             int[] defaultRange = { 250, 250, 250 };
+            fryingStep = FryingStep.Medium;
             firstFryingCount = 2;
             secondFryingCount = 2;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
@@ -187,7 +192,7 @@ public class FryingPanManager : CookManagerBase
     {
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
-            fryingSauceSystem.InitializeMakeMode(currentMenu.fryingSetting);
+            fryingSauceSystem.InitializeMakeMode(secondFryingCount);
         }
         else
         {
@@ -227,7 +232,7 @@ public class FryingPanManager : CookManagerBase
         }
 
         fryingIngredientSystem.checkIngredients.Clear();
-        fryingSystem.Initialize(fryingIngredientSystem.fryingMainIngredient, fryingSetting);
+        fryingSystem.Initialize(fryingIngredientSystem.fryingMainIngredient, fryingStep);
     }
 
     IEnumerator AddSubIngredient()
@@ -249,7 +254,7 @@ public class FryingPanManager : CookManagerBase
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd()) { break; }
+                if (cookUIManager.TimerEnd()|| fryingIngredientSystem.checkIngredients.Count >= 3) { break; }
             }
             yield return null;
         }

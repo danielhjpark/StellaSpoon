@@ -87,7 +87,7 @@ public class WokManager : CookManagerBase
     {
         base.SelectRecipe(menu);
         if(menu == null || menu.cookType != CookType.Tossing) {
-            int[] defaultRange = {300, 150, 300};
+            //int[] defaultRange = {300, 150, 300};
             int randTossingCount = 2;
             firstTossingCount = randTossingCount;
             secondTossingCount = randTossingCount;
@@ -123,36 +123,43 @@ public class WokManager : CookManagerBase
             if (targetRecipe.cookType != CookType.Tossing)
             {
                 Debug.Log("Wrong cook type");
+                CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
 
-            if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
+            if (!RecipeManager.instance.CompareRecipe(currentMenu, wokIngredientSystem.checkIngredients))
             {
                 Debug.Log("Ingredient mismatch");
+                CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
 
             if (successTossingCount < totalTossingCount)
             {
                 Debug.Log("Not enough tossing");
+                CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
 
             if (wokSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
             {
                 Debug.Log("Wrong sauce type");
+                CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
 
             //UnLock New Recipe;
-            RecipeManager.instance.RecipeUnLock(targetRecipe);
-            UIManager.instance.RecipeUnLockUI();
-            CookSceneManager.instance.UnloadScene();
+           if(!RecipeManager.instance.RecipeUnlockCheck[targetRecipe]) {
+                RecipeManager.instance.RecipeUnLock(targetRecipe);
+                UIManager.instance.RecipeUnLockUI();
+           }
+            CookSceneManager.instance.UnloadScene("WokMergeTest", targetRecipe);
             Debug.Log("Success");
             return;
 
         }
     }
+
 
     public override void AddIngredient(GameObject ingredients, Ingredient ingredient)
     {
@@ -162,8 +169,9 @@ public class WokManager : CookManagerBase
         }
         else
         {
-            StartCoroutine(cookUIManager.VisiblePanel());
+            //StartCoroutine(cookUIManager.VisiblePanel());
             wokIngredientSystem.AddSubIngredient(ingredients, ingredient);
+            StartCoroutine(cookUIManager.VisiblePanel());
         } 
     }
 
@@ -177,18 +185,18 @@ public class WokManager : CookManagerBase
         yield return StartCoroutine(wokTossingSystem.WokTossing(tossingCount, (callbackValue) =>
         {
             successTossingCount += callbackValue;
-        }
-        ));
+        }));
     }
 
-    bool isMain = false;
 
     IEnumerator AddMainIngredient()
     {
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
+            //Auto Spawn Main Ingredient 
             GameObject mainIngredient = currentMenu.mainIngredient.ingredientPrefab;
             AddIngredient(Instantiate(mainIngredient, dropPos.position, Quaternion.identity), currentMenu.mainIngredient);
+
             yield return new WaitUntil(() => wokIngredientSystem.mainIngredient != null);
             yield return new WaitForSeconds(0.5f);
         }

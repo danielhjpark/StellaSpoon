@@ -34,12 +34,15 @@ public class FryingSystem : MonoBehaviour
     private int grabNum;
     Queue<int> grabQueue;
 
-    public void Initialize(GameObject mainIngredient, FryingSetting fryingSetting)
+    public void Start()
     {
         fryingSauceSystem = GetComponent<FryingSauceSystem>();
         fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
-        currentFryingStep = fryingSetting.fryingStep;
+    }
 
+    public void Initialize(GameObject mainIngredient, FryingStep fryingStep)
+    {
+        currentFryingStep = fryingStep;
         this.mainIngredient = mainIngredient;
 
         foreach (Transform t in mainIngredient.transform)

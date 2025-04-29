@@ -43,6 +43,8 @@ public class CuttingMotionSystem : MonoBehaviour
         this.surfaceMaterial = cuttingSetting.surfaceMaterial;
 
         this.targetObject = targetObject;
+        //this.targetObject.transform.SetParent(this.rotateObject.transform);
+        //this.targetObject.transform.position = Vector3.zero;
         this.cuttingLines = cuttingLineSystem.cuttingLines;
     }
 
@@ -109,7 +111,8 @@ public class CuttingMotionSystem : MonoBehaviour
             List<GameObject> sliceVerticals = cuttingObjectSystem.SliceVertical(sliceObject, verticalCount, surfaceMaterial);
             foreach (GameObject sliceVertical in sliceVerticals)
             {
-                sliceVertical.transform.localPosition = new Vector3(0, 0, sliceVertical.transform.localPosition.z);
+                //sliceVertical.transform.localPosition = new Vector3(0, 0, 0);
+                sliceVertical.transform.position = new Vector3(0, 0, 0);
                 sliceVertical.transform.rotation = Quaternion.identity;
                 sliceAllObjects2.Add(sliceVertical);
             }
@@ -121,6 +124,8 @@ public class CuttingMotionSystem : MonoBehaviour
         //Visible UI
         cuttingBoardUI.VisibleSliceUI();
         //CuttingLine Create
+        targetObject.transform.SetParent(rotateObject.transform);
+        targetObject.transform.position = Vector3.zero;
         cuttingLineSystem.CreateCuttingLine(verticalCount, targetObject);
         cuttingLines = cuttingLineSystem.cuttingLines;
 
@@ -158,6 +163,7 @@ public class CuttingMotionSystem : MonoBehaviour
         cuttingBoardUI.HideCuttingBoardUI();
         cuttingLineSystem.ScanReset();
     }
+
     public IEnumerator CuttingCube2()
     {
         List<GameObject> sliceAllObjects = cuttingObjectSystem.SliceHorizontal(targetObject, horizontalCount, surfaceMaterial);
@@ -192,15 +198,15 @@ public class CuttingMotionSystem : MonoBehaviour
             List<GameObject> sliceVerticals = cuttingObjectSystem.SliceHorizontal(sliceObject, verticalCount, surfaceMaterial);
             foreach (GameObject sliceVertical in sliceVerticals)
             {
-                sliceVertical.transform.localPosition = new Vector3(0, 0, sliceVertical.transform.localPosition.z);
+                //sliceVertical.transform.localPosition = new Vector3(0, 0, sliceVertical.transform.localPosition.z);
+                sliceVertical.transform.localPosition = new Vector3(0, 0, 0);
                 sliceVertical.transform.rotation = Quaternion.identity;
                 sliceAllObjects2.Add(sliceVertical);
             }
         }
         //targetObject.transform.SetParent(rotateObject.transform);
-
-        //Rotation Object
         //yield return StartCoroutine(RotateMotion());
+
         //Visible UI
         cuttingBoardUI.VisibleSliceUI();
         //CuttingLine Create
@@ -280,6 +286,7 @@ public class CuttingMotionSystem : MonoBehaviour
         cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.KnifeMotion);
         //KnifeMotion Setting
         knifeObject.SetActive(true);
+        KnifeSetup();
         isCutting = true;
         Renderer cuttingLineRenderer = cuttingLine.GetComponent<Renderer>();
         Vector3 max = cuttingLineRenderer.bounds.max;
@@ -338,7 +345,7 @@ public class CuttingMotionSystem : MonoBehaviour
     private void KnifeReset()
     {
         knifeObject.SetActive(false);
-        rotateObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        //rotateObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
     }
 
 }

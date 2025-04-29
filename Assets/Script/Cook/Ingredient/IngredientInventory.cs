@@ -9,6 +9,7 @@ public class IngredientInventory : MonoBehaviour
     IngredientSlot[] ingredientSlots;
     [SerializeField] GameObject ingredientSlotPrefab;
     [SerializeField] GameObject ingredientSlotParent;
+
     void Awake()
     {
         refrigeratorInventory = RefrigeratorManager.instance.BindInventory();
@@ -29,21 +30,7 @@ public class IngredientInventory : MonoBehaviour
         
     }
 
-    // public void AddAllIngredients() {
-    //     IngredientSlotClear();
-    //     foreach(RefrigeratorSlot refrigeratorSlot in refrigeratorSlots) {
-    //         if(refrigeratorSlot.item == null) continue;
-    //         foreach(IngredientSlot ingredientSlot in ingredientSlots) {
-    //             if(ingredientSlot.IsEmpty()) {
-    //                 ingredientSlot.BindingIngredient(refrigeratorSlot.currentIngredient);
-    //                 ingredientSlot.itemCount = refrigeratorSlot.itemCount;
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     IngredientSlotEmpty();
-    // }
-
+    // Pot Use This
     public void AddAllIngredients() {
         IngredientSlotClear();
         foreach(RefrigeratorSlot refrigeratorSlot in refrigeratorSlots) {
@@ -53,7 +40,7 @@ public class IngredientInventory : MonoBehaviour
         IngredientSlotEmpty();
     }
 
-
+    // Pot Use This
     public void AddAllIngredientsToRecipe(Recipe recipe) {
         CreateIngredientSlot(recipe.mainIngredient, 1);
         foreach(IngredientAmount ingredient in recipe.ingredients) {
@@ -66,38 +53,29 @@ public class IngredientInventory : MonoBehaviour
         IngredientSlotEmpty();
     }
 
+    // Other Utensil this
     public void AddMainIngredients() {
-        IngredientSlotClear();
+        IngredientSlotInit();
         foreach(RefrigeratorSlot refrigeratorSlot in refrigeratorSlots) {
             if(refrigeratorSlot.item == null) continue;
             else if(refrigeratorSlot.currentIngredient.ingredientType != IngredientType.Main) continue;
             
-            foreach(IngredientSlot ingredientSlot in ingredientSlots) {
-                if(ingredientSlot.IsEmpty()) {
-                    ingredientSlot.BindingIngredient(refrigeratorSlot.currentIngredient);
-                    ingredientSlot.itemCount = refrigeratorSlot.itemCount;
-                    break;
-                }
-            }
+            CreateIngredientSlot(refrigeratorSlot.currentIngredient,refrigeratorSlot.itemCount);
         }
         IngredientSlotEmpty();
     }
 
     public void AddSubIngredients() {
-        IngredientSlotClear();
+        IngredientSlotInit();
         foreach(RefrigeratorSlot refrigeratorSlot in refrigeratorSlots) {
             if(refrigeratorSlot.item == null) continue;
-            if(refrigeratorSlot.currentIngredient.ingredientType != IngredientType.Sub) continue;
-            foreach(IngredientSlot ingredientSlot in ingredientSlots) {
-                if(ingredientSlot.IsEmpty()) {
-                    ingredientSlot.BindingIngredient(refrigeratorSlot.currentIngredient);
-                    ingredientSlot.itemCount = refrigeratorSlot.itemCount;
-                    break;
-                }
-            }
+            else if(refrigeratorSlot.currentIngredient.ingredientType != IngredientType.Sub) continue;
+            CreateIngredientSlot(refrigeratorSlot.currentIngredient,refrigeratorSlot.itemCount);
         }
         IngredientSlotEmpty();
     }
+
+    //--------------------------------------------------//
 
     public void IngredientAdd(Recipe recipe) {
         foreach(IngredientAmount ingredient in recipe.ingredients) {
@@ -111,6 +89,13 @@ public class IngredientInventory : MonoBehaviour
 
     public void IngredientAdd(Ingredient ingredient) {
         CreateIngredientSlot(ingredient, 1);
+    }
+
+    //-------------- Clear & Disable --------------------//
+    public void IngredientSlotInit() {
+        foreach(Transform ingredientSlot in ingredientSlotParent.transform) {
+            Destroy(ingredientSlot.gameObject);
+        }
     }
 
     public void IngredientSlotClear() {

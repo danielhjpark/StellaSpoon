@@ -40,13 +40,16 @@ public class CuttingObjectSystem : MonoBehaviour
                 Destroy(upperHull.GetComponent<Collider>());
                 upperHull.AddComponent<BoxCollider>();
                 sliceObjects.Add(upperHull);
+
                 upperHull.transform.SetParent(rotateObject.transform);
+                upperHull.transform.localPosition = Vector3.zero;
             }
             if (sliceTarget == obj) { sliceTarget.SetActive(false); }
             else Destroy(sliceTarget);
 
             sliceTarget = upperHull;
             LowerHull.transform.SetParent(rotateObject.transform);
+            LowerHull.transform.localPosition = Vector3.zero;
         }
         return sliceObjects;
     }

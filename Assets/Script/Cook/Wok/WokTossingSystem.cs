@@ -14,9 +14,10 @@ public class WokTossingSystem : MonoBehaviour
 
     [Header("TimeLine")]
     [SerializeField] PlayableDirector wokTimeLine;
+    
     [Header("Wok Rotate Object")]
     [SerializeField] GameObject wokObject;
-    [SerializeField] Transform wokCenter;
+    Vector3 wokCenter;
 
     [Header("UI Objects")]
     [SerializeField] WokUI wokUI;
@@ -31,6 +32,7 @@ public class WokTossingSystem : MonoBehaviour
         wokIngredientSystem = GetComponent<WokIngredientSystem>();
         wokAudioSystem = GetComponent<WokAudioSystem>();
         wokUI.OnWokSystem += CheckTossing;
+        wokCenter = wokObject.transform.position;
     }
 
     public void BindTossingObject(List<GameObject> wokIngredients)
@@ -95,9 +97,10 @@ public class WokTossingSystem : MonoBehaviour
         {
             wokIngredientSystem.ApplyIngredientShader();
             yield return StartCoroutine(wokSauceSystem.UseSauce());
-            //StopCoroutine(wokRotate);
+            StopCoroutine(wokRotate);
         }
         yield return new WaitForSeconds(0.5f);
+        StopCoroutine(wokRotate);
         yield return StartCoroutine(WokTossing(--tossingCount, callback));
     }
 
@@ -116,7 +119,7 @@ public class WokTossingSystem : MonoBehaviour
             Vector3 dir = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
 
             // 중심점 + 방향벡터 * 반지름으로 위치 갱신
-            wokObject.transform.position = wokCenter.position + dir * 0.1f * radius;
+            wokObject.transform.position = wokCenter + dir * 0.1f * radius;
 
             yield return null;
         }

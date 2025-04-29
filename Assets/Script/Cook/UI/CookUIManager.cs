@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CookUIManager : MonoBehaviour
 {
@@ -11,22 +12,18 @@ public class CookUIManager : MonoBehaviour
     [SerializeField] GameObject TimerPanel;
     CookManagerBase currentCookManager;
     TimerSystem timerSystem;
-    private int panelSpeed;
+    private int panelSpeed = 10;
+    private Coroutine inventoryCoroutine;
 
     void Awake()
     {
-        panelSpeed = 5;
         SelectRecipePanel.SetActive(false);
+        inventoryPanel.gameObject.SetActive(false);
         if (TimerPanel != null && TimerPanel.TryGetComponent<TimerSystem>(out TimerSystem timerSystem))
         {
             this.timerSystem = timerSystem;
             TimerPanel.SetActive(false);
         }
-
-    }
-
-    void Start()
-    {
 
     }
 
@@ -45,21 +42,21 @@ public class CookUIManager : MonoBehaviour
 
     public void SelectRecipeMode()
     {
-        inventoryPanel.gameObject.SetActive(false);
-        SelectRecipePanel.SetActive(true);
         SelectModePanel.SetActive(false);
+        SelectRecipePanel.SetActive(true);
         CookManager.instance.cookMode = CookManager.CookMode.Select;
     }
 
     public void MakeRecipeMode()
     {
-        inventoryPanel.gameObject.SetActive(true);
         SelectModePanel.SetActive(false);
-        //inventoryPanel.GetComponent<IngredientInventory>().AddAllIngredients();
         CookManager.instance.cookMode = CookManager.CookMode.Make;
+
         StartCoroutine(VisiblePanel());
         StartCoroutine(currentCookManager.UseCookingStep());
     }
+
+    //-------------------Timer---------------------//
 
     public IEnumerator TimerStart(float second)
     {
@@ -78,7 +75,16 @@ public class CookUIManager : MonoBehaviour
         return timerSystem.TimerEnd();
     }
 
+    //--------------------Inventory--------------------------//
+
     public IEnumerator HidePanel()
+    {
+        inventoryPanel.gameObject.SetActive(true);
+        if(inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
+        inventoryCoroutine = StartCoroutine(HideActive());
+    }
+
+    public IEnumerator HideActive()
     {
         int startPos = -250;
         while (true)
@@ -92,12 +98,19 @@ public class CookUIManager : MonoBehaviour
             }
             yield return null;
         }
+        inventoryCoroutine = null;
     }
+
 
     public IEnumerator VisiblePanel()
     {
-        int startPos = 250;
         inventoryPanel.gameObject.SetActive(true);
+        if(inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
+        inventoryCoroutine = StartCoroutine(VisibleActive());
+    }
+
+    private IEnumerator VisibleActive() {
+        int startPos = 250;
         while (true)
         {
             startPos -= panelSpeed;
@@ -109,5 +122,7 @@ public class CookUIManager : MonoBehaviour
             }
             yield return null;
         }
+        inventoryCoroutine = null;
     }
+
 }

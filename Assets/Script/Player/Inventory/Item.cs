@@ -11,6 +11,7 @@ public class Item : ScriptableObject
         Used, // 소비 아이템
         contaminatedIngredient, // 오염된 재료 아이템
         Ingredient, // 재료 아이템
+        Recipe,
         ETC, // 기타 아이템
     }
 

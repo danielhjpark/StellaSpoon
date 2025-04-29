@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class IngredientsController : MonoBehaviour , IPointerDownHandler
 {
-    CookUIManager cookInventoryManager;
+    CookUIManager cookUIManager;
     IngredientSlot ingredientSlot;
 
     GameObject ingredientObject;
@@ -17,7 +17,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
 
     void Start()
     {
-        cookInventoryManager = GetComponentInParent<CookUIManager>();
+        cookUIManager = GetComponentInParent<CookUIManager>();
         ingredientSlot = GetComponent<IngredientSlot>();
         isControll = false;
         isCanDrop = false;
@@ -64,7 +64,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
                 Destroy(controllObject);
                 isControll = false;
                 isCanDrop = false;
-                StartCoroutine(cookInventoryManager.VisiblePanel());
+                StartCoroutine(cookUIManager.VisiblePanel());
             }
             
         }
@@ -109,7 +109,7 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
         //controllObject = Instantiate(ingredientObject, CookManager.instance.spawnPoint.position, ingredientObject.transform.rotation);
         controllObject = Instantiate(ingredientObject, Vector3.zero, ingredientObject.transform.rotation);
         //controllObject.transform.SetParent(CookManager.instance.spawnPoint, false);
-        StartCoroutine(cookInventoryManager.HidePanel());
+        StartCoroutine(cookUIManager.HidePanel());
         isControll = true;
     }
 }
