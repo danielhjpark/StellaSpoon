@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "New Item", menuName = "New Item/item")]
 public class Item : ScriptableObject
 {
@@ -25,5 +26,8 @@ public class Item : ScriptableObject
     public GameObject itemPrefab; // 아이템의 프리팹 (아이템 생성 시 프리팹으로 찍어낸다.)
     [Header("아이템의 무게")]
     public int itemWeight; // 아이템 무게
+    [Header("아이템의 가격")]
+    public int itemBuyPrice; // 아이템 가격
+    public int itemSellPrice; // 아이템 판매 가격
     //public string weaponType; // 무기 유형 보류
 }

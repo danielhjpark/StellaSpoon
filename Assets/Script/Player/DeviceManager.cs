@@ -25,10 +25,17 @@ public class DeviceManager : MonoBehaviour
     private ThirdPersonController playerController;
     private StarterAssetsInputs _input;
 
+    private ItemNameData itemNameData;
+
     private void Awake()
     {
         playerController = FindObjectOfType<ThirdPersonController>();
         _input = FindObjectOfType<StarterAssetsInputs>();
+    }
+
+    private void Start()
+    {
+        itemNameData = FindObjectOfType<ItemNameData>();
     }
 
     void Update()
@@ -101,5 +108,6 @@ public class DeviceManager : MonoBehaviour
         {
             showText.SetActive(true);
         }
+        itemNameData.HideToolTip();
     }
 }

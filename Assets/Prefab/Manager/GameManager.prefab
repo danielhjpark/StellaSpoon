@@ -286,13 +286,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5243468312826051213, guid: d01d565cbf8fc9b4c9f7261e538d01df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4624544493600966854}
   m_SourcePrefab: {fileID: 100100000, guid: d01d565cbf8fc9b4c9f7261e538d01df, type: 3}
 --- !u!4 &4113901495416009237 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3872374883665512257, guid: d01d565cbf8fc9b4c9f7261e538d01df, type: 3}
   m_PrefabInstance: {fileID: 912810076836672852}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4931012009211482073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5243468312826051213, guid: d01d565cbf8fc9b4c9f7261e538d01df, type: 3}
+  m_PrefabInstance: {fileID: 912810076836672852}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4624544493600966854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4931012009211482073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e913c66c4043d1f45874478d05717aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotToolTip: {fileID: 0}
+  inventory: {fileID: 0}
+  refriger: {fileID: 0}
+  chest: {fileID: 0}
 --- !u!1001 &1143566457792998208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -477,9 +501,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: attackDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponFlashFX
       value: 
       objectReference: {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6165023548225774215, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: m_Name
       value: RifleManager

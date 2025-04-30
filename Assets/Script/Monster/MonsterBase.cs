@@ -478,7 +478,7 @@ public abstract class MonsterBase : MonoBehaviour
     }
 
     // 감지 및 공격 범위 시각화
-    protected virtual void OnDrawGizmos()//항상 보이게 //선택시 보이게 OnDrawGizmosSelected
+    protected virtual void OnDrawGizmosSelected()//선택시 보이게 //항상 보이게 OnDrawGizmos
     {
         Gizmos.color = Color.red; //감지 범위
         Gizmos.DrawWireSphere(transform.position, playerDetectionRange);
