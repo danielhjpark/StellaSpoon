@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class IngredientsController : MonoBehaviour , IPointerDownHandler
+public class IngredientsController : MonoBehaviour, IPointerDownHandler
 {
     CookUIManager cookUIManager;
     IngredientSlot ingredientSlot;
@@ -13,23 +13,23 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
     GameObject controllObject;
 
     bool isControll;
-    bool isCanDrop;
 
     void Start()
     {
         cookUIManager = GetComponentInParent<CookUIManager>();
         ingredientSlot = GetComponent<IngredientSlot>();
         isControll = false;
-        isCanDrop = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(controllObject != null && isControll) {
+        if (controllObject != null && isControll)
+        {
             OnUnitMove();
         }
-        if(isControll) {
+        if (isControll)
+        {
             ObjectDrop();
         }
     }
@@ -44,65 +44,76 @@ public class IngredientsController : MonoBehaviour , IPointerDownHandler
             Vector3 newPos = (hitLayerMask.point * (H - h) + Camera.main.transform.position * h) / H;
             controllObject.transform.position = hitLayerMask.point;
         }
-        else {
+        else
+        {
             //controllObject.transform.position = Input.mousePosition;
         }
     }
 
-    public void ObjectDrop() {
-        if(Input.GetMouseButtonUp(0)) {
-            DropCheck();
-            if(isCanDrop) {
-                isControll = false;
-                isCanDrop = false;
-                CookManager.instance.DropObject(controllObject, ingredientSlot.currentIngredient);
+    public void ObjectDrop()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (DropCheck())
+            {
                 SlotUpdate();
-                controllObject = null;  
-
+                CookManager.instance.DropObject(controllObject, ingredientSlot.currentIngredient);
+                controllObject = null;
             }
-            else {
+            else
+            {
                 Destroy(controllObject);
-                isControll = false;
-                isCanDrop = false;
                 StartCoroutine(cookUIManager.VisiblePanel());
             }
-            
+            isControll = false;
         }
-
     }
 
-    void SlotUpdate() {
-        ingredientSlot.itemCount --;
+    void SlotUpdate()
+    {
+        int useCount = ingredientSlot.currentIngredient.ingredientUseCount;
+        ingredientSlot.itemCount -= useCount;
 
-        //ingredientSlot.SetSlotCount(ingredientSlot.itemCount);
-        if(ingredientSlot.itemCount <= 0) {
+        if (ingredientSlot.itemCount < useCount)
+        {
             ingredientSlot.SlotClear();
             ingredientSlot.gameObject.SetActive(false);
-
         }
-        if(CookManager.instance.cookMode == CookManager.CookMode.Make) {
-            IngredientManager.IngredientAmount[ingredientSlot.currentIngredient] --;
-            ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, 1);
+
+        if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+        {
+            if (ingredientSlot.currentIngredient.ingredientCookType == IngredientCookType.Cutting)
+            {
+                IngredientManager.IngredientAmount[ingredientSlot.currentIngredient] -= useCount;
+                ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, useCount);
+            }
+            else
+            {
+                IngredientManager.IngredientAmount[ingredientSlot.currentIngredient]--;
+                ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, 1);
+            }
+
         }
     }
 
-    void DropCheck()
+    bool DropCheck()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitLayerMask, Mathf.Infinity, LayerMask.GetMask("DropArea")))
         {
-            isCanDrop = true;
+            return true;
         }
         else
         {
-            isCanDrop = false;
+            return false;
         }
     }
 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(ingredientSlot.currentIngredient != null) {
+        if (ingredientSlot.currentIngredient != null)
+        {
             ingredientObject = ingredientSlot.currentIngredient.ingredientPrefab;
         }
         else return;

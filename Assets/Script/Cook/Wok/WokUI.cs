@@ -17,49 +17,89 @@ public class WokUI : MonoBehaviour
     [SerializeField] GameObject ingredientUIObejct;
 
     public event Action<bool> OnWokSystem;
-
-    //--------------------------------------------------------//
     private const int FullLength = 750, FixedWidth = 50;
-    private int[] sections = new int[3];
-    private bool isEnd;
+    private int unlockStep = 0;
+
+    private float[] sections;
     private float power = 1;
     private float currentPos;
+    private bool isEnd;
+
+
+    void Initialize(int unlockStep)
+    {
+        this.unlockStep = unlockStep;
+        SetSections();
+        wokUIObject.SetActive(false);
+    }
 
     void Start()
     {
         SetSections();
         wokUIObject.SetActive(false);
     }
-    void SetSections() {
-        roastSection[0].sizeDelta = new Vector2(FixedWidth, 300);
-        roastSection[1].sizeDelta = new Vector2(FixedWidth, 150);
-        roastSection[2].sizeDelta = new Vector2(FixedWidth, 300);
-        roastSection[1].anchoredPosition = new Vector2(0, -roastSection[0].sizeDelta.y);
-        sections = new int[3]{300, 150, 300};
+
+    int GetSuccessSection()
+    {
+        int sectionValue;
+        switch (unlockStep)
+        {
+            case 0:
+                sectionValue = 150;
+                break;
+            case 1:
+                sectionValue = 200;
+                break;
+            case 2:
+                sectionValue = 300;
+                break;
+            default:
+                sectionValue = 150;
+                break;
+        }
+        return sectionValue;
     }
-   
-    public void OnWokUI() {
+
+    void SetSections()
+    {
+        int successsSection = GetSuccessSection();
+        float failSection = (FullLength - successsSection) / 2;
+
+        roastSection[0].sizeDelta = new Vector2(FixedWidth, failSection);
+        roastSection[1].sizeDelta = new Vector2(FixedWidth, successsSection);
+        roastSection[2].sizeDelta = new Vector2(FixedWidth, failSection);
+        roastSection[1].anchoredPosition = new Vector2(0, -roastSection[0].sizeDelta.y);
+
+        sections = new float[3] { failSection, successsSection, failSection };
+    }
+
+    public void OnWokUI()
+    {
         wokUIObject.SetActive(true);
         ingredientUIObejct.SetActive(false);
     }
 
-    public void OnFridgeUI() {
+    public void OnFridgeUI()
+    {
         wokUIObject.SetActive(false);
         ingredientUIObejct.SetActive(true);
     }
 
-    public IEnumerator MoveMark() {
+    public IEnumerator MoveMark()
+    {
         float startPos = 0;
         float endPos = FullLength;
         float Speed = 0.1f * CookManager.instance.SlideAcceleration;
         isEnd = false;
 
-        while(true) {
+        while (true)
+        {
             startPos += Speed * power;
             sectionMark.anchoredPosition = new Vector2(sectionMark.anchoredPosition.x, startPos);
             currentPos = startPos;
             CheckSection();
-            if(sectionMark.anchoredPosition.y >= endPos) {
+            if (sectionMark.anchoredPosition.y >= endPos)
+            {
                 sectionMark.anchoredPosition = new Vector2(sectionMark.anchoredPosition.x, endPos);
                 currentPos = endPos;
                 isEnd = true;
@@ -69,23 +109,29 @@ public class WokUI : MonoBehaviour
         }
     }
 
-    public bool IsCheckEnd() {
+    public bool IsCheckEnd()
+    {
         return isEnd;
     }
 
-    void CheckSection() {
-        if(currentPos <= sections[0]) {
+    void CheckSection()
+    {
+        if (currentPos <= sections[0])
+        {
             OnWokSystem?.Invoke(false);
         }
-        else if(currentPos <= sections[0] + sections[1]) {
+        else if (currentPos <= sections[0] + sections[1])
+        {
             OnWokSystem?.Invoke(true);
         }
-        else {
+        else
+        {
             OnWokSystem?.Invoke(false);
         }
     }
 
-    public void OnSliderValueChanged() {
+    public void OnSliderValueChanged()
+    {
         power = powerSlider.value;
     }
 }

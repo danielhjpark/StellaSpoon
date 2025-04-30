@@ -12,10 +12,8 @@ public class CuttingLineSystem : MonoBehaviour
     [SerializeField] Transform endPos;
 
     public List<GameObject> cuttingLines = new List<GameObject>();
-    Vector3 horizontalLine = Vector3.zero;
-    Vector3 verticalLine = Vector3.zero;
-
     public Action OnCuttingSystem;
+    public float scanValue { get; set; } //Store unlock this value;
 
     private void CreateLine(Vector3 getPosition, Vector3 getSize)
     {
@@ -56,6 +54,7 @@ public class CuttingLineSystem : MonoBehaviour
     {
         float t = 0;
         ScannerObject.SetActive(true);
+
         while (true)
         {
             t += Time.deltaTime * 0.5f;

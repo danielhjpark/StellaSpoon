@@ -21,11 +21,12 @@ public class CuttingManager : CookManagerBase
     public int verticalCount;
 
     GameObject targetObject;
-    Ingredient currentIngredient;
 
     void Awake()
     {
+        isCanEscape = true;
         CookManager.instance.BindingManager(this);
+        //StoreManager
     }
 
     void Start()
@@ -42,7 +43,7 @@ public class CuttingManager : CookManagerBase
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && isCanEscape)
         {
             CookSceneManager.instance.UnloadScene();
         }
@@ -51,7 +52,9 @@ public class CuttingManager : CookManagerBase
 
     public override void SelectRecipe(Recipe menu)
     {
+        isCanEscape = false;
         base.SelectRecipe(menu);
+
         StartCoroutine(cookUIManager.VisiblePanel());
         horizontalCount = currentMenu.cuttingSetting.cuttingCount;
         verticalCount = currentMenu.cuttingSetting.cuttingCount;
@@ -71,6 +74,7 @@ public class CuttingManager : CookManagerBase
         Item trimItem = currentMenu.cuttingSetting.trimItem;
         int trimItemCount = currentMenu.cuttingSetting.trimItemCount;
         Ingredient trimIngredient = IngredientManager.instance.FindIngredient(trimItem.itemName);
+
         IngredientManager.IngredientAmount[trimIngredient] += trimItemCount;
         RefrigeratorManager.instance.AddItem(trimItem, trimItemCount);
 
@@ -79,7 +83,6 @@ public class CuttingManager : CookManagerBase
 
     public override void AddIngredient(GameObject obj, Ingredient ingredient)
     {
-        currentIngredient = ingredient;
         targetObject = obj;
         // obj.GetComponent<Rigidbody>().useGravity = true;
         // obj.GetComponent<Collider>().enabled = true;
@@ -148,7 +151,6 @@ public class CuttingManager : CookManagerBase
 
         cuttingBoardUI.HideCuttingBoardUI();
         cuttingBoardUI.VisibleSliceUI();
-        //StartCoroutine(cookUIManager.VisiblePanel());
     }
 
     IEnumerator CuttingCubeSystem()
@@ -156,12 +158,10 @@ public class CuttingManager : CookManagerBase
         cuttingBoardUI.VisibleSliceUI();
         cuttingLineSystem.CreateCuttingLine(horizontalCount, targetObject);
         cuttingMotionSystem.Initialize(targetObject, currentMenu.cuttingSetting);
-        //yield return StartCoroutine(cuttingMotionSystem.CuttingCube());
         yield return StartCoroutine(cuttingMotionSystem.CuttingCube2());
 
         cuttingBoardUI.HideCuttingBoardUI();
         cuttingBoardUI.VisibleSliceUI();
-        //StartCoroutine(cookUIManager.VisiblePanel());
     }
 
 

@@ -23,8 +23,8 @@ public class RecipeManager : MonoBehaviour
             if (instance != this) Destroy(this.gameObject);
         }
 
-        //RecipeList = Resources.LoadAll<Recipe>("Scriptable/Recipe");
-
+        Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas를 찾기
+        NewRecipeUI = canvasTransform.Find("NewRecipePanel")?.gameObject; // MapPanel을 찾기
         RecipeUnlockInit();
         //MakeRecipeUnLockList();
     }
