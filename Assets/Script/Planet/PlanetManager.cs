@@ -32,6 +32,7 @@ public class PlanetManager : MonoBehaviour
             { PlanetType.Moon, planetInfos[1] },
             { PlanetType.Mars, planetInfos[2] },
             {PlanetType.aRedForest, planetInfos[3] },
+            { PlanetType.Store, planetInfos[4] }
             //货肺款 青己 眠啊
         };
     }

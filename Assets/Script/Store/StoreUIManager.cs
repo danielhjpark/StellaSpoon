@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
 
 public class StoreUIManager : MonoBehaviour
 {
+    [SerializeField]
+    private Inventory inventory;
+
     [Header("ChatUI")]
     [SerializeField]
     private GameObject chatUI;
@@ -20,7 +24,7 @@ public class StoreUIManager : MonoBehaviour
         chatUI.SetActive(false);
     }
 
-    [Header("ingredient")]
+    [Header("-----ingredient-----")]
     [SerializeField]
     private GameObject buyBase;
     [SerializeField]
@@ -31,7 +35,11 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI ingredientNeedGold;
 
+    [SerializeField]
+    private GameObject[] stage2_ingredientButtons; //재료 버튼들
 
+
+    [Header("Ingredient List")]
     [SerializeField]
     private List<Item> items; //재료 정보들 리스트
 
@@ -39,18 +47,9 @@ public class StoreUIManager : MonoBehaviour
     private int currentPurchaseCount = 0; //현재 구매 갯수
     private int currentSelectedIngredientIndex = -1; //현재 선택된 재료 인덱스
 
-    private void PlusCount()
-    {
-        countText.text = (int.Parse(countText.text) + 1).ToString();
-    }
-    private void MinusCount()
-    {
-        countText.text = (int.Parse(countText.text) - 1).ToString();
-    }
 
 
-
-    [Header("Gun")]
+    [Header("-----Gun-----")]
     [SerializeField]
     private GameObject gunImage; //image는resurces 폴더 Gun에 넣어야함.
     [SerializeField]
@@ -82,10 +81,39 @@ public class StoreUIManager : MonoBehaviour
 
     private void Start()
     {
+        inventory = FindObjectOfType<Inventory>();
         ResetIngredientPurchase();
         SelectTempestFang(); //처음 시작할 때 TempestFang 선택
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //씬 로드시 스테이지 1 클리어 여부에 따라 재료 버튼 활성화
+        if (Manager.stage_01_clear)
+        {
+            for (int i = 0; i < stage2_ingredientButtons.Length; i++)
+            {
+                stage2_ingredientButtons[i].SetActive(true);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < stage2_ingredientButtons.Length; i++)
+            {
+                stage2_ingredientButtons[i].SetActive(false);
+            }
+
+        }
+    }
     //ingredient
     public void SelectBuy()
     {
@@ -166,13 +194,15 @@ public class StoreUIManager : MonoBehaviour
         Item selectedItem = items[currentSelectedIngredientIndex];
         int totalCost = selectedItem.itemBuyPrice * currentPurchaseCount;
 
-        if (Manager.Gold >= totalCost)
+        if (Manager.gold >= totalCost)
         {
-            Manager.Gold -= totalCost;
-            Debug.Log(string.Format("{0} x {1} 구매 완료. 남은 Gold: {2}", selectedItem.itemName, currentPurchaseCount, Manager.Gold));
+            Manager.gold -= totalCost;
+            Debug.Log(string.Format("{0} x {1} 구매 완료. 남은 Gold: {2}", selectedItem.itemName, currentPurchaseCount, Manager.gold));
 
+            inventory.AcquireItem(selectedItem, currentPurchaseCount);
             //TODO: 인벤토리에 아이템 추가 필요
 
+            Debug.Log("아이템 구매");
             ResetIngredientPurchase();
         }
         else
@@ -184,7 +214,7 @@ public class StoreUIManager : MonoBehaviour
 
     //cook
 
-        //gunNPC
+    //gunNPC
     public void SelectTempestFang()
     {
         gunType = 0;
@@ -220,9 +250,9 @@ public class StoreUIManager : MonoBehaviour
         switch (gunType)
         {
             case 0: //TempestFang
-                if (Manager.Gold >= tempestFangNeedGold)
+                if (Manager.gold >= tempestFangNeedGold)
                 {
-                    Manager.Gold -= tempestFangNeedGold;
+                    Manager.gold -= tempestFangNeedGold;
                     //총 생성
                     //재료들 소모
                     //UI 갱신
@@ -233,9 +263,9 @@ public class StoreUIManager : MonoBehaviour
                 }
                 break;
             case 1: //InfernoLance
-                if (Manager.Gold >= infernoLanceNeedGold)
+                if (Manager.gold >= infernoLanceNeedGold)
                 {
-                    Manager.Gold -= infernoLanceNeedGold;
+                    Manager.gold -= infernoLanceNeedGold;
                     //총 생성
                     //재료들 소모
                     //UI 갱신
