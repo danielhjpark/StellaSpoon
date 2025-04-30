@@ -19,7 +19,7 @@ public class PotBoilingSystem : MonoBehaviour
 
     public int rotatePower = 0;
     private float completeTime;
-    private float currentTime;
+    private float currentTime = 0;
 
     private bool isRotate;
     private List<GameObject> potIngredients;
@@ -28,18 +28,17 @@ public class PotBoilingSystem : MonoBehaviour
     void Awake()
     {
         gravityLimitLine.SetActive(false);
-        
+
         potViewportSystem = this.GetComponent<PotViewportSystem>();
         potAudioSystem = this.GetComponent<PotAudioSystem>();
         potUI = this.GetComponent<PotUI>();
     }
 
-    public void Initialize(BoilingSetting boilingSetting, List<GameObject> potIngredients)
+    public void Initialize(int completeTime, List<GameObject> potIngredients)
     {
+        int decreaseTime = 0;
         isRotate = false;
-        currentTime = 0;
-        completeTime = boilingSetting.cookTime;
-        //completeTime = boilingSetting.cookTime;
+        this.completeTime = completeTime - decreaseTime;
         this.potIngredients = potIngredients;
     }
 

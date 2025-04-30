@@ -24,6 +24,11 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
     // Update is called once per frame
     void Update()
     {
+        if (!CookManager.instance.isCanIngredientControll)
+        {
+            CancleIngredientControll();
+            return;
+        }
         if (controllObject != null && isControll)
         {
             OnUnitMove();
@@ -122,6 +127,12 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
         //controllObject.transform.SetParent(CookManager.instance.spawnPoint, false);
         StartCoroutine(cookUIManager.HidePanel());
         isControll = true;
+    }
+
+    public void CancleIngredientControll()
+    {
+        Destroy(controllObject);
+        StartCoroutine(cookUIManager.HidePanel());
     }
 }
 

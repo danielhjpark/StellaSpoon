@@ -14,18 +14,20 @@ public class CookManager : MonoBehaviour
     private WokManager wokManager;
     private FryingPanManager fryingPanManager;
     private PotManager potManager;
+
     //--------------- Shared Variable ---------------------//
     [NonSerialized] public CookType currentCookType;
     [NonSerialized] public Transform spawnPoint;
     [NonSerialized] public Recipe currentMenu;
     [SerializeField] public Recipe failMenu;
     [SerializeField] public GameObject TimerObject;
-    [SerializeField] [Range(1f, 100f)] public float tiltSauceContainerAcceleration;
-    [SerializeField] [Range(1f, 100f)] public float SauceAcceleration;
-    [SerializeField] [Range(1f, 100f)] public float SlideAcceleration;
-    
-    public enum CookMode {Select, Make};
+    [SerializeField][Range(1f, 100f)] public float tiltSauceContainerAcceleration;
+    [SerializeField][Range(1f, 100f)] public float SauceAcceleration;
+    [SerializeField][Range(1f, 100f)] public float SlideAcceleration;
+
+    public enum CookMode { Select, Make };
     [NonSerialized] public CookMode cookMode;
+    [NonSerialized] public bool isCanIngredientControll;
 
     void Awake()
     {
@@ -35,6 +37,7 @@ public class CookManager : MonoBehaviour
     public void BindingManager<T>(T manager) where T : CookManagerBase
     {
         spawnPoint = GameObject.FindWithTag("SpawnPoint")?.transform;
+        isCanIngredientControll = true;
         if (manager is CuttingManager)
         {
             cuttingManager = manager as CuttingManager;
