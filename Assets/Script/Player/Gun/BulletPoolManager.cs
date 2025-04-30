@@ -7,73 +7,54 @@ public class BulletPoolManager : MonoBehaviour
     public static BulletPoolManager instance;
 
     [SerializeField]
-    private GameObject[] prefabs;
     private int poolSize = 10;
-    private List<GameObject>[] objPools;
+
+    // 무기 레벨별 프리팹 리스트 (레벨 -> 프리팹 타입 -> 리스트)
+    private Dictionary<int, Dictionary<string, List<GameObject>>> poolDict = new();
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 유지
-        }
-        else
-        {
-            Destroy(gameObject); // 중복 생성 방지
-        }
-    }
-    void Start()
-    {
-        instance = this;
-        InitObjPool();
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
     }
 
-    private void InitObjPool()
+    public GameObject GetObject(int weaponLevel, string type, GameObject prefab)
     {
-        objPools = new List<GameObject>[prefabs.Length];
-
-        for (int i = 0; i < prefabs.Length; i++)
+        if (!poolDict.ContainsKey(weaponLevel))
         {
-            objPools[i] = new List<GameObject>();
+            poolDict[weaponLevel] = new Dictionary<string, List<GameObject>>();
+        }
 
-            for (int j = 0; j < poolSize; j++)
+        if (!poolDict[weaponLevel].ContainsKey(type))
+        {
+            poolDict[weaponLevel][type] = new List<GameObject>();
+        }
+
+        var pool = poolDict[weaponLevel][type];
+
+        // 비활성화된 오브젝트 재사용
+        foreach (var obj in pool)
+        {
+            if (!obj.activeInHierarchy)
             {
-                GameObject obj = Instantiate(prefabs[i]);
-                obj.SetActive(false);
-                DontDestroyOnLoad(obj);
-                objPools[i].Add(obj);
-            }
-        }
-    }
-
-    public GameObject ActivateObj(int index)
-    {
-        GameObject obj = null;
-
-        for (int i = 0; i < objPools[index].Count; i++)
-        {
-            if (!objPools[index][i].activeInHierarchy)
-            {
-                obj = objPools[index][i];
                 obj.SetActive(true);
                 return obj;
             }
         }
 
         // 새로 생성
-        obj = Instantiate(prefabs[index]);
+        GameObject newObj = Instantiate(prefab);
+        newObj.SetActive(true);
 
-        // 파티클이면 자동으로 AutoDisable 붙이기
-        if (obj.GetComponent<ParticleSystem>() != null &&
-            obj.GetComponent<AutoDisableOnParticleEnd>() == null)
+        if (newObj.GetComponent<ParticleSystem>() != null &&
+            newObj.GetComponent<AutoDisableOnParticleEnd>() == null)
         {
-            obj.AddComponent<AutoDisableOnParticleEnd>();
+            newObj.AddComponent<AutoDisableOnParticleEnd>();
         }
 
-        objPools[index].Add(obj);
-        obj.SetActive(true);
-
-        return obj;
+        pool.Add(newObj);
+        return newObj;
     }
 }
+
+

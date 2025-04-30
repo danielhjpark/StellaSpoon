@@ -62,7 +62,7 @@ public class InventoryManager : MonoBehaviour
             // 무기가 장착된 경우 추가 무게 반영
             if (isWeaponRifle)
             {
-                totalWeight += extraWeaponWeight;
+                totalWeight += GetEquippedWeaponWeight();
             }
 
             totalWeightText.text = totalWeight.ToString();
@@ -89,11 +89,18 @@ public class InventoryManager : MonoBehaviour
         // 무기가 장착되었을 경우 추가 무게 적용
         if (isWeaponRifle)
         {
-            totalWeight += extraWeaponWeight;
+            totalWeight += GetEquippedWeaponWeight();
         }
 
         totalWeightText.text = totalWeight.ToString();
         //Debug.Log($"Recalculated Total Weight: {totalWeight}");
+    }
+    private int GetEquippedWeaponWeight()
+    {
+        if (RifleManager.instance == null) return 0;
+
+        var weaponData = RifleManager.instance.GetCurrentWeaponData();
+        return weaponData != null ? Mathf.RoundToInt(weaponData.weight) : 0;
     }
 
     public void ClearAllSlots()
