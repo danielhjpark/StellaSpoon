@@ -151,7 +151,7 @@ public class FryingPanManager : CookManagerBase
 
             //UnLock New Recipe;
             RecipeManager.instance.RecipeUnLock(targetRecipe);
-            UIManager.instance.RecipeUnLockUI();
+            //UIManager.instance.RecipeUnLockUI();
             CookSceneManager.instance.UnloadScene();
             Debug.Log("Success");
             return;
@@ -254,7 +254,7 @@ public class FryingPanManager : CookManagerBase
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd()|| fryingIngredientSystem.checkIngredients.Count >= 3) { break; }
+                if (cookUIManager.TimerEnd() || fryingIngredientSystem.checkIngredients.Count >= 3) { break; }
             }
             yield return null;
         }

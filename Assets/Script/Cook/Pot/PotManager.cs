@@ -54,7 +54,8 @@ public class PotManager : CookManagerBase
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(!isCanEscape) {
+            if (!isCanEscape)
+            {
                 CloseSceneView();
             }
             else CookSceneManager.instance.UnloadScene("PotMergeTest");
@@ -73,9 +74,10 @@ public class PotManager : CookManagerBase
     {
         isCanEscape = false;
         base.SelectRecipe(menu);
-        if(menu == null || menu.cookType != CookType.Boiling) {
+        if (menu == null || menu.cookType != CookType.Boiling)
+        {
             cookCompleteTime = 20;
-        }   
+        }
     }
     //---------------------------------------------------//
     public override void AddIngredient(GameObject obj, Ingredient ingredient)
@@ -91,11 +93,12 @@ public class PotManager : CookManagerBase
             //IngredientAddAmount(checkIngredients, ingredient, 1);
             return;
         }
-        if(ingredient.ingredientType == IngredientType.Sub) {
+        if (ingredient.ingredientType == IngredientType.Sub)
+        {
             IngredientAddAmount(checkIngredients, ingredient, ingredient.ingredientUseCount);
             potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.SubIngredientDrop);
         }
-        
+
     }
 
     public override IEnumerator UseCookingStep()
@@ -106,17 +109,20 @@ public class PotManager : CookManagerBase
         yield return StartCoroutine(InherentMotion());
         CookCompleteCheck();
     }
-    
+
     public override void CookCompleteCheck()
     {
-        if(cookMode == CookMode.Select) {
-            if (currentMenu.boilingSetting.rotatePower != potBoilingSystem.rotatePower) {
+        if (cookMode == CookMode.Select)
+        {
+            if (currentMenu.boilingSetting.rotatePower != potBoilingSystem.rotatePower)
+            {
                 CookSceneManager.instance.UnloadScene("PotMergeTest", CookManager.instance.failMenu);
                 return;
             }
-            else {
-                 CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
-                 return;
+            else
+            {
+                CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
+                return;
             }
         }
 
@@ -151,7 +157,7 @@ public class PotManager : CookManagerBase
 
         //UnLock New Recipe;
         RecipeManager.instance.RecipeUnLock(targetRecipe);
-        UIManager.instance.RecipeUnLockUI();
+        //UIManager.instance.RecipeUnLockUI();
         CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
         Debug.Log("Success");
         return;
@@ -161,7 +167,7 @@ public class PotManager : CookManagerBase
     {
         potViewportSystem.PutIngredient();
         StartCoroutine(potViewportSystem.OpenLid());
-        
+
         //Select && Make Choice
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {

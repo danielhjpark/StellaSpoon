@@ -7,6 +7,7 @@ public class RecipeManager : MonoBehaviour
 {
     static public RecipeManager instance = null;
 
+    [SerializeField] Recipe[] BasicRecipes;
     public Dictionary<string, Recipe> RecipeList; //?ûÑ?ãú ?ç∞?ù¥?Ñ∞ Î≤†Ïù¥?ä§
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     private GameObject NewRecipeUI;
@@ -16,7 +17,6 @@ public class RecipeManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -25,11 +25,10 @@ public class RecipeManager : MonoBehaviour
 
         Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas∏¶ √£±‚
         NewRecipeUI = canvasTransform.Find("NewRecipePanel")?.gameObject; // MapPanel¿ª √£±‚
-        RecipeUnlockInit();
-        //MakeRecipeUnLockList();
+        RecipeUnLockInit();
     }
 
-    void RecipeUnlockInit()
+    void RecipeUnLockInit()
     {
         RecipeList = new Dictionary<string, Recipe>();
         RecipeUnlockCheck = new Dictionary<Recipe, bool>();
@@ -40,6 +39,11 @@ public class RecipeManager : MonoBehaviour
             RecipeList.Add(recipe.name, recipe);
             RecipeUnlockCheck.Add(recipe, false);
         }
+
+        foreach (Recipe BasicRecipe in BasicRecipes)
+        {
+            RecipeUnlockCheck[BasicRecipe] = true;
+        }
     }
     //--------------- RecipeUnLock System -----------------//
     public void RecipeUnLock(Recipe getRecipe)
@@ -48,7 +52,7 @@ public class RecipeManager : MonoBehaviour
         {
             RecipeUnlockCheck[getRecipe] = true;
             Debug.Log("RecipeUnLock : " + getRecipe.name);
-            //RecipeUnLockUI();
+            RecipeUnLockUI();
         }
     }
 
@@ -63,8 +67,8 @@ public class RecipeManager : MonoBehaviour
         NewRecipeUI.SetActive(true);
         yield return new WaitForSeconds(3f);
         NewRecipeUI.SetActive(false);
-
     }
+
     //----- Get all of unlock recipelist -------------//
     public List<Recipe> MakeRecipeUnLockList()
     {
@@ -125,6 +129,7 @@ public class RecipeManager : MonoBehaviour
             IngredientManager.IngredientAmount[currentIngdeient] -= requireIngredientAmount;
         }
     }
+
     //-----------------?û¨Î£? Î∞òÌôò?ïòÍ∏? ----------------------//
     public void RecallIngredientFromRecipe(Recipe recipe, int amount)
     {
@@ -154,6 +159,7 @@ public class RecipeManager : MonoBehaviour
         Recipe targetRecipe = RecipeList.Values.SingleOrDefault(recipe => recipe.mainIngredient == mainIngredient);
         return targetRecipe;
     }
+
     //-------------Check compare recipe with ingredients ---------//
     public bool CompareRecipe(Recipe currentRecipe, List<IngredientAmount> checkIngredients)
     {

@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71f3e924013a77b459dde35628116b81, type: 3}
-  m_Name: Black_Fermos_Soup
+  m_Name: Black_Fermos_Skewer
   m_EditorClassIdentifier: 
-  menuName: "\uAC80\uC740 \uD398\uB974\uBAA8\uC2A4 \uC2A4\uD504"
+  menuName: "\uAC80\uC740 \uD398\uB974\uBAA8\uC2A4 \uAF2C\uCE58"
   menuImage: {fileID: 0}
   menuPrice: 400
   menuPrefab: {fileID: 0}
+  mainIngredient: {fileID: 0}
   ingredients:
   - ingredient: {fileID: 11400000, guid: 0f0152b1593b2a742a6b7f9a80152e20, type: 2}
     amount: 1
@@ -27,13 +28,22 @@ MonoBehaviour:
     amount: 1
   cookType: 4
   boilingSetting:
-    boilType: 0
+    cookTime: 0
+    rotatePower: 0
+    sauceType: 0
   tossingSetting:
-    tossingCount: 0
-    successRange: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
+    sauceType: 0
   cuttingSetting:
+    trimItem: {fileID: 0}
+    trimItemCount: 0
     cuttingCount: 0
-    successRange: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 0
-    successRange: 0
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
+    sauceType: 0
+    sectionRange: 000000000000000000000000

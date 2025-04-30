@@ -32,7 +32,7 @@ public class WokManager : CookManagerBase
     private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
     private int totalTossingCount;
-    
+
     private GameObject mainIngredient;
     //---------------------------------------------------------------------//
 
@@ -66,7 +66,7 @@ public class WokManager : CookManagerBase
     {
         isCanEscape = false;
         yield return StartCoroutine(AddMainIngredient());//Main ingredient add
-        if(firstTossingCount > 0) yield return StartCoroutine(InherentMotion(firstTossingCount));
+        if (firstTossingCount > 0) yield return StartCoroutine(InherentMotion(firstTossingCount));
         yield return StartCoroutine(AddSubIngredient());//Sub ingredient add
         yield return StartCoroutine(AddSauce());//Sauce motion
         yield return StartCoroutine(InherentMotion(secondTossingCount));
@@ -86,14 +86,16 @@ public class WokManager : CookManagerBase
     public void RecipeSetting(Recipe menu)
     {
         base.SelectRecipe(menu);
-        if(menu == null || menu.cookType != CookType.Tossing) {
+        if (menu == null || menu.cookType != CookType.Tossing)
+        {
             //int[] defaultRange = {300, 150, 300};
             int randTossingCount = 2;
             firstTossingCount = randTossingCount;
             secondTossingCount = randTossingCount;
             return;
-        } 
-        else {
+        }
+        else
+        {
             firstTossingCount = menu.tossingSetting.firstTossingCount;
             secondTossingCount = menu.tossingSetting.secondTossingCount;
         }
@@ -114,7 +116,7 @@ public class WokManager : CookManagerBase
             else
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
-                return;  
+                return;
             }
 
         }
@@ -147,12 +149,7 @@ public class WokManager : CookManagerBase
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
-
-            //UnLock New Recipe;
-           if(!RecipeManager.instance.RecipeUnlockCheck[targetRecipe]) {
-                RecipeManager.instance.RecipeUnLock(targetRecipe);
-                UIManager.instance.RecipeUnLockUI();
-           }
+            RecipeManager.instance.RecipeUnLock(targetRecipe);
             CookSceneManager.instance.UnloadScene("WokMergeTest", targetRecipe);
             Debug.Log("Success");
             return;
@@ -172,7 +169,7 @@ public class WokManager : CookManagerBase
             //StartCoroutine(cookUIManager.VisiblePanel());
             wokIngredientSystem.AddSubIngredient(ingredients, ingredient);
             StartCoroutine(cookUIManager.VisiblePanel());
-        } 
+        }
     }
 
 

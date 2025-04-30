@@ -34793,6 +34793,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[4].gravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[4].weather
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[4].planetName
+      value: Store
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[4].description
+      value: "\uC0C1\uC810"
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[4].monsters.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[4].monsters.Array.data[0]
+      value: "\uBC14\uB77C\uD3EC\uD06C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[4].monsters.Array.data[1]
+      value: "\uD6C4\uCE74\uC774\uB85C\uB9E4"
+      objectReference: {fileID: 0}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: SpriteUI
       value: 
@@ -68160,8 +68192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b89f0d43f0274a4cb5320d45c2d0a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DailyMenuUI: {fileID: 567336637}
-  NewRecipeUI: {fileID: 966803099}
   InteractUI: {fileID: 1462034495}
   items:
   - {fileID: 11400000, guid: fb25ca4fce4f9934883ba923c046799f, type: 2}
@@ -68174,10 +68204,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 49d7f661889c8c14bbab27288afa5f4a, type: 2}
   - {fileID: 11400000, guid: d786c34e3eee59b4ebadf843f38ab7b2, type: 2}
   - {fileID: 11400000, guid: 12a8c22f10d48174281a119e839bcc32, type: 2}
-  recipes:
-  - {fileID: 11400000, guid: d1574193c8dd12246a457e2a16aa865b, type: 2}
-  - {fileID: 11400000, guid: f5eaa9cd9f652294b9d9b12196290b09, type: 2}
-  - {fileID: 11400000, guid: 5d301c9b1fd0df0488e5338720086a3a, type: 2}
 --- !u!4 &1780631890
 Transform:
   m_ObjectHideFlags: 0
@@ -68207,7 +68233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4c6dc60239dc7e40b284fcb75b866ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClipList: []
 --- !u!114 &1780960148 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3904684665966917643, guid: da2791985bc253f4c87b33e59a1f5aa5, type: 3}
