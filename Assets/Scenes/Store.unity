@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 1723094}
   - component: {fileID: 1723093}
   m_Layer: 5
-  m_Name: Cook02Panel
+  m_Name: Wor_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -801,7 +801,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -813,7 +813,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 82576395}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 804245498}
+        m_TargetAssemblyTypeName: StoreUIManager, Assembly-CSharp
+        m_MethodName: Upgrade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: CuttingBoard
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &82576395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2361,7 +2373,7 @@ GameObject:
   - component: {fileID: 269367375}
   - component: {fileID: 269367374}
   m_Layer: 5
-  m_Name: Cook03LevelText
+  m_Name: CuttingBoard_LevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2406,7 +2418,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LV.100
+  m_text: LV.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3789,7 +3801,7 @@ GameObject:
   - component: {fileID: 361107629}
   - component: {fileID: 361107628}
   m_Layer: 5
-  m_Name: Cook01ImagePanel
+  m_Name: Pan_ImagePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5242,7 +5254,7 @@ GameObject:
   - component: {fileID: 480995355}
   - component: {fileID: 480995354}
   m_Layer: 5
-  m_Name: Cook04Image
+  m_Name: Pot_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5484,7 +5496,7 @@ GameObject:
   - component: {fileID: 499556620}
   - component: {fileID: 499556619}
   m_Layer: 5
-  m_Name: Cook04Panel
+  m_Name: Pot_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5740,7 +5752,7 @@ GameObject:
   - component: {fileID: 503217273}
   - component: {fileID: 503217272}
   m_Layer: 5
-  m_Name: Cook01Image
+  m_Name: Pan_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6350,7 +6362,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -6362,7 +6374,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 542389661}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 804245498}
+        m_TargetAssemblyTypeName: StoreUIManager, Assembly-CSharp
+        m_MethodName: Upgrade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Wor
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &542389661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7292,7 +7316,7 @@ GameObject:
   - component: {fileID: 637616282}
   - component: {fileID: 637616281}
   m_Layer: 5
-  m_Name: Cook02Image
+  m_Name: Wor_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7443,7 +7467,7 @@ GameObject:
   - component: {fileID: 638792819}
   - component: {fileID: 638792818}
   m_Layer: 5
-  m_Name: Cook01UpgradeTextPanel
+  m_Name: Pan_UpgradeTextPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8475,7 +8499,7 @@ GameObject:
   - component: {fileID: 710596486}
   - component: {fileID: 710596485}
   m_Layer: 5
-  m_Name: Cook02Text
+  m_Name: Wor_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8520,10 +8544,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uD50C\uB77C\uC988\uB9C8 \uC6CD\r"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
+  m_sharedMaterial: {fileID: -8099049883465867816, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8972,7 +8996,7 @@ GameObject:
   - component: {fileID: 753306851}
   - component: {fileID: 753306850}
   m_Layer: 5
-  m_Name: Cook03Text
+  m_Name: CuttingBoard_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9017,10 +9041,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uD640\uB85C\uADF8\uB7A8 \uB3C4\uB9C8"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
+  m_sharedMaterial: {fileID: -8099049883465867816, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9282,7 +9306,7 @@ GameObject:
   - component: {fileID: 765035259}
   - component: {fileID: 765035258}
   m_Layer: 5
-  m_Name: Cook03ImagePanel
+  m_Name: CuttingBoard_ImagePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9693,6 +9717,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2b451d892c440ec40b1f3beca9e6bb11, type: 2}
   - {fileID: 11400000, guid: 18f74e36c2d7873478306e0edc59f140, type: 2}
   currentPurchaseCount: 0
+  currentPanLevel: 1
+  currentWorLevel: 1
+  currentCuttingBoardLevel: 1
+  currentPotLevel: 1
+  panLevelText: {fileID: 1523585624}
+  worLevelText: {fileID: 1896257093}
+  cuttingBoardLevelText: {fileID: 269367372}
+  potLevelText: {fileID: 2033090008}
+  panUpgradeCost: c4090000
+  worUpgradeCost: dc050000d0070000fc080000
+  cuttingBoardUpgradeCost: b004000008070000
+  potUpgradeCost: c4090000f00a0000800c0000
+  panUpgradeCostText: {fileID: 308331599}
+  worUpgradeCostText: {fileID: 1099604986}
+  cuttingBoardUpgradeCostText: {fileID: 1136678693}
+  potUpgradeCostText: {fileID: 506188983}
   gunImage: {fileID: 1871285457}
   gunName: {fileID: 1803988934}
   gunStats: {fileID: 328311939}
@@ -9806,7 +9846,7 @@ GameObject:
   - component: {fileID: 830757721}
   - component: {fileID: 830757720}
   m_Layer: 5
-  m_Name: Cook02ImagePanel
+  m_Name: Wor_ImagePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10521,7 +10561,7 @@ GameObject:
   - component: {fileID: 891202274}
   - component: {fileID: 891202273}
   m_Layer: 5
-  m_Name: Cook03UpgradeTextPanel
+  m_Name: CuttingBoard_UpgradeTextPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11196,7 +11236,7 @@ GameObject:
   - component: {fileID: 944582658}
   - component: {fileID: 944582657}
   m_Layer: 5
-  m_Name: Cook03Panel
+  m_Name: CuttingBoard_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12967,7 +13007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1142292112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13268,7 +13308,7 @@ GameObject:
   - component: {fileID: 1167102407}
   - component: {fileID: 1167102406}
   m_Layer: 5
-  m_Name: Cook04UpgradeTextPanel
+  m_Name: Pot_UpgradeTextPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14174,7 +14214,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290041378}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -14218,7 +14258,7 @@ GameObject:
   - component: {fileID: 1296761184}
   - component: {fileID: 1296761183}
   m_Layer: 5
-  m_Name: Cook03UpgradePanel
+  m_Name: CuttingBoard_UpgradePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14318,7 +14358,7 @@ GameObject:
   - component: {fileID: 1327399571}
   - component: {fileID: 1327399570}
   m_Layer: 5
-  m_Name: Cook01Panel
+  m_Name: Pan_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15090,7 +15130,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -15102,7 +15142,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1381912086}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 804245498}
+        m_TargetAssemblyTypeName: StoreUIManager, Assembly-CSharp
+        m_MethodName: Upgrade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Pan
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1381912086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16231,7 +16283,7 @@ GameObject:
   - component: {fileID: 1523585627}
   - component: {fileID: 1523585626}
   m_Layer: 5
-  m_Name: Cook01LevelText
+  m_Name: Pan_LevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16276,7 +16328,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LV.100
+  m_text: LV.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16681,7 +16733,7 @@ GameObject:
   - component: {fileID: 1576326395}
   - component: {fileID: 1576326394}
   m_Layer: 5
-  m_Name: Cook04ImagePanel
+  m_Name: Pot_ImagePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16912,7 +16964,7 @@ GameObject:
   - component: {fileID: 1624507606}
   - component: {fileID: 1624507605}
   m_Layer: 5
-  m_Name: Cook04UpgradePanel
+  m_Name: Pot_UpgradePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17187,8 +17239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1721705813}
-  m_Horizontal: 1
-  m_Vertical: 1
+  m_Horizontal: 0
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
@@ -17254,7 +17306,7 @@ GameObject:
   - component: {fileID: 1686011295}
   - component: {fileID: 1686011294}
   m_Layer: 5
-  m_Name: Cook02UpgradeTextPanel
+  m_Name: Wor_UpgradeTextPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17705,7 +17757,7 @@ GameObject:
   - component: {fileID: 1780381103}
   - component: {fileID: 1780381102}
   m_Layer: 5
-  m_Name: Cook04Text
+  m_Name: Pot_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17750,10 +17802,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uC5D0\uB108\uC9C0 \uD68C\uC804 \uB0C4\uBE44"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
+  m_sharedMaterial: {fileID: -8099049883465867816, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17813,7 +17865,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -20, y: 0, z: -20, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -18184,7 +18236,7 @@ GameObject:
   - component: {fileID: 1838257610}
   - component: {fileID: 1838257609}
   m_Layer: 5
-  m_Name: Cook01Image
+  m_Name: CuttingBoard_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18316,7 +18368,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 456178506ab71a94590afb816f862e8a, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: 7c802514c7064fe469419f98f1cb6a68, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -18328,7 +18380,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1843539415}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 804245498}
+        m_TargetAssemblyTypeName: StoreUIManager, Assembly-CSharp
+        m_MethodName: Upgrade
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Pot
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1843539415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18379,7 +18443,7 @@ GameObject:
   - component: {fileID: 1846022258}
   - component: {fileID: 1846022257}
   m_Layer: 5
-  m_Name: Cook01Text
+  m_Name: Pan_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18424,10 +18488,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uD50C\uB77C\uC988\uB9C8 \uD32C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
+  m_sharedMaterial: {fileID: -8099049883465867816, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -18799,7 +18863,7 @@ GameObject:
   - component: {fileID: 1865138336}
   - component: {fileID: 1865138335}
   m_Layer: 5
-  m_Name: Cook02UpgradePanel
+  m_Name: Wor_UpgradePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19186,7 +19250,7 @@ GameObject:
   - component: {fileID: 1896257096}
   - component: {fileID: 1896257095}
   m_Layer: 5
-  m_Name: Cook02LevelText
+  m_Name: Wor_LevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19231,7 +19295,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LV.100
+  m_text: LV.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -19923,7 +19987,7 @@ GameObject:
   - component: {fileID: 2033090011}
   - component: {fileID: 2033090010}
   m_Layer: 5
-  m_Name: Cook04LevelText
+  m_Name: Pot_LevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19968,7 +20032,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LV.100
+  m_text: LV.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20134,7 +20198,7 @@ GameObject:
   - component: {fileID: 2061427145}
   - component: {fileID: 2061427147}
   m_Layer: 5
-  m_Name: Cook01UpgradePanel
+  m_Name: Pan_UpgradePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -47,7 +47,52 @@ public class StoreUIManager : MonoBehaviour
     private int currentPurchaseCount = 0; //현재 구매 갯수
     private int currentSelectedIngredientIndex = -1; //현재 선택된 재료 인덱스
 
+    [Header("-----Cook-----")]
+    //현재 조리기구 레벨
+    [SerializeField]
+    private int currentPanLevel = 1;
+    [SerializeField]
+    private int currentWorLevel = 1;
+    [SerializeField]
+    private int currentCuttingBoardLevel = 1;
+    [SerializeField]
+    private int currentPotLevel = 1;
 
+    //최대 조리기구 레벨
+    private int maxPanLevel = 2;
+    private int maxWorLevel = 4;
+    private int maxCuttingBoardLevel = 3;
+    private int maxPotLevel = 4;
+
+    //조리기구 레벨 Text
+    [SerializeField]
+    private GameObject panLevelText;
+    [SerializeField]
+    private GameObject worLevelText;
+    [SerializeField]
+    private GameObject cuttingBoardLevelText;
+    [SerializeField]
+    private GameObject potLevelText;
+
+    //업그레이드 비용
+    [SerializeField]
+    private int[] panUpgradeCost;
+    [SerializeField]
+    private int[] worUpgradeCost;
+    [SerializeField]
+    private int[] cuttingBoardUpgradeCost;
+    [SerializeField]
+    private int[] potUpgradeCost;
+
+    //업그레이드 비용 Text
+    [SerializeField]
+    private GameObject panUpgradeCostText;
+    [SerializeField]
+    private GameObject worUpgradeCostText;
+    [SerializeField]
+    private GameObject cuttingBoardUpgradeCostText;
+    [SerializeField]
+    private GameObject potUpgradeCostText;
 
     [Header("-----Gun-----")]
     [SerializeField]
@@ -81,9 +126,14 @@ public class StoreUIManager : MonoBehaviour
 
     private void Start()
     {
-        inventory = FindObjectOfType<Inventory>();
+        inventory = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)").GetComponent<Inventory>();
+        if (inventory == null)
+        {
+            Debug.LogWarning("Inventory 오브젝트를 찾을 수 없습니다.");
+        }
         ResetIngredientPurchase();
         SelectTempestFang(); //처음 시작할 때 TempestFang 선택
+        LevelCostSetting(); //조리도구상점 업그레이드 비용 설정
     }
 
     private void OnEnable()
@@ -213,6 +263,115 @@ public class StoreUIManager : MonoBehaviour
 
 
     //cook
+
+    private void LevelCostSetting()
+    {
+        panLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPanLevel.ToString();
+        worLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentWorLevel.ToString();
+        cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentCuttingBoardLevel.ToString();
+        potLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPotLevel.ToString();
+        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text =panUpgradeCost[currentPanLevel - 1].ToString();
+        worUpgradeCostText.GetComponent<TextMeshProUGUI>().text = worUpgradeCost[currentWorLevel - 1].ToString();
+        cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text = cuttingBoardUpgradeCost[currentCuttingBoardLevel - 1].ToString();
+        potUpgradeCostText.GetComponent<TextMeshProUGUI>().text = potUpgradeCost[currentPotLevel - 1].ToString();
+    }
+    public void Upgrade(string tools)
+    {
+        int[] upgradeCost;
+        ref int upgradeLevel = ref currentPanLevel; //기본적으로 팬을 참조하지만 switch에서 변경
+        bool isMaxLevel = false;
+
+        switch (tools)
+        {
+            case "Pan":
+                upgradeCost = panUpgradeCost;
+                upgradeLevel = ref currentPanLevel;
+                if(currentPanLevel >= maxPanLevel)
+                {
+                    Debug.Log("팬 업그레이드 최대 레벨 도달");
+                    isMaxLevel = true;
+                    return;
+                }
+                break;
+            case "Wor":
+                upgradeCost = worUpgradeCost;
+                upgradeLevel = ref currentWorLevel;
+                if (currentWorLevel >= maxWorLevel)
+                {
+                    Debug.Log("웍 업그레이드 최대 레벨 도달");
+                    isMaxLevel = true;
+                    return;
+                }
+                break;
+            case "CuttingBoard":
+                upgradeCost = cuttingBoardUpgradeCost;
+                upgradeLevel = ref currentCuttingBoardLevel;
+                if (currentCuttingBoardLevel >= maxCuttingBoardLevel)
+                {
+                    Debug.Log("도마 업그레이드 최대 레벨 도달");
+                    isMaxLevel = true;
+                    return;
+                }
+                break;
+            case "Pot":
+                upgradeCost = potUpgradeCost;
+                upgradeLevel = ref currentPotLevel;
+                if (currentPotLevel >= maxPotLevel)
+                {
+                    Debug.Log("냄비 업그레이드 최대 레벨 도달");
+                    isMaxLevel = true;
+                    return;
+                }
+                break;
+            default:
+                Debug.Log("잘못된 도구");
+                return;
+        }
+
+        if(!isMaxLevel) //최대레벨이 아닐 때
+        {
+            if (upgradeCost[upgradeLevel-1] <=Manager.gold) //보유 골드가 업그레이드 비용보다 많을 때
+            {
+                upgradeLevel++;
+                Manager.gold -= upgradeCost[upgradeLevel - 1];
+                Debug.Log(tools + " 업그레이드 완료. 현재 레벨" + upgradeLevel);
+
+                switch (tools)
+                {
+                    case "Pan":
+                        //각각 조리도구 업그레이드 
+                        //현재 조리도구의 레벨은 upgradeLevel, current000Level로 가능
+
+                        panLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPanLevel.ToString();
+                        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentPanLevel >= maxPanLevel) ? "Max" : panUpgradeCost[currentPanLevel - 1].ToString();
+                        break;
+                    case "Wor":
+                        //각각 조리도구 업그레이드
+
+                        worLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentWorLevel.ToString();
+                        worUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentWorLevel >= maxWorLevel) ? "Max" : worUpgradeCost[currentWorLevel - 1].ToString();
+                        break;
+                    case "CuttingBoard":
+                        //각각 조리도구 업그레이드
+
+                        cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentCuttingBoardLevel.ToString();
+                        cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentCuttingBoardLevel >= maxCuttingBoardLevel) ? "Max" : cuttingBoardUpgradeCost[currentCuttingBoardLevel - 1].ToString();
+                        break;
+                    case "Pot":
+                        //각각 조리도구 업그레이드
+
+                        potLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPotLevel.ToString();
+                        potUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentPotLevel >= maxPotLevel) ? "Max" : potUpgradeCost[currentPotLevel - 1].ToString();
+                        break;
+                }
+
+            }
+            else
+            {
+                Debug.Log("골드 부족");
+            }
+        }
+    }
 
     //gunNPC
     public void SelectTempestFang()
