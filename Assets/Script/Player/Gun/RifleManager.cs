@@ -8,45 +8,41 @@ public class RifleManager : MonoBehaviour
 {
     public static RifleManager instance;
 
-    //private GunRecoil recoilScript;
-
     [Header("Weapons")]
-    [SerializeField] private List<WeaponData> weaponLevels; // 무기 리스트
-    private int currentWeaponIndex = 0; // 현재 무기 인덱스
-
+    [SerializeField] private List<WeaponData> weaponLevels;
+    private int currentWeaponIndex = 0;
     private WeaponData CurrentWeapon => weaponLevels[currentWeaponIndex];
 
-    [Header("Bullet")]
-    [SerializeField] private float maxShootDelay = 0.2f;
-    [SerializeField] private float currentShootDelay = 0.2f;
+    [Header("Weapon State")]
+    private float currentShootDelay;
+    private float maxShootDelay;
 
+    public int currentBullet;
+    private int maxBullet;
+    public int attackDamage;
+
+    public int CurrentWeaponLevel => currentWeaponIndex;
+
+    [Header("UI")]
     public GameObject WeaponUI;
     public GameObject SpriteUI;
-
-    [SerializeField] public Text bulletText;
+    [SerializeField] private Text bulletText;
     [SerializeField] private Text maxBulletText;
-    private int maxBullet = 10;
-    public int currentBullet = 0;
 
     [Header("Weapon FX")]
     [SerializeField] private GameObject weaponFlashFX;
     [SerializeField] private GameObject bulletCaseFX;
     [SerializeField] private GameObject weaponClipFX;
 
-    [Header("Weapon State")]
-    public int attackDamage = 20;
-    public int CurrentWeaponLevel => currentWeaponIndex;
-
     private void Awake()
     {
         instance = this;
     }
+
     void Start()
     {
-        currentShootDelay = 0;
-        InitBullet();
-        //recoilScript = GetComponent<GunRecoil>();
-        SwitchWeapon(0); // 기본 무기 선택
+        currentShootDelay = 0f;
+        SwitchWeapon(0); // 초기 무기 설정
     }
 
     void Update()
@@ -59,18 +55,9 @@ public class RifleManager : MonoBehaviour
             currentShootDelay += Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SwitchWeapon(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SwitchWeapon(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SwitchWeapon(2);
-        }
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
     }
 
     public void Shooting(Vector3 targetPosition)
@@ -82,30 +69,38 @@ public class RifleManager : MonoBehaviour
 
         var aim = (targetPosition - CurrentWeapon.bulletPoint.position).normalized;
 
-        var flashFX = BulletPoolManager.instance.ActivateObj(1);
+        // 무기 레벨
+        int weaponLevel = CurrentWeaponLevel;
+
+        // 총구 화염
+        var flashFX = BulletPoolManager.instance.GetObject(weaponLevel, "muzzle", CurrentWeapon.muzzleFlashPrefab);
         SetObjPosition(flashFX, CurrentWeapon.bulletPoint);
         flashFX.transform.rotation = Quaternion.LookRotation(aim, Vector3.up);
 
-        var caseFX = BulletPoolManager.instance.ActivateObj(2);
+        // 탄피
+        var caseFX = BulletPoolManager.instance.GetObject(weaponLevel, "case", CurrentWeapon.bulletCasePrefab);
         SetObjPosition(caseFX, CurrentWeapon.bulletCasePoint);
 
-        var bulletObj = BulletPoolManager.instance.ActivateObj(0);
+        // 총알
+        var bulletObj = BulletPoolManager.instance.GetObject(weaponLevel, "bullet", CurrentWeapon.bulletPrefab);
         SetObjPosition(bulletObj, CurrentWeapon.bulletPoint);
         bulletObj.transform.rotation = Quaternion.LookRotation(aim, Vector3.up);
 
         var bullet = bulletObj.GetComponent<BulletManager>();
         if (bullet != null)
         {
-            bullet.SetDamage(attackDamage);
+            bullet.SetDamageFromWeapon(CurrentWeapon);
         }
 
-        //recoilScript.ApplyRecoil();
+        // 총 반동이 있다면 여기에 recoil 추가 가능
     }
 
     public void ReloadClip()
     {
-        var clipFX = BulletPoolManager.instance.ActivateObj(3);
+        int weaponLevel = CurrentWeaponLevel;
+        var clipFX = BulletPoolManager.instance.GetObject(weaponLevel, "clip", CurrentWeapon.weaponClipPrefab);
         SetObjPosition(clipFX, CurrentWeapon.weaponClipPoint);
+        InitBullet();
     }
 
     public void InitBullet()
@@ -120,12 +115,24 @@ public class RifleManager : MonoBehaviour
 
     public void SwitchWeapon(int levelIndex)
     {
-        // 무기 전환
+        if (levelIndex < 0 || levelIndex >= weaponLevels.Count) return;
+
         for (int i = 0; i < weaponLevels.Count; i++)
         {
             weaponLevels[i].weaponObject.SetActive(i == levelIndex);
         }
+
         currentWeaponIndex = levelIndex;
-        InitBullet(); // 무기 교체 시 총알 초기화
+
+        // 무기 정보 적용
+        attackDamage = CurrentWeapon.damage;
+        maxBullet = CurrentWeapon.maxBullet;
+        maxShootDelay = CurrentWeapon.fireRate;
+
+        InitBullet();
+    }
+    public WeaponData GetCurrentWeaponData()
+    {
+        return CurrentWeapon;
     }
 }

@@ -7738,6 +7738,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &162200435 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2203930199745885573, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &162461635
 GameObject:
   m_ObjectHideFlags: 0
@@ -8580,6 +8585,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1481891438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &175953943 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7061576280199717042, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &177018422
 GameObject:
   m_ObjectHideFlags: 0
@@ -19051,6 +19061,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 447618, guid: 6456a4784f31cab439d29b7e3bb286a4, type: 3}
   m_PrefabInstance: {fileID: 484528210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &486276888 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7073016268078114910, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &488176035
 GameObject:
@@ -34815,9 +34830,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7701444479971631418}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[1].bulletPoint
+      value: 
+      objectReference: {fileID: 1224608806}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[2].bulletPoint
+      value: 
+      objectReference: {fileID: 175953943}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: weaponLevels.Array.data[0].weaponObject
       value: 
       objectReference: {fileID: 7701444479971631419}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[1].weaponObject
+      value: 
+      objectReference: {fileID: 1237496542}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[2].weaponObject
+      value: 
+      objectReference: {fileID: 1710891955}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: weaponLevels.Array.data[0].bulletCasePoint
       value: 
@@ -34826,6 +34857,22 @@ PrefabInstance:
       propertyPath: weaponLevels.Array.data[0].weaponClipPoint
       value: 
       objectReference: {fileID: 7701444479971631416}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[1].bulletCasePoint
+      value: 
+      objectReference: {fileID: 1239702002}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[1].weaponClipPoint
+      value: 
+      objectReference: {fileID: 162200435}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[2].bulletCasePoint
+      value: 
+      objectReference: {fileID: 1244889032}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[2].weaponClipPoint
+      value: 
+      objectReference: {fileID: 486276888}
     - target: {fileID: 1165363847365910181, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: mapPanel
       value: 
@@ -46021,6 +46068,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e1b886e9f18d9e43bf1d35ceab0b368, type: 3}
+--- !u!4 &1224608806 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6461926509551762534, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1225422068
 GameObject:
   m_ObjectHideFlags: 0
@@ -46315,6 +46367,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237323351}
   m_CullTransparentMesh: 1
+--- !u!1 &1237496542 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7549026844369189486, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1239702002 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1976251719849505136, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1240138750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46658,6 +46720,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 458864, guid: 6c7bfc57a0f70db46b9b83dddca510e1, type: 3}
   m_PrefabInstance: {fileID: 1242263316}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1244889032 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5641017010024163102, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1246093709
 GameObject:
@@ -64196,6 +64263,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710500624}
   m_CullTransparentMesh: 1
+--- !u!1 &1710891955 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1019511213843560427, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 7701444479971631415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1711937304
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,11 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1acfb91d2202bb34288a04a9281f9610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 5912344974454636654, guid: 83f8c9cbe221fca4eaae68c50efd83d3, type: 3}
-  - {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
-  - {fileID: 8772931668020583075, guid: 757de962d5415194f8d8b2d9b70f5640, type: 3}
-  - {fileID: 8772931668020583075, guid: 4a3bb0f143fa41a4ea9a5cdc04c0af02, type: 3}
+  poolSize: 10
 --- !u!1 &3928233092353660124
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,8 +506,104 @@ PrefabInstance:
       objectReference: {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponLevels.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].damage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].weight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].damage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].fireRate
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].fireRate
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].fireRate
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].maxBullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].maxBullet
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].maxBullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].bulletPrefab
+      value: 
+      objectReference: {fileID: 5912344974454636654, guid: 83f8c9cbe221fca4eaae68c50efd83d3, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].bulletPrefab
+      value: 
+      objectReference: {fileID: 8378503196372639160, guid: 56a31e3fb12a7da4cb69ab4dfcc420ac, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].bulletPrefab
+      value: 
+      objectReference: {fileID: 8378503196372639160, guid: 6b78af83ad3cba343bd32c927fb29a9b, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].bulletCasePrefab
+      value: 
+      objectReference: {fileID: 8772931668020583075, guid: 757de962d5415194f8d8b2d9b70f5640, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].weaponClipPrefab
+      value: 
+      objectReference: {fileID: 8772931668020583075, guid: 4a3bb0f143fa41a4ea9a5cdc04c0af02, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].bulletCasePrefab
+      value: 
+      objectReference: {fileID: 8772931668020583075, guid: 757de962d5415194f8d8b2d9b70f5640, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].weaponClipPrefab
+      value: 
+      objectReference: {fileID: 8772931668020583075, guid: 4a3bb0f143fa41a4ea9a5cdc04c0af02, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].bulletCasePrefab
+      value: 
+      objectReference: {fileID: 8772931668020583075, guid: 757de962d5415194f8d8b2d9b70f5640, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].weaponClipPrefab
+      value: 
+      objectReference: {fileID: 8772931668020583075, guid: 4a3bb0f143fa41a4ea9a5cdc04c0af02, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].muzzleFlashPrefab
+      value: 
+      objectReference: {fileID: 4186470608034871016, guid: 4b3c47f667684e5418d849f7f3f4d9c4, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].muzzleFlashPrefab
+      value: 
+      objectReference: {fileID: 4186470608034871016, guid: 8bc41e1472c45464980c8feeed5f1649, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].muzzleFlashPrefab
+      value: 
+      objectReference: {fileID: 4186470608034871016, guid: 85859c19852f64d43b1f296d4a7fca03, type: 3}
     - target: {fileID: 6165023548225774215, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: m_Name
       value: RifleManager
@@ -651,6 +743,30 @@ PrefabInstance:
     - target: {fileID: 2291323520574881058, guid: 4a073e254c3197e41929e32ac9417829, type: 3}
       propertyPath: m_Name
       value: PlanetManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4601736289766861298, guid: 4a073e254c3197e41929e32ac9417829, type: 3}
+      propertyPath: planetInfos.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4601736289766861298, guid: 4a073e254c3197e41929e32ac9417829, type: 3}
+      propertyPath: planetInfos.Array.data[4].gravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4601736289766861298, guid: 4a073e254c3197e41929e32ac9417829, type: 3}
+      propertyPath: planetInfos.Array.data[4].planetName
+      value: Store
+      objectReference: {fileID: 0}
+    - target: {fileID: 4601736289766861298, guid: 4a073e254c3197e41929e32ac9417829, type: 3}
+      propertyPath: planetInfos.Array.data[4].description
+      value: "\uC0C1\uC810"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4601736289766861298, guid: 4a073e254c3197e41929e32ac9417829, type: 3}
+      propertyPath: planetInfos.Array.data[4].monsters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4601736289766861298, guid: 4a073e254c3197e41929e32ac9417829, type: 3}
+      propertyPath: planetInfos.Array.data[4].monsters.Array.data[0]
+      value: '-'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
