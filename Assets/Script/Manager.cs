@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour
     public static bool stage_01_clear = false; //스테이지 1 클리어 여부
     public static bool stage_02_clear = false; //스테이지 2 클리어 여부
 
-    public static int gold = 300; //플레이어 보유 골드
+    public static int gold = 300000; //플레이어 보유 골드
 
 
     private void Awake()
