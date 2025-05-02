@@ -235,7 +235,7 @@ namespace StarterAssets
                 _hpBar.gameObject.SetActive(true);
             }
 
-            if (!DeviceManager.isDeactived || TreasureChest.openingChest)
+            if (!DeviceManager.isDeactived || TreasureChest.openingChest || !WeaponChanger.isDeactived)
             {
                 if (_hasAnimator)
                 {
