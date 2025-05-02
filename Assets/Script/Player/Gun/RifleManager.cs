@@ -29,11 +29,6 @@ public class RifleManager : MonoBehaviour
     [SerializeField] private Text bulletText;
     [SerializeField] private Text maxBulletText;
 
-    [Header("Weapon FX")]
-    [SerializeField] private GameObject weaponFlashFX;
-    [SerializeField] private GameObject bulletCaseFX;
-    [SerializeField] private GameObject weaponClipFX;
-
     private void Awake()
     {
         instance = this;
@@ -55,9 +50,9 @@ public class RifleManager : MonoBehaviour
             currentShootDelay += Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
+        //if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
+        //else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
+        //else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
     }
 
     public void Shooting(Vector3 targetPosition)

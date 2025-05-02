@@ -337,7 +337,7 @@ public class PlayerManager : MonoBehaviour
     {
         yield return null; // 한 프레임 쉬고
         handRig.weight = 1;
-        Debug.Log("딜레이 후 handRig.weight: " + handRig.weight);
+        //Debug.Log("딜레이 후 handRig.weight: " + handRig.weight);
     }
     private void DisableHandIK()
     {
