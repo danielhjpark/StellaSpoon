@@ -235,7 +235,7 @@ namespace StarterAssets
                 _hpBar.gameObject.SetActive(true);
             }
 
-            if (!DeviceManager.isDeactived || TreasureChest.openingChest || !WeaponChanger.isDeactived)
+            if (!DeviceManager.isDeactived || TreasureChest.openingChest || !WeaponChanger.isDeactived || StoreNPCManager.openingStoreUI)
             {
                 if (_hasAnimator)
                 {
@@ -258,7 +258,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!DeviceManager.isDeactived || TreasureChest.openingChest) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
+            if (!DeviceManager.isDeactived || TreasureChest.openingChest || StoreNPCManager.openingStoreUI) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
             CameraRotation();
         }
 
