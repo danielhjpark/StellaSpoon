@@ -9,21 +9,21 @@ using TMPro;
 public class NpcManager : MonoBehaviour
 {
     public static NpcManager instance;
+
     public int totalGold;
     TextMeshProUGUI totalGoldText;
 
-    //----------------Seat variable ---------------------//
+    //--------------- Seat variable ---------------------//
     public Transform[] sitpositions = new Transform[4]; //의자 좌표
     private bool[] sitOccupied = new bool[24]; //의자 상태 표시
 
-    //---------------SpawnNpc Setting----------------------//
-    public GameObject npcPrefab;
-    public Transform spawnPoint;
-    private Vector3 npcSpawnpoint;
-
+    //-------------- SpawnNpc Setting --------------------//
+    [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform doorPoint;
+    [SerializeField] Transform centerPoint;
+    [SerializeField] GameObject npcPrefab;
 
     private void Awake() {
-        npcSpawnpoint = spawnPoint.transform.position;
         totalGoldText = GameObject.Find("GoldUI").GetComponent<TextMeshProUGUI>();
         instance = this;
     }
@@ -34,44 +34,57 @@ public class NpcManager : MonoBehaviour
 
     public void SpwanNPCs(Recipe recipe)
     {
-        GameObject npc = Instantiate(npcPrefab, npcSpawnpoint, Quaternion.identity);// 위치 npc생성위치로 바꿀것
+        int seatIndex = FindRandomSeat();
+        if (seatIndex == -1) // 모든 좌석이 차 있을 때
+        {
+           return;
+        }
+        GameObject npc = Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
         StartCoroutine(ManageNPC(npc, recipe));
     }
     
+    IEnumerator MoveNPC(GameObject npc, Transform targetPosition) {
+        NavMeshAgent nav = npc.GetComponent<NavMeshAgent>();
+        nav.SetDestination(targetPosition.position);
+        // NPC가 목표 위치에 도달할 때까지 대기
+        while (nav.pathPending || nav.remainingDistance > nav.stoppingDistance)
+        {
+            // NPC가 목표 지점에 근접했는지 확인
+            if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 0.5 &&
+                Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 0.5)
+            {
+                //nowPosition = npc.transform.position;
+                nav.enabled = false;
+                npc.transform.position = targetPosition.position; // NPC를 목표 위치로 순간이동
+                nav.enabled = true;
+                //NpcRotation(npc, seatIndex); //npc 책상방향에따라 회전
+                break;
+            }
+
+            yield return null;
+        }
+ 
+    }
+
     IEnumerator ManageNPC(GameObject npc, Recipe menu)
     {
-        NavMeshAgent nav = npc.GetComponent<NavMeshAgent>();
-        Vector3 nowPosition = npc.transform.position;
-        // 좌석을 찾음
         int seatIndex = FindRandomSeat();
         if (seatIndex == -1) // 모든 좌석이 차 있을 때
         {
             Destroy(npc);
             yield break;
         }
+        // Move enterance
+        yield return StartCoroutine(MoveNPC(npc, doorPoint.transform));
 
+        // Set npc seetting
         Transform targetPosition = sitpositions[seatIndex];
         sitOccupied[seatIndex] = true; // 좌석을 점유 상태로 변경
         npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
-        // 목표 위치로 이동
-        nav.SetDestination(targetPosition.position);
+        NpcRotation(npc, seatIndex);
 
-        // NPC가 목표 위치에 도달할 때까지 대기
-        while (nav.pathPending || nav.remainingDistance > nav.stoppingDistance)
-        {
-            // NPC가 목표 지점에 근접했는지 확인
-            if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 2 &&
-                Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 2)
-            {
-                nowPosition = npc.transform.position;
-                nav.enabled = false;
-                npc.transform.position = targetPosition.position; // NPC를 목표 위치로 순간이동
-                NpcRotation(npc, seatIndex); //npc 책상방향에따라 회전
-                break;
-            }
-
-            yield return null;
-        }
+        // Move Seat
+        yield return StartCoroutine(MoveNPC(npc, targetPosition));
 
         yield return new WaitForSeconds(2f);// 기다린 후 주문
 

@@ -20,7 +20,6 @@ public class WokManager : CookManagerBase
     [Header("Transform Objects")]
     [SerializeField] Transform dropPos;
 
-
     //Setting
     private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
@@ -66,6 +65,7 @@ public class WokManager : CookManagerBase
         CookCompleteCheck();
     }
 
+    //Select Mode
     public override void SelectRecipe(Recipe menu)
     {
         base.SelectRecipe(menu);
@@ -75,16 +75,19 @@ public class WokManager : CookManagerBase
         secondTossingCount = menu.tossingSetting.secondTossingCount;
         totalTossingCount = firstTossingCount + secondTossingCount - 1;
 
+        //UI Unlock Setting Initialize
+        wokUI.Initialize(0);
+
         //Start Cooking
         StartCoroutine(UseCookingStep());
     }
 
+    //Make Mode
     public void RecipeSetting(Recipe menu)
     {
         base.SelectRecipe(menu);
         if (menu == null || menu.cookType != CookType.Tossing)
         {
-            //int[] defaultRange = {300, 150, 300};
             int randTossingCount = 2;
             firstTossingCount = randTossingCount;
             secondTossingCount = randTossingCount;
@@ -97,6 +100,7 @@ public class WokManager : CookManagerBase
             secondTossingCount = menu.tossingSetting.secondTossingCount;
             totalTossingCount = firstTossingCount + secondTossingCount - 1;
         }
+        wokUI.Initialize(0);
 
     }
 

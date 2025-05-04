@@ -53,8 +53,7 @@ public class IngredientSlot : Slot
         isEmpty = true;
     }
 
-    public override void OnEndDrag(PointerEventData eventData)
-    {
-        //base.OnEndDrag(eventData);
-    }
+    //Hide parent func
+    public override void OnEndDrag(PointerEventData eventData) {}
+    public override void OnPointerExit(PointerEventData eventData){}
 }

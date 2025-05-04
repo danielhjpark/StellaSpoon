@@ -11,13 +11,11 @@ public class OrderManager : MonoBehaviour
     [SerializeField] NpcManager npcManager;
 
     Stack<Recipe> menuStack = new Stack<Recipe>();
-    Coroutine restaurantCoroutine;
-    public bool isTimeOver;
-    public bool isMenuSoldOut;
+    private Coroutine restaurantCoroutine;
     private float startInterval = 0f;
-    private float minSpwanInterval = 5f; //NPC 积己矫埃 弥家
-    private float maxSpwanInterval = 10f; //NPC 积己矫埃 弥家
+    private float minSpwanInterval = 5f, maxSpwanInterval = 10f; //NPC 积己矫埃 弥家
 
+    public bool isMenuSoldOut;
     public bool isStoppedOrder;
 
     private void Awake()
@@ -36,7 +34,6 @@ public class OrderManager : MonoBehaviour
 
         if (restaurantCoroutine == null)
         {
-            UpdateMenu();
             restaurantCoroutine = StartCoroutine(StartRestaurant());
         }
 
@@ -49,12 +46,14 @@ public class OrderManager : MonoBehaviour
 
     IEnumerator StartRestaurant()
     {
+        UpdateMenu();
         yield return new WaitForSeconds(startInterval);
         WaitForSeconds npcDelayTime = new WaitForSeconds(5f);
         while (true)
         {
             if (isStoppedOrder) break;
-
+            if (!CheckSpawnNpc()) break;
+            
             if (npcManager.IsCanFindSeat() && menuStack.Count > 0)
             {
                 if (menuStack.TryPop(out Recipe recipe))
@@ -66,16 +65,16 @@ public class OrderManager : MonoBehaviour
                 else
                 {
                     Debug.Log("Empty Menu");
-                    //UpdateMenu();
+                    UpdateMenu();
                     yield return npcDelayTime;
                 }
             }
             else
             {
-                //UpdateMenu();
+                UpdateMenu();
                 yield return npcDelayTime;
             }
-            if (!CheckSpawnNpc()) break;
+            
         }
         restaurantCoroutine = null;
         isStoppedOrder = false;

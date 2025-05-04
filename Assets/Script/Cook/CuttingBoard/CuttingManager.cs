@@ -120,9 +120,14 @@ public class CuttingManager : CookManagerBase
 
     IEnumerator ScanIngredient()
     {
-        cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
-        yield return StartCoroutine(cuttingLineSystem.ScanObject());
-        cuttingAudioSystem.StopAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
+        bool isUnlockScanSkip = false;
+        if(isUnlockScanSkip) cuttingLineSystem.VisibleCuttingLines();
+        else {
+            cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
+            yield return StartCoroutine(cuttingLineSystem.ScanObject());
+            cuttingAudioSystem.StopAudioSource(CuttingAudioSystem.AudioType.IngredientScan);
+        }
+
     }
 
     IEnumerator CuttingIngredient()

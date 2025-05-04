@@ -26,16 +26,23 @@ public class PotUI : MonoBehaviour
     }
 
     public IEnumerator LinkTimerStart(float second) {
+        //Enable
         potTimer.SetActive(true);
         mainTimer.SetActive(true);
         mainTimer.GetComponent<CanvasGroup>().alpha = 1.0f;
+        
+        //anti
+        potTimerSystem.antiClockwise = true;
+        mainTimerSystem.antiClockwise = true;
+
+        //Timer Start
         StartCoroutine(potTimerSystem.TimerStart(second));
         yield return StartCoroutine(mainTimerSystem.TimerStart(second));
 
+        //Disable
         mainTimer.GetComponent<CanvasGroup>().alpha = 0f;
         potTimer.SetActive(false);
         mainTimer.SetActive(false);
-
     }
 
     public void TimerReset()

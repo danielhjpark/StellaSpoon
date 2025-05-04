@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+
 public class WokUI : MonoBehaviour
 {
     [Header("Section UI Objects")]
     [SerializeField] RectTransform sectionMark;
     [SerializeField] RectTransform[] roastSection;
+
+    [Header("Thermometer UI Object")]
+    [SerializeField] GameObject ThermometerUI;
     [SerializeField] Slider powerSlider;
     [SerializeField] int roastCount;
 
@@ -18,20 +22,12 @@ public class WokUI : MonoBehaviour
 
     public event Action<bool> OnWokSystem;
     private const int FullLength = 750, FixedWidth = 50;
-    private int unlockStep = 0;
+    private int unlockStep = 0; //Store Unlock Upgrade;
 
     private float[] sections;
     private float power = 1;
     private float currentPos;
     private bool isEnd;
-
-
-    void Initialize(int unlockStep)
-    {
-        this.unlockStep = unlockStep;
-        SetSections();
-        wokUIObject.SetActive(false);
-    }
 
     void Start()
     {
@@ -39,19 +35,38 @@ public class WokUI : MonoBehaviour
         wokUIObject.SetActive(false);
     }
 
-    int GetSuccessSection()
+    public void Initialize(int unlockStep)
     {
-        int sectionValue;
+        this.unlockStep = unlockStep;
+        if(unlockStep >= 2) {
+            AutoFireTemperature();
+        }
+
+        SetSections();
+        wokUIObject.SetActive(false);
+    }
+
+
+    void AutoFireTemperature() {
+
+    }
+    
+    float GetSuccessSection()
+    {
+        float sectionValue;
         switch (unlockStep)
         {
             case 0:
                 sectionValue = 150;
                 break;
             case 1:
-                sectionValue = 200;
+                sectionValue = 187.5f;
                 break;
             case 2:
-                sectionValue = 300;
+                sectionValue = 187.5f;
+                break;
+            case 3:
+                sectionValue = 225;
                 break;
             default:
                 sectionValue = 150;
@@ -62,7 +77,7 @@ public class WokUI : MonoBehaviour
 
     void SetSections()
     {
-        int successsSection = GetSuccessSection();
+        float successsSection = GetSuccessSection();
         float failSection = (FullLength - successsSection) / 2;
 
         roastSection[0].sizeDelta = new Vector2(FixedWidth, failSection);
@@ -134,4 +149,6 @@ public class WokUI : MonoBehaviour
     {
         power = powerSlider.value;
     }
+
+
 }

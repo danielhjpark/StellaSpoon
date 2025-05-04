@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class FryingPanUI : MonoBehaviour
 {
     [SerializeField] RectTransform sectionMark;
-    [SerializeField] Slider powerSlider;
     [SerializeField] RectTransform[] sections;
+
+    [Header("Slider")]
+    [SerializeField] Slider powerSlider;
     [SerializeField] int roastCount;
 
     [SerializeField] GameObject fryingPanUIObject;
@@ -20,7 +22,6 @@ public class FryingPanUI : MonoBehaviour
 
     private float currentPos;
     private bool isEnd;
-
 
     void Start()
     {

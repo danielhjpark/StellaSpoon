@@ -62,10 +62,7 @@ public class CuttingLineSystem : MonoBehaviour
             if (t >= 1)
             {
                 ScannerObject.SetActive(false);
-                foreach (GameObject cuttingLine in cuttingLines)
-                {
-                    cuttingLine.SetActive(true);
-                }
+                VisibleCuttingLines();
                 break;
             }
             yield return null;
@@ -80,6 +77,13 @@ public class CuttingLineSystem : MonoBehaviour
             Destroy(cuttingLine);
         }
         cuttingLines = new List<GameObject>();
+    }
+
+    public void VisibleCuttingLines() {
+        foreach (GameObject cuttingLine in cuttingLines)
+        {
+            cuttingLine.SetActive(true);
+        }
     }
 
 }
