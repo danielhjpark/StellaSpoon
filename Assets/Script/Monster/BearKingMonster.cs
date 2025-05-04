@@ -56,11 +56,11 @@ public class BearKingMonster : MonsterBase
     private IEnumerator Attack()
     {
         if(!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
-        Debug.Log("기본 공격 시작!");
+        //Debug.Log("기본 공격 시작!");
         animator.SetTrigger("Attack8");
         attackRange = 15f;
         yield return new WaitForSeconds(5.0f);
-        Debug.Log("기본 공격 종료!");
+        //Debug.Log("기본 공격 종료!");
         nextPattern = JUMP;
         nextPatternPlay();
     }
@@ -69,7 +69,7 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         isJumping = true;
-        Debug.Log("내려찍기 시작!");
+        //Debug.Log("내려찍기 시작!");
         yield return StartCoroutine(ShowJumpGroundEffect()); //바닥 경고 효과
 
         if (currentGroundEffect != null)
@@ -77,14 +77,14 @@ public class BearKingMonster : MonsterBase
             Destroy(currentGroundEffect);
         }
 
-        Debug.Log("충격파 발생!");
+        //Debug.Log("충격파 발생!");
         animator.SetTrigger("Attack5");
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, shockwaveRadius);
         foreach (var hit in hitColliders)
         {
             if (hit.CompareTag("Player"))
             {
-                Debug.Log("플레이어가 충격파를 맞았습니다!");
+                //Debug.Log("플레이어가 충격파를 맞았습니다!");
                 thirdPersonController.TakeDamage(JumpDamage, transform.position); //플레이어 데미지
             }
         }
@@ -101,7 +101,7 @@ public class BearKingMonster : MonsterBase
     private IEnumerator Charge()
     {
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
-        Debug.Log("돌진 준비 시작!");
+        //Debug.Log("돌진 준비 시작!");
         isChargeSetting = true;
         animator.SetBool("Run Forward", true);
         // animator.SetTrigger("Charge");
@@ -116,7 +116,7 @@ public class BearKingMonster : MonsterBase
         {
             Destroy(currentGroundEffect);
         }
-        Debug.Log("돌진 시작!");
+        //Debug.Log("돌진 시작!");
         isCharging = true;
 
         // 돌격 시작 시 NavMeshAgent 비활성화 (직접 이동을 위해)
@@ -145,7 +145,7 @@ public class BearKingMonster : MonsterBase
             {
                 if (hit.CompareTag("Player"))
                 {
-                    Debug.Log("플레이어가 돌진에 맞았습니다!");
+                    //Debug.Log("플레이어가 돌진에 맞았습니다!");
                     thirdPersonController.TakeDamage(chargeDamage, transform.position); // 플레이어에게 데미지
                     isCharging = false;
                     isChargeSetting = false;
@@ -165,7 +165,7 @@ public class BearKingMonster : MonsterBase
         isCharging = false;
         isChargeSetting = false;
 
-        Debug.Log("돌진 종료!");
+        //Debug.Log("돌진 종료!");
         attackRange = 3f;
         yield return new WaitForSeconds(5.0f);
 
@@ -179,7 +179,7 @@ public class BearKingMonster : MonsterBase
         else
         {
             // 플레이어가 너무 멀면 공격 생략하고 대기
-            Debug.Log("플레이어가 너무 멀어서 공격을 생략합니다.");
+            //Debug.Log("플레이어가 너무 멀어서 공격을 생략합니다.");
             isAttack = false;
         }
     }
@@ -211,7 +211,7 @@ public class BearKingMonster : MonsterBase
             float duration = 2.0f;
             float elapsedTime = 0f;
 
-            Debug.Log("바닥 경고 효과가 점차 커집니다.");
+            //Debug.Log("바닥 경고 효과가 점차 커집니다.");
             while (elapsedTime < duration)
             {
                 float progress = elapsedTime / duration;
