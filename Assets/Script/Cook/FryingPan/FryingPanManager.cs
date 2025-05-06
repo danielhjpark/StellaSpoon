@@ -62,7 +62,8 @@ public class FryingPanManager : CookManagerBase
         fryingStep = menu.fryingSetting.fryingStep;
         firstFryingCount = menu.fryingSetting.firstFryingCount;
         secondFryingCount = menu.fryingSetting.secondFryingCount;
-        fryingPanUI.Initialize(menu.fryingSetting.sectionRange);
+
+        fryingPanUI.Initialize(false);
         StartCoroutine(UseCookingStep());
     }
 
@@ -70,22 +71,19 @@ public class FryingPanManager : CookManagerBase
     {
         base.SelectRecipe(menu);
 
-        if (menu == null || menu.cookType != CookType.Frying)
-        {
-            int[] defaultRange = { 250, 250, 250 };
+        if (menu == null || menu.cookType != CookType.Frying) {
             fryingStep = FryingStep.Medium;
             firstFryingCount = 2;
             secondFryingCount = 2;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
-            fryingPanUI.Initialize(defaultRange);
+            fryingPanUI.Initialize(false);
             return;
         }
-        else
-        {
+        else {
             firstFryingCount = menu.fryingSetting.firstFryingCount;
             secondFryingCount = menu.fryingSetting.secondFryingCount;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
-            fryingPanUI.Initialize(menu.fryingSetting.sectionRange);
+            fryingPanUI.Initialize(false);
         }
 
     }

@@ -41,9 +41,8 @@ public class Refrigerator : MonoBehaviour
         refrigeratorUI.SetActive(true);
         inventoryUI.SetActive(true);
         inventoryBG.SetActive(true);
-        //CloseButton.SetActive(false);
-        UIManager.instance.HideInteractUI();
-        
+
+        InteractUIManger.isUseInteractObject = true;
         Inventory.inventoryActivated = true;
     }
     private void CloseRefrigeratorUI() //보물상자 UI 닫기
@@ -55,9 +54,10 @@ public class Refrigerator : MonoBehaviour
         refrigeratorUI.SetActive(false);
         inventoryUI.SetActive(false);
         inventoryBG.SetActive(false);
-        //CloseButton.SetActive(true);
-        
+
+        InteractUIManger.isUseInteractObject = false;
         Inventory.inventoryActivated = false;
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -66,7 +66,7 @@ public class Refrigerator : MonoBehaviour
         {
             Debug.Log("플레이어 감지");
             isPlayerNearby = true;
-            UIManager.instance.VisibleInteractUI();
+            InteractUIManger.isPlayerNearby = true;
         }
     }
 
@@ -74,7 +74,7 @@ public class Refrigerator : MonoBehaviour
     {
         if (other.CompareTag("Player")&&!isOpenedRefrigerator)
         {
-            UIManager.instance.VisibleInteractUI();
+            InteractUIManger.isPlayerNearby = true;
         }
     }
 
@@ -84,7 +84,7 @@ public class Refrigerator : MonoBehaviour
         {
             Debug.Log("플레이어 나감");
             isPlayerNearby = false;
-            UIManager.instance.HideInteractUI();
+            InteractUIManger.isPlayerNearby = false;
         }
     }
 }

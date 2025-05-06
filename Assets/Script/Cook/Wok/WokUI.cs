@@ -7,16 +7,15 @@ using System;
 
 public class WokUI : MonoBehaviour
 {
-    [Header("Section UI Objects")]
+    [Header("Section")]
     [SerializeField] RectTransform sectionMark;
     [SerializeField] RectTransform[] roastSection;
 
-    [Header("Thermometer UI Object")]
-    [SerializeField] GameObject ThermometerUI;
-    [SerializeField] Slider powerSlider;
-    [SerializeField] int roastCount;
-
-    [Header("UI Objects")]
+    [Header("Slider")]
+    [SerializeField] GameObject powerSliderObject;
+    [SerializeField] SliderSnap powerSliderSnap;
+  
+    [Header("UI")]
     [SerializeField] GameObject wokUIObject;
     [SerializeField] GameObject ingredientUIObejct;
 
@@ -33,6 +32,7 @@ public class WokUI : MonoBehaviour
     {
         SetSections();
         wokUIObject.SetActive(false);
+        powerSliderSnap.OnSliderEvent += OnSliderValueChanged;
     }
 
     public void Initialize(int unlockStep)
@@ -48,7 +48,8 @@ public class WokUI : MonoBehaviour
 
 
     void AutoFireTemperature() {
-
+        power = 3;
+        powerSliderObject.SetActive(false);
     }
     
     float GetSuccessSection()
@@ -145,10 +146,8 @@ public class WokUI : MonoBehaviour
         }
     }
 
-    public void OnSliderValueChanged()
+    public void OnSliderValueChanged(int powerValue)
     {
-        power = powerSlider.value;
+        power = powerValue;
     }
-
-
 }

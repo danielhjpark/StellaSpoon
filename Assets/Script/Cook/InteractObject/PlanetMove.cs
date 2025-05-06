@@ -6,41 +6,40 @@ public class PlanetMove : MonoBehaviour
 {
     bool isOpened;
     bool isPlayerNearby;
+    
     void Start() 
     {
         isPlayerNearby = false;
         isOpened = false;
-        
     }
 
     private void Update()
     {
         //if (!refrigeratorUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) 
         {
             OpenUI();
         }
-        if (Input.GetKeyDown(KeyCode.Escape)) //UI가 열려있고 esc 눌렀을 때
+        if (Input.GetKeyDown(KeyCode.Escape)) 
         {
             CloseUI();
         }
     }
-    private void OpenUI() //보물상자 UI출력
+    private void OpenUI() 
     {
         isOpened = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        UIManager.instance.HideInteractUI();
-        
+        InteractUIManger.isUseInteractObject = true;
         Inventory.inventoryActivated = true;
     }
-    private void CloseUI() //보물상자 UI 닫기
+    private void CloseUI() 
     {
         isOpened = false;
         Cursor.lockState -= CursorLockMode.Locked;
         Cursor.visible = false;
-
+        InteractUIManger.isUseInteractObject = false;
         Inventory.inventoryActivated = false;
     }
 
@@ -50,7 +49,7 @@ public class PlanetMove : MonoBehaviour
         {
             Debug.Log("플레이어 감지");
             isPlayerNearby = true;
-            UIManager.instance.VisibleInteractUI();
+            InteractUIManger.isPlayerNearby = true;
         }
     }
 
@@ -58,7 +57,7 @@ public class PlanetMove : MonoBehaviour
     {
         if (other.CompareTag("Player")&&!isPlayerNearby)
         {
-            UIManager.instance.VisibleInteractUI();
+            InteractUIManger.isPlayerNearby = true;
         }
     }
 
@@ -68,7 +67,7 @@ public class PlanetMove : MonoBehaviour
         {
             Debug.Log("플레이어 나감");
             isPlayerNearby = false;
-            UIManager.instance.HideInteractUI();
+            InteractUIManger.isPlayerNearby = false;
         }
     }
 }

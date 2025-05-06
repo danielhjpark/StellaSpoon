@@ -13,26 +13,34 @@ MonoBehaviour:
   m_Name: Grilled_Hornavia
   m_EditorClassIdentifier: 
   menuName: "\uD638\uB974\uB098\uBE44\uC544 \uAD6C\uC774"
-  menuImage: {fileID: 0}
+  menuImage: {fileID: 21300000, guid: 1bac57f4842a2924686a2656f6dd1d21, type: 3}
   menuPrice: 0
   menuPrefab: {fileID: 466187095634371224, guid: 2eb3edf2f4a4ede4f8d7b5e421bdcef2, type: 3}
   mainIngredient: {fileID: 11400000, guid: fb0ddcc9854f6e74c9591f0ea0e6b4bc, type: 2}
   ingredients:
-  - ingredient: {fileID: 11400000, guid: 127a63fdcbd34a444b07bff606b29fa3, type: 2}
-    amount: 1
+  - ingredient: {fileID: 11400000, guid: 7bff2a23d7c39d74e835866c9287a3be, type: 2}
+    amount: 3
+  - ingredient: {fileID: 11400000, guid: c64a53c075b7b1f41b88d9c4a621dfda, type: 2}
+    amount: 5
   cookType: 2
   boilingSetting:
     cookTime: 0
-    boilType: 0
+    rotatePower: 0
     sauceType: 0
   tossingSetting:
-    tossingCount: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
     sauceType: 0
+    firePower: 0
   cuttingSetting:
     trimItem: {fileID: 0}
     trimItemCount: 0
     cuttingCount: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 4
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
     sauceType: 0
-    sectionRange: 2c010000960000002c010000
+    firePower: 0

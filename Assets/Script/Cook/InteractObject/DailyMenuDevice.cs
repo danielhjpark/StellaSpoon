@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DailyMenuDevice : MonoBehaviour
 {
+    //InteractUI
     [SerializeField] private GameObject DailyMenuUI; //인벤토리 UI
     bool isPlayerNearby;
     bool isOpenedDevice;
@@ -33,8 +34,9 @@ public class DailyMenuDevice : MonoBehaviour
         Cursor.visible = true;
 
         DailyMenuUI.SetActive(true);
-        UIManager.instance.HideInteractUI();
+        InteractUIManger.isUseInteractObject = true;
     }
+
     public void CloseDailyMenuUI() //UI 닫기
     {
         isOpenedDevice = false;
@@ -42,7 +44,7 @@ public class DailyMenuDevice : MonoBehaviour
         Cursor.visible = false;
 
         DailyMenuUI.SetActive(false);
-    
+        InteractUIManger.isUseInteractObject = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,7 +52,7 @@ public class DailyMenuDevice : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            UIManager.instance.VisibleInteractUI();
+            InteractUIManger.isPlayerNearby = true;
         }
     }
 
@@ -58,7 +60,7 @@ public class DailyMenuDevice : MonoBehaviour
     {
         if (other.CompareTag("Player")&&!isOpenedDevice)
         {
-            UIManager.instance.VisibleInteractUI();
+            InteractUIManger.isPlayerNearby = true;
         }
     }
 
@@ -67,7 +69,7 @@ public class DailyMenuDevice : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            UIManager.instance.HideInteractUI();
+            InteractUIManger.isPlayerNearby = false;
         }
     }
 }

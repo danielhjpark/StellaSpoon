@@ -5,33 +5,43 @@ using UnityEngine.UI;
 
 public class FryingPanUI : MonoBehaviour
 {
+    [Header("Section")]
     [SerializeField] RectTransform sectionMark;
     [SerializeField] RectTransform[] sections;
 
     [Header("Slider")]
-    [SerializeField] Slider powerSlider;
-    [SerializeField] int roastCount;
+    [SerializeField] GameObject powerSliderObject;
+    [SerializeField] SliderSnap powerSliderSnap;
 
+    [Header("UI")]
     [SerializeField] GameObject fryingPanUIObject;
     [SerializeField] GameObject ingredientUIObejct;
 
-    const int FullLength = 750;
-    const int FixedWidth = 50;
-    float power = 1;
-    int[] sectionRange = new int[3];
-
+    private const int FullLength = 750;
+    private int[] sectionRange = new int[3];
+    private float power = 1;
     private float currentPos;
     private bool isEnd;
 
     void Start()
     {
         fryingPanUIObject.SetActive(false);
+        powerSliderSnap.OnSliderEvent += OnSliderValueChanged;
     }
 
-    public void Initialize(int[] sectionRange)
+    public void Initialize(bool unlockStep)
     {
-        this.sectionRange = sectionRange;
+        this.sectionRange = new int[3]{250, 250, 250};
+        if(unlockStep) {
+
+        }
         SetSections();
+        
+    }
+
+    public void AutoFireTemperature() {
+        power = 3;
+        powerSliderObject.SetActive(false);
     }
 
     public void OnFryingPanUI()
@@ -48,9 +58,9 @@ public class FryingPanUI : MonoBehaviour
 
     void SetSections()
     {
-        sections[0].sizeDelta = new Vector2(FixedWidth, sectionRange[0]);
-        sections[1].sizeDelta = new Vector2(FixedWidth, sectionRange[1]);
-        sections[2].sizeDelta = new Vector2(FixedWidth, sectionRange[2]);
+        sections[0].sizeDelta = new Vector2(sections[0].sizeDelta.x, sectionRange[0]);
+        sections[1].sizeDelta = new Vector2(sections[1].sizeDelta.x, sectionRange[1]);
+        sections[2].sizeDelta = new Vector2(sections[2].sizeDelta.x, sectionRange[2]);
 
         sections[1].anchoredPosition = new Vector2(0, -sections[0].sizeDelta.y);
     }
@@ -102,8 +112,8 @@ public class FryingPanUI : MonoBehaviour
         return isEnd;
     }
 
-    public void OnSliderValueChanged()
+    public void OnSliderValueChanged(int powerValue)
     {
-        power = powerSlider.value;
+        power = powerValue;
     }
 }

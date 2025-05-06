@@ -24,7 +24,6 @@ public class Recipe : ScriptableObject
     public TossingSetting tossingSetting;
     public CuttingSetting cuttingSetting;
     public FryingSetting fryingSetting;
-
 }
 
 public enum CookType
@@ -50,6 +49,7 @@ public class TossingSetting
     public int firstTossingCount;
     public int secondTossingCount;
     public SauceType sauceType;
+    public int firePower;
 }
 
 [System.Serializable]
@@ -59,8 +59,7 @@ public class FryingSetting
     public int firstFryingCount;
     public int secondFryingCount;
     public SauceType sauceType;
-    [Header("Total Value = 750")]
-    public int[] sectionRange = new int[3];
+    public int firePower;
 }
 
 [System.Serializable]

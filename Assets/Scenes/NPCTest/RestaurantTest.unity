@@ -21164,7 +21164,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerGague: {fileID: 495416631}
   onBillboard: 1
-  antiClockwise: 1
 --- !u!114 &554822871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26124,11 +26123,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.2
+  far clip plane: 500
+  field of view: 40
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -26152,8 +26151,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 678071373}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.009003296, y: 0.00000001719728, z: 1.5483846e-10, w: 0.99995947}
-  m_LocalPosition: {x: 50, y: 0.2081275, z: -0.32511902}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.20000005, y: 1.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68155,6 +68154,7 @@ GameObject:
   - component: {fileID: 1780631885}
   - component: {fileID: 1780631884}
   - component: {fileID: 1780631891}
+  - component: {fileID: 1780631892}
   m_Layer: 0
   m_Name: CookManger
   m_TagString: Untagged
@@ -68226,7 +68226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b89f0d43f0274a4cb5320d45c2d0a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractUI: {fileID: 1462034495}
   items:
   - {fileID: 11400000, guid: fb25ca4fce4f9934883ba923c046799f, type: 2}
   - {fileID: 11400000, guid: 1089611bd2115d24f99c616a50f3cedc, type: 2}
@@ -68267,6 +68266,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4c6dc60239dc7e40b284fcb75b866ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1780631892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780631883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0e6f14dff6ed0408fc7348dee6416b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactUI: {fileID: 1462034495}
 --- !u!114 &1780960148 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3904684665966917643, guid: da2791985bc253f4c87b33e59a1f5aa5, type: 3}
@@ -82788,31 +82800,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -150.35147
+      value: -200.15147
       objectReference: {fileID: 0}
     - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.9521675
+      value: -5.660295
       objectReference: {fileID: 0}
     - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -76.17345
+      value: -79.84833
       objectReference: {fileID: 0}
     - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99995947
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.009003296
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000001719728
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 1.5483846e-10
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2074205385253182539, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_Name
@@ -82848,19 +82860,19 @@ PrefabInstance:
       objectReference: {fileID: 253640867}
     - target: {fileID: 7485086843011938276, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: field of view
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7485086843011938276, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: far clip plane
-      value: 1000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7485086843011938276, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: near clip plane
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7485086843011938276, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: orthographic size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8536994524045148750, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: _hpBar

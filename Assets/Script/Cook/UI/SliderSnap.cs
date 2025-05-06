@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class SliderSnap : MonoBehaviour, IPointerUpHandler
 {
     public Slider slider;
+    public int currentPower = 0;
+    public Action<int> OnSliderEvent;
 
     void Start()
     {
@@ -18,6 +21,9 @@ public class SliderSnap : MonoBehaviour, IPointerUpHandler
         float value = slider.value;
         float snappedValue = GetNearestSnapValue(value);
         slider.value = snappedValue;
+        currentPower = (int)snappedValue;
+
+        OnSliderEvent?.Invoke(currentPower);
     }
 
     float GetNearestSnapValue(float value)

@@ -14,26 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuName: "\uD398\uB974\uBAA8\uC2A4 \uC2A4\uD504"
   menuImage: {fileID: 0}
-  menuPrice: 0
-  menuPrefab: {fileID: 0}
+  menuPrice: 320
+  menuPrefab: {fileID: 466187095634371224, guid: eeafc7263815f9c4fae4e7ea551d830d, type: 3}
+  mainIngredient: {fileID: 11400000, guid: 4f58bd8db43a7ad43afeef76fe201507, type: 2}
   ingredients:
-  - ingredient: {fileID: 11400000, guid: 4f58bd8db43a7ad43afeef76fe201507, type: 2}
-    amount: 1
   - ingredient: {fileID: 11400000, guid: c64a53c075b7b1f41b88d9c4a621dfda, type: 2}
-    amount: 2
+    amount: 5
   - ingredient: {fileID: 11400000, guid: ae3a5f3076cca914cb6ee36ae9fd5156, type: 2}
-    amount: 3
-  - ingredient: {fileID: 11400000, guid: 77bae5e9557c3b64b924887704f00dca, type: 2}
-    amount: 1
-  cookType: 0
+    amount: 4
+  cookType: 4
   boilingSetting:
-    boilType: 0
+    cookTime: 15
+    rotatePower: 1
+    sauceType: 1
   tossingSetting:
-    tossingCount: 0
-    successRange: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
+    sauceType: 0
+    firePower: 0
   cuttingSetting:
+    trimItem: {fileID: 0}
+    trimItemCount: 0
     cuttingCount: 0
-    successRange: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 0
-    successRange: 0
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
+    sauceType: 0
+    firePower: 0
