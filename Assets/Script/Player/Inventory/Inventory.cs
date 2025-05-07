@@ -103,5 +103,18 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning("Not enough inventory space for all items.");
         }
     }
+    public int GetItemCount(string itemName)
+    {
+        int totalCount = 0;
 
+        foreach (Slot slot in slots)
+        {
+            if (slot.item != null && slot.item.itemName == itemName)
+            {
+                totalCount += slot.itemCount;
+            }
+        }
+
+        return totalCount;
+    }
 }

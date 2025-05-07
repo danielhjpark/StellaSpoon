@@ -26,7 +26,7 @@ public class StoreNPCManager : MonoBehaviour
     static public bool isIngredient = false;
 
     [SerializeField]
-    private bool openStoreUI = false; //상점 UI 열었는지
+    public static bool openingStoreUI = false; //상점 UI 열었는지
     [SerializeField]
     private bool iscollPlayer = false; //플레이어와 충돌했는지
 
@@ -49,11 +49,11 @@ public class StoreNPCManager : MonoBehaviour
     {
         if(iscollPlayer)
         {
-            if(!openStoreUI)
+            if(!openingStoreUI)
             {
                 if (Input.GetKeyDown(KeyCode.F)) //F키 눌렀을 때 
                 {
-                    openStoreUI = true;
+                    openingStoreUI = true;
                     //플레이어 이동 제한
                     //카메라 이동 제한
                     Cursor.lockState = CursorLockMode.None;
@@ -98,7 +98,7 @@ public class StoreNPCManager : MonoBehaviour
                             break;
                     }
                     storeUIManager.CloseChatUI(); //대화창 UI 닫기
-                    openStoreUI = false;
+                    openingStoreUI = false;
                 }
             }
 

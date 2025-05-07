@@ -17,7 +17,7 @@ public class BearKingHand : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log($"{other.name}가 공격을 맞았습니다!");
+            //Debug.Log($"{other.name}가 공격을 맞았습니다!");
 
             thirdPersonController.TakeDamage(attackDamage, transform.position); //플레이어 데미지
 

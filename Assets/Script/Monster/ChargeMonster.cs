@@ -13,13 +13,13 @@ public class ChargeMonster : MonsterBase
 
     protected override void HandleAttack()
     {
+        animator.SetBool("Walk", false);
         if (!isAttack)
         {
             isAttack = true;
-            animator.SetBool("Walk", false);
             if (!isCharging)
             {
-                Debug.Log("돌격 시작!");
+                //Debug.Log("돌격 시작!");
                 StartCoroutine(Charge());
             }
         }
@@ -54,7 +54,7 @@ public class ChargeMonster : MonsterBase
 
             yield return null;
         }
-        Debug.Log("돌격 종료!");
+        //Debug.Log("돌격 종료!");
         StartCoroutine(WaitCharge());
         isCharging = false;
 
@@ -67,7 +67,7 @@ public class ChargeMonster : MonsterBase
     {
         if (other.gameObject.CompareTag("Player") && isCharging)
         {
-            Debug.Log("플레이어와 충돌! 돌격 종료.");
+            //Debug.Log("플레이어와 충돌! 돌격 종료.");
             animator.SetBool("Run", false);
             animator.SetBool("Attack", true);
             StopCharging();

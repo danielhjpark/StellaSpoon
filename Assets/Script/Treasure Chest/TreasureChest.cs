@@ -7,41 +7,41 @@ public class TreasureChest : MonoBehaviour
 {
     [Header("보물상자 Information")]
     [SerializeField]
-    private GameObject treasureChest; // 보물상자 오브젝트
+    private GameObject treasureChest; //보물상자 오브젝트
     private Animator animator;
 
-    private bool isPlayerNearby = false; // 플레이어 감지
+    private bool isPlayerNearby = false; //플레이어 감지
 
-    private GameObject treasureChestPanel; // 보물상자 UI
-    private GameObject inventoryPanel; // 인벤토리 UI
-    private GameObject inventoryBackGround; // 인벤토리 배경
-    private GameObject slotsSetting; // 슬롯 셋팅
+    private GameObject treasureChestPanel; //보물상자 UI
+    private GameObject inventoryPanel; //인벤토리 UI
+    private GameObject inventoryBackGround; //인벤토리 배경
+    private GameObject slotsSetting; //슬롯 셋팅
 
     [Header("보물상자에 나오는 아이템")]
     [SerializeField]
-    private List<Item> possibleItems; // 생성 가능한 아이템 리스트
+    private List<Item> possibleItems; //생성 가능한 아이템 리스트
     
     [Header("아이템 갯수")]
     [SerializeField]
-    private List<int> minItemCount; // 최초 생성 아이템 수 리스트
+    private List<int> minItemCount; //최초 생성 아이템 수 리스트
     [SerializeField]
-    private List<int> maxItemCount; // 최대 아이템 수 리스트
+    private List<int> maxItemCount; //최대 아이템 수 리스트
 
     [Header("아이템별 확률")]
     [SerializeField]
-    private List<int> itemPrecent; // 아이템 생성 확률
+    private List<int> itemPrecent; //아이템 생성 확률
    
 
-    private Slot[] chestSlots; // 보물상자 슬롯 배열
-    private bool isOpenChest = false; // 보물상자 오픈 여부
-    public static bool openingChest = false; // 오픈중인지 여부
+    private Slot[] chestSlots; //보물상자 슬롯 배열
+    private bool isOpenChest = false; //보물상자 오픈 여부
+    public static bool openingChest = false; //보물상자 오픈중인지 여부
 
     private void Start()
     {
         if (treasureChest != null)
         {
             animator = treasureChest.GetComponent<Animator>();
-            FindUIObjects(); // UI 오브젝트 찾기
+            FindUIObjects(); //UI 오브젝트 찾기
         }
         else
         {
@@ -58,13 +58,13 @@ public class TreasureChest : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FindUIObjects(); // 씬이 변경될 때 UI 다시 찾기
-        ResetChest(); // 보물상자 초기화
+        FindUIObjects(); //씬이 변경될 때 UI 다시 찾기
+        ResetChest(); //보물상자 초기화
     }
 
     private void FindUIObjects()
     {
-        // 보물상자 UI와 슬롯 재할당
+        //보물상자 UI와 슬롯 재할당
         treasureChestPanel = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBackGround");
         inventoryPanel = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBase");
         inventoryBackGround = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBackGround");
@@ -94,8 +94,8 @@ public class TreasureChest : MonoBehaviour
 
     private void ResetChest()
     {
-        isOpenChest = false; // 보물상자 상태 초기화
-        CreateItem(); // 아이템 생성
+        isOpenChest = false; //보물상자 상태 초기화
+        CreateItem(); //아이템 생성
     }
 
     private void OpenChestUI()
@@ -142,7 +142,7 @@ public class TreasureChest : MonoBehaviour
             Debug.LogWarning("chestSlots가 설정되지 않았습니다. 아이템을 추가할 수 없습니다.");
             return;
         }
-        int itemCount = 0; // 생성된 아이템 수
+        int itemCount = 0; //생성된 아이템 수
 
         for (int i = 0; i < possibleItems.Count; i++) //생성 가능한 아이템 수만큼 반복
         {

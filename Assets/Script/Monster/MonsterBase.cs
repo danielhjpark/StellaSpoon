@@ -72,6 +72,14 @@ public abstract class MonsterBase : MonoBehaviour
 
         currentState = MonsterStates.Idle; //시작시 Idle상태
 
+        //초기값 설정
+        isAttack = false; //공격중이 아님
+        isDamage = false; //피격중이 아님
+        isMove = false; //움직임이 아님
+        canDamage = false; //플레이어 공격 인지 범위 내에 없음
+        inAttackRange = false; //공격 범위 내에 없음
+        isDead = false; //죽음이 아님
+
         lastAttackTime = -damageDelayTime; //공격 딜레이 초기화
 
         nav.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
@@ -148,25 +156,25 @@ public abstract class MonsterBase : MonoBehaviour
         {
             case MonsterStates.Idle:
                 HandleIdle();
-                Debug.Log("일반 상태");
+                //Debug.Log("일반 상태");
                 break;
 
             case MonsterStates.Attack:
-                Debug.Log("공격 상태");
+                //Debug.Log("공격 상태");
                 HandleAttack();
                 break;
 
             case MonsterStates.Chasing:
-                Debug.Log("쫒기 상태");
+                //Debug.Log("쫒기 상태");
                 HandleChasing();
                 break;
 
             case MonsterStates.RandomMove:
-                Debug.Log("랜덤 이동 상태");
+                //Debug.Log("랜덤 이동 상태");
                 HandleRandomMove();
                 break;
             case MonsterStates.Death:
-                Debug.Log("죽음 상태");
+                //Debug.Log("죽음 상태");
                 HandleDeath();
                 break;
 
@@ -241,7 +249,7 @@ public abstract class MonsterBase : MonoBehaviour
         {
             if (!RandomPositionDecide) // 랜덤 경로가 설정되었을 때
             {
-                Debug.Log("랜덤 위치 생성");
+                //Debug.Log("랜덤 위치 생성");
                 Vector3 newDestination = GetRandomPoint(initialPosition, randomMoveRange);
                 nav.SetDestination(newDestination);
                 RandomPositionDecide = true;
@@ -263,7 +271,7 @@ public abstract class MonsterBase : MonoBehaviour
                 animator.SetBool(param.name, false);
             }
         }
-        Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+        //Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
         currentHealth = 0;
         //애니메이션 죽음 실행
         animator.SetTrigger("Die");
@@ -293,7 +301,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         //todo뒤로 넉백하는 코드 필요
         currentHealth -= damage;
-        Debug.Log(damage + " 데미지 입음! " + currentHealth + " 체력 남음");
+        //Debug.Log(damage + " 데미지 입음! " + currentHealth + " 체력 남음");
         nav.isStopped = true;
         animator.SetBool("Walk", false);
         if (currentHealth <= 0)
@@ -338,7 +346,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         if (distanceToPlayer <= attackRange)
         {
-            Debug.Log("공격범위 들어옴");
+            //Debug.Log("공격범위 들어옴");
             return true;
         }
         return false;
@@ -347,7 +355,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         if (distanceToPlayer <= playerDetectionRange)
         {
-            Debug.Log("인지 범위 들어옴");
+            //Debug.Log("인지 범위 들어옴");
             return true;
         }
         return false;
@@ -356,7 +364,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         if (distanceToPlayer <= damageRange)
         {
-            Debug.Log("데미지 범위 들어옴");
+            //Debug.Log("데미지 범위 들어옴");
             return true;
         }
         return false;
@@ -457,7 +465,7 @@ public abstract class MonsterBase : MonoBehaviour
     IEnumerator EndAttack()
     {
         yield return new WaitForSeconds(damageDelayTime);
-        Debug.Log("공격 대기 끝남");
+        //Debug.Log("공격 대기 끝남");
         isAttack = false;
         currentState = MonsterStates.Idle;
     }
