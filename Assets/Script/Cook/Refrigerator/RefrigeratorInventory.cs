@@ -20,7 +20,7 @@ public class RefrigeratorInventory : Inventory
 
     public void AcquireItem(Item _item, int _count = 1)
     {
-        // 1. 아이템이 장비 타입이 아닌 경우, 기존 슬롯에서 같은 아이템을 찾아 추가
+        if(_item.itemType != Item.ItemType.contaminatedIngredient) return;
         if (Item.ItemType.Equipment != _item.itemType)
         {
             for (int i = 0; i < refrigeratorSlots.Length; i++)

@@ -65,9 +65,10 @@ public class CookUIManager : MonoBehaviour
         TimerPanel.SetActive(false);
     }
 
-    public void TimerReset()
+    public void TimerStop()
     {
-        timerSystem.TimerReset();
+        TimerPanel.SetActive(false);
+        timerSystem.TimerStop();
     }
 
     public bool TimerEnd()

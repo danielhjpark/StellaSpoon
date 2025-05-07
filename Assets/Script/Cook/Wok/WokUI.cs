@@ -20,7 +20,7 @@ public class WokUI : MonoBehaviour
     [SerializeField] GameObject ingredientUIObejct;
 
     public event Action<bool> OnWokSystem;
-    private const int FullLength = 750, FixedWidth = 50;
+    private const int FullLength = 750;
     private int unlockStep = 0; //Store Unlock Upgrade;
 
     private float[] sections;
@@ -81,9 +81,9 @@ public class WokUI : MonoBehaviour
         float successsSection = GetSuccessSection();
         float failSection = (FullLength - successsSection) / 2;
 
-        roastSection[0].sizeDelta = new Vector2(FixedWidth, failSection);
-        roastSection[1].sizeDelta = new Vector2(FixedWidth, successsSection);
-        roastSection[2].sizeDelta = new Vector2(FixedWidth, failSection);
+        roastSection[0].sizeDelta = new Vector2(roastSection[0].sizeDelta.x, failSection);
+        roastSection[1].sizeDelta = new Vector2(roastSection[1].sizeDelta.x, successsSection);
+        roastSection[2].sizeDelta = new Vector2(roastSection[2].sizeDelta.x, failSection);
         roastSection[1].anchoredPosition = new Vector2(0, -roastSection[0].sizeDelta.y);
 
         sections = new float[3] { failSection, successsSection, failSection };

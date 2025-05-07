@@ -47,7 +47,7 @@ public class PotUI : MonoBehaviour
 
     public void TimerReset()
     {
-        potTimerSystem.TimerReset();
+        potTimerSystem.TimerStop();
     }
 
     public bool TimerEnd()

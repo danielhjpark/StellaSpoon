@@ -40,7 +40,7 @@ public class FryingSystem : MonoBehaviour
         fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
     }
 
-    public void Initialize(GameObject mainIngredient, FryingStep fryingStep)
+    public void Initialize(GameObject mainIngredient, FryingStep fryingStep, int totalSuccessCount)
     {
         currentFryingStep = fryingStep;
         this.mainIngredient = mainIngredient;
@@ -49,9 +49,13 @@ public class FryingSystem : MonoBehaviour
         {
             mainIngredientPart.Add(t.gameObject);
             mainIngredientPreviousPos.Add(t.transform.localPosition);
-            //mainIngredientShaders.Add(t.gameObject.GetComponent<IngredientShader>());
-        }
+            if(t.gameObject.TryGetComponent(out IngredientShader ingredientShader)) {
+                ingredientShader.Initialize(totalSuccessCount + 1);
+                mainIngredientShaders.Add(ingredientShader);
 
+            }
+            else {Debug.Log("Fail");}
+        }
 
     }
 

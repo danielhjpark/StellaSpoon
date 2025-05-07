@@ -34,9 +34,11 @@ public class PotManager : CookManagerBase
     private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
 
     private int cookCompleteTime;
+    private int decreaseCompleteTime;
 
     void Awake()
     {
+        isCanEscape = true;
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
         cookUIManager.Initialize(this);
@@ -46,7 +48,8 @@ public class PotManager : CookManagerBase
         potViewportSystem = GetComponent<PotViewportSystem>();
         potAudioSystem = GetComponent<PotAudioSystem>();
         potUI = GetComponent<PotUI>();
-        isCanEscape = true;
+        
+        UpgradePot(0);//Store Unlock upgrade
     }
 
     void Update()
@@ -61,12 +64,30 @@ public class PotManager : CookManagerBase
         }
     }
 
+    private void UpgradePot(int unlockStep) {
+        switch (unlockStep) {
+            case 0:
+                decreaseCompleteTime = 0;
+                break;
+            case 1:
+                decreaseCompleteTime = 1;
+                break;
+            case 2:
+                decreaseCompleteTime = 3;
+                break;
+            case 3:
+                decreaseCompleteTime = 5;
+                break;
+        }
+    }
+
     //--------------- Recipe Mode ----------------------//
     public override void SelectRecipe(Recipe menu)
     {
         isCanEscape = false;
         base.SelectRecipe(menu);
         cookCompleteTime = currentMenu.boilingSetting.cookTime;
+        cookCompleteTime -= decreaseCompleteTime;
         StartCoroutine(UseCookingStep());
     }
 
@@ -74,6 +95,7 @@ public class PotManager : CookManagerBase
     {
         isCanEscape = false;
         base.SelectRecipe(menu);
+
         if (menu == null || menu.cookType != CookType.Boiling)
         {
             cookCompleteTime = 20;
@@ -82,6 +104,7 @@ public class PotManager : CookManagerBase
         {
             cookCompleteTime = currentMenu.boilingSetting.cookTime;
         }
+        cookCompleteTime -= decreaseCompleteTime;
     }
     //---------------------------------------------------//
     public override void AddIngredient(GameObject obj, Ingredient ingredient)
@@ -116,6 +139,7 @@ public class PotManager : CookManagerBase
 
     public override void CookCompleteCheck()
     {
+        string currentSceneName = "PotMergeTest";
         if (cookMode == CookMode.Select)
         {
             if (currentMenu.boilingSetting.rotatePower != potBoilingSystem.rotatePower)
@@ -132,28 +156,28 @@ public class PotManager : CookManagerBase
         if (targetRecipe.cookType != CookType.Boiling)
         {
             Debug.Log("Wrong cook type");
-            CookSceneManager.instance.UnloadScene();
+            CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
             return;
         }
 
         if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
         {
             Debug.Log("Ingredient mismatch");
-            CookSceneManager.instance.UnloadScene();
+            CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
             return;
         }
 
         if (potSauceSystem.sauceType != targetRecipe.boilingSetting.sauceType)
         {
             Debug.Log("Wrong sauce type");
-            CookSceneManager.instance.UnloadScene();
+            CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
             return;
         }
 
         if (targetRecipe.boilingSetting.rotatePower != potBoilingSystem.rotatePower)
         {
             Debug.Log("Wrong rotatePower");
-            CookSceneManager.instance.UnloadScene();
+            CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
             return;
         }
 

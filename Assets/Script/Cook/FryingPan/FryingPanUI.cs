@@ -18,7 +18,7 @@ public class FryingPanUI : MonoBehaviour
     [SerializeField] GameObject ingredientUIObejct;
 
     private const int FullLength = 750;
-    private int[] sectionRange = new int[3];
+    private int[] sectionRange = new int[3]{250, 250, 250};
     private float power = 1;
     private float currentPos;
     private bool isEnd;
@@ -31,17 +31,12 @@ public class FryingPanUI : MonoBehaviour
 
     public void Initialize(bool unlockStep)
     {
-        this.sectionRange = new int[3]{250, 250, 250};
         if(unlockStep) {
-
+            power = 3;
+            powerSliderObject.SetActive(false);
         }
         SetSections();
         
-    }
-
-    public void AutoFireTemperature() {
-        power = 3;
-        powerSliderObject.SetActive(false);
     }
 
     public void OnFryingPanUI()

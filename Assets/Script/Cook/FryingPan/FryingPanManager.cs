@@ -21,12 +21,9 @@ public class FryingPanManager : CookManagerBase
     [SerializeField] private Transform dropPos;
     [SerializeField] private GameObject dropIngredient;
 
-    private List<GameObject> fryingIngredients = new List<GameObject>();
     //-------------Frying Setting------------------//
-    private FryingSetting fryingSetting;
     private FryingStep fryingStep;
     private int firstFryingCount, secondFryingCount;
-    //
     private int totalSuccessCount;
     private int successCount;
 
@@ -58,12 +55,11 @@ public class FryingPanManager : CookManagerBase
     {
         base.SelectRecipe(menu);
 
-        fryingSetting = menu.fryingSetting;
         fryingStep = menu.fryingSetting.fryingStep;
         firstFryingCount = menu.fryingSetting.firstFryingCount;
         secondFryingCount = menu.fryingSetting.secondFryingCount;
 
-        fryingPanUI.Initialize(false);
+        fryingPanUI.Initialize(true);
         StartCoroutine(UseCookingStep());
     }
 
@@ -76,16 +72,13 @@ public class FryingPanManager : CookManagerBase
             firstFryingCount = 2;
             secondFryingCount = 2;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
-            fryingPanUI.Initialize(false);
-            return;
         }
         else {
             firstFryingCount = menu.fryingSetting.firstFryingCount;
             secondFryingCount = menu.fryingSetting.secondFryingCount;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
-            fryingPanUI.Initialize(false);
         }
-
+        fryingPanUI.Initialize(true);
     }
 
     public override IEnumerator UseCookingStep()
@@ -102,6 +95,7 @@ public class FryingPanManager : CookManagerBase
     public override void CookCompleteCheck()
     {
         string currentSceneName = "FryingPanMergeTest";
+
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
             if (totalSuccessCount <= successCount)
@@ -112,8 +106,7 @@ public class FryingPanManager : CookManagerBase
             //fail 조건
             else
             {
-                //음쓰 소환
-                CookSceneManager.instance.UnloadScene();
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
         }
@@ -122,35 +115,34 @@ public class FryingPanManager : CookManagerBase
             if (targetRecipe.cookType != CookType.Frying)
             {
                 Debug.Log("Wrong cook type");
-                CookSceneManager.instance.UnloadScene();
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
             if (!RecipeManager.instance.CompareRecipe(currentMenu, fryingIngredientSystem.checkIngredients))
             {
                 Debug.Log("Ingredient mismatch");
-                CookSceneManager.instance.UnloadScene();
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
             if (successCount < totalSuccessCount)
             {
                 Debug.Log("Not enough tossing");
-                CookSceneManager.instance.UnloadScene();
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
             if (fryingSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
             {
                 Debug.Log("Wrong sauce type");
-                CookSceneManager.instance.UnloadScene();
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
             //UnLock New Recipe;
             RecipeManager.instance.RecipeUnLock(targetRecipe);
-            //UIManager.instance.RecipeUnLockUI();
-            CookSceneManager.instance.UnloadScene();
+            CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
             Debug.Log("Success");
             return;
 
@@ -230,7 +222,7 @@ public class FryingPanManager : CookManagerBase
         }
 
         fryingIngredientSystem.checkIngredients.Clear();
-        fryingSystem.Initialize(fryingIngredientSystem.fryingMainIngredient, fryingStep);
+        fryingSystem.Initialize(fryingIngredientSystem.fryingMainIngredient, fryingStep, totalSuccessCount);
     }
 
     IEnumerator AddSubIngredient()
@@ -252,7 +244,10 @@ public class FryingPanManager : CookManagerBase
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd() || fryingIngredientSystem.checkIngredients.Count >= 3) { break; }
+                if (cookUIManager.TimerEnd() || fryingIngredientSystem.checkIngredients.Count >= 3) { 
+                    cookUIManager.TimerStop();
+                    break; 
+                }
             }
             yield return null;
         }

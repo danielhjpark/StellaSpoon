@@ -63,7 +63,7 @@ public class TimerSystem : MonoBehaviour
         isTimerEnd = true;
     }
 
-    public void TimerReset()
+    public void TimerStop()
     {
         timerGague.fillAmount = 1;
     }
