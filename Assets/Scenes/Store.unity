@@ -1675,7 +1675,7 @@ GameObject:
   - component: {fileID: 161592659}
   - component: {fileID: 161592658}
   m_Layer: 5
-  m_Name: Ingredient01Count
+  m_Name: Ingredient01CurrentCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1698,7 +1698,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -39.099976}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 215, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &161592658
 MonoBehaviour:
@@ -1720,7 +1720,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: n/m
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
   m_sharedMaterial: {fileID: -8099049883465867816, guid: d2ac414e900a0c845a73e9f74a0abbed, type: 2}
@@ -9734,11 +9734,13 @@ MonoBehaviour:
   gunImage: {fileID: 1871285457}
   gunName: {fileID: 1803988934}
   gunStats: {fileID: 328311939}
-  Ingredient01: {fileID: 0}
-  Ingredient01Count: {fileID: 0}
+  Ingredient01: {fileID: 5267651742541315098, guid: 025e8631f063c0e49b23803f6f1f8bb8, type: 3}
+  Ingredient01CurrentCount: {fileID: 161592658}
   Ingredient02: {fileID: 0}
-  Ingredient02Count: {fileID: 0}
+  Ingredient02CurrentCount: {fileID: 0}
   gunNeedGold: {fileID: 631318090}
+  tempestCount: 10
+  infernoCount: 10
   gunType: 0
   tempestFangNeedGold: 1500
   infernoLanceNeedGold: 2700

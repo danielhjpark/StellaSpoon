@@ -96,23 +96,29 @@ public class StoreUIManager : MonoBehaviour
 
     [Header("-----Gun-----")]
     [SerializeField]
-    private GameObject gunImage; //image는resurces 폴더 Gun에 넣어야함.
+    private GameObject gunImage; //image는 resurces 폴더 Gun에 넣어야함.
     [SerializeField]
     private TextMeshProUGUI gunName;
     [SerializeField]
     private TextMeshProUGUI gunStats;
 
+    // 재료 1
     [SerializeField]
     private GameObject Ingredient01;
     [SerializeField]
-    private TextMeshProUGUI Ingredient01Count;
+    private TextMeshProUGUI Ingredient01CurrentCount;
+    // 재료 2
     [SerializeField]
     private GameObject Ingredient02;
     [SerializeField]
-    private TextMeshProUGUI Ingredient02Count;
-
+    private TextMeshProUGUI Ingredient02CurrentCount;
+    // 필요한 갯수
     [SerializeField]
     private TextMeshProUGUI gunNeedGold;
+    [SerializeField]
+    private int tempestCount;
+    [SerializeField]
+    private int infernoCount;
 
     [SerializeField]
     private int gunType; //0: TempestFang, 1: InfernoLance
@@ -383,12 +389,11 @@ public class StoreUIManager : MonoBehaviour
         //gunName 변경 필요
         gunStats.text = "Damage: 20\nFire Rate: 0.2\nRange: 100";
         //gunStats 변경 필요
-
         gunNeedGold.text = tempestFangNeedGold.ToString();
 
-        //재료들 표시해야함. 어떻게 해야함? 다른총 선택하면 갯수가 줄거나 늘어나는데?
-        //재료들 count 표시해야함. 0/갯수
-
+        // 재료 1 갯수만 추가
+        int currentCount1 = inventory.GetItemCount("Ingredient01");
+        Ingredient01CurrentCount.text = $"{currentCount1}/{tempestCount}";
     }
 
     public void SelectInfernoLance()
