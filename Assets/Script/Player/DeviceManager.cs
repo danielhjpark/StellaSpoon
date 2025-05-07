@@ -42,7 +42,8 @@ public class DeviceManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false && WeaponChanger.isDeactived)
+            if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false && WeaponChanger.isDeactived
+                && !StoreNPCManager.openingStoreUI)
             {
                 ToggleUI();
             }
