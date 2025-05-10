@@ -45,6 +45,7 @@ public class Refrigerator : MonoBehaviour
         InteractUIManger.isUseInteractObject = true;
         Inventory.inventoryActivated = true;
     }
+    
     private void CloseRefrigeratorUI() //보물상자 UI 닫기
     {
         isOpenedRefrigerator = false;

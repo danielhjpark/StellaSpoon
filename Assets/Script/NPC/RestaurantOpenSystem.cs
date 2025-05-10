@@ -10,7 +10,8 @@ public class RestaurantOpenSystem : MonoBehaviour
     [SerializeField] private float range = 2.0f; 
     private Transform playerTransform; 
     
-    [SerializeField] Image pressGagueImage;
+    [Header("GameTime")]
+    [SerializeField] GameTimeManager gameTimeManager;
 
     [Header("Sign")]
     [SerializeField] private Renderer signRenderer;
@@ -21,6 +22,11 @@ public class RestaurantOpenSystem : MonoBehaviour
     [SerializeField] private GameObject OpenAndClosePanel;
     [SerializeField] private GameObject OpenUI;
     [SerializeField] private GameObject CloseUI;
+    [SerializeField] Image pressGagueImage;
+
+    [Header("Door")]
+    [SerializeField] Animator doorAnimator;
+    private string doorOpenName = "character_nearby";
 
     private enum signState { Open = 0, Close = 1}
     private bool isOpened; 
@@ -69,13 +75,18 @@ public class RestaurantOpenSystem : MonoBehaviour
     }
 
     private void CheckOpenRestaurant() {
-        if(pressGagueImage.fillAmount >= 1 && !isOpened) {
+        //int time = gameTimeManager.gameHours;
+        int time = 24;
+        int openTime = 18;
+
+        if(pressGagueImage.fillAmount >= 1 && !isOpened && time >= openTime) {
             isOpened = true;
             OpenUI.SetActive(false);
             CloseUI.SetActive(true);
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Open];
 
+            doorAnimator.SetBool(doorOpenName, true);
             OrderManager.instance.OpenRestaurant();
         }
         else if(pressGagueImage.fillAmount >= 1 && isOpened) {
@@ -85,8 +96,8 @@ public class RestaurantOpenSystem : MonoBehaviour
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Close];
 
+            doorAnimator.SetBool(doorOpenName, false);
             OrderManager.instance.CloseRestaurant();
-
         }
     }
 

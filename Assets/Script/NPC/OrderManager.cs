@@ -42,6 +42,8 @@ public class OrderManager : MonoBehaviour
     public void CloseRestaurant()
     {
         isStoppedOrder = true;
+        StopCoroutine(restaurantCoroutine);
+        //NPC Return
     }
 
     IEnumerator StartRestaurant()

@@ -15,13 +15,14 @@ public class NpcManager : MonoBehaviour
 
     //--------------- Seat variable ---------------------//
     public Transform[] sitpositions = new Transform[4]; //의자 좌표
+    public Transform[] sitpoint = new Transform[4]; //의자 옆 좌표
     private bool[] sitOccupied = new bool[24]; //의자 상태 표시
 
     //-------------- SpawnNpc Setting --------------------//
     [SerializeField] Transform spawnPoint;
     [SerializeField] Transform doorPoint;
     [SerializeField] Transform centerPoint;
-    [SerializeField] GameObject npcPrefab;
+    [SerializeField] GameObject[] npcPrefab;
 
     private void Awake() {
         totalGoldText = GameObject.Find("GoldUI").GetComponent<TextMeshProUGUI>();
@@ -39,24 +40,22 @@ public class NpcManager : MonoBehaviour
         {
            return;
         }
-        GameObject npc = Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
+        GameObject npc = Instantiate(npcPrefab[Random.Range(0, npcPrefab.Length)], spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
         StartCoroutine(ManageNPC(npc, recipe));
     }
     
     IEnumerator MoveNPC(GameObject npc, Transform targetPosition) {
         NavMeshAgent nav = npc.GetComponent<NavMeshAgent>();
+        nav.enabled = true;
         nav.SetDestination(targetPosition.position);
         // NPC가 목표 위치에 도달할 때까지 대기
         while (nav.pathPending || nav.remainingDistance > nav.stoppingDistance)
         {
             // NPC가 목표 지점에 근접했는지 확인
-            if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 0.5 &&
-                Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 0.5)
+            if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 0.3 &&
+                Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 0.3)
             {
-                //nowPosition = npc.transform.position;
-                nav.enabled = false;
-                npc.transform.position = targetPosition.position; // NPC를 목표 위치로 순간이동
-                nav.enabled = true;
+                //npc.transform.position = targetPosition.position; // NPC를 목표 위치로 순간이동
                 //NpcRotation(npc, seatIndex); //npc 책상방향에따라 회전
                 break;
             }
@@ -74,23 +73,23 @@ public class NpcManager : MonoBehaviour
             Destroy(npc);
             yield break;
         }
+        else {
+            sitOccupied[seatIndex] = true;
+        }
+        // Set npc sitting
+       // Transform sitPoint = sitpositions[seatIndex];
+        Transform sitPoint = sitpoint[seatIndex];
+        npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
+
         // Move enterance
         yield return StartCoroutine(MoveNPC(npc, doorPoint.transform));
-
-        // Set npc seetting
-        Transform targetPosition = sitpositions[seatIndex];
-        sitOccupied[seatIndex] = true; // 좌석을 점유 상태로 변경
-        npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
-        NpcRotation(npc, seatIndex);
-
-        // Move Seat
-        yield return StartCoroutine(MoveNPC(npc, targetPosition));
-
-        yield return new WaitForSeconds(2f);// 기다린 후 주문
-
-        npc.GetComponent<NPCBehavior>().OrderMenu(menu);
-
+        yield return StartCoroutine(MoveNPC(npc, centerPoint.transform));
+        yield return StartCoroutine(MoveNPC(npc, sitPoint));
+        //yield return StartCoroutine(MoveNPC(npc, sitPoint2));
+        //NpcRotation(npc, seatIndex);
+        StartCoroutine(npc.GetComponent<NPCBehavior>().OrderMenu(menu));
     }
+
 
     private void NpcRotation(GameObject npc, int seatIndex)
     {
