@@ -407,6 +407,9 @@ public class StoreUIManager : MonoBehaviour
         //gunStats 변경 필요
 
         gunNeedGold.text = infernoLanceNeedGold.ToString();
+
+        int currentCount1 = inventory.GetItemCount("Ingredient01");
+        Ingredient01CurrentCount.text = $"{currentCount1}/{infernoCount}";
     }
 
     public void CreateGun()
@@ -414,16 +417,25 @@ public class StoreUIManager : MonoBehaviour
         switch (gunType)
         {
             case 0: //TempestFang
-                if (Manager.gold >= tempestFangNeedGold)
+                if (Manager.gold >= tempestFangNeedGold && inventory.GetItemCount("Ingredient01") >= tempestCount) // 조건 추가 및 로직 추가
                 {
                     Manager.gold -= tempestFangNeedGold;
                     //총 생성
-                    //재료들 소모
-                    //UI 갱신
+                    inventory.DecreaseItemCount("Ingredient01", tempestCount); //재료들 소모
+                    int currentCount1 = inventory.GetItemCount("Ingredient01"); //UI 갱신
+                    Ingredient01CurrentCount.text = $"{currentCount1}/{tempestCount}";
+                    Debug.Log("TempestFang 생성 완료");
                 }
                 else
                 {
-                    Debug.Log("골드 부족");
+                    if(Manager.gold < tempestFangNeedGold)
+                    {
+                        Debug.Log("골드 부족");
+                    }
+                    else if(inventory.GetItemCount("Ingredient01") < tempestCount)
+                    {
+                        Debug.Log("재료 부족");
+                    }
                 }
                 break;
             case 1: //InfernoLance
@@ -433,6 +445,7 @@ public class StoreUIManager : MonoBehaviour
                     //총 생성
                     //재료들 소모
                     //UI 갱신
+                    Debug.Log("InfernoLance 생성 완료");
                 }
                 else
                 {
