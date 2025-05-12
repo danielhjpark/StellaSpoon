@@ -8,27 +8,37 @@ public class NPCBehavior : MonoBehaviour
 {
     private Animator npcAnimator;
     private NavMeshAgent npcNav;
+    private WaitForSeconds emotionWaitTime = new WaitForSeconds(2f);
 
     [SerializeField] private GameObject menuObject;
     [SerializeField] private Image menuImage; // NPC 머리 위에 표시될 메뉴 스프라이트
     [SerializeField] private Sprite[] emotionSprites;// 0 - yes , 1 - no
 
-    private WaitForSeconds emotionWaitTime = new WaitForSeconds(2f);
-
+    
     private bool hasOrdered = false; // 주문 완료 여부
     private bool hasReceivedMenu = false; // 메뉴 수령 여부
     private float orderTime; // 주문한 시간
-
-    private Recipe currentMenu;
-    private Vector3 npcSpawnPoint = new Vector3(10f, 1f, 0f);
     private int currentSeatIndex;
     private int payPrice;
+
+    //NPC want menu
+    public Recipe currentMenu;
+    //private Vector3 npcSpawnPoint = new Vector3(10f, 1f, 0f);
+    
+    //Exit Point
+    private Transform spawnPoint;
+    private Transform doorPoint;
+    private Transform centerPoint;
 
     private void Start()
     {
         npcAnimator = GetComponent<Animator>();
         npcNav = GetComponent<NavMeshAgent>();
         menuImage.enabled = false;
+
+        spawnPoint = NpcManager.instance.spawnPoint;
+        doorPoint = NpcManager.instance.doorPoint;
+        centerPoint = NpcManager.instance.centerPoint;
     }
 
     private void LateUpdate()
@@ -41,10 +51,6 @@ public class NPCBehavior : MonoBehaviour
     public void Initialize(Recipe menu, int seatIndex) {
         currentMenu = menu;
         currentSeatIndex = seatIndex;
-    }
-
-    public bool CheckOrderMenu(Recipe menu) {
-        return  currentMenu == menu ? true : false;
     }
 
 
@@ -81,7 +87,7 @@ public class NPCBehavior : MonoBehaviour
 
     IEnumerator ReceiveMenu() {
         float waitTime = 0f;
-        float stayDuration = 120f;
+        float stayDuration = 30f;
         // float orderDelay = 10f;
         // float npcWaitTime = 40f;
 
@@ -92,39 +98,61 @@ public class NPCBehavior : MonoBehaviour
             }
             else if (!hasReceivedMenu) //음식을 받지 못하였을 때
             {
-                //OrderManager.instance.UpdateMenu(); //메뉴 회수
-                yield return Exit(this.gameObject, npcSpawnPoint, npcNav, currentSeatIndex);
+                OrderManager.instance.RetuenMenu(currentMenu); //메뉴 회수
+                yield return Exit();
                 yield break;
             }
             else {
-                //yield return Exit(this.gameObject, npcSpawnPoint, nav, currentSeatIndex);
+                //yield return Exit(this.gameObject, npcSpawnPoint, npcNav, currentSeatIndex);
                 break;
             }
             yield return new WaitForSeconds(1f);
         }
     }
     
-    private IEnumerator Exit(GameObject npc, Vector3 npcSpawnPoint, NavMeshAgent nav, int seatIndex)
+    private IEnumerator Exit()
     {
         // 퇴장 절차
         npcAnimator.SetBool("isSitting", false);
-        nav.enabled = true; // 이동 재개
+        npcNav.enabled = true; // 이동 재개
         menuImage.enabled = false;
-        nav.SetDestination(npcSpawnPoint);
-        Debug.Log("Exit");
-        while (nav.pathPending || nav.remainingDistance > 1)
+
+        yield return StartCoroutine(MoveNPC(centerPoint));
+        yield return StartCoroutine(MoveNPC(doorPoint));
+        yield return StartCoroutine(MoveNPC(spawnPoint));
+
+        NpcManager.instance.SeatEmpty(currentSeatIndex);
+        NpcManager.instance.npcList.Remove(this.gameObject);
+        Destroy(this.gameObject); // NPC 제거
+    }
+
+    IEnumerator MoveNPC(Transform targetPosition) {
+      
+        npcNav.enabled = true;
+        npcNav.SetDestination(targetPosition.position);
+        // NPC가 목표 위치에 도달할 때까지 대기
+        while (npcNav.pathPending || npcNav.remainingDistance > npcNav.stoppingDistance)
         {
+            // NPC가 목표 지점에 근접했는지 확인
+            if (Mathf.Abs(this.transform.position.x - targetPosition.position.x) <= 0.3 &&
+                Mathf.Abs(this.transform.position.z - targetPosition.position.z) <= 0.3)
+            {
+                //npc.transform.position = targetPosition.position; // NPC를 목표 위치로 순간이동
+                //NpcRotation(npc, seatIndex); //npc 책상방향에따라 회전
+                break;
+            }
+
             yield return null;
         }
-        NpcManager.instance.SeatEmpty(seatIndex);
-        Destroy(npc); // NPC 제거
+ 
     }
 
     //------------------ Serve to player ---------------------//
     public void ReceiveNPC(GameObject serveObject)
     {
-        bool isSameMenu = CheckOrderMenu(serveObject.GetComponent<MenuData>().menu);
+        bool isSameMenu = currentMenu == serveObject.GetComponent<MenuData>().menu ? true : false;
 
+        //Emotion
         if(!isSameMenu) {
             StartCoroutine(DifferentMenu());
             return;
@@ -132,9 +160,10 @@ public class NPCBehavior : MonoBehaviour
         else {
             StartCoroutine(SameMenu());
             payPrice = serveObject.GetComponent<MenuData>().menu.menuPrice;
+            DailyMenuManager.instance.DailyMenuRemove(currentMenu);
             Destroy(serveObject);
         }
-
+        //Receive Menu Behavior
         if (!hasReceivedMenu) {
             Debug.Log("NPC Recive Menu.");
             hasReceivedMenu = true;
@@ -152,15 +181,16 @@ public class NPCBehavior : MonoBehaviour
             StartCoroutine(EatAndExit());
         }
     }
-
+    
     IEnumerator EatAndExit()
     {
         Debug.Log("NPC Eat Food");
         //float eatingTime = Random.Range(40f, 60f);
         float eatingTime = Random.Range(5f, 10f);
         yield return new WaitForSeconds(eatingTime);
-        NpcManager.instance.totalGold += payPrice;
-        yield return Exit(this.gameObject, npcSpawnPoint, npcNav, currentSeatIndex);
+        //NpcManager.instance.totalGold += payPrice;
+        Manager.gold += payPrice;
+        yield return Exit();
     }
 
 

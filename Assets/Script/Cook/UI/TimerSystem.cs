@@ -11,7 +11,7 @@ public class TimerSystem : MonoBehaviour
     [SerializeField] bool onBillboard;
     [NonSerialized] public bool antiClockwise;
     bool isTimerEnd = false;
-
+    Coroutine timerCoroutine;
     void Start() {
         antiClockwise = false;
     }
@@ -34,7 +34,12 @@ public class TimerSystem : MonoBehaviour
         }
     }
 
-    public IEnumerator TimerStart(float second)
+    public IEnumerator TimerStart(float second) {
+        timerCoroutine = StartCoroutine(TimerOperate(second));
+        yield return timerCoroutine;
+    }
+
+    public IEnumerator TimerOperate(float second)
     {
         float secondValue;
         float targetValue;
@@ -53,7 +58,7 @@ public class TimerSystem : MonoBehaviour
 
         while(true)
         {
-            if(Mathf.Abs(timerGague.fillAmount - targetValue) <= 0.1f) {
+            if(Mathf.Abs(timerGague.fillAmount - targetValue) <= 0.01f) {
                 break;
             }
             timerGague.fillAmount -= secondValue;
@@ -65,6 +70,8 @@ public class TimerSystem : MonoBehaviour
 
     public void TimerStop()
     {
+        StopCoroutine(timerCoroutine);
+        Debug.Log("IS STOP");
         timerGague.fillAmount = 1;
     }
 

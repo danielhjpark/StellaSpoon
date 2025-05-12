@@ -65356,7 +65356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04f99a8a95aa8a4bb2db2ffe21bd918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalGold: 0
+  spawnPoint: {fileID: 1837453951}
+  doorPoint: {fileID: 369644399}
+  centerPoint: {fileID: 749948042}
+  npcPrefab:
+  - {fileID: 1759880744683468447, guid: 28c09e4bbde3dbf4497a4a466d947dd0, type: 3}
+  - {fileID: 1827629865255638474, guid: 275edba13d658b74999ee3bd2084d290, type: 3}
+  - {fileID: 1097393512604946, guid: f438369a99617074692223d3a8635e6c, type: 3}
   sitpositions:
   - {fileID: 1856248132}
   - {fileID: 1478389134}
@@ -65367,13 +65373,7 @@ MonoBehaviour:
   - {fileID: 201908191}
   - {fileID: 1374679595}
   - {fileID: 1976746468}
-  spawnPoint: {fileID: 1837453951}
-  doorPoint: {fileID: 369644399}
-  centerPoint: {fileID: 749948042}
-  npcPrefab:
-  - {fileID: 1759880744683468447, guid: 28c09e4bbde3dbf4497a4a466d947dd0, type: 3}
-  - {fileID: 1827629865255638474, guid: 275edba13d658b74999ee3bd2084d290, type: 3}
-  - {fileID: 1097393512604946, guid: f438369a99617074692223d3a8635e6c, type: 3}
+  npcList: []
 --- !u!114 &1733898783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68460,7 +68460,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcManager: {fileID: 1733898782}
   isMenuSoldOut: 0
-  isStoppedOrder: 0
 --- !u!114 &1780631887
 MonoBehaviour:
   m_ObjectHideFlags: 0

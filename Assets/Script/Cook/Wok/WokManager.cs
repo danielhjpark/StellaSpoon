@@ -117,6 +117,7 @@ public class WokManager : CookManagerBase
             else
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
+                OrderManager.instance.FailMenu(currentMenu);
             }
             return;
         }
@@ -228,7 +229,10 @@ public class WokManager : CookManagerBase
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient) { break; }
+                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient) { 
+                    cookUIManager.TimerStop();
+                    break; 
+                }
             }
             yield return null;
         }
