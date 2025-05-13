@@ -17624,6 +17624,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1093855651}
     - target: {fileID: 4233636328330715547, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 32896
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233636328330715547, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: itemLayerMask.m_Bits
       value: 128
       objectReference: {fileID: 0}
@@ -18098,6 +18102,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3971288655375555557, guid: 94db35874fd658341931d7c06db9dd1a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4570594112744518023, guid: 94db35874fd658341931d7c06db9dd1a, type: 3}
       propertyPath: m_Name
       value: ObjectTree
@@ -18105,7 +18113,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4570594112744518023, guid: 94db35874fd658341931d7c06db9dd1a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1179581268}
   m_SourcePrefab: {fileID: 100100000, guid: 94db35874fd658341931d7c06db9dd1a, type: 3}
 --- !u!1 &1024527977
 GameObject:
@@ -20787,6 +20798,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176720721}
   m_CullTransparentMesh: 1
+--- !u!1 &1179581262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4570594112744518023, guid: 94db35874fd658341931d7c06db9dd1a, type: 3}
+  m_PrefabInstance: {fileID: 1022953582}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1179581268
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179581262}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!224 &1183665604 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5049163656497857009, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
@@ -39218,10 +39257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 5
-  itemLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  objectLayerMask:
+  layerMask:
     serializedVersion: 2
     m_Bits: 0
   actionText: {fileID: 1530658661}

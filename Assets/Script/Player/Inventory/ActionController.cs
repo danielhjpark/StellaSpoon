@@ -15,6 +15,7 @@ public class ActionController : MonoBehaviour
 
     private RaycastHit hitInfo; // 충돌체 정보 저장
 
+    [SerializeField]
     private ObjectTree selectTree; //충돌한 트리 저장
 
     [SerializeField]
@@ -42,9 +43,15 @@ public class ActionController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            CheckRecipe();
-            CanPickUp(); // 아이템 습득
-            TryShakeTree(); // 나무 흔들기
+            // 레시피 아이템일 경우만 CheckRecipe() 호출
+            var itemPickUp = hitInfo.transform?.GetComponent<ItemPickUp>();
+            if (itemPickUp != null && itemPickUp.item != null && itemPickUp.item.itemType == Item.ItemType.Recipe)
+            {
+                CheckRecipe();
+            }
+
+            CanPickUp();
+            TryShakeTree();
         }
     }
 
@@ -62,7 +69,7 @@ public class ActionController : MonoBehaviour
                 ItemInfoAppear();
             }
             //상호작용 오브젝트일 때 상호작용
-            else if(hitInfo.transform.CompareTag("ObjectTree"))
+            else if (hitInfo.transform.CompareTag("ObjectTree"))
             {
                 if(ObjectTree.canshake)
                 {
@@ -96,7 +103,7 @@ public class ActionController : MonoBehaviour
     private void TreeObjectAppear()
     {
         // 상호작용 텍스트 표시
-        TreeActivated = false;
+        TreeActivated = true;
         actionText.gameObject.SetActive(true);
         actionText.text = "나무 흔들기 <color=yellow>(F)</color>";
 
