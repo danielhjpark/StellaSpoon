@@ -11,7 +11,12 @@ public class ActionController : MonoBehaviour
 
     private bool pickupActivated = false; // 아이템 습득 가능할시 true
 
+    private bool TreeActivated = false; //트리 상호작용시 true
+
     private RaycastHit hitInfo; // 충돌체 정보 저장
+
+    [SerializeField]
+    private ObjectTree selectTree; //충돌한 트리 저장
 
     [SerializeField]
     private LayerMask layerMask; // 특정 레이어를 가진 오브젝트에 대해서만 습득 가능
@@ -38,9 +43,15 @@ public class ActionController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            CheckItem();
-            CheckRecipe();
+            // 레시피 아이템일 경우만 CheckRecipe() 호출
+            var itemPickUp = hitInfo.transform?.GetComponent<ItemPickUp>();
+            if (itemPickUp != null && itemPickUp.item != null && itemPickUp.item.itemType == Item.ItemType.Recipe)
+            {
+                CheckRecipe();
+            }
+
             CanPickUp();
+            TryShakeTree();
         }
     }
 
@@ -57,10 +68,19 @@ public class ActionController : MonoBehaviour
             {
                 ItemInfoAppear();
             }
+            //상호작용 오브젝트일 때 상호작용
+            else if (hitInfo.transform.CompareTag("ObjectTree"))
+            {
+                if(ObjectTree.canshake)
+                {
+                    TreeObjectAppear();
+                }
+            }
         }
         else
         {
             ItemInfoDisappear();
+            TreeObjectDIsappear();
         }
 
         // 레이 시각화
@@ -78,6 +98,35 @@ public class ActionController : MonoBehaviour
     {
         pickupActivated = false;
         actionText.gameObject.SetActive(false);
+    }
+
+    private void TreeObjectAppear()
+    {
+        // 상호작용 텍스트 표시
+        TreeActivated = true;
+        actionText.gameObject.SetActive(true);
+        actionText.text = "나무 흔들기 <color=yellow>(F)</color>";
+
+        // 트리 오브젝트 저장 (F키 입력 시 DropAliverry 호출용)
+        selectTree = hitInfo.transform.gameObject.GetComponent<ObjectTree>();
+    }
+    private void TreeObjectDIsappear()
+    {
+        TreeActivated = false;
+        actionText.gameObject.SetActive(false);
+    }
+
+    private void TryShakeTree()
+    {
+        if (TreeActivated == true)
+        {
+            if (selectTree != null)
+            {
+                selectTree.DropAliverry(); // 아이템 드롭 실행
+                selectTree = null;
+                TreeObjectDIsappear();
+            }
+        }
     }
 
     private void CanPickUp()
