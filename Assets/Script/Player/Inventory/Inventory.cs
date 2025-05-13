@@ -117,4 +117,27 @@ public class Inventory : MonoBehaviour
 
         return totalCount;
     }
+    public bool DecreaseItemCount(string itemName, int count)
+    {
+        int remainingToRemove = count;
+
+        // 인벤토리에서 뒤에서부터 (최근 추가된 슬롯부터) 제거
+        for (int i = slots.Length - 1; i >= 0 && remainingToRemove > 0; i--)
+        {
+            if (slots[i].item != null && slots[i].item.itemName == itemName)
+            {
+                int removeCount = Mathf.Min(remainingToRemove, slots[i].itemCount);
+                slots[i].SetSlotCount(-removeCount);
+                remainingToRemove -= removeCount;
+            }
+        }
+
+        if (remainingToRemove > 0)
+        {
+            Debug.LogWarning($"[Inventory] {itemName} 아이템을 {count}개 제거하려 했지만 {remainingToRemove}개 부족합니다.");
+            return false;
+        }
+
+        return true;
+    }
 }
