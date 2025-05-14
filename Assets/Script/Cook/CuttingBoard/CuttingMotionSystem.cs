@@ -284,10 +284,12 @@ public class CuttingMotionSystem : MonoBehaviour
     {
         //KnifeMotion Sound
         cuttingAudioSystem.StartAudioSource(CuttingAudioSystem.AudioType.KnifeMotion);
+
         //KnifeMotion Setting
-        knifeObject.SetActive(true);
         KnifeSetup();
+        knifeObject.SetActive(true);
         isCutting = true;
+
         Renderer cuttingLineRenderer = cuttingLine.GetComponent<Renderer>();
         Vector3 max = cuttingLineRenderer.bounds.max;
         Vector3 min = cuttingLineRenderer.bounds.min;
@@ -299,7 +301,7 @@ public class CuttingMotionSystem : MonoBehaviour
         Quaternion endRotation = Quaternion.Euler(0, 90, 0);
 
         float t = 0;
-
+        cuttingBoardUI.VisibleSliceClickUI();
         while (true)
         {
             t += Time.deltaTime * knifeSpeed;
@@ -311,6 +313,7 @@ public class CuttingMotionSystem : MonoBehaviour
             }
             yield return null;
         }
+        cuttingBoardUI.HideSliceClickUI();
         isCutting = false;
     }
 

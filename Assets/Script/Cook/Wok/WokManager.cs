@@ -24,6 +24,7 @@ public class WokManager : CookManagerBase
     private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
     private int totalTossingCount;
+    private int fireStep;
 
     void Awake()
     {
@@ -75,7 +76,7 @@ public class WokManager : CookManagerBase
         secondTossingCount = menu.tossingSetting.secondTossingCount;
         totalTossingCount = firstTossingCount + secondTossingCount - 1;
 
-        //UI Unlock Setting Initialize
+        //**Store Setting**//UI Unlock Setting Initialize
         wokUI.Initialize(0);
 
         //Start Cooking
@@ -86,6 +87,7 @@ public class WokManager : CookManagerBase
     public void RecipeSetting(Recipe menu)
     {
         base.SelectRecipe(menu);
+        //Fail recipe setting
         if (menu == null || menu.cookType != CookType.Tossing)
         {
             int randTossingCount = 2;
@@ -109,7 +111,8 @@ public class WokManager : CookManagerBase
         //Select Recipe
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
-            if (totalTossingCount <= successTossingCount)
+            if (totalTossingCount <= successTossingCount
+            && wokUI.CheckFireStep(fireStep))
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
             }
@@ -229,9 +232,10 @@ public class WokManager : CookManagerBase
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient) { 
+                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient)
+                {
                     cookUIManager.TimerStop();
-                    break; 
+                    break;
                 }
             }
             yield return null;
