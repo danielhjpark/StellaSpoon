@@ -71,7 +71,6 @@ public class TimerSystem : MonoBehaviour
     public void TimerStop()
     {
         StopCoroutine(timerCoroutine);
-        Debug.Log("IS STOP");
         timerGague.fillAmount = 1;
     }
 

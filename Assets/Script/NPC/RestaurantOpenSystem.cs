@@ -94,7 +94,6 @@ public class RestaurantOpenSystem : MonoBehaviour
     }
 
     private void AutoCloseRestaurant() {
-        Debug.Log(DailyMenuManager.dailyMenuList.Count + ":" + NpcManager.instance.npcList.Count);
         if(isOpened && currentTime >= closeTime 
         && DailyMenuManager.dailyMenuList.Count <= 0 
         && NpcManager.instance.npcList.Count <= 0

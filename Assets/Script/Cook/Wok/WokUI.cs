@@ -21,7 +21,7 @@ public class WokUI : MonoBehaviour
 
     public event Action<bool> OnWokSystem;
     private const int FullLength = 750;
-    private int unlockStep = 0; //Store Unlock Upgrade;
+    private int unlockStep = 3; //Store Unlock Upgrade;
 
     private float[] sections;
     private float power = 1;
@@ -37,7 +37,8 @@ public class WokUI : MonoBehaviour
 
     public void Initialize(int unlockStep)
     {
-        this.unlockStep = unlockStep;
+        //this.unlockStep = unlockStep;
+        this.unlockStep = 2;
         if(unlockStep >= 2) {
             AutoFireTemperature();
         }

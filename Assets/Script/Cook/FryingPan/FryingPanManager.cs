@@ -74,6 +74,7 @@ public class FryingPanManager : CookManagerBase
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
         }
         else {
+            fryingStep = menu.fryingSetting.fryingStep;
             firstFryingCount = menu.fryingSetting.firstFryingCount;
             secondFryingCount = menu.fryingSetting.secondFryingCount;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
@@ -129,7 +130,7 @@ public class FryingPanManager : CookManagerBase
 
             if (successCount < totalSuccessCount)
             {
-                Debug.Log("Not enough tossing");
+                Debug.Log("Not enough tossing"+successCount +":"+totalSuccessCount);
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
@@ -171,6 +172,7 @@ public class FryingPanManager : CookManagerBase
     {
         fryingPanUI.OnFryingPanUI();
         fryingSystem.InitializeInherentMotion();
+
         yield return StartCoroutine(fryingSystem.InherentMotion(fryingCount, (callbackValue) =>
         {
             successCount += callbackValue;

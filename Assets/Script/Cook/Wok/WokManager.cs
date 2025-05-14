@@ -30,7 +30,7 @@ public class WokManager : CookManagerBase
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
         cookUIManager.Initialize(this);
-        //int unlockStep = FindObjectOfType<StoreUIManager>().GetComponent<StoreUIManager>().currentWorLevel;
+        //int unlockStep = CookManager.storeUIManager.currentWorLevel;
     }
 
     void Start()
