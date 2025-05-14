@@ -101,24 +101,41 @@ public class StoreUIManager : MonoBehaviour
     private TextMeshProUGUI gunName;
     [SerializeField]
     private TextMeshProUGUI gunStats;
-
-    // 재료 1
     [SerializeField]
-    private GameObject Ingredient01;
+    private TextMeshProUGUI Ingredient01Count;
     [SerializeField]
-    private TextMeshProUGUI Ingredient01CurrentCount;
-    // 재료 2
+    private TextMeshProUGUI Ingredient02Count;
     [SerializeField]
-    private GameObject Ingredient02;
+    private TextMeshProUGUI Ingredient03Count;
     [SerializeField]
-    private TextMeshProUGUI Ingredient02CurrentCount;
+    private TextMeshProUGUI Ingredient04Count;
+    [SerializeField]
+    private TextMeshProUGUI Ingredient05Count;
     // 필요한 갯수
     [SerializeField]
     private TextMeshProUGUI gunNeedGold;
+
+    [SerializeField] 
+    private int tempestBTCount;
     [SerializeField]
-    private int tempestCount;
+    private int tempestRHBCount;
     [SerializeField]
-    private int infernoCount;
+    private int tempestABLCount;
+    [SerializeField]
+    private int tempestVerCount;
+    [SerializeField]
+    private int tempestScrCount;
+    
+    [SerializeField]
+    private int infernoRBLCount;
+    [SerializeField]
+    private int infernoBFFCount;
+    [SerializeField]
+    private int infernoNWCCount;
+    [SerializeField]
+    private int infernoInfCount;
+    [SerializeField]
+    private int infernoScrCount;
 
     [SerializeField]
     private int gunType; //0: TempestFang, 1: InfernoLance
@@ -130,6 +147,16 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private int infernoLanceNeedGold = 2700;
 
+    [Header("-----Gun UI-----")]
+    [SerializeField] private GameObject gunImage1;
+    [SerializeField] private TextMeshProUGUI gunName1;
+    [SerializeField] private TextMeshProUGUI gunStats1;
+    [SerializeField] private TextMeshProUGUI[] ingredientCounts; // 0~4
+    [SerializeField] private TextMeshProUGUI gunNeedGold1;
+
+    [Header("Gun Recipes")]
+    [SerializeField] private GunRecipe[] gunRecipes;
+
     private void Start()
     {
         inventory = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)").GetComponent<Inventory>();
@@ -138,7 +165,8 @@ public class StoreUIManager : MonoBehaviour
             Debug.LogWarning("Inventory 오브젝트를 찾을 수 없습니다.");
         }
         ResetIngredientPurchase();
-        SelectTempestFang(); //처음 시작할 때 TempestFang 선택
+        //SelectTempestFang(); //처음 시작할 때 TempestFang 선택
+        SelectGun(0);
         LevelCostSetting(); //조리도구상점 업그레이드 비용 설정
     }
 
@@ -380,78 +408,79 @@ public class StoreUIManager : MonoBehaviour
     }
 
     //gunNPC
-    public void SelectTempestFang()
+    public void SelectGun(int index)
     {
-        gunType = 0;
-        gunImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Gun/TempestFang");
-        //gunImage 변경 필요
-        gunName.text = "Tempest Fang";
-        //gunName 변경 필요
-        gunStats.text = "Damage: 20\nFire Rate: 0.2\nRange: 100";
-        //gunStats 변경 필요
-        gunNeedGold.text = tempestFangNeedGold.ToString();
+        if (index < 0 || index >= gunRecipes.Length) return;
 
-        // 재료 1 갯수만 추가
-        int currentCount1 = inventory.GetItemCount("Ingredient01");
-        Ingredient01CurrentCount.text = $"{currentCount1}/{tempestCount}";
-    }
-
-    public void SelectInfernoLance()
-    {
-        gunType = 1;
-        gunImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Gun/InfernoLance");
-        //gunImage 변경 필요
-        gunName.text = "Inferno Lance";
-        //gunName 변경 필요
-        gunStats.text = "Damage: 30\nFire Rate: 0.1\nRange: 150";
-        //gunStats 변경 필요
-
-        gunNeedGold.text = infernoLanceNeedGold.ToString();
-
-        int currentCount1 = inventory.GetItemCount("Ingredient01");
-        Ingredient01CurrentCount.text = $"{currentCount1}/{infernoCount}";
-    }
-
-    public void CreateGun()
-    {
-        switch (gunType)
+        if (index == 0)
         {
-            case 0: //TempestFang
-                if (Manager.gold >= tempestFangNeedGold && inventory.GetItemCount("Ingredient01") >= tempestCount) // 조건 추가 및 로직 추가
-                {
-                    Manager.gold -= tempestFangNeedGold;
-                    //총 생성
-                    inventory.DecreaseItemCount("Ingredient01", tempestCount); //재료들 소모
-                    int currentCount1 = inventory.GetItemCount("Ingredient01"); //UI 갱신
-                    Ingredient01CurrentCount.text = $"{currentCount1}/{tempestCount}";
-                    Debug.Log("TempestFang 생성 완료");
-                }
-                else
-                {
-                    if(Manager.gold < tempestFangNeedGold)
-                    {
-                        Debug.Log("골드 부족");
-                    }
-                    else if(inventory.GetItemCount("Ingredient01") < tempestCount)
-                    {
-                        Debug.Log("재료 부족");
-                    }
-                }
-                break;
-            case 1: //InfernoLance
-                if (Manager.gold >= infernoLanceNeedGold)
-                {
-                    Manager.gold -= infernoLanceNeedGold;
-                    //총 생성
-                    //재료들 소모
-                    //UI 갱신
-                    Debug.Log("InfernoLance 생성 완료");
-                }
-                else
-                {
-                    Debug.Log("골드 부족");
-                }
-                break;
+            gunStats.text = "Damage: 25\nWeight: 2\nSpeed: 20";
         }
+        else if (index == 1)
+        {
+            gunStats.text = "Damage: 25\nWeight: 2\nSpeed: 20";
+        }
+
+        gunType = index;
+        GunRecipe recipe = gunRecipes[gunType];
+
+        gunImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(recipe.spritePath);
+        gunName.text = recipe.gunName;
+        gunNeedGold.text = recipe.needGold.ToString();
+
+        UpdateIngredientUI(recipe);
+    }
+
+    private void UpdateIngredientUI(GunRecipe recipe)
+    {
+        for (int i = 0; i < ingredientCounts.Length; i++)
+        {
+            if (i < recipe.ingredients.Count)
+            {
+                var ing = recipe.ingredients[i];
+                int currentCount = inventory.GetItemCount(ing.ingredientName);
+                ingredientCounts[i].text = $"{currentCount}/{ing.requiredAmount}";
+            }
+            else
+            {
+                ingredientCounts[i].text = "-";
+            }
+        }
+    }
+
+    public void CreateGun1()
+    {
+        GunRecipe recipe = gunRecipes[gunType];
+
+        if (Manager.gold < recipe.needGold)
+        {
+            Debug.Log("골드 부족");
+            return;
+        }
+
+        foreach (var ing in recipe.ingredients)
+        {
+            if (inventory.GetItemCount(ing.ingredientName) < ing.requiredAmount)
+            {
+                Debug.Log($"재료 부족: {ing.ingredientName}");
+                return;
+            }
+        }
+
+        Manager.gold -= recipe.needGold;
+        foreach (var ing in recipe.ingredients)
+        {
+            inventory.DecreaseItemCount(ing.ingredientName, ing.requiredAmount);
+        }
+
+        UpdateIngredientUI(recipe);
+
+        // 획득 플래그 설정
+        if (gunType == 0)
+            RifleManager.instance.tempestFang = true;
+        else if (gunType == 1)
+            RifleManager.instance.infernoLance = true;
+
+        Debug.Log($"{recipe.gunName} 생성 완료");
     }
 }

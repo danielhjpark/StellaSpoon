@@ -34711,9 +34711,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7701444479971631419}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[1].bulletPrefab
+      value: 
+      objectReference: {fileID: 8378503196372639160, guid: 6b78af83ad3cba343bd32c927fb29a9b, type: 3}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: weaponLevels.Array.data[1].weaponObject
       value: 
       objectReference: {fileID: 1237496542}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[2].bulletPrefab
+      value: 
+      objectReference: {fileID: 8378503196372639160, guid: 56a31e3fb12a7da4cb69ab4dfcc420ac, type: 3}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: weaponLevels.Array.data[2].weaponObject
       value: 
@@ -34742,6 +34750,14 @@ PrefabInstance:
       propertyPath: weaponLevels.Array.data[2].weaponClipPoint
       value: 
       objectReference: {fileID: 486276888}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[1].muzzleFlashPrefab
+      value: 
+      objectReference: {fileID: 4186470608034871016, guid: 85859c19852f64d43b1f296d4a7fca03, type: 3}
+    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: weaponLevels.Array.data[2].muzzleFlashPrefab
+      value: 
+      objectReference: {fileID: 4186470608034871016, guid: 8bc41e1472c45464980c8feeed5f1649, type: 3}
     - target: {fileID: 1165363847365910181, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: mapPanel
       value: 
@@ -64748,8 +64764,18 @@ MonoBehaviour:
   - {fileID: 1478389134}
   - {fileID: 240657249}
   - {fileID: 473003329}
-  npcPrefab: {fileID: 5841955771146641200, guid: f18191f0216f46c4d84a2143f7dcc08b, type: 3}
+  sitpoint:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   spawnPoint: {fileID: 1837453951}
+  doorPoint: {fileID: 0}
+  centerPoint: {fileID: 0}
+  npcPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1733898783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64763,7 +64789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 5
-  pressGagueImage: {fileID: 1556852932}
+  gameTimeManager: {fileID: 0}
   signRenderer: {fileID: 1478819210}
   signMaterial:
   - {fileID: -2813467912831258332, guid: 7d555e4399dfcb04989c5f6168c5f02f, type: 3}
@@ -64774,6 +64800,8 @@ MonoBehaviour:
   OpenAndClosePanel: {fileID: 1368973919}
   OpenUI: {fileID: 166541432}
   CloseUI: {fileID: 818765930}
+  pressGagueImage: {fileID: 1556852932}
+  doorAnimator: {fileID: 0}
 --- !u!4 &1733898784
 Transform:
   m_ObjectHideFlags: 0
@@ -67889,7 +67917,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcManager: {fileID: 1733898782}
-  isTimeOver: 0
   isMenuSoldOut: 0
   isStoppedOrder: 0
 --- !u!114 &1780631887
@@ -67904,7 +67931,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b89f0d43f0274a4cb5320d45c2d0a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractUI: {fileID: 1462034495}
   items:
   - {fileID: 11400000, guid: fb25ca4fce4f9934883ba923c046799f, type: 2}
   - {fileID: 11400000, guid: 1089611bd2115d24f99c616a50f3cedc, type: 2}

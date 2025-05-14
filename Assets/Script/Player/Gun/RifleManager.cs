@@ -29,6 +29,9 @@ public class RifleManager : MonoBehaviour
     [SerializeField] private Text bulletText;
     [SerializeField] private Text maxBulletText;
 
+    public bool tempestFang = false;
+    public bool infernoLance = false;
+
     private void Awake()
     {
         instance = this;
@@ -111,6 +114,18 @@ public class RifleManager : MonoBehaviour
     public void SwitchWeapon(int levelIndex)
     {
         if (levelIndex < 0 || levelIndex >= weaponLevels.Count) return;
+
+        // 무기 잠금 조건 확인
+        if (levelIndex == 1 && !tempestFang)
+        {
+            Debug.Log("아직 해금 안된 tempestFang");
+            return; // tempestFang 무기 해금 안 됨
+        }
+        if (levelIndex == 2 && !infernoLance)
+        {
+            Debug.Log("아직 해금 안된 infernoLance");
+            return; // infernoLance 무기 해금 안 됨
+        }
 
         for (int i = 0; i < weaponLevels.Count; i++)
         {
