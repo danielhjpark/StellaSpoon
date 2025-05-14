@@ -8,10 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_fwOF_Grass_01
-  m_Shader: {fileID: 4800000, guid: 165365ab7100a044ca85fc8c33548a62, type: 3}
+  m_Shader: {fileID: 4800000, guid: 18476a37983f7084a9eed22a548d7103, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _DISTANCEBASEDMASKCLIP_ON
+  - _GLOSSYREFLECTIONS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -179,6 +181,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 8947feed88d38a944818f414938d716c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MaskMapMAOS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MatCap2ndBlendMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -302,6 +308,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AAStrength: 1
+    - _AOIntensity: 1
     - _AlphaBoostFA: 10
     - _AlphaMaskMode: 0
     - _AlphaMaskScale: 1
@@ -348,6 +355,7 @@ Material:
     - _BacklightViewStrength: 1
     - _BaseColorSaturation: 0.924
     - _BeforeExposureLimit: 10000
+    - _BendingMaskStrength1: 1.236128
     - _BitKey0: 0
     - _BitKey1: 0
     - _BitKey10: 0
@@ -387,11 +395,14 @@ Material:
     - _Bump2ndMap_UVMode: 0
     - _Bump2ndScale: 1
     - _BumpScale: 1
+    - _ChildWindMapScale: 0
+    - _ChildWindStrength: 0.5
     - _ColorMask: 15
     - _Cull: 2
     - _Cutoff: 0.001
     - _DetailNormalMapScale: 1
     - _DissolveNoiseStrength: 0.1
+    - _DistanceBasedMaskClip: 1
     - _DistanceFadeMode: 0
     - _DistanceFadeRimFresnelPower: 5
     - _DitherMaxValue: 255
@@ -475,6 +486,7 @@ Material:
     - _IDMaskPrior8: 0
     - _IgnoreEncryption: 0
     - _Invisible: 0
+    - _LeafFlutterStrength: 0.3
     - _LightMaxLimit: 1
     - _LightMinLimit: 0.05
     - _Main2ndDissolveNoiseStrength: 0.1
@@ -505,8 +517,12 @@ Material:
     - _Main3rdTexShouldFlipMirror: 0
     - _Main3rdTex_Cull: 0
     - _Main3rdTex_UVMode: 0
+    - _MainBendMaskStrength: 0
     - _MainBendingStrength: 1.28
     - _MainGradationStrength: 0
+    - _MainWindScale: 1
+    - _MainWindStrength: 0.5
+    - _MaskClip: 0.5588235
     - _MatCap2ndApplyTransparency: 1
     - _MatCap2ndBackfaceMask: 0
     - _MatCap2ndBlend: 1
@@ -584,6 +600,8 @@ Material:
     - _OutlineZWrite: 1
     - _Parallax: 0.02
     - _ParallaxOffset: 0.5
+    - _ParentWindMapScale: 1
+    - _ParentWindStrength: 0.5
     - _PreAlphaToMask: 0
     - _PreBlendOp: 0
     - _PreBlendOpAlpha: 0
@@ -720,6 +738,7 @@ Material:
     - _UDIMDiscardRow3_3: 0
     - _UDIMDiscardUV: 0
     - _UVSec: 0
+    - _UndercolorAmount: 0.5
     - _UseAnisotropy: 0
     - _UseAudioLink: 0
     - _UseBacklight: 0
@@ -741,7 +760,9 @@ Material:
     - _UseRim: 0
     - _UseRimShade: 0
     - _UseShadow: 0
+    - _VertexAOIntensity: 1
     - _VertexLightStrength: 0
+    - _WindOverallStrength: 1
     - _WindRootMaskStrength: 0.2
     - _WindRotationMapSpeed: 0.3
     - _WindStrength: 0.4
@@ -768,7 +789,7 @@ Material:
     - _BackfaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _BacklightColor: {r: 0.85, g: 0.8, b: 0.7, a: 1}
     - _BaseColor: {r: 0.7549274, g: 0.90188676, b: 0.692581, a: 1}
-    - _Color: {r: 0.7549274, g: 0.90188676, b: 0.692581, a: 1}
+    - _Color: {r: 0.62384975, g: 0.8584906, b: 0.5223834, a: 1}
     - _Color2nd: {r: 1, g: 1, b: 1, a: 1}
     - _Color3rd: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveColor: {r: 1, g: 1, b: 1, a: 1}
@@ -831,6 +852,7 @@ Material:
     - _ShadowAOShift2: {r: 1, g: 0, b: 1, a: 0}
     - _ShadowBorderColor: {r: 1, g: 0.09999997, b: 0, a: 1}
     - _ShadowColor: {r: 0.82, g: 0.76, b: 0.85, a: 1}
+    - _Undercolor: {r: 1, g: 1, b: 1, a: 0}
     - _Vector0: {r: 1, g: 0, b: 0, a: 0}
     - _e2ga0: {r: 1, g: 0, b: 0, a: 0}
     - _e2ga1: {r: 1, g: 0, b: 0, a: 1}
