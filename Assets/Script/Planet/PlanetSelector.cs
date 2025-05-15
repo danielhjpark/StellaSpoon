@@ -25,6 +25,7 @@ public class PlanetSelector : MonoBehaviour
 
     private void StartGame(string sceneName)
     {
+        Inventory.inventoryActivated = false;
         UnityNote.SceneLoader.Instance.LoadScene(sceneName);
         mapPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
