@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WolfKingMonster : MonsterBase
@@ -12,10 +13,12 @@ public class WolfKingMonster : MonsterBase
 
     [Header("Throrw")]
     [SerializeField]
-    private Transform[] throwPosition; //던지기 위치
+    private Transform[] throwPosition; //투척물 위치
     [SerializeField]
-    private GameObject throwObjectPrefab; //던지기 오브젝트 프리팹
-    private int throwcount = 0; //던지기 횟수
+    private GameObject throwObjectPrefab; //투척물 오브젝트 프리팹
+    private int throwcount = 0; //투척물 횟수
+    [SerializeField]
+    private GameObject warningPrefab; // 빨간 경고 프리팹
 
     [Header("Pillar")]
     [SerializeField]
@@ -50,9 +53,28 @@ public class WolfKingMonster : MonsterBase
     {
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         //animator.SetTrigger("Attack8");
-        foreach (Transform pos in throwPosition) //투척물 생성
+
+        // 준비 시 플레이어의 현재 위치 저장
+        Vector3 targetPosition = player.transform.position;
+        foreach (Transform pos in throwPosition)
         {
-            GameObject throwObject = Instantiate(throwObjectPrefab, pos.position, Quaternion.identity);
+            //플레이어와 중간지점 계산
+            Vector3 middlePosition = transform.position + ((targetPosition - transform.position) / 2);
+            // 1) 경고 오브젝트 생성
+            GameObject warning = Instantiate(warningPrefab, new Vector3(middlePosition.x, 0.01f, middlePosition.z), pos.rotation);
+            // 2) y축 회전값을 90도로 조정
+            Vector3 warnRot = warning.transform.rotation.eulerAngles;
+            warnRot.x = 90;
+            warning.transform.rotation = Quaternion.Euler(warnRot);
+            // 3) 길이 10, 폭 1로 스케일 조정 (Quad 기준)
+            warning.transform.localScale = new Vector3(1, 5, 1);
+            // 4) 3초 후 삭제
+            Destroy(warning, 3f);
+
+            // 기존 투척물 생성
+            GameObject throwObject = Instantiate(throwObjectPrefab, pos.position, pos.rotation);
+            throwObject.GetComponent<LunaWolfKingBullet>().thirdPersonController = thirdPersonController;
+            throwObject.GetComponent<LunaWolfKingBullet>().damage = damage;
         }
         throwcount++;
         if (throwcount < 2)

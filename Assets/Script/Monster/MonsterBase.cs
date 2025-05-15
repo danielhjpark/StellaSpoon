@@ -51,6 +51,7 @@ public abstract class MonsterBase : MonoBehaviour
     protected Animator animator;
     protected GameObject player;
     protected Collider coll;
+    [SerializeField]
     protected ThirdPersonController thirdPersonController;
 
     private bool canDamage; //플레이어 공격 인지 범위 내에 있는지 체크 변수
