@@ -17,6 +17,9 @@ public class TreasureChest : MonoBehaviour
     private GameObject inventoryBackGround; //인벤토리 배경
     private GameObject slotsSetting; //슬롯 셋팅
 
+    [SerializeField]
+    private GameObject lightObject; //보물상자에 있는 빛 오브젝트
+
     [Header("보물상자에 나오는 아이템")]
     [SerializeField]
     private List<Item> possibleItems; //생성 가능한 아이템 리스트
@@ -118,6 +121,15 @@ public class TreasureChest : MonoBehaviour
         Inventory.inventoryActivated = true;
 
         animator.SetTrigger("Open");
+
+        StartCoroutine(LightOn());
+    }
+
+    private IEnumerator LightOn()
+    {
+        yield return new WaitForSeconds(0.8f);
+
+        lightObject.SetActive(true); //보물상자에 있는 빛 오브젝트 활성화
     }
 
     private void CloseChestUI()
