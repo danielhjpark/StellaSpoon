@@ -54,22 +54,10 @@ public class WolfKingMonster : MonsterBase
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         //animator.SetTrigger("Attack8");
 
-        // 준비 시 플레이어의 현재 위치 저장
-        Vector3 targetPosition = player.transform.position;
         foreach (Transform pos in throwPosition)
         {
-            //플레이어와 중간지점 계산
-            Vector3 middlePosition = transform.position + ((targetPosition - transform.position) / 2);
-            // 1) 경고 오브젝트 생성
-            GameObject warning = Instantiate(warningPrefab, new Vector3(middlePosition.x, 0.01f, middlePosition.z), pos.rotation);
-            // 2) y축 회전값을 90도로 조정
-            Vector3 warnRot = warning.transform.rotation.eulerAngles;
-            warnRot.x = 90;
-            warning.transform.rotation = Quaternion.Euler(warnRot);
-            // 3) 길이 10, 폭 1로 스케일 조정 (Quad 기준)
-            warning.transform.localScale = new Vector3(1, 5, 1);
-            // 4) 3초 후 삭제
-            Destroy(warning, 3f);
+            //경고 효과 표시
+            StartCoroutine(ShowThrowGroundEffect(pos));
 
             // 기존 투척물 생성
             GameObject throwObject = Instantiate(throwObjectPrefab, pos.position, pos.rotation);
@@ -90,6 +78,26 @@ public class WolfKingMonster : MonsterBase
             nextPattern = PILLAR;
             nextPatternPlay();
         }
+    }
+
+    private IEnumerator ShowThrowGroundEffect(Transform pos)
+    {
+        /*// 준비 시 플레이어의 현재 위치 저장
+        Vector3 targetPosition = player.transform.position;
+        //플레이어와 중간지점 계산
+        Vector3 middlePosition = transform.position + ((targetPosition - transform.position) / 2);*/
+        // 1) 경고 오브젝트 생성
+        GameObject warning = Instantiate(warningPrefab, new Vector3(pos.position.x, 0.01f, pos.position.z), pos.rotation);
+        // 2) y축 회전값을 90도로 조정
+        Vector3 warnRot = warning.transform.rotation.eulerAngles;
+        warnRot.x = 90;
+        warning.transform.rotation = Quaternion.Euler(warnRot);
+        // 3) 길이 5, 폭 1로 스케일 조정
+        warning.transform.localScale = new Vector3(1, 5, 1);
+
+        yield return new WaitForSeconds(3.0f);
+        // 4) 3초 후 삭제
+        Destroy(warning);
     }
 
     private IEnumerator Pillar()
