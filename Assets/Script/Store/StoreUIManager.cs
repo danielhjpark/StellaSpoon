@@ -448,13 +448,14 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
-    public void CreateGun1()
+    public void CreateGun()
     {
         GunRecipe recipe = gunRecipes[gunType];
 
         if (Manager.gold < recipe.needGold)
         {
             Debug.Log("골드 부족");
+            PopupManager.Instance.ShowPopup("골드 부족");
             return;
         }
 
@@ -463,6 +464,7 @@ public class StoreUIManager : MonoBehaviour
             if (inventory.GetItemCount(ing.ingredientName) < ing.requiredAmount)
             {
                 Debug.Log($"재료 부족: {ing.ingredientName}");
+                PopupManager.Instance.ShowPopup("재료 부족");
                 return;
             }
         }
