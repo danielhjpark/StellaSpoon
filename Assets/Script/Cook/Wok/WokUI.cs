@@ -27,7 +27,7 @@ public class WokUI : MonoBehaviour
 
     private int unlockStep; //Store Unlock Upgrade;
 
-    public float fireStep; // fireSlider 
+    public int fireStep; // fireSlider 
 
     void Start()
     {
@@ -40,7 +40,7 @@ public class WokUI : MonoBehaviour
     public void Initialize(int unlockStep)
     {
         //this.unlockStep = unlockStep;
-        this.unlockStep = 2;
+        this.unlockStep = 0;
         if (unlockStep >= 2)
         {
             AutoFireTemperature();

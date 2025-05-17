@@ -137,14 +137,20 @@ public class FryingPanManager : CookManagerBase
 
             if (fryingSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
             {
-                Debug.Log("Wrong sauce type");
+                Debug.Log("Wrong sauce type" +fryingSauceSystem.sauceType + "" + targetRecipe.tossingSetting.sauceType);
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                return;
+            }
+
+            if (!fryingPanUI.CheckFireStep(targetRecipe.tossingSetting.firePower))
+            {
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
             //UnLock New Recipe;
             RecipeManager.instance.RecipeUnLock(targetRecipe);
-            CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+            CookSceneManager.instance.UnloadScene(currentSceneName, targetRecipe);
             Debug.Log("Success");
             return;
 

@@ -24,6 +24,7 @@ public class GarbageCan : MonoBehaviour
     private void UseGarbageCan() //UI출력
     {
         serveSystem.ThrowOutMenu();
+        //InteractUIManger.isUseInteractObject = true;
         //Sound 추가 필요 쓰레기통에 넣는 소리
     }
 

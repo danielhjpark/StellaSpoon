@@ -10,7 +10,7 @@ public class SauceSystem : MonoBehaviour
     [SerializeField, Range(0f, 1f)] protected float maxRange;
     [SerializeField, Range(0f, 1f)] protected float minRange;
 
-    [NonSerialized]public SauceType sauceType = SauceType.None;
+    public SauceType sauceType;
     protected bool isCanFillLiquid;
     protected bool isLiquidFilled;
 
@@ -20,7 +20,7 @@ public class SauceSystem : MonoBehaviour
         SetSauceColor();
     }
 
-    protected void SetSauceColor()
+    public void SetSauceColor()
     {
         liquidVolume.alpha = 0.1f;
         switch (sauceType)

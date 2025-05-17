@@ -16,7 +16,7 @@ public class PlanetMove : MonoBehaviour
     private void Update()
     {
         //if (!refrigeratorUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
-        if (InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) 
+        if (isPlayerNearby &&InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) 
         {
             OpenUI();
         }

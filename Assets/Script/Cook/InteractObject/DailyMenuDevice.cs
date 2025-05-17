@@ -35,6 +35,7 @@ public class DailyMenuDevice : MonoBehaviour
 
         DailyMenuUI.SetActive(true);
         InteractUIManger.isUseInteractObject = true;
+        Inventory.inventoryActivated = true;
     }
 
     public void CloseDailyMenuUI() //UI ´Ý±â
@@ -45,6 +46,7 @@ public class DailyMenuDevice : MonoBehaviour
 
         DailyMenuUI.SetActive(false);
         InteractUIManger.isUseInteractObject = false;
+        Inventory.inventoryActivated = false;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -19,6 +19,7 @@ public class FryingSauceSystem : SauceSystem
         isCanFillLiquid = false;
         maxScale = 25;
         minScale = 0;
+        sauceType = SauceType.None;
     }
 
     public void Initialize(FryingSetting fryingSetting)
@@ -33,6 +34,13 @@ public class FryingSauceSystem : SauceSystem
     {
         scaleValue = maxScale /(fryingCount * 2);
         this.sauceController.InitializeMakeMode();
+    }
+
+    public void SetSauceColor(SauceType sauceType)
+    {
+        this.sauceType = sauceType;
+        Debug.Log("SAUCE1");
+        SetSauceColor();
     }
 
     public void AddSauce()

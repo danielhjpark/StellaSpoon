@@ -26,7 +26,6 @@ public class DeviceRecipeUI : MonoBehaviour
             DeviceRecipeSlot currentRecipeSlot = recipeSlots[count].gameObject.GetComponent<DeviceRecipeSlot>();
             GameObject recipeInfo = recipeInfos.FirstOrDefault(objects => objects.gameObject.name == Recipe.Key);
             if (recipeInfo == null || currentRecipeSlot == null) continue;
-            Debug.Log(Recipe.Key);
             currentRecipeSlot.Initialize(recipeInfo, Recipe.Value);
             currentRecipeSlot.OnSelectRecipe += CloseRecipe;
             count++;

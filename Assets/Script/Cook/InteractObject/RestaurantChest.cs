@@ -20,11 +20,11 @@ public class RestaurantChest : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F)&& !Inventory.inventoryActivated)
         {
             OpenChestUI();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        else if (chestInventory.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         {
             CloseChestUI();
         }
@@ -40,7 +40,8 @@ public class RestaurantChest : MonoBehaviour
         chestInventory.SetActive(true);
         inventoryUI.SetActive(true);
         inventoryBG.SetActive(true);
-
+        
+        InteractUIManger.isUseInteractObject = true;
         Inventory.inventoryActivated = true;
 
     }
