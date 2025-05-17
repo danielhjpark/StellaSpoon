@@ -33,6 +33,10 @@ public class BearKingMonster : MonsterBase
 
     [SerializeField]
     private GameObject currentGroundEffect;
+    [SerializeField]
+    private GameObject jumpEffectprefab; //점프 이펙트 프리팹
+    private GameObject currentEffect;
+    private bool jumpEffectOn; //점프 이펙트 생성 변수
 
     private void Start()
     {
@@ -79,6 +83,7 @@ public class BearKingMonster : MonsterBase
 
         //Debug.Log("충격파 발생!");
         animator.SetTrigger("Attack5");
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, shockwaveRadius);
         foreach (var hit in hitColliders)
         {
@@ -96,6 +101,12 @@ public class BearKingMonster : MonsterBase
         isJumping = false;
         nextPattern = CHARGE;
         nextPatternPlay();
+    }
+    
+    private void JumpEffectOn()
+    {
+        currentEffect = Instantiate(jumpEffectprefab, transform.position, Quaternion.identity);
+        Destroy(currentEffect, 1f);  // 이펙트가 2초 후 사라지도록
     }
 
     private IEnumerator Charge()
