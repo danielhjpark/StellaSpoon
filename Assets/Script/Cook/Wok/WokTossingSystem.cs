@@ -37,7 +37,6 @@ public class WokTossingSystem : MonoBehaviour
 
     public void BindTossingObject(List<GameObject> wokIngredients)
     {
-
         this.wokIngredients = wokIngredients;
         successTossingCount = 0;
     }

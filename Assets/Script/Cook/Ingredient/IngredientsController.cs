@@ -78,7 +78,7 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
     {
         int useCount = ingredientSlot.currentIngredient.ingredientUseCount;
         ingredientSlot.itemCount -= useCount;
-
+        Debug.Log(ingredientSlot.itemCount);
         if (ingredientSlot.itemCount < useCount)
         {
             ingredientSlot.SlotClear();

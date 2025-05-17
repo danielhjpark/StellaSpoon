@@ -5,7 +5,8 @@ using UnityEngine;
 public class RestaurantChest : MonoBehaviour
 {
     [SerializeField] GameObject chestInventory;
-
+    private GameObject inventoryUI; //인벤토리 UI
+    private GameObject inventoryBG;
     bool isPlayerNearby;
     bool isOpenedChest;
 
@@ -13,11 +14,13 @@ public class RestaurantChest : MonoBehaviour
     {
         isPlayerNearby = false;
         isOpenedChest = false;
+        inventoryBG = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(0).gameObject;
+        inventoryUI = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(1).gameObject;
     }
 
     private void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
         {
             OpenChestUI();
         }
@@ -35,6 +38,8 @@ public class RestaurantChest : MonoBehaviour
         Cursor.visible = true;
 
         chestInventory.SetActive(true);
+        inventoryUI.SetActive(true);
+        inventoryBG.SetActive(true);
 
         Inventory.inventoryActivated = true;
 
@@ -49,6 +54,9 @@ public class RestaurantChest : MonoBehaviour
         Cursor.visible = false;
 
         chestInventory.SetActive(false);
+        inventoryUI.SetActive(false);
+        inventoryBG.SetActive(false);
+
         Inventory.inventoryActivated = false;
     }
 

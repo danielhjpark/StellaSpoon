@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LiquidVolumeFX;
+using System;
 
 public class SauceSystem : MonoBehaviour
 {
@@ -9,14 +10,9 @@ public class SauceSystem : MonoBehaviour
     [SerializeField, Range(0f, 1f)] protected float maxRange;
     [SerializeField, Range(0f, 1f)] protected float minRange;
 
-    public SauceType sauceType;
+    [NonSerialized]public SauceType sauceType = SauceType.None;
     protected bool isCanFillLiquid;
     protected bool isLiquidFilled;
-
-    public void Start()
-    {
-        
-    }
 
     public void SetSauceColor(SauceType sauceType)
     {

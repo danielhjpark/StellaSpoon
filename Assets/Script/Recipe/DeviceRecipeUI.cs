@@ -10,7 +10,7 @@ public class DeviceRecipeUI : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> deActivatePanels; // 여러 개의 패널을 관리하는 리스트
-
+    private Dictionary<GameObject, GameObject> recipeInfo = new Dictionary<GameObject, GameObject>();
     private bool isActivated;
 
     private void Update()
@@ -38,6 +38,7 @@ public class DeviceRecipeUI : MonoBehaviour
         recipeBase.SetActive(false);
         isActivated = false;
     }
+
     private void ToggleAllPanels(bool isActive) // 테스트
     {
         foreach (GameObject panel in deActivatePanels)
@@ -56,5 +57,10 @@ public class DeviceRecipeUI : MonoBehaviour
         {
             Debug.LogWarning("잘못된 패널 인덱스: " + index);
         }
+    }
+
+    public void UnlockRecipe()
+    {
+        
     }
 }

@@ -162,6 +162,7 @@ public class FryingPanManager : CookManagerBase
         }
         else
         {
+            currentSubIngredient++;
             StartCoroutine(cookUIManager.VisiblePanel());
             fryingIngredientSystem.AddSubIngredient(ingredientObject, ingredient);
         }
@@ -198,9 +199,13 @@ public class FryingPanManager : CookManagerBase
                 fryingSauceSystem.Initialize(currentMenu.fryingSetting);
             }
         }
-
-        while (!fryingSauceSystem.IsLiquidFilled())
-        {
+        StartCoroutine(cookUIManager.TimerStart(10f));
+        while (true)
+        {                
+            if (cookUIManager.TimerEnd() || fryingSauceSystem.IsLiquidFilled()) { 
+                cookUIManager.TimerStop();
+                break; 
+            }
             yield return null;
         }
     }
@@ -247,7 +252,7 @@ public class FryingPanManager : CookManagerBase
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd() || fryingIngredientSystem.checkIngredients.Count >= 3) { 
+                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient) { 
                     cookUIManager.TimerStop();
                     break; 
                 }

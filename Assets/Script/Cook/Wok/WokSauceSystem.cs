@@ -53,6 +53,7 @@ public class WokSauceSystem : SauceSystem
 
     public IEnumerator UseSauce()
     {
+        if (sauceType == SauceType.None) yield break;
         float targetLevel = currentLevel - levelValue;
         while (true)
         {
