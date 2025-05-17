@@ -257,6 +257,7 @@ public class BearKingMonster : MonsterBase
 
     private void OnDrawGizmosSelected()
     {
+        base.OnDrawGizmosSelected();
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, shockwaveRadius);
     }
