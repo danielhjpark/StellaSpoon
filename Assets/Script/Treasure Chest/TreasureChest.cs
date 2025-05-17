@@ -154,28 +154,51 @@ public class TreasureChest : MonoBehaviour
             Debug.LogWarning("chestSlots가 설정되지 않았습니다. 아이템을 추가할 수 없습니다.");
             return;
         }
-        int itemCount = 0; //생성된 아이템 수
 
-        for (int i = 0; i < possibleItems.Count; i++) //생성 가능한 아이템 수만큼 반복
+        int totalSlotCount = chestSlots.Length;
+
+        for (int i = 0; i < possibleItems.Count; i++)
         {
-            for(int j = 0; j < maxItemCount[i]; j++) //한 아이템의 생성가능한 수만큼 반복
+            int createdCount = 0;
+
+            for (int j = 0; j < maxItemCount[i]; j++)
             {
-                //firstCreatedCount만큼은 무조건 생성
-                if (j < minItemCount[i])
+                if (j < minItemCount[i] || Random.Range(0, 100f) <= itemPrecent[i])
                 {
-                    chestSlots[itemCount].AddItemWithoutWeight(possibleItems[i], 1); //아이템 생성
-                    itemCount++;
-                }
-                else
-                {
-                    //아이템 생성 확률에 따라 생성
-                    float itemCreatePercent = Random.Range(0, 100f); //아이템 생성 확률
-                    if (itemCreatePercent <= itemPrecent[i])
+                    Item currentItem = possibleItems[i];
+
+                    // 1. 기존 슬롯에서 동일 아이템을 찾는다
+                    bool addedToExistingSlot = false;
+                    foreach (Slot slot in chestSlots)
                     {
-                        chestSlots[itemCount].AddItemWithoutWeight(possibleItems[i], 1); //아이템 생성
-                        itemCount++;
+                        if (slot.item != null && slot.item.itemName == currentItem.itemName)
+                        {
+                            slot.SetSlotCount(1);
+                            addedToExistingSlot = true;
+                            break;
+                        }
                     }
-                }                
+
+                    // 2. 기존 슬롯에 없으면 새로운 슬롯을 찾는다
+                    if (!addedToExistingSlot)
+                    {
+                        for (int k = 0; k < totalSlotCount; k++)
+                        {
+                            if (chestSlots[k].item == null)
+                            {
+                                chestSlots[k].AddItemWithoutWeight(currentItem, 1);
+                                break;
+                            }
+
+                            if (k == totalSlotCount - 1)
+                            {
+                                Debug.LogWarning("보물상자 슬롯이 부족합니다. 일부 아이템은 추가되지 않았습니다.");
+                            }
+                        }
+                    }
+
+                    createdCount++;
+                }
             }
         }
     }
