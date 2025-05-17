@@ -32,7 +32,7 @@ public class RefrigeratorInventory : Inventory
                     if (refrigeratorSlots[i].item.itemName == _item.itemName)
                     {
                         // 현재 슬롯의 남은 공간 계산
-                        int spaceLeft = 20 - refrigeratorSlots[i].itemCount;
+                        int spaceLeft = 100 - refrigeratorSlots[i].itemCount;
 
                         if (_count <= spaceLeft)
                         {
@@ -55,7 +55,7 @@ public class RefrigeratorInventory : Inventory
                 // 슬롯이 비어 있는 경우
                 if (refrigeratorSlots[i].item == null)
                 {
-                    if (_count <= 20)
+                    if (_count <= 100)
                     {
                         // 남은 아이템이 20개 이하이면 한 슬롯에 모두 추가
                         refrigeratorSlots[i].AddItem(_item, _count);
@@ -64,8 +64,8 @@ public class RefrigeratorInventory : Inventory
                     else
                     {
                         // 남은 아이템이 20개 초과이면 가능한 개수만 추가
-                        refrigeratorSlots[i].AddItem(_item, 20);
-                        _count -= 20; // 초과분 저장
+                        refrigeratorSlots[i].AddItem(_item, 100);
+                        _count -= 100; // 초과분 저장
                     }
                 }
             }

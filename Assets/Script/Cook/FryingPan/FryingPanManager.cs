@@ -74,6 +74,7 @@ public class FryingPanManager : CookManagerBase
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
         }
         else {
+            fryingStep = menu.fryingSetting.fryingStep;
             firstFryingCount = menu.fryingSetting.firstFryingCount;
             secondFryingCount = menu.fryingSetting.secondFryingCount;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
@@ -107,6 +108,7 @@ public class FryingPanManager : CookManagerBase
             else
             {
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                OrderManager.instance.FailMenu(currentMenu);
                 return;
             }
         }
@@ -128,21 +130,27 @@ public class FryingPanManager : CookManagerBase
 
             if (successCount < totalSuccessCount)
             {
-                Debug.Log("Not enough tossing");
+                Debug.Log("Not enough tossing"+successCount +":"+totalSuccessCount);
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
             if (fryingSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
             {
-                Debug.Log("Wrong sauce type");
+                Debug.Log("Wrong sauce type" +fryingSauceSystem.sauceType + "" + targetRecipe.tossingSetting.sauceType);
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                return;
+            }
+
+            if (!fryingPanUI.CheckFireStep(targetRecipe.tossingSetting.firePower))
+            {
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
             //UnLock New Recipe;
             RecipeManager.instance.RecipeUnLock(targetRecipe);
-            CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+            CookSceneManager.instance.UnloadScene(currentSceneName, targetRecipe);
             Debug.Log("Success");
             return;
 
@@ -160,6 +168,7 @@ public class FryingPanManager : CookManagerBase
         }
         else
         {
+            currentSubIngredient++;
             StartCoroutine(cookUIManager.VisiblePanel());
             fryingIngredientSystem.AddSubIngredient(ingredientObject, ingredient);
         }
@@ -170,6 +179,7 @@ public class FryingPanManager : CookManagerBase
     {
         fryingPanUI.OnFryingPanUI();
         fryingSystem.InitializeInherentMotion();
+
         yield return StartCoroutine(fryingSystem.InherentMotion(fryingCount, (callbackValue) =>
         {
             successCount += callbackValue;
@@ -195,9 +205,13 @@ public class FryingPanManager : CookManagerBase
                 fryingSauceSystem.Initialize(currentMenu.fryingSetting);
             }
         }
-
-        while (!fryingSauceSystem.IsLiquidFilled())
-        {
+        StartCoroutine(cookUIManager.TimerStart(10f));
+        while (true)
+        {                
+            if (cookUIManager.TimerEnd() || fryingSauceSystem.IsLiquidFilled()) { 
+                cookUIManager.TimerStop();
+                break; 
+            }
             yield return null;
         }
     }
@@ -244,7 +258,7 @@ public class FryingPanManager : CookManagerBase
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd() || fryingIngredientSystem.checkIngredients.Count >= 3) { 
+                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient) { 
                     cookUIManager.TimerStop();
                     break; 
                 }

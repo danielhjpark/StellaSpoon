@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor.Rendering;
+using Unity.VisualScripting;
 
 public class RestaurantOpenSystem : MonoBehaviour
 {
@@ -22,15 +23,19 @@ public class RestaurantOpenSystem : MonoBehaviour
     [SerializeField] private GameObject OpenAndClosePanel;
     [SerializeField] private GameObject OpenUI;
     [SerializeField] private GameObject CloseUI;
-    [SerializeField] Image pressGagueImage;
+    [SerializeField] private Image pressGagueImage;
 
     [Header("Door")]
     [SerializeField] Animator doorAnimator;
     private string doorOpenName = "character_nearby";
 
     private enum signState { Open = 0, Close = 1}
+
     private bool isOpened; 
-    
+
+    int currentTime = 24;
+    const int openTime = 18;
+    const int closeTime = 22;
 
     void Start() {
         playerTransform = GameObject.FindWithTag("Player").transform;
@@ -40,21 +45,35 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     void Update()
     {
+        //currentTime = gameTimeManager.gameHours;
+        AutoCloseRestaurant();
         CheckSign();
-        CheckOpenRestaurant();
+        CheckRestaurant();
     }
 
-    public void FillGague() {
-        pressGagueImage.fillAmount += Time.deltaTime * 0.5f;
-    }
-
-    public void ResetGague() {
-        pressGagueImage.fillAmount = 0f;
-    }
 
     //------------------------------------------------------//
+    private bool IsCanInteractSign() {
+  
+        if(!isOpened && currentTime >= openTime && DailyMenuManager.dailyMenuList.Count > 0) {
+            return true;
+        }
+        else if(isOpened && currentTime >= closeTime && DailyMenuManager.dailyMenuList.Count <= 0 && NpcManager.instance.npcList.Count <= 0) {
+            return true;
+        }
+        else {
+            return false;//early return
+        }
+    }
+
     private void CheckSign()
     {
+        if(!IsCanInteractSign()) {
+            OpenAndClosePanel.SetActive(false);
+            ResetGague();
+            return;
+        }
+
         Vector3 rayOrigin = playerTransform.position + Vector3.up * 0.5f; 
         Vector3 rayDirection = playerTransform.forward; 
 
@@ -74,12 +93,24 @@ public class RestaurantOpenSystem : MonoBehaviour
         }
     }
 
-    private void CheckOpenRestaurant() {
-        //int time = gameTimeManager.gameHours;
-        int time = 24;
-        int openTime = 18;
+    private void AutoCloseRestaurant() {
+        if(isOpened && currentTime >= closeTime 
+        && DailyMenuManager.dailyMenuList.Count <= 0 
+        && NpcManager.instance.npcList.Count <= 0
+        && OrderManager.instance.restaurantCoroutine == null) {
+            isOpened = false;
+            OpenUI.SetActive(true);
+            CloseUI.SetActive(false);
+            pressGagueImage.fillAmount = 0f;
+            signRenderer.material = signMaterial[(int)signState.Close];
 
-        if(pressGagueImage.fillAmount >= 1 && !isOpened && time >= openTime) {
+            doorAnimator.SetBool(doorOpenName, false);
+        }
+    }
+
+    private void CheckRestaurant() {
+        if(pressGagueImage.fillAmount < 1) return;
+        if(!isOpened) {
             isOpened = true;
             OpenUI.SetActive(false);
             CloseUI.SetActive(true);
@@ -89,7 +120,7 @@ public class RestaurantOpenSystem : MonoBehaviour
             doorAnimator.SetBool(doorOpenName, true);
             OrderManager.instance.OpenRestaurant();
         }
-        else if(pressGagueImage.fillAmount >= 1 && isOpened) {
+        else {
             isOpened = false;
             OpenUI.SetActive(true);
             CloseUI.SetActive(false);
@@ -101,13 +132,13 @@ public class RestaurantOpenSystem : MonoBehaviour
         }
     }
 
-    private void ReadyOpenSign()
-    {
-        //actionText.gameObject.SetActive(true);
+
+    private void FillGague() {
+        pressGagueImage.fillAmount += Time.deltaTime * 0.5f;
     }
 
-    private void EarlyOpenSign()
-    {
-        //actionText.gameObject.SetActive(true);
+    private void ResetGague() {
+        pressGagueImage.fillAmount = 0f;
     }
+
 }

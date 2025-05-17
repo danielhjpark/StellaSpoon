@@ -11,8 +11,6 @@ public class Ingredient : ScriptableObject {
     public Sprite ingredientImage;
     public GameObject ingredientPrefab;
     public IngredientType ingredientType;
-    public IngredientCookType ingredientCookType;
-    public IngredientCookType[] ingredientCookTypes;
     public int ingredientUseCount;
 }
 
@@ -22,11 +20,5 @@ public enum IngredientType {
     Trim
 }
 
-public enum IngredientCookType {
-    None,
-    Cutting,
-    Frying,
-    Tossing,
-    Boiling
-}
+
 

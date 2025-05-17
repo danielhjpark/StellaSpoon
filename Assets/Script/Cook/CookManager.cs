@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class CookManager : MonoBehaviour
 {
     static public CookManager instance;
+    static public StoreUIManager storeUIManager; 
     //---------------- Cook Managers Setting--------------------//
     private CuttingManager cuttingManager;
     private WokManager wokManager;
@@ -32,6 +33,7 @@ public class CookManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        storeUIManager = FindObjectOfType<StoreUIManager>();
     }
 
     public void BindingManager<T>(T manager) where T : CookManagerBase

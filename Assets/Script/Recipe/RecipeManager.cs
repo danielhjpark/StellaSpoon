@@ -11,6 +11,7 @@ public class RecipeManager : MonoBehaviour
     public Dictionary<string, Recipe> RecipeList; //?엫?떆 ?뜲?씠?꽣 踰좎씠?뒪
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     private GameObject NewRecipeUI;
+    private DeviceRecipeUI deviceRecipeUI;
 
     void Awake()
     {
@@ -25,6 +26,7 @@ public class RecipeManager : MonoBehaviour
 
         Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas를 찾기
         NewRecipeUI = canvasTransform.Find("NewRecipePanel")?.gameObject; // MapPanel을 찾기
+        deviceRecipeUI = canvasTransform.Find("PARENT_Recipe(DeactivateThis)").gameObject.GetComponent<DeviceRecipeUI>();
         RecipeUnLockInit();
     }
 
@@ -60,6 +62,7 @@ public class RecipeManager : MonoBehaviour
     {
         NewRecipeUI.SetActive(true);
         StartCoroutine(RecipeUnLockFade());
+        UpdateRecipeDevice();
     }
 
     IEnumerator RecipeUnLockFade()
@@ -67,6 +70,11 @@ public class RecipeManager : MonoBehaviour
         NewRecipeUI.SetActive(true);
         yield return new WaitForSeconds(3f);
         NewRecipeUI.SetActive(false);
+    }
+
+    void UpdateRecipeDevice()
+    {
+        deviceRecipeUI.UnlockRecipe();
     }
 
     //----- Get all of unlock recipelist -------------//

@@ -14,22 +14,24 @@ public class WokUI : MonoBehaviour
     [Header("Slider")]
     [SerializeField] GameObject powerSliderObject;
     [SerializeField] SliderSnap powerSliderSnap;
-  
+
     [Header("UI")]
     [SerializeField] GameObject wokUIObject;
     [SerializeField] GameObject ingredientUIObejct;
 
     public event Action<bool> OnWokSystem;
     private const int FullLength = 750;
-    private int unlockStep = 0; //Store Unlock Upgrade;
-
     private float[] sections;
-    private float power = 1;
     private float currentPos;
     private bool isEnd;
 
+    private int unlockStep; //Store Unlock Upgrade;
+
+    public int fireStep; // fireSlider 
+
     void Start()
     {
+        fireStep = 1;
         SetSections();
         wokUIObject.SetActive(false);
         powerSliderSnap.OnSliderEvent += OnSliderValueChanged;
@@ -37,8 +39,10 @@ public class WokUI : MonoBehaviour
 
     public void Initialize(int unlockStep)
     {
-        this.unlockStep = unlockStep;
-        if(unlockStep >= 2) {
+        //this.unlockStep = unlockStep;
+        this.unlockStep = 0;
+        if (unlockStep >= 2)
+        {
             AutoFireTemperature();
         }
 
@@ -47,11 +51,12 @@ public class WokUI : MonoBehaviour
     }
 
 
-    void AutoFireTemperature() {
-        power = 3;
+    void AutoFireTemperature()
+    {
+        fireStep = 2;
         powerSliderObject.SetActive(false);
     }
-    
+
     float GetSuccessSection()
     {
         float sectionValue;
@@ -110,7 +115,7 @@ public class WokUI : MonoBehaviour
 
         while (true)
         {
-            startPos += Speed * power;
+            startPos += Speed * fireStep;
             sectionMark.anchoredPosition = new Vector2(sectionMark.anchoredPosition.x, startPos);
             currentPos = startPos;
             CheckSection();
@@ -148,6 +153,13 @@ public class WokUI : MonoBehaviour
 
     public void OnSliderValueChanged(int powerValue)
     {
-        power = powerValue;
+        fireStep = powerValue;
+    }
+
+    public bool CheckFireStep(int fireStep)
+    {
+        if (unlockStep >= 2) return true;
+        else if (this.fireStep == fireStep) return true;
+        else return false;
     }
 }

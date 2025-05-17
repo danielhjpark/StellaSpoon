@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LiquidVolumeFX;
+using System;
 
 public class SauceSystem : MonoBehaviour
 {
@@ -13,18 +14,13 @@ public class SauceSystem : MonoBehaviour
     protected bool isCanFillLiquid;
     protected bool isLiquidFilled;
 
-    public void Start()
-    {
-        
-    }
-
     public void SetSauceColor(SauceType sauceType)
     {
         this.sauceType = sauceType;
         SetSauceColor();
     }
 
-    protected void SetSauceColor()
+    public void SetSauceColor()
     {
         liquidVolume.alpha = 0.1f;
         switch (sauceType)

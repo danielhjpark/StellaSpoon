@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
     {
         foreach (var item in items)
         {
-            RefrigeratorManager.instance.AddItem(item, 10);
+            RefrigeratorManager.instance.AddItem(item, 50);
         }
     }
 

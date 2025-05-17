@@ -149,6 +149,7 @@ public class PotManager : CookManagerBase
             else
             {
                 CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
+                OrderManager.instance.FailMenu(currentMenu);
             }
             return;
         }

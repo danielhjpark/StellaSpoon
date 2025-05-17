@@ -78,7 +78,6 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
     {
         int useCount = ingredientSlot.currentIngredient.ingredientUseCount;
         ingredientSlot.itemCount -= useCount;
-
         if (ingredientSlot.itemCount < useCount)
         {
             ingredientSlot.SlotClear();
@@ -87,7 +86,7 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
 
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
-            if (ingredientSlot.currentIngredient.ingredientCookType == IngredientCookType.Cutting)
+            if (ingredientSlot.currentIngredient.ingredientType == IngredientType.Sub)
             {
                 IngredientManager.IngredientAmount[ingredientSlot.currentIngredient] -= useCount;
                 ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, useCount);

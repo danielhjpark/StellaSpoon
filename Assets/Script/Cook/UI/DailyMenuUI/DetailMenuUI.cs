@@ -52,6 +52,7 @@ public class DetailMenuUI : MonoBehaviour
 
         menuAmount.text = currentAmount.ToString();
         menuName.text = recipe.menuName;
+        menuImage.gameObject.SetActive(true);
         menuImage.sprite = recipe.menuImage;
         menuPrice.text = recipe.menuPrice.ToString();
         
@@ -81,6 +82,8 @@ public class DetailMenuUI : MonoBehaviour
         menuAmount.text = null;
         menuName.text = null;
         menuImage.sprite = null;
+        menuImage.gameObject.SetActive(false);
+        menuPrice.text = "";
 
         for(int i = 0; i < currentRecipe.ingredients.Count + 1; i++) {
             ingredients.transform.GetChild(i).gameObject.SetActive(false);

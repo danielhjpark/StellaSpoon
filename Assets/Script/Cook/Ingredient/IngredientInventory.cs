@@ -35,6 +35,7 @@ public class IngredientInventory : MonoBehaviour
         IngredientSlotClear();
         foreach(RefrigeratorSlot refrigeratorSlot in refrigeratorSlots) {
             if(refrigeratorSlot.item == null) continue;
+            else if(refrigeratorSlot.currentIngredient.ingredientType == IngredientType.Trim) continue;
             CreateIngredientSlot(refrigeratorSlot.currentIngredient,refrigeratorSlot.itemCount);
         }
         IngredientSlotEmpty();
@@ -45,7 +46,7 @@ public class IngredientInventory : MonoBehaviour
         CreateIngredientSlot(recipe.mainIngredient, 1);
         foreach(IngredientAmount ingredient in recipe.ingredients) {
             if(ingredient.ingredient.ingredientUseCount > 0)
-                CreateIngredientSlot(ingredient.ingredient, ingredient.amount/ingredient.ingredient.ingredientUseCount);
+                CreateIngredientSlot(ingredient.ingredient, ingredient.ingredient.ingredientUseCount);
             else {
                 CreateIngredientSlot(ingredient.ingredient, ingredient.amount);
             }
@@ -78,10 +79,12 @@ public class IngredientInventory : MonoBehaviour
     //--------------------------------------------------//
 
     public void IngredientAdd(Recipe recipe) {
-        foreach(IngredientAmount ingredient in recipe.ingredients) {
-            if(ingredient.ingredient.ingredientUseCount > 0)
-                CreateIngredientSlot(ingredient.ingredient, ingredient.amount/ingredient.ingredient.ingredientUseCount);
-            else {
+        foreach (IngredientAmount ingredient in recipe.ingredients)
+        {
+            if (ingredient.ingredient.ingredientUseCount > 0)
+                CreateIngredientSlot(ingredient.ingredient, ingredient.amount);
+            else
+            {
                 CreateIngredientSlot(ingredient.ingredient, ingredient.amount);
             }
         }

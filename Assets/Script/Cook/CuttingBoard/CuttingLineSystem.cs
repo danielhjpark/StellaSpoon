@@ -57,6 +57,7 @@ public class CuttingLineSystem : MonoBehaviour
 
         while (true)
         {
+            t = 1; //Store Upgrade;
             t += Time.deltaTime * 0.5f;
             ScannerObject.transform.position = Vector3.Lerp(startPos.position, endPos.position, t);
             if (t >= 1)

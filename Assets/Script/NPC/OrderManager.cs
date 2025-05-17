@@ -11,50 +11,47 @@ public class OrderManager : MonoBehaviour
     [SerializeField] NpcManager npcManager;
 
     Stack<Recipe> menuStack = new Stack<Recipe>();
-    private Coroutine restaurantCoroutine;
+    List<Recipe> failMenu = new List<Recipe>();
+
+    public Coroutine restaurantCoroutine;
     private float startInterval = 0f;
-    private float minSpwanInterval = 5f, maxSpwanInterval = 10f; //NPC 积己矫埃 弥家
+    private const float minSpwanInterval = 5f, maxSpwanInterval = 10f; //NPC 积己矫埃 弥家
 
     public bool isMenuSoldOut;
-    public bool isStoppedOrder;
 
     private void Awake()
     {
         instance = this;
     }
 
-    public void UpdateMenu()
+    public void MakeMenuList()
     {
-        menuStack = CreateRandomStack(DailyMenuManager.dailyMenuList);
+        menuStack = CreateRandomMenu(DailyMenuManager.dailyMenuList);
     }
 
     public void OpenRestaurant()
     {
-        isStoppedOrder = false;
-
         if (restaurantCoroutine == null)
         {
             restaurantCoroutine = StartCoroutine(StartRestaurant());
         }
-
     }
+
 
     public void CloseRestaurant()
     {
-        isStoppedOrder = true;
-        StopCoroutine(restaurantCoroutine);
+        if(restaurantCoroutine != null) StopCoroutine(restaurantCoroutine);
         //NPC Return
     }
 
     IEnumerator StartRestaurant()
     {
-        UpdateMenu();
+        MakeMenuList();
         yield return new WaitForSeconds(startInterval);
         WaitForSeconds npcDelayTime = new WaitForSeconds(5f);
         while (true)
         {
-            if (isStoppedOrder) break;
-            if (!CheckSpawnNpc()) break;
+            if (!CheckSpawnNPC()) break;
             
             if (npcManager.IsCanFindSeat() && menuStack.Count > 0)
             {
@@ -67,27 +64,42 @@ public class OrderManager : MonoBehaviour
                 else
                 {
                     Debug.Log("Empty Menu");
-                    UpdateMenu();
                     yield return npcDelayTime;
                 }
             }
             else
             {
-                UpdateMenu();
                 yield return npcDelayTime;
             }
             
         }
         restaurantCoroutine = null;
-        isStoppedOrder = false;
     }
 
-    bool CheckSpawnNpc()
+    bool CheckSpawnNPC()
     {
+        if(menuStack.Count <= 0 && NpcManager.instance.npcList.Count <= 0) {
+            return false;
+        }
         return true;
     }
 
-    public Stack<Recipe> CreateRandomStack(Dictionary<Recipe, int> dailyMenuList)
+    public void FailMenu(Recipe recipe) {
+        failMenu.Add(recipe);
+    }
+
+    public void RetuenMenu(Recipe recipe) {
+        Recipe failMenuCheck = failMenu.FirstOrDefault(r => r == recipe);
+        if(failMenuCheck != null) {
+            failMenu.Remove(failMenuCheck);
+        }
+        else {
+            menuStack.Push(recipe);
+        }
+        
+    }
+
+    public Stack<Recipe> CreateRandomMenu(Dictionary<Recipe, int> dailyMenuList)
     {
         List<Recipe> tempList = new List<Recipe>();
 

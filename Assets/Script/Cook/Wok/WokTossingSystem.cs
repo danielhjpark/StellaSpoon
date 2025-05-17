@@ -14,7 +14,7 @@ public class WokTossingSystem : MonoBehaviour
 
     [Header("TimeLine")]
     [SerializeField] PlayableDirector wokTimeLine;
-    
+
     [Header("Wok Rotate Object")]
     [SerializeField] GameObject wokObject;
     Vector3 wokCenter;
@@ -37,7 +37,6 @@ public class WokTossingSystem : MonoBehaviour
 
     public void BindTossingObject(List<GameObject> wokIngredients)
     {
-
         this.wokIngredients = wokIngredients;
         successTossingCount = 0;
     }
@@ -63,7 +62,7 @@ public class WokTossingSystem : MonoBehaviour
             if (wokTimeLine.time >= wokTimeLine.duration) break;
             else if (wokUI.IsCheckEnd()) break;
 
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.V) && wokTimeLine.state != PlayState.Playing)
             {
                 if (isTossing && !isStartTimeLine)
                 {

@@ -44,11 +44,6 @@ public class DailyMenuManager : MonoBehaviour
 
     }
 
-    void DailyMenuInit()
-    {
-        dailyMenuList = new Dictionary<Recipe, int>();
-    }
-
     //-------------------Button----------------------//
     public void AddAmount()
     {
@@ -78,11 +73,11 @@ public class DailyMenuManager : MonoBehaviour
     {
         if (dailyMenuList.ContainsKey(currentRecipe))
         {
-            if (dailyMenuList[currentRecipe] > 0)
-            {
-                dailyMenuList[currentRecipe] -= 1;
-            }
-            DailyMenuUpdate();
+            dailyMenuList[currentRecipe] -= 1;
+            if (dailyMenuList[currentRecipe] <= 0) {
+                dailyMenuList.Remove(currentRecipe);
+            } 
+            //DailyMenuUpdate();
             return;
         }
     }
@@ -94,7 +89,7 @@ public class DailyMenuManager : MonoBehaviour
 
         if (dailyMenuList.ContainsKey(currentRecipe))
         {
-            dailyMenuList[currentRecipe] += 1;
+            dailyMenuList[currentRecipe] += currentAmount;
             targetUI.AddMenu(currentRecipe, currentAmount);
             return;
         }

@@ -28,7 +28,7 @@ public class SliderSnap : MonoBehaviour, IPointerUpHandler
 
     float GetNearestSnapValue(float value)
     {
-        float[] snapPoints = { 1f, 3f, 5f };
+        float[] snapPoints = { 1f, 2f, 3f };
         float nearest = snapPoints[0];
         float minDistance = Mathf.Abs(value - nearest);
 

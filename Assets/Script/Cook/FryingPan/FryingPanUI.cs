@@ -18,11 +18,11 @@ public class FryingPanUI : MonoBehaviour
     [SerializeField] GameObject ingredientUIObejct;
 
     private const int FullLength = 750;
-    private int[] sectionRange = new int[3]{250, 250, 250};
-    private float power = 1;
+    private int[] sectionRange = new int[3] { 250, 250, 250 };
+    public int fireStep = 1;
     private float currentPos;
     private bool isEnd;
-
+    private bool isUnlockStep;
     void Start()
     {
         fryingPanUIObject.SetActive(false);
@@ -31,12 +31,18 @@ public class FryingPanUI : MonoBehaviour
 
     public void Initialize(bool unlockStep)
     {
-        if(unlockStep) {
-            power = 3;
+        if (unlockStep)
+        {
+            this.isUnlockStep = true;
+            fireStep = 2;
             powerSliderObject.SetActive(false);
         }
+        else
+        {
+            isUnlockStep = false;
+        }
         SetSections();
-        
+
     }
 
     public void OnFryingPanUI()
@@ -64,12 +70,12 @@ public class FryingPanUI : MonoBehaviour
     {
         float startPos = 0;
         float endPos = FullLength;
-        float Speed =  0.1f * CookManager.instance.SlideAcceleration;
+        float Speed = 0.1f * CookManager.instance.SlideAcceleration;
         isEnd = false;
 
         while (true)
         {
-            startPos += Speed * power;
+            startPos += Speed * fireStep;
             sectionMark.anchoredPosition = new Vector2(sectionMark.anchoredPosition.x, startPos);
             currentPos = startPos;
             if (sectionMark.anchoredPosition.y >= endPos)
@@ -109,6 +115,13 @@ public class FryingPanUI : MonoBehaviour
 
     public void OnSliderValueChanged(int powerValue)
     {
-        power = powerValue;
+        fireStep = powerValue;
+    }
+    
+     public bool CheckFireStep(int fireStep)
+    {
+        if (isUnlockStep) return true;
+        else if (this.fireStep == fireStep) return true;
+        else return false;
     }
 }

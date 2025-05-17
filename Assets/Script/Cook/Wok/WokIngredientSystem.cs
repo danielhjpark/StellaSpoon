@@ -16,11 +16,12 @@ public class WokIngredientSystem : MonoBehaviour
     public bool isShader = false;
 
 
-    public void AddMainIngredient(GameObject ingredients, Ingredient ingredient)
+    public void AddMainIngredient(GameObject ingredients, Ingredient ingredient, int totalTossingCount)
     {
         AddIngredientList(ingredients);
         IngredientAddAmount(checkIngredients, ingredient, 1);
-        InitializeIngredientShader(ingredients);
+        //InitializeIngredientShader(ingredients, totalTossingCount);
+        InitializeIngredientSlope(ingredients);
         mainIngredient = ingredients;
     }
 
@@ -28,6 +29,7 @@ public class WokIngredientSystem : MonoBehaviour
     {
         IngredientAddAmount(checkIngredients, ingredientData, ingredientData.ingredientUseCount);
         AddIngredientList(ingredients);
+        InitializeIngredientSlope(ingredients);
     }
 
 
@@ -59,27 +61,44 @@ public class WokIngredientSystem : MonoBehaviour
         }
 
     }
-  
-    private void InitializeIngredientShader(GameObject mainIngredientParent) {
-        foreach(Transform mainIngredient in mainIngredientParent.transform) {
+
+    public void InitializeIngredientShader(GameObject mainIngredientParent, int totalTossingCount)
+    {
+        foreach (Transform mainIngredient in mainIngredientParent.transform)
+        {
             IngredientShader currentShader;
-            if(mainIngredient.TryGetComponent<IngredientShader>(out currentShader)) {
+            if (mainIngredient.TryGetComponent<IngredientShader>(out currentShader))
+            {
                 currentShader = mainIngredient.GetComponent<IngredientShader>();
-                currentShader.Initialize(4);
+                currentShader.Initialize(totalTossingCount + 1);
                 mainIngredientShaders.Add(currentShader);
                 isShader = true;
             }
-            else {
+            else
+            {
                 isShader = false;
                 return;
             }
 
         }
     }
-
-    public void ApplyIngredientShader() {
-        if(!isShader) return;
-        foreach(IngredientShader mainIngredientShader in mainIngredientShaders) {
+    private void InitializeIngredientSlope(GameObject mainIngredientParent)
+    {
+        foreach (Transform mainIngredient in mainIngredientParent.transform)
+        {
+            IngredientSlope currentSlope;
+            if (mainIngredient.TryGetComponent<IngredientSlope>(out currentSlope))
+            {
+                currentSlope = mainIngredient.GetComponent<IngredientSlope>();
+                currentSlope.Initialize(dropIngredient.transform);
+            }
+        }
+    }
+    public void ApplyIngredientShader()
+    {
+        if (!isShader) return;
+        foreach (IngredientShader mainIngredientShader in mainIngredientShaders)
+        {
             mainIngredientShader.ApplyShaderAlpha();
         }
     }

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8311857993499185054}
   - component: {fileID: 1736324751017356750}
   - component: {fileID: 8389679218658785112}
-  - component: {fileID: 4078230728823499670}
+  - component: {fileID: 8874675745704056554}
+  - component: {fileID: 2352582597260918145}
   m_Layer: 0
   m_Name: Trim_Ruby_Root_Parts
   m_TagString: Untagged
@@ -110,10 +111,22 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 0
   m_CollisionDetection: 3
---- !u!135 &4078230728823499670
-SphereCollider:
+--- !u!114 &8874675745704056554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209338262831204770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e961fa654b180be4dbbb8623fdffe44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &2352582597260918145
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -131,7 +144,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.07
+  m_Size: {x: 0.16213742, y: 0.06389864, z: 0.16004354}
   m_Center: {x: -0.000000048428774, y: 0.03164991, z: 0.00017057732}
 --- !u!1 &2198438006118899027
 GameObject:
@@ -145,7 +158,8 @@ GameObject:
   - component: {fileID: 8707018142789260626}
   - component: {fileID: 8192859164859229156}
   - component: {fileID: 6293233888942812043}
-  - component: {fileID: 8480486020607667708}
+  - component: {fileID: 1759139301592738914}
+  - component: {fileID: 9065266319073617706}
   m_Layer: 0
   m_Name: Trim_Ruby_Root_Parts
   m_TagString: Untagged
@@ -243,10 +257,22 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 0
   m_CollisionDetection: 3
---- !u!135 &8480486020607667708
-SphereCollider:
+--- !u!114 &1759139301592738914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2198438006118899027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e961fa654b180be4dbbb8623fdffe44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &9065266319073617706
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -264,7 +290,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.07
+  m_Size: {x: 0.16213742, y: 0.06389864, z: 0.16004354}
   m_Center: {x: -0.000000048428774, y: 0.03164991, z: 0.00017057732}
 --- !u!1 &3705146662635907076
 GameObject:
@@ -278,7 +304,8 @@ GameObject:
   - component: {fileID: 8475903004796588376}
   - component: {fileID: 2548277162592743019}
   - component: {fileID: 345244179287591450}
-  - component: {fileID: 5523347085678183307}
+  - component: {fileID: 4343294034953843145}
+  - component: {fileID: 6084046910167110824}
   m_Layer: 0
   m_Name: Trim_Ruby_Root_Parts
   m_TagString: Untagged
@@ -376,10 +403,22 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 0
   m_CollisionDetection: 3
---- !u!135 &5523347085678183307
-SphereCollider:
+--- !u!114 &4343294034953843145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3705146662635907076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e961fa654b180be4dbbb8623fdffe44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &6084046910167110824
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -397,7 +436,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.07
+  m_Size: {x: 0.16213742, y: 0.06389864, z: 0.16004354}
   m_Center: {x: -0.000000048428774, y: 0.03164991, z: 0.00017057732}
 --- !u!1 &4881211137266105544
 GameObject:
@@ -447,7 +486,8 @@ GameObject:
   - component: {fileID: 1954939861698812351}
   - component: {fileID: 7344518868126659339}
   - component: {fileID: 1130903237671020292}
-  - component: {fileID: 6960927342044906068}
+  - component: {fileID: 5219058924763155917}
+  - component: {fileID: 4439015122398956288}
   m_Layer: 0
   m_Name: Trim_Ruby_Root_Parts
   m_TagString: Untagged
@@ -545,10 +585,22 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 0
   m_CollisionDetection: 3
---- !u!135 &6960927342044906068
-SphereCollider:
+--- !u!114 &5219058924763155917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5163348162889513591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e961fa654b180be4dbbb8623fdffe44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &4439015122398956288
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -566,7 +618,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.07
+  m_Size: {x: 0.16213742, y: 0.06389864, z: 0.16004354}
   m_Center: {x: -0.000000048428774, y: 0.03164991, z: 0.00017057732}
 --- !u!1 &7342769856943545364
 GameObject:
@@ -580,7 +632,8 @@ GameObject:
   - component: {fileID: 2641105546554318716}
   - component: {fileID: 2578953027432189382}
   - component: {fileID: 5663339759876890175}
-  - component: {fileID: 8276469202030254505}
+  - component: {fileID: 4368335289293133192}
+  - component: {fileID: 3103784409128002577}
   m_Layer: 0
   m_Name: Trim_Ruby_Root_Parts
   m_TagString: Untagged
@@ -678,10 +731,22 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 96
+  m_Constraints: 0
   m_CollisionDetection: 3
---- !u!135 &8276469202030254505
-SphereCollider:
+--- !u!114 &4368335289293133192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7342769856943545364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e961fa654b180be4dbbb8623fdffe44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &3103784409128002577
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -699,5 +764,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.07
+  m_Size: {x: 0.16213742, y: 0.06389864, z: 0.16004354}
   m_Center: {x: -0.000000048428774, y: 0.03164991, z: 0.00017057732}

@@ -39,8 +39,7 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 
 
                 //DailyMenu Count decrease
-                DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
-                //OrderManager.instance.UpdateMenu();
+                //DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
             }
         }
     }

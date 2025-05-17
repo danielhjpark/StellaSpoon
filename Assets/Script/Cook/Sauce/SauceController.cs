@@ -142,10 +142,8 @@ public class SauceController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitObject, Mathf.Infinity, LayerMask.GetMask("Item")))
         {
-            Debug.Log(hitObject.transform.name);
             if (hitObject.transform.name == "Sauce" && controllObject == null)
             {
-                Debug.Log("Interact");
                 initPos = hitObject.transform.position;
                 controllObject = hitObject.transform.gameObject;
                 isControll = true;

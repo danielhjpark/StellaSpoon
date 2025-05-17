@@ -24,17 +24,19 @@ public class WokManager : CookManagerBase
     private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
     private int totalTossingCount;
+    private int fireStep;
 
     void Awake()
     {
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
         cookUIManager.Initialize(this);
-        //int unlockStep = FindObjectOfType<StoreUIManager>().GetComponent<StoreUIManager>().currentWorLevel;
+        //int unlockStep = CookManager.storeUIManager.currentWorLevel;
     }
 
     void Start()
     {
+        isCanEscape = true;
         wokTossingSystem = GetComponent<WokTossingSystem>();
         wokSauceSystem = GetComponent<WokSauceSystem>();
         wokIngredientSystem = GetComponent<WokIngredientSystem>();
@@ -75,7 +77,7 @@ public class WokManager : CookManagerBase
         secondTossingCount = menu.tossingSetting.secondTossingCount;
         totalTossingCount = firstTossingCount + secondTossingCount - 1;
 
-        //UI Unlock Setting Initialize
+        //**Store Setting**//UI Unlock Setting Initialize
         wokUI.Initialize(0);
 
         //Start Cooking
@@ -86,13 +88,13 @@ public class WokManager : CookManagerBase
     public void RecipeSetting(Recipe menu)
     {
         base.SelectRecipe(menu);
+        //Fail recipe setting
         if (menu == null || menu.cookType != CookType.Tossing)
         {
             int randTossingCount = 2;
             firstTossingCount = randTossingCount;
             secondTossingCount = randTossingCount;
             totalTossingCount = firstTossingCount + secondTossingCount - 1;
-            return;
         }
         else
         {
@@ -100,6 +102,7 @@ public class WokManager : CookManagerBase
             secondTossingCount = menu.tossingSetting.secondTossingCount;
             totalTossingCount = firstTossingCount + secondTossingCount - 1;
         }
+        wokIngredientSystem.InitializeIngredientShader(wokIngredientSystem.mainIngredient, totalTossingCount);
         wokUI.Initialize(0);
 
     }
@@ -109,7 +112,8 @@ public class WokManager : CookManagerBase
         //Select Recipe
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
-            if (totalTossingCount <= successTossingCount)
+            if (totalTossingCount <= successTossingCount
+            && wokUI.CheckFireStep(fireStep))
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
             }
@@ -117,6 +121,7 @@ public class WokManager : CookManagerBase
             else
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
+                OrderManager.instance.FailMenu(currentMenu);
             }
             return;
         }
@@ -146,7 +151,7 @@ public class WokManager : CookManagerBase
 
             if (wokSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
             {
-                Debug.Log("Wrong sauce type");
+                Debug.Log("Wrong sauce type"+wokSauceSystem.sauceType+ ":"+ targetRecipe.tossingSetting.sauceType);
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
@@ -163,7 +168,7 @@ public class WokManager : CookManagerBase
     {
         if (ingredient.ingredientType == IngredientType.Main)
         {
-            wokIngredientSystem.AddMainIngredient(ingredients, ingredient);
+            wokIngredientSystem.AddMainIngredient(ingredients, ingredient, totalTossingCount);
         }
         else
         {
@@ -196,13 +201,14 @@ public class WokManager : CookManagerBase
             AddIngredient(Instantiate(mainIngredient, dropPos.position, Quaternion.identity), currentMenu.mainIngredient);
 
             yield return new WaitUntil(() => wokIngredientSystem.mainIngredient != null);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             ingredientInventory.AddMainIngredients();
             yield return new WaitUntil(() => wokIngredientSystem.mainIngredient != null);
             targetRecipe = RecipeManager.instance.FindRecipe(wokIngredientSystem.checkIngredients[0].ingredient);
+            
             RecipeSetting(targetRecipe);
             yield return new WaitForSeconds(0.5f);
         }
@@ -224,11 +230,16 @@ public class WokManager : CookManagerBase
         {
             if (CookManager.instance.cookMode == CookManager.CookMode.Select)
             {
-                if (RecipeManager.instance.CompareRecipe(currentMenu, wokIngredientSystem.checkIngredients)) break;
+                if (RecipeManager.instance.CompareRecipe(currentMenu, wokIngredientSystem.checkIngredients)
+                || currentSubIngredient >= maxSubIngredient) break;
             }
             else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
             {
-                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient) { break; }
+                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient)
+                {
+                    cookUIManager.TimerStop();
+                    break;
+                }
             }
             yield return null;
         }
@@ -254,8 +265,13 @@ public class WokManager : CookManagerBase
             }
         }
 
-        while (!wokSauceSystem.IsLiquidFilled())
-        {
+        StartCoroutine(cookUIManager.TimerStart(5f));
+        while (true)
+        {                
+            if (cookUIManager.TimerEnd() || wokSauceSystem.IsLiquidFilled()) { 
+                cookUIManager.TimerStop();
+                break; 
+            }
             yield return null;
         }
     }

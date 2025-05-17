@@ -17,7 +17,7 @@ public class Refrigerator : MonoBehaviour
         isOpenedRefrigerator = false;
         refrigeratorUI = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)").transform.GetChild(0).gameObject;
         inventoryUI = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(1).gameObject;
-        
+         inventoryBG = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(0).gameObject;
     }
 
     private void Update()
