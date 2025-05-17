@@ -14681,7 +14681,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1e-45, y: 2.2212247e+30, z: 6.43e-43, w: 7.55e-43}
+  m_BoundingSphereOverride: {x: 0, y: 1e-45, z: 7.96e-43, w: 1.9348e-41}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -14698,6 +14698,8 @@ GameObject:
   - component: {fileID: 1601506141239540749}
   - component: {fileID: 5574110145886096913}
   - component: {fileID: 576318190173235421}
+  - component: {fileID: 706390307083078237}
+  - component: {fileID: 8391754833916321249}
   m_Layer: 0
   m_Name: LunaWolfKingPillar
   m_TagString: Untagged
@@ -19592,6 +19594,43 @@ MonoBehaviour:
   fadeInTime: 1
   fadeOutStart: 4
   fadeOutTime: 1
+  damageAmount: 10
+--- !u!136 &706390307083078237
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3377181292992421420}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &8391754833916321249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3377181292992421420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84392595342481b46b33508fd207e24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paillarDamage: 10
 --- !u!1 &8598798586939600705
 GameObject:
   m_ObjectHideFlags: 0

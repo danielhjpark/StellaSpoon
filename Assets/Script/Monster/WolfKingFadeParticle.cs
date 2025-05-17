@@ -12,6 +12,9 @@ public class WolfKingFadeParticle : MonoBehaviour
     public float fadeOutStart = 4f;
     public float fadeOutTime = 1f;
 
+    // 데미지 관련 변수
+    public float damageAmount = 10f; // 데미지 값
+
     void Start()
     {
         ps = GetComponent<ParticleSystem>();

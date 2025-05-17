@@ -15,7 +15,9 @@ public class WolfKingMonster : MonsterBase
 
     public static bool isThrowWarning = false; //던지기 경고 여부
 
-    [Header("Throrw")]
+    [Header("Throw")]
+    [SerializeField]
+    private int waitThrowTime; //던지기 기다리는 시간
     [SerializeField]
     private Transform[] throwPosition; //투척물 위치
     [SerializeField]
@@ -48,7 +50,7 @@ public class WolfKingMonster : MonsterBase
         if (!isAttack)
         {
             isAttack = true;
-            StartCoroutine(Pillar());
+            StartCoroutine(Throw());
         }
     }
     private IEnumerator Throw()
@@ -96,7 +98,7 @@ public class WolfKingMonster : MonsterBase
         // 3) 길이 5, 폭 1로 스케일 조정
         warning.transform.localScale = new Vector3(1.5f, 10, 1);
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(waitThrowTime);
 
         ThrowObjectSpawn(pos); // 투척물 생성
         // 4) 3초 후 삭제
