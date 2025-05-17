@@ -13,6 +13,8 @@ public class DeviceManager : MonoBehaviour
     [SerializeField] private GameObject equipmentPanel;
     [SerializeField] private GameObject optionPanel;
     [SerializeField] private GameObject planetPanel;
+    [SerializeField] private GameObject recipePanel;
+    [SerializeField] private GameObject recipeInfoPanel;
     [SerializeField] private GameObject showText;
     private bool wasShowTextActive;
 
@@ -97,6 +99,8 @@ public class DeviceManager : MonoBehaviour
         equipmentPanel.SetActive(false);
         optionPanel.SetActive(false);
         planetPanel.SetActive(false);
+        recipePanel.SetActive(false);
+        recipeInfoPanel.SetActive(false);
 
         inventoryButtonImage.sprite = defaultSprite;
 
@@ -104,6 +108,7 @@ public class DeviceManager : MonoBehaviour
 
         Option.OptionActivated = false;
         Planet.planetActivated = false;
+        DeviceRecipeUI.recipeActivated = false;
 
         if (wasShowTextActive)
         {
