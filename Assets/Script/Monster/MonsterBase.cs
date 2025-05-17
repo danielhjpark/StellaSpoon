@@ -143,6 +143,13 @@ public abstract class MonsterBase : MonoBehaviour
                             LookPlayer();
                         }
                     }
+                    else if ((this is WolfKingMonster))
+                    {
+                        if (!WolfKingMonster.isThrowWarning)
+                        {
+                            LookPlayer();
+                        }
+                    }
                     else
                     {
                         LookPlayer();
@@ -322,7 +329,7 @@ public abstract class MonsterBase : MonoBehaviour
             }
             else
             {
-                animator.Play("GetHit", 0, 0f);
+                animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
             }
 
         }

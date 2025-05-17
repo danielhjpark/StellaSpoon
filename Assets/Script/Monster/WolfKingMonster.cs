@@ -11,6 +11,10 @@ public class WolfKingMonster : MonsterBase
     private static readonly int PILLAR = 1; //기둥세우기
     private static readonly int SPAWN = 2; //스폰
 
+    private Coroutine currentPatternCoroutine = null;
+
+    public static bool isThrowWarning = false; //던지기 경고 여부
+
     [Header("Throrw")]
     [SerializeField]
     private Transform[] throwPosition; //투척물 위치
@@ -26,8 +30,6 @@ public class WolfKingMonster : MonsterBase
     [SerializeField]
     private GameObject pillarPrefab; //기둥 프리팹
     private int pillarCount = 0; //기둥 세우기 횟수
-    [SerializeField]
-    private Transform[] pillarPosition; //기둥 세우기 위치
 
     [Header("Spawn")]
     [SerializeField]
@@ -46,11 +48,12 @@ public class WolfKingMonster : MonsterBase
         if (!isAttack)
         {
             isAttack = true;
-            StartCoroutine(Throw());
+            StartCoroutine(Pillar());
         }
     }
     private IEnumerator Throw()
     {
+        animator.SetBool("Walk", false);
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         //animator.SetTrigger("Attack8");
 
@@ -59,15 +62,11 @@ public class WolfKingMonster : MonsterBase
             //경고 효과 표시
             StartCoroutine(ShowThrowGroundEffect(pos));
 
-            // 기존 투척물 생성
-            GameObject throwObject = Instantiate(throwObjectPrefab, pos.position, pos.rotation);
-            throwObject.GetComponent<LunaWolfKingBullet>().thirdPersonController = thirdPersonController;
-            throwObject.GetComponent<LunaWolfKingBullet>().damage = damage;
         }
         throwcount++;
         if (throwcount < 2)
         {
-            yield return new WaitForSeconds(3.0f); //3초 대기
+            yield return new WaitForSeconds(6.0f); //3초 대기
             nextPattern = THROW;
             nextPatternPlay();
         }
@@ -82,22 +81,52 @@ public class WolfKingMonster : MonsterBase
 
     private IEnumerator ShowThrowGroundEffect(Transform pos)
     {
-        /*// 준비 시 플레이어의 현재 위치 저장
+        // 준비 시 플레이어의 현재 위치 저장
         Vector3 targetPosition = player.transform.position;
         //플레이어와 중간지점 계산
-        Vector3 middlePosition = transform.position + ((targetPosition - transform.position) / 2);*/
+        Vector3 middlePosition = transform.position + ((targetPosition - pos.position) / 2);
+        yield return new WaitForSeconds(0.7f); // 0.5초 대기
+        isThrowWarning = true;
         // 1) 경고 오브젝트 생성
         GameObject warning = Instantiate(warningPrefab, new Vector3(pos.position.x, 0.01f, pos.position.z), pos.rotation);
-        // 2) y축 회전값을 90도로 조정
+        // 2) X축 회전값을 90도로 조정
         Vector3 warnRot = warning.transform.rotation.eulerAngles;
         warnRot.x = 90;
         warning.transform.rotation = Quaternion.Euler(warnRot);
         // 3) 길이 5, 폭 1로 스케일 조정
-        warning.transform.localScale = new Vector3(1, 5, 1);
+        warning.transform.localScale = new Vector3(1.5f, 10, 1);
 
         yield return new WaitForSeconds(3.0f);
+
+        ThrowObjectSpawn(pos); // 투척물 생성
         // 4) 3초 후 삭제
         Destroy(warning);
+
+        StartCoroutine(StartAttack01());
+    }
+
+    private IEnumerator StartAttack01()
+    {
+        animator.SetTrigger("Attack1");
+        // 애니메이션이 끝날 때까지 대기
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1"))
+            yield return null;
+    }
+
+    private void ThrowObjectSpawn(Transform pos)
+    {
+        // 기존 투척물 생성
+        GameObject throwObject = Instantiate(throwObjectPrefab, pos.position, pos.rotation);
+        throwObject.GetComponent<LunaWolfKingBullet>().thirdPersonController = thirdPersonController;
+        throwObject.GetComponent<LunaWolfKingBullet>().damage = damage;
+
+        StartCoroutine(WaitThrowDelay(1f));
+    }
+
+    private IEnumerator WaitThrowDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        isThrowWarning = false;
     }
 
     private IEnumerator Pillar()
@@ -110,10 +139,10 @@ public class WolfKingMonster : MonsterBase
 
         for (int i = 0; i < pillarCount; i++)
         {
+            Debug.Log(pillarCount);
             Vector3 randomPos = new Vector3(Random.Range(-pillarRange, pillarRange), 0, Random.Range(-pillarRange, pillarRange));
             GameObject pillar = Instantiate(pillarPrefab, transform.position + randomPos, Quaternion.identity);
             Destroy(pillar, 5.0f); //5초 후 기둥 삭제
-            yield return new WaitForSeconds(1.0f);
         }
         yield return new WaitForSeconds(5.0f); //5초 대기
         nextPattern = SPAWN;
@@ -136,20 +165,36 @@ public class WolfKingMonster : MonsterBase
             GameObject novaWolf = Instantiate(novaSpawnPrefab, transform.position + randomPos, Quaternion.identity);
         }
         yield return new WaitForSeconds(3.0f); //3초 대기
+        nextPattern = THROW;
+        nextPatternPlay();
     }
     protected void nextPatternPlay()
     {
+        if (currentPatternCoroutine != null)
+            return; // 이미 실행 중이면 중복 실행 방지
+
         switch (nextPattern)
         {
             case 0:
                 StartCoroutine(Throw());
+                Debug.Log("던지기 패턴 실행");
                 break;
             case 1:
                 StartCoroutine(Pillar());
+                Debug.Log("기둥 세우기 패턴 실행");
                 break;
             case 2:
                 StartCoroutine(Spawn());
+                Debug.Log("스폰 패턴 실행");
                 break;
         }
+    }
+
+    protected override void OnDrawGizmosSelected()//선택시 보이게 //항상 보이게 OnDrawGizmos
+    {
+        base.OnDrawGizmosSelected();
+
+        Gizmos.color = Color.white; //기둥 범위
+        Gizmos.DrawWireSphere(transform.position, pillarRange);
     }
 }
