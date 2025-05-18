@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WolfKingMonster : MonsterBase
 {
@@ -43,6 +44,60 @@ public class WolfKingMonster : MonsterBase
     private int silverSpawnCount = 2; //실버울프 스폰 횟수
     private int novaSpawnCount = 1; //노바울프 스폰 횟수
 
+    [Header("Health UI")]
+    [SerializeField]
+    private GameObject bossHealthUI;
+    [SerializeField]
+    private Slider bossHealthSlider;
+    [SerializeField]
+    private GameObject sliderFill;
+
+    private bool isPlayerInRange = false;
+
+    private void Start()
+    {
+        base.Start();
+
+        if (bossHealthUI != null)
+        {
+            bossHealthUI.SetActive(false);
+        }
+
+        if (bossHealthSlider != null)
+        {
+            bossHealthSlider.maxValue = maxHealth;
+            bossHealthSlider.value = currentHealth;
+        }
+    }
+
+    private void Update()
+    {
+        base.Update();
+
+        if (distanceToPlayer <= playerDetectionRange && !isPlayerInRange)
+        {
+            isPlayerInRange = true;
+            if (bossHealthUI != null)
+            {
+                bossHealthUI.SetActive(true);
+            }
+        }
+        else if (distanceToPlayer > playerDetectionRange && isPlayerInRange)
+        {
+            isPlayerInRange = false;
+            if (bossHealthUI != null)
+            {
+                bossHealthUI.SetActive(false);
+            }
+        }
+        // 체력 슬라이더 업데이트
+        if (isPlayerInRange && bossHealthSlider != null)
+        {
+            bossHealthSlider.value = currentHealth;
+
+            sliderFill.SetActive(currentHealth > 0);
+        }
+    }
 
     protected override void HandleAttack()
     {
@@ -55,6 +110,7 @@ public class WolfKingMonster : MonsterBase
     }
     private IEnumerator Throw()
     {
+        if(isDead) yield break; //죽었으면 코루틴 종료
         animator.SetBool("Walk", false);
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         //animator.SetTrigger("Attack8");
@@ -83,6 +139,7 @@ public class WolfKingMonster : MonsterBase
 
     private IEnumerator ShowThrowGroundEffect(Transform pos)
     {
+        if (isDead) yield break; //죽었으면 코루틴 종료
         // 준비 시 플레이어의 현재 위치 저장
         Vector3 targetPosition = player.transform.position;
         //플레이어와 중간지점 계산
@@ -109,6 +166,7 @@ public class WolfKingMonster : MonsterBase
 
     private IEnumerator StartAttack01()
     {
+        if (isDead) yield break; //죽었으면 코루틴 종료
         animator.SetTrigger("Attack1");
         // 애니메이션이 끝날 때까지 대기
         while (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1"))
@@ -117,6 +175,7 @@ public class WolfKingMonster : MonsterBase
 
     private void ThrowObjectSpawn(Transform pos)
     {
+        if (isDead) return; //죽었으면 코루틴 종료
         // 기존 투척물 생성
         GameObject throwObject = Instantiate(throwObjectPrefab, pos.position, pos.rotation);
         throwObject.GetComponent<LunaWolfKingBullet>().thirdPersonController = thirdPersonController;
@@ -127,12 +186,14 @@ public class WolfKingMonster : MonsterBase
 
     private IEnumerator WaitThrowDelay(float delayTime)
     {
+        if (isDead) yield break; //죽었으면 코루틴 종료
         yield return new WaitForSeconds(delayTime);
         isThrowWarning = false;
     }
 
     private IEnumerator Pillar()
     {
+        if (isDead) yield break; //죽었으면 코루틴 종료
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         pillarCount = Random.Range(4, 6); //기둥 세우기 횟수
 
@@ -153,6 +214,7 @@ public class WolfKingMonster : MonsterBase
 
     private IEnumerator Spawn()
     {
+        if (isDead) yield break; //죽었으면 코루틴 종료
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         yield return new WaitForSeconds(2.0f); //2초 대기
         //애니메이션 재생
