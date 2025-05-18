@@ -51,7 +51,12 @@ namespace UnityNote
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log($"씬 로딩됨: {scene.name}");
-            StartCoroutine(DelayedAssignButtonEvents());  // 일정 시간 후 버튼 찾기
+
+            // 로딩 화면 종료
+            if (loadingScreen != null)
+                loadingScreen.SetActive(false);
+
+            StartCoroutine(DelayedAssignButtonEvents());
         }
 
         private IEnumerator DelayedAssignButtonEvents()
@@ -123,26 +128,25 @@ namespace UnityNote
         private IEnumerator LoadSceneAsync(string name)
         {
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(name);
-            asyncOperation.allowSceneActivation = false;  // 씬을 자동으로 전환하지 않도록 설정
+            asyncOperation.allowSceneActivation = false;
 
-            float percent = 0f;
-            float loadingTime = 2.5f;
-
-            // 씬 로딩 진행상황 표시
-            while (percent < 1f)
+            while (asyncOperation.progress < 0.9f)
             {
-                percent += Time.deltaTime / loadingTime;
-                loadingProgress.value = percent;
-                textProgress.text = $"{Mathf.RoundToInt(percent * 100)}%";  // 진행도 텍스트 업데이트
-
+                float progress = Mathf.Clamp01(asyncOperation.progress / 0.9f);
+                loadingProgress.value = progress;
+                textProgress.text = $"{Mathf.RoundToInt(progress * 100)}%";
                 yield return null;
             }
 
-            // 로딩 후 지연을 두고 씬 활성화
-            yield return waitChangeDelay;
-            asyncOperation.allowSceneActivation = true;
+            // 로딩 완료 후 100%로 표시
+            loadingProgress.value = 1f;
+            textProgress.text = "100%";
 
-            loadingScreen.SetActive(false);  // 로딩 화면 비활성화
+            // 잠깐의 대기 시간 (선택 사항)
+            yield return waitChangeDelay;
+
+            // 씬 전환
+            asyncOperation.allowSceneActivation = true;
         }
     }
 }
