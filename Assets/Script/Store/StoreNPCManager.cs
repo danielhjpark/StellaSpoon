@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum NPCType
@@ -30,6 +31,18 @@ public class StoreNPCManager : MonoBehaviour
     [SerializeField]
     private bool iscollPlayer = false; //플레이어와 충돌했는지
 
+    [Header("Chat")]
+    [SerializeField]
+    private TypingEffect talkText; //대화창 텍스트
+    [SerializeField]
+    private TextMeshProUGUI nameText; //상인 이름 출력 텍스트
+    [SerializeField]
+    private string[] ingredientChatText; //재료상인 대화 내용
+    [SerializeField]
+    private string[] cookChatText; //조리기구 상인 대화 내용
+    [SerializeField]
+    private string[] gunChatText; //총기 상인 대화 내용
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -58,22 +71,26 @@ public class StoreNPCManager : MonoBehaviour
                     //카메라 이동 제한
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
+                    storeUIManager.CallChatUI();
                     switch (NPCTypes)
                     {
                         case NPCType.IngredientNPC:
                             ingredientBase.SetActive(true);//재료상점 UI 출력
+                            ChangeChat(NPCType.IngredientNPC); //재료상인 대화 내용 출력
                             isIngredient = true;
                             break;
                         case NPCType.KitchenNPC:
                             CookBase.SetActive(true);//주방상점 UI 출력
+                            ChangeChat(NPCType.KitchenNPC); //조리기구 상인 대화 내용 출력
                             break;
                         case NPCType.GunNPC:
                             GunBase.SetActive(true);//무기상점 UI 출력
+                            ChangeChat(NPCType.GunNPC); //총기 상인 대화 내용 출력
                             break;
                     }
-                    storeUIManager.CallChatUI(); //대화창 UI 출력
-                                                 //플레이어 이동 제한
-                                                 //카메라 이동
+                    //대화창 UI 출력
+                    //플레이어 이동 제한
+                    //카메라 이동
                 }
             }
             else
@@ -104,8 +121,23 @@ public class StoreNPCManager : MonoBehaviour
 
         }        
     }
-    //UI 별로 스크립트 작성
-    //UI 스크립트 내에서 골드 감소 밑 아이템 추가 구현
 
-    //esc키 눌렀을 때 플레이어 이동 제한 해제, 카메라 기본으로 돌아가기
+    public void ChangeChat(NPCType npcType)//해당 NPC와 대화하기
+    {
+        switch (npcType)
+        {
+            case NPCType.IngredientNPC:
+                talkText.StartTyping(ingredientChatText[Random.Range(0, ingredientChatText.Length)]);
+                nameText.text = "재료 상인";
+                break;
+            case NPCType.KitchenNPC:
+                talkText.StartTyping(cookChatText[Random.Range(0, cookChatText.Length)]);
+                nameText.text = "주방기기 상인";
+                break;
+            case NPCType.GunNPC:
+                talkText.StartTyping(gunChatText[Random.Range(0, gunChatText.Length)]);
+                nameText.text = "총 장인";
+                break;
+        }
+    }
 }

@@ -15,15 +15,6 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private GameObject chatUI;
 
-    public void CallChatUI() //대화창 ON
-    {
-        chatUI.SetActive(true);
-    }
-    public void CloseChatUI() //대화창 OFF
-    {
-        chatUI.SetActive(false);
-    }
-
     [Header("-----ingredient-----")]
     [SerializeField]
     private GameObject buyBase;
@@ -168,6 +159,15 @@ public class StoreUIManager : MonoBehaviour
         //SelectTempestFang(); //처음 시작할 때 TempestFang 선택
         SelectGun(0);
         LevelCostSetting(); //조리도구상점 업그레이드 비용 설정
+    }
+
+    public void CallChatUI() //대화창 ON
+    {
+        chatUI.SetActive(true);
+    }
+    public void CloseChatUI() //대화창 OFF
+    {
+        chatUI.SetActive(false);
     }
 
     private void OnEnable()
