@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class BearKingMonster : MonsterBase
 {
@@ -38,18 +39,69 @@ public class BearKingMonster : MonsterBase
     private GameObject currentEffect;
     private bool jumpEffectOn; //점프 이펙트 생성 변수
 
+    [Header("Health UI")]
+    [SerializeField]
+    private GameObject bossHealthUI;
+    [SerializeField]
+    private Slider bossHealthSlider;
+    [SerializeField]
+    private GameObject sliderFill;
+
+
+    private bool isPlayerInRange = false;
+
     private void Start()
     {
         base.Start();
         leftHandCollider.enabled = false;
         rightHandCollider.enabled = false;
         attackRange = 3f;
+
+        if (bossHealthUI != null)
+        {
+            bossHealthUI.SetActive(false);
+        }
+
+        if (bossHealthSlider != null)
+        {
+            bossHealthSlider.maxValue = maxHealth;
+            bossHealthSlider.value = currentHealth;
+        }
+    }
+
+    private void Update()
+    {
+        base.Update();
+
+        if (distanceToPlayer <= playerDetectionRange && !isPlayerInRange)
+        {
+            isPlayerInRange = true;
+            if (bossHealthUI != null)
+            {
+                bossHealthUI.SetActive(true);
+            }
+        }
+        else if (distanceToPlayer > playerDetectionRange && isPlayerInRange)
+        {
+            isPlayerInRange = false;
+            if (bossHealthUI != null)
+            {
+                bossHealthUI.SetActive(false);
+            }
+        }
+        // 체력 슬라이더 업데이트
+        if (isPlayerInRange && bossHealthSlider != null)
+        {
+            bossHealthSlider.value = currentHealth;
+
+            sliderFill.SetActive(currentHealth > 0);
+        }
     }
 
     protected override void HandleAttack()
     {
         animator.SetBool("Walk", false);
-        if (!isAttack)
+        if (!isAttack && !isDead)
         {
             isAttack = true;
             StartCoroutine(Attack());
@@ -59,128 +111,136 @@ public class BearKingMonster : MonsterBase
 
     private IEnumerator Attack()
     {
-        if(!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
-        //Debug.Log("기본 공격 시작!");
+        if (!inAttackRange || isDead) yield break;
+
         animator.SetTrigger("Attack8");
         attackRange = 15f;
-        yield return new WaitForSeconds(5.0f);
-        //Debug.Log("기본 공격 종료!");
+
+        float elapsed = 0f;
+        while (elapsed < 5.0f)
+        {
+            if (isDead)
+            {
+                CleanupEffects();
+                yield break;
+            }
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         nextPattern = JUMP;
         nextPatternPlay();
     }
 
+
     private IEnumerator Jump()
     {
-        if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
+        if (!inAttackRange || isDead) yield break;
+
         isJumping = true;
-        //Debug.Log("내려찍기 시작!");
-        yield return StartCoroutine(ShowJumpGroundEffect()); //바닥 경고 효과
+        yield return StartCoroutine(ShowJumpGroundEffect());
 
         if (currentGroundEffect != null)
         {
             Destroy(currentGroundEffect);
         }
 
-        //Debug.Log("충격파 발생!");
         animator.SetTrigger("Attack5");
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, shockwaveRadius);
         foreach (var hit in hitColliders)
         {
+            if (isDead) break;
             if (hit.CompareTag("Player"))
             {
-                //Debug.Log("플레이어가 충격파를 맞았습니다!");
-                thirdPersonController.TakeDamage(JumpDamage, transform.position); //플레이어 데미지
+                thirdPersonController.TakeDamage(JumpDamage, transform.position);
             }
         }
 
-        nav.gameObject.GetComponent<NavMeshAgent>().enabled = true; // NavMeshAgent 활성화
+        nav.gameObject.GetComponent<NavMeshAgent>().enabled = true;
 
-        attackRange = 15f;
         yield return new WaitForSeconds(6.0f);
         isJumping = false;
         nextPattern = CHARGE;
         nextPatternPlay();
     }
-    
+
+
     private void JumpEffectOn()
     {
+        if(isDead) return;
         currentEffect = Instantiate(jumpEffectprefab, transform.position, Quaternion.identity);
         Destroy(currentEffect, 1f);  // 이펙트가 2초 후 사라지도록
     }
 
     private IEnumerator Charge()
     {
-        if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
-        //Debug.Log("돌진 준비 시작!");
+        if (!inAttackRange || isDead) yield break;
+
         isChargeSetting = true;
         animator.SetBool("Run Forward", true);
-        // animator.SetTrigger("Charge");
 
-        // 돌진 준비 시 플레이어의 현재 위치 저장
         Vector3 targetPosition = player.transform.position;
-
-        // 돌진 준비 시 chargeGroundEffectPrefab 생성 및 크기 조정
         yield return StartCoroutine(ShowChargeGroundEffect(targetPosition));
+
+        if (isDead)
+        {
+            CleanupEffects();
+            yield break;
+        }
 
         if (currentGroundEffect != null)
         {
             Destroy(currentGroundEffect);
         }
-        //Debug.Log("돌진 시작!");
-        isCharging = true;
 
-        // 돌격 시작 시 NavMeshAgent 비활성화 (직접 이동을 위해)
+        isCharging = true;
         nav.isStopped = true;
 
         float startTime = Time.time;
-
         while (Time.time < startTime + chargeDuration)
         {
-            // 목표 위치까지의 거리 계산
-            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
-
-            // 목표에 도달하면 돌격 종료
-            if (distanceToTarget <= 2f)
+            if (isDead)
             {
-                break;
+                CleanupEffects();
+                yield break;
             }
 
-            // 목표 방향으로 이동
             Vector3 direction = (targetPosition - transform.position).normalized;
             transform.position += direction * chargeSpeed * Time.deltaTime;
 
-            // 충돌 감지
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3.0f); // 충돌 반경 설정
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3.0f);
             foreach (var hit in hitColliders)
             {
                 if (hit.CompareTag("Player"))
                 {
-                    //Debug.Log("플레이어가 돌진에 맞았습니다!");
-                    thirdPersonController.TakeDamage(chargeDamage, transform.position); // 플레이어에게 데미지
+                    thirdPersonController.TakeDamage(chargeDamage, transform.position);
                     isCharging = false;
                     isChargeSetting = false;
-                    break; // 충돌 후 루프 종료
+                    break;
                 }
             }
 
-            if (!isCharging) break; // 충돌 발생 시 돌진 종료
-
+            if (!isCharging) break;
             yield return null;
         }
 
         animator.SetBool("Run Forward", false);
         animator.SetTrigger("Attack3");
-        
-        yield return new WaitForSeconds(1f); // 애니메이션 대기 시간
+        yield return new WaitForSeconds(1f);
+
         isCharging = false;
         isChargeSetting = false;
 
-        //Debug.Log("돌진 종료!");
         attackRange = 3f;
         yield return new WaitForSeconds(5.0f);
 
-        // 플레이어가 다시 공격 범위에 있는지 확인 후 공격
+        if (isDead)
+        {
+            CleanupEffects();
+            yield break;
+        }
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer <= attackRange)
         {
@@ -189,14 +249,25 @@ public class BearKingMonster : MonsterBase
         }
         else
         {
-            // 플레이어가 너무 멀면 공격 생략하고 대기
-            //Debug.Log("플레이어가 너무 멀어서 공격을 생략합니다.");
             isAttack = false;
         }
     }
 
+
+    private void CleanupEffects()
+    {
+        if (currentGroundEffect != null)
+        {
+            Destroy(currentGroundEffect);
+            currentGroundEffect = null;
+        }
+
+        // 추가 이펙트가 있으면 여기에 더 정리
+    }
+
     private void nextPatternPlay()
     {
+        if (isDead) return;
         switch (nextPattern)
         {
             case 0:
@@ -225,6 +296,12 @@ public class BearKingMonster : MonsterBase
             //Debug.Log("바닥 경고 효과가 점차 커집니다.");
             while (elapsedTime < duration)
             {
+                if(isDead)
+                {
+                    Destroy(currentGroundEffect);
+                    currentGroundEffect = null;
+                    yield break;
+                }
                 float progress = elapsedTime / duration;
                 float scale = Mathf.Lerp(0, shockwaveRadius * 2, progress * progress);
                 currentGroundEffect.transform.localScale = new Vector3(scale, 0.01f, scale);
