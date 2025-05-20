@@ -18,7 +18,7 @@ public class DailyMenuDevice : MonoBehaviour
     private void Update()
     {
         //if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
-        if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !RestaurantOpenSystem.isRestaurantOpened) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             OpenDailyMenuUI();
         }
@@ -60,7 +60,7 @@ public class DailyMenuDevice : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player")&&!isOpenedDevice)
+        if (other.CompareTag("Player") && !isOpenedDevice)
         {
             InteractUIManger.isPlayerNearby = true;
         }

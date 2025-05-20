@@ -18,7 +18,7 @@ public class ScrollViewSystem : MonoBehaviour
 
     void Start()
     {
-        //RecipePanelInit();
+        RecipePanelInit();
     }
 
     void Update()

@@ -115,7 +115,7 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI gunNeedGold;
 
-    [SerializeField] 
+    [SerializeField]
     private int tempestBTCount;
     [SerializeField]
     private int tempestRHBCount;
@@ -125,7 +125,7 @@ public class StoreUIManager : MonoBehaviour
     private int tempestVerCount;
     [SerializeField]
     private int tempestScrCount;
-    
+
     [SerializeField]
     private int infernoRBLCount;
     [SerializeField]
@@ -212,7 +212,7 @@ public class StoreUIManager : MonoBehaviour
 
     public void PlusButton()
     {
-        if(currentPurchaseCount < 99)
+        if (currentPurchaseCount < 99)
         {
             currentPurchaseCount++;
             countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
@@ -231,7 +231,7 @@ public class StoreUIManager : MonoBehaviour
 
     public void SelectedIngredient(int index)
     {
-        if(index < 0 || index >= items.Count)
+        if (index < 0 || index >= items.Count)
         {
             Debug.Log("잘못된 인덱스");
             return;
@@ -264,7 +264,7 @@ public class StoreUIManager : MonoBehaviour
         int totalCost = price * currentPurchaseCount;
         if (ingredientNeedGold != null)
         {
-            ingredientNeedGold.text  = totalCost.ToString();
+            ingredientNeedGold.text = totalCost.ToString();
         }
     }
 
@@ -297,14 +297,22 @@ public class StoreUIManager : MonoBehaviour
 
 
     //cook
+    private void LevelSetting()
+    {
+        this.currentPanLevel = RestaurantManager.instance.currentPanLevel;
+        this.currentCuttingBoardLevel = RestaurantManager.instance.currentCuttingBoardLevel;
+        this.currentWorLevel = RestaurantManager.instance.currentWorLevel;
+        this.currentPotLevel = RestaurantManager.instance.currentPotLevel;
+    }
 
     private void LevelCostSetting()
     {
+        LevelSetting();
         panLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPanLevel.ToString();
         worLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentWorLevel.ToString();
         cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentCuttingBoardLevel.ToString();
         potLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPotLevel.ToString();
-        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text =panUpgradeCost[currentPanLevel - 1].ToString();
+        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text = panUpgradeCost[currentPanLevel - 1].ToString();
         worUpgradeCostText.GetComponent<TextMeshProUGUI>().text = worUpgradeCost[currentWorLevel - 1].ToString();
         cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text = cuttingBoardUpgradeCost[currentCuttingBoardLevel - 1].ToString();
         potUpgradeCostText.GetComponent<TextMeshProUGUI>().text = potUpgradeCost[currentPotLevel - 1].ToString();
@@ -320,7 +328,7 @@ public class StoreUIManager : MonoBehaviour
             case "Pan":
                 upgradeCost = panUpgradeCost;
                 upgradeLevel = ref currentPanLevel;
-                if(currentPanLevel >= maxPanLevel)
+                if (currentPanLevel >= maxPanLevel)
                 {
                     Debug.Log("팬 업그레이드 최대 레벨 도달");
                     isMaxLevel = true;
@@ -362,9 +370,9 @@ public class StoreUIManager : MonoBehaviour
                 return;
         }
 
-        if(!isMaxLevel) //최대레벨이 아닐 때
+        if (!isMaxLevel) //최대레벨이 아닐 때
         {
-            if (upgradeCost[upgradeLevel-1] <=Manager.gold) //보유 골드가 업그레이드 비용보다 많을 때
+            if (upgradeCost[upgradeLevel - 1] <= Manager.gold) //보유 골드가 업그레이드 비용보다 많을 때
             {
                 upgradeLevel++;
                 Manager.gold -= upgradeCost[upgradeLevel - 1];

@@ -23,19 +23,14 @@ public class NpcManager : MonoBehaviour
     private bool[] sitOccupied = new bool[4]; //의자 상태 표시
     public Transform[] foodpoint = new Transform[4];//음식 테이블 포인트
 
-    private TextMeshProUGUI totalGoldText;
-
     //OrderManger use this list
     [NonSerialized] public List<GameObject> npcList = new List<GameObject>();
 
-    private void Awake() {
-        totalGoldText = GameObject.Find("GoldUI").GetComponent<TextMeshProUGUI>();
+    private void Awake()
+    {
         instance = this;
     }
-    
-    private void Update() {
-        totalGoldText.text = Manager.gold.ToString();
-    }
+
 
     public void SpwanNPCs(Recipe recipe)
     {
@@ -46,8 +41,9 @@ public class NpcManager : MonoBehaviour
         npcList.Add(npc);
         StartCoroutine(ManageNPC(npc, recipe));
     }
-    
-    IEnumerator MoveNPC(GameObject npc, Transform targetPosition) {
+
+    IEnumerator MoveNPC(GameObject npc, Transform targetPosition)
+    {
         NavMeshAgent nav = npc.GetComponent<NavMeshAgent>();
         nav.enabled = true;
         nav.SetDestination(targetPosition.position);
@@ -65,7 +61,7 @@ public class NpcManager : MonoBehaviour
 
             yield return null;
         }
- 
+
     }
 
     IEnumerator ManageNPC(GameObject npc, Recipe menu)
@@ -76,11 +72,12 @@ public class NpcManager : MonoBehaviour
             Destroy(npc);
             yield break;
         }
-        else {
+        else
+        {
             sitOccupied[seatIndex] = true;
         }
         // Set npc sitting
-       // Transform sitPoint = sitpositions[seatIndex];
+        // Transform sitPoint = sitpositions[seatIndex];
         Transform sitPoint = sitpoint[seatIndex];
         npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
 
@@ -92,7 +89,8 @@ public class NpcManager : MonoBehaviour
         StartCoroutine(npc.GetComponent<NPCBehavior>().OrderMenu(menu));
     }
 
-    public bool IsCanFindSeat() {
+    public bool IsCanFindSeat()
+    {
         for (int i = 0; i < sitOccupied.Length; i++)
         {
             if (!sitOccupied[i])
@@ -116,7 +114,8 @@ public class NpcManager : MonoBehaviour
         return -1;
     }
 
-    public void SeatEmpty(int seatIndex) {
+    public void SeatEmpty(int seatIndex)
+    {
         sitOccupied[seatIndex] = false;
     }
 

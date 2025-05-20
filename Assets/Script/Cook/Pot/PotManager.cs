@@ -49,8 +49,8 @@ public class PotManager : CookManagerBase
         potViewportSystem = GetComponent<PotViewportSystem>();
         potAudioSystem = GetComponent<PotAudioSystem>();
         potUI = GetComponent<PotUI>();
-        
-        UpgradePot(0);//Store Unlock upgrade
+
+        UpgradePot();//Store Unlock upgrade
     }
 
     void Update()
@@ -63,14 +63,17 @@ public class PotManager : CookManagerBase
             }
             else
             {
-                CookManager.instance.isCanUseMiddleTable = true;
+                CookManager.instance.isCanUseSideTable = true;
                 CookSceneManager.instance.UnloadScene("PotMergeTest");
             }
         }
     }
 
-    private void UpgradePot(int unlockStep) {
-        switch (unlockStep) {
+    private void UpgradePot()
+    {
+        int unlockStep = RestaurantManager.instance.currentPotLevel;
+        switch (unlockStep)
+        {
             case 0:
                 decreaseCompleteTime = 0;
                 break;
@@ -202,6 +205,7 @@ public class PotManager : CookManagerBase
         //Select && Make Choice
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
+            isCanEscape = false;
             StartCoroutine(cookUIManager.VisiblePanel());
             ingredientInventory.IngredientAdd(currentMenu.mainIngredient);
         }
@@ -209,8 +213,13 @@ public class PotManager : CookManagerBase
         {
             ingredientInventory.AddAllIngredients();
             StartCoroutine(cookUIManager.TimerStart(10f));
-            yield return new WaitUntil(() => mainIngredient != null);
 
+            //if drop ingredient in pot can't escape this scene
+            yield return new WaitUntil(() => potIngredients.Count > 0);
+            isCanEscape = false;
+
+            // Find recipe
+            yield return new WaitUntil(() => mainIngredient != null);
             targetRecipe = RecipeManager.instance.FindRecipe(mainIngredient);
             MakeRecipe(targetRecipe);
 

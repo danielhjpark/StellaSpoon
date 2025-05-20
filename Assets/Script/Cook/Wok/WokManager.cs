@@ -59,7 +59,6 @@ public class WokManager : CookManagerBase
 
     public override IEnumerator UseCookingStep()
     {
-        isCanEscape = false;
         yield return StartCoroutine(AddMainIngredient());//Main ingredient add
         yield return StartCoroutine(FireControl());
         if (firstTossingCount > 0) yield return StartCoroutine(InherentMotion(firstTossingCount));
@@ -154,7 +153,7 @@ public class WokManager : CookManagerBase
 
             if (wokSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
             {
-                Debug.Log("Wrong sauce type"+wokSauceSystem.sauceType+ ":"+ targetRecipe.tossingSetting.sauceType);
+                Debug.Log("Wrong sauce type" + wokSauceSystem.sauceType + ":" + targetRecipe.tossingSetting.sauceType);
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
@@ -191,7 +190,7 @@ public class WokManager : CookManagerBase
         if (wokUnlock >= 2) yield break;
         StartCoroutine(cookUIManager.TimerStart(3f));
         wokUI.OnFireControlUI();
-        
+
         while (true)
         {
             if (cookUIManager.TimerEnd())
@@ -220,6 +219,9 @@ public class WokManager : CookManagerBase
     {
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
+            //Can't escape this scene
+            isCanEscape = false;
+
             //Auto Spawn Main Ingredient 
             GameObject mainIngredient = currentMenu.mainIngredient.ingredientPrefab;
             AddIngredient(Instantiate(mainIngredient, dropPos.position, Quaternion.identity), currentMenu.mainIngredient);
@@ -232,8 +234,12 @@ public class WokManager : CookManagerBase
         {
             ingredientInventory.AddMainIngredients();
             yield return new WaitUntil(() => wokIngredientSystem.mainIngredient != null);
-            targetRecipe = RecipeManager.instance.FindRecipe(wokIngredientSystem.checkIngredients[0].ingredient);
 
+            //if drop any main ingredient, can't escape this scene
+            isCanEscape = false;
+
+            //Find target recipe 
+            targetRecipe = RecipeManager.instance.FindRecipe(wokIngredientSystem.checkIngredients[0].ingredient);
             RecipeSetting(targetRecipe);
             yield return new WaitForSeconds(0.5f);
         }
@@ -292,10 +298,11 @@ public class WokManager : CookManagerBase
 
         StartCoroutine(cookUIManager.TimerStart(5f));
         while (true)
-        {                
-            if (cookUIManager.TimerEnd() || wokSauceSystem.IsLiquidFilled()) { 
+        {
+            if (cookUIManager.TimerEnd() || wokSauceSystem.IsLiquidFilled())
+            {
                 cookUIManager.TimerStop();
-                break; 
+                break;
             }
             yield return null;
         }

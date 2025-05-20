@@ -8,16 +8,16 @@ using Unity.VisualScripting;
 
 public class RestaurantOpenSystem : MonoBehaviour
 {
-    [SerializeField] private float range = 2.0f; 
-    private Transform playerTransform; 
-    
+    private float range = 2.0f;
+    private Transform playerTransform;
+
     [Header("GameTime")]
     [SerializeField] GameTimeManager gameTimeManager;
 
     [Header("Sign")]
     [SerializeField] private Renderer signRenderer;
     [SerializeField] private Material[] signMaterial;
-    [SerializeField] private LayerMask signLayer; 
+    [SerializeField] private LayerMask signLayer;
 
     [Header("UI")]
     [SerializeField] private GameObject OpenAndClosePanel;
@@ -29,17 +29,18 @@ public class RestaurantOpenSystem : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     private string doorOpenName = "character_nearby";
 
-    private enum signState { Open = 0, Close = 1}
+    private enum signState { Open = 0, Close = 1 }
 
-    private bool isOpened; 
+    static public bool isRestaurantOpened;
 
     int currentTime = 24;
     const int openTime = 18;
     const int closeTime = 22;
 
-    void Start() {
+    void Start()
+    {
         playerTransform = GameObject.FindWithTag("Player").transform;
-        isOpened = false;
+        isRestaurantOpened = false;
         signRenderer.material = signMaterial[(int)signState.Close];
     }
 
@@ -53,52 +54,63 @@ public class RestaurantOpenSystem : MonoBehaviour
 
 
     //------------------------------------------------------//
-    private bool IsCanInteractSign() {
-  
-        if(!isOpened && currentTime >= openTime && DailyMenuManager.dailyMenuList.Count > 0) {
+    private bool IsCanInteractSign()
+    {
+
+        if (!isRestaurantOpened && currentTime >= openTime && DailyMenuManager.dailyMenuList.Count > 0)
+        {
             return true;
         }
-        else if(isOpened && currentTime >= closeTime && DailyMenuManager.dailyMenuList.Count <= 0 && NpcManager.instance.npcList.Count <= 0) {
+        else if (isRestaurantOpened && currentTime >= closeTime && DailyMenuManager.dailyMenuList.Count <= 0 && NpcManager.instance.npcList.Count <= 0)
+        {
             return true;
         }
-        else {
+        else
+        {
             return false;//early return
         }
     }
 
     private void CheckSign()
     {
-        if(!IsCanInteractSign()) {
+        if (!IsCanInteractSign())
+        {
             OpenAndClosePanel.SetActive(false);
             ResetGague();
             return;
         }
 
-        Vector3 rayOrigin = playerTransform.position + Vector3.up * 0.5f; 
-        Vector3 rayDirection = playerTransform.forward; 
+        Vector3 rayOrigin = playerTransform.position + Vector3.up * 0.5f;
+        Vector3 rayDirection = playerTransform.forward;
 
-        if(Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hitInfo, range, signLayer)) {
-      
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hitInfo, range, signLayer))
+        {
+
             OpenAndClosePanel.SetActive(true);
-            if(Input.GetKey(KeyCode.F)) {
+            if (Input.GetKey(KeyCode.F))
+            {
                 FillGague();
             }
-            else {
+            else
+            {
                 ResetGague();
             }
         }
-        else {
+        else
+        {
             OpenAndClosePanel.SetActive(false);
             ResetGague();
         }
     }
 
-    private void AutoCloseRestaurant() {
-        if(isOpened && currentTime >= closeTime 
-        && DailyMenuManager.dailyMenuList.Count <= 0 
+    private void AutoCloseRestaurant()
+    {
+        if (isRestaurantOpened && currentTime >= closeTime
+        && DailyMenuManager.dailyMenuList.Count <= 0
         && NpcManager.instance.npcList.Count <= 0
-        && OrderManager.instance.restaurantCoroutine == null) {
-            isOpened = false;
+        && OrderManager.instance.restaurantCoroutine == null)
+        {
+            isRestaurantOpened = false;
             OpenUI.SetActive(true);
             CloseUI.SetActive(false);
             pressGagueImage.fillAmount = 0f;
@@ -108,10 +120,12 @@ public class RestaurantOpenSystem : MonoBehaviour
         }
     }
 
-    private void CheckRestaurant() {
-        if(pressGagueImage.fillAmount < 1) return;
-        if(!isOpened) {
-            isOpened = true;
+    private void CheckRestaurant()
+    {
+        if (pressGagueImage.fillAmount < 1) return;
+        if (!isRestaurantOpened)
+        {
+            isRestaurantOpened = true;
             OpenUI.SetActive(false);
             CloseUI.SetActive(true);
             pressGagueImage.fillAmount = 0f;
@@ -120,8 +134,9 @@ public class RestaurantOpenSystem : MonoBehaviour
             doorAnimator.SetBool(doorOpenName, true);
             OrderManager.instance.OpenRestaurant();
         }
-        else {
-            isOpened = false;
+        else
+        {
+            isRestaurantOpened = false;
             OpenUI.SetActive(true);
             CloseUI.SetActive(false);
             pressGagueImage.fillAmount = 0f;
@@ -133,11 +148,13 @@ public class RestaurantOpenSystem : MonoBehaviour
     }
 
 
-    private void FillGague() {
+    private void FillGague()
+    {
         pressGagueImage.fillAmount += Time.deltaTime * 0.5f;
     }
 
-    private void ResetGague() {
+    private void ResetGague()
+    {
         pressGagueImage.fillAmount = 0f;
     }
 

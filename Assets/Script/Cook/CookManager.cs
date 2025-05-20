@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class CookManager : MonoBehaviour
 {
     static public CookManager instance;
-    static public StoreUIManager storeUIManager; 
+    static public StoreUIManager storeUIManager;
     //---------------- Cook Managers Setting--------------------//
     private CuttingManager cuttingManager;
     private WokManager wokManager;
@@ -71,7 +71,8 @@ public class CookManager : MonoBehaviour
         if (!CookSceneManager.instance.isSceneLoaded)
         {
             if (isPickUpMenu) return;
-            //cookMode = CookMode.Select;
+            if (RestaurantOpenSystem.isRestaurantOpened) cookMode = CookMode.Select;
+            else cookMode = CookMode.Make;
 
             switch (objName)
             {
@@ -79,6 +80,7 @@ public class CookManager : MonoBehaviour
                     InteractOtherObject(objName);
                     break;
                 case "Pot":
+                    if (!isCanUseSideTable) return;
                     InteractPotObject();
                     break;
                 case "Pan":
