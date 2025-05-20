@@ -8,6 +8,7 @@ using System;
 public class WokUI : MonoBehaviour
 {
     [Header("Section")]
+    [SerializeField] GameObject sectionObject;
     [SerializeField] RectTransform sectionMark;
     [SerializeField] RectTransform[] roastSection;
 
@@ -41,15 +42,24 @@ public class WokUI : MonoBehaviour
     {
         //this.unlockStep = unlockStep;
         this.unlockStep = 0;
-        if (unlockStep >= 2)
-        {
-            AutoFireTemperature();
-        }
-
+        if (unlockStep >= 2) AutoFireTemperature();
         SetSections();
         wokUIObject.SetActive(false);
     }
 
+    public void OnFireControlUI()
+    {
+        wokUIObject.SetActive(true);
+        powerSliderObject.SetActive(true);
+        sectionObject.SetActive(false);
+    }
+
+    public void OffFireControlUI()
+    {
+        wokUIObject.SetActive(false);
+        powerSliderObject.SetActive(false);
+        sectionObject.SetActive(true);
+    }
 
     void AutoFireTemperature()
     {

@@ -26,9 +26,13 @@ public class CookManager : MonoBehaviour
     [SerializeField][Range(1f, 100f)] public float SauceAcceleration;
     [SerializeField][Range(1f, 100f)] public float SlideAcceleration;
 
+    //Use Global
     public enum CookMode { Select, Make };
     [NonSerialized] public CookMode cookMode;
     [NonSerialized] public bool isCanIngredientControll;
+    [NonSerialized] public bool isCanUseMiddleTable = true;
+    [NonSerialized] public bool isCanUseSideTable = true;
+    [NonSerialized] public bool isPickUpMenu = false;
 
     void Awake()
     {
@@ -66,6 +70,9 @@ public class CookManager : MonoBehaviour
     {
         if (!CookSceneManager.instance.isSceneLoaded)
         {
+            if (isPickUpMenu) return;
+            //cookMode = CookMode.Select;
+
             switch (objName)
             {
                 case "CuttingBoard":
@@ -75,9 +82,11 @@ public class CookManager : MonoBehaviour
                     InteractPotObject();
                     break;
                 case "Pan":
+                    if (!isCanUseMiddleTable) return;
                     InteractOtherObject(objName);
                     break;
                 case "Wok":
+                    if (!isCanUseMiddleTable) return;
                     InteractOtherObject(objName);
                     break;
                 default:

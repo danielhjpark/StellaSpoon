@@ -6,25 +6,25 @@ using UnityEngine.AI;
 
 public class NPCBehavior : MonoBehaviour
 {
-    private Animator npcAnimator;
-    private NavMeshAgent npcNav;
-    private WaitForSeconds emotionWaitTime = new WaitForSeconds(2f);
-
-    [SerializeField] private GameObject menuObject;
+    //Npc want menu image
+    [SerializeField] private GameObject menuImageObject;
     [SerializeField] private Image menuImage; // NPC 머리 위에 표시될 메뉴 스프라이트
     [SerializeField] private Sprite[] emotionSprites;// 0 - yes , 1 - no
 
-    
+    private Animator npcAnimator;
+    private NavMeshAgent npcNav;
+    private WaitForSeconds emotionWaitTime = new WaitForSeconds(2f);
+    private GameObject serveObject;
+
     private bool hasOrdered = false; // 주문 완료 여부
     private bool hasReceivedMenu = false; // 메뉴 수령 여부
     private float orderTime; // 주문한 시간
     private int currentSeatIndex;
     private int payPrice;
+    
 
     //NPC want menu
     public Recipe currentMenu;
-    //private Vector3 npcSpawnPoint = new Vector3(10f, 1f, 0f);
-    
     //Exit Point
     private Transform spawnPoint;
     private Transform doorPoint;
@@ -44,7 +44,7 @@ public class NPCBehavior : MonoBehaviour
     private void LateUpdate()
     {
         Transform mainCam = Camera.main.transform;
-        menuObject.transform.LookAt(menuObject.transform.position + mainCam.rotation * Vector3.forward,
+        menuImageObject.transform.LookAt(menuImageObject.transform.position + mainCam.rotation * Vector3.forward,
             mainCam.rotation * Vector3.up);
     }
     
@@ -150,18 +150,22 @@ public class NPCBehavior : MonoBehaviour
     //------------------ Serve to player ---------------------//
     public void ReceiveNPC(GameObject serveObject)
     {
+        this.serveObject = serveObject;
         bool isSameMenu = currentMenu == serveObject.GetComponent<MenuData>().menu ? true : false;
 
         //Emotion
-        if(!isSameMenu) {
+        if (!isSameMenu)
+        {
             StartCoroutine(DifferentMenu());
             return;
         }
-        else {
+        else
+        {
             StartCoroutine(SameMenu());
             payPrice = serveObject.GetComponent<MenuData>().menu.menuPrice;
             DailyMenuManager.instance.DailyMenuRemove(currentMenu);
-            Destroy(serveObject);
+            serveObject.transform.SetParent(NpcManager.instance.foodpoint[currentSeatIndex]);
+            serveObject.transform.localPosition = Vector3.zero;
         }
         //Receive Menu Behavior
         if (!hasReceivedMenu) {
@@ -188,8 +192,8 @@ public class NPCBehavior : MonoBehaviour
         //float eatingTime = Random.Range(40f, 60f);
         float eatingTime = Random.Range(5f, 10f);
         yield return new WaitForSeconds(eatingTime);
-        //NpcManager.instance.totalGold += payPrice;
         Manager.gold += payPrice;
+        Destroy(serveObject);
         yield return Exit();
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 public class FryingPanUI : MonoBehaviour
 {
     [Header("Section")]
+    [SerializeField] GameObject sectionObject;
     [SerializeField] RectTransform sectionMark;
     [SerializeField] RectTransform[] sections;
 
@@ -43,6 +45,20 @@ public class FryingPanUI : MonoBehaviour
         }
         SetSections();
 
+    }
+
+    public void OnFireControlUI()
+    {
+        fryingPanUIObject.SetActive(true);
+        powerSliderObject.SetActive(true);
+        sectionObject.SetActive(false);
+    }
+
+    public void OffFireControlUI()
+    {
+        fryingPanUIObject.SetActive(false);
+        powerSliderObject.SetActive(false);
+        sectionObject.SetActive(true);
     }
 
     public void OnFryingPanUI()

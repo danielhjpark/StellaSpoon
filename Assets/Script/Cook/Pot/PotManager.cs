@@ -41,6 +41,7 @@ public class PotManager : CookManagerBase
         isCanEscape = true;
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
+        CookManager.instance.isCanUseSideTable = false;
         cookUIManager.Initialize(this);
 
         potBoilingSystem = GetComponent<PotBoilingSystem>();
@@ -60,7 +61,11 @@ public class PotManager : CookManagerBase
             {
                 CloseSceneView();
             }
-            else CookSceneManager.instance.UnloadScene("PotMergeTest");
+            else
+            {
+                CookManager.instance.isCanUseMiddleTable = true;
+                CookSceneManager.instance.UnloadScene("PotMergeTest");
+            }
         }
     }
 

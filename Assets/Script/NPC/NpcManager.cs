@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class NpcManager : MonoBehaviour
 {
@@ -20,11 +21,12 @@ public class NpcManager : MonoBehaviour
     public Transform[] sitpositions = new Transform[4]; //의자 좌표
     public Transform[] sitpoint = new Transform[4]; //의자 옆 좌표
     private bool[] sitOccupied = new bool[4]; //의자 상태 표시
+    public Transform[] foodpoint = new Transform[4];//음식 테이블 포인트
 
     private TextMeshProUGUI totalGoldText;
 
     //OrderManger use this list
-    public List<GameObject> npcList = new List<GameObject>();
+    [NonSerialized] public List<GameObject> npcList = new List<GameObject>();
 
     private void Awake() {
         totalGoldText = GameObject.Find("GoldUI").GetComponent<TextMeshProUGUI>();
@@ -40,7 +42,7 @@ public class NpcManager : MonoBehaviour
         int seatIndex = FindRandomSeat();
         if (seatIndex == -1) return; // 모든 좌석이 차 있을 때
 
-        GameObject npc = Instantiate(npcPrefab[Random.Range(0, npcPrefab.Length)], spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
+        GameObject npc = Instantiate(npcPrefab[UnityEngine.Random.Range(0, npcPrefab.Length)], spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
         npcList.Add(npc);
         StartCoroutine(ManageNPC(npc, recipe));
     }
@@ -122,7 +124,7 @@ public class NpcManager : MonoBehaviour
     {
         for (int i = array.Length - 1; i > 0; i--)
         {
-            int randomIndex = Random.Range(0, i + 1);
+            int randomIndex = UnityEngine.Random.Range(0, i + 1);
             int temp = array[i];
             array[i] = array[randomIndex];
             array[randomIndex] = temp;

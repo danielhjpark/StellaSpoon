@@ -36,9 +36,11 @@ public class FryingPanManager : CookManagerBase
 
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
+        CookManager.instance.isCanUseMiddleTable = false;
         cookUIManager.Initialize(this);
 
         isCanEscape = true;
+
 
     }
 
@@ -46,6 +48,7 @@ public class FryingPanManager : CookManagerBase
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            CookManager.instance.isCanUseMiddleTable = true;
             if (isCanEscape) CookSceneManager.instance.UnloadScene();
         }
     }
@@ -58,8 +61,8 @@ public class FryingPanManager : CookManagerBase
         fryingStep = menu.fryingSetting.fryingStep;
         firstFryingCount = menu.fryingSetting.firstFryingCount;
         secondFryingCount = menu.fryingSetting.secondFryingCount;
-
-        fryingPanUI.Initialize(true);
+        totalSuccessCount = firstFryingCount + secondFryingCount - 1;
+        //fryingPanUI.Initialize(true);
         StartCoroutine(UseCookingStep());
     }
 
@@ -79,13 +82,14 @@ public class FryingPanManager : CookManagerBase
             secondFryingCount = menu.fryingSetting.secondFryingCount;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
         }
-        fryingPanUI.Initialize(true);
+        //fryingPanUI.Initialize(true);
     }
 
     public override IEnumerator UseCookingStep()
     {
         isCanEscape = false;
         yield return StartCoroutine(AddMainIngredient());
+        yield return StartCoroutine(FireControl());
         yield return StartCoroutine(InherentMotion(firstFryingCount));
         yield return StartCoroutine(AddSubIngredient());
         yield return StartCoroutine(AddSauce());
@@ -175,6 +179,28 @@ public class FryingPanManager : CookManagerBase
     }
 
     //--------------FryingPan System Method------------------//
+
+    IEnumerator FireControl()
+    {
+        bool fryingPanUnlock = false;
+        fryingPanUI.Initialize(fryingPanUnlock);
+        if (fryingPanUnlock) yield break;
+        StartCoroutine(cookUIManager.TimerStart(3f));
+        fryingPanUI.OnFireControlUI();
+        
+        while (true)
+        {
+            if (cookUIManager.TimerEnd())
+            {
+                cookUIManager.TimerStop();
+                fryingPanUI.OffFireControlUI();
+                break;
+            }
+            yield return null;
+        }
+
+    }
+
     IEnumerator InherentMotion(int fryingCount)
     {
         fryingPanUI.OnFryingPanUI();
