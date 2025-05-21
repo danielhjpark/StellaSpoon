@@ -17,6 +17,25 @@ public class StoreUIManager : MonoBehaviour
 
     [Header("-----ingredient-----")]
     [SerializeField]
+    private List<string> sellItemNames = new List<string>
+{
+    "Ruby_Root",
+    "Allirubium",
+    "Barcrose_Meet",
+    "Hornavia_Meet",
+    "AdenBear_LegMeet",
+    "Red_Barcrose_Meet",
+    "Red_Hornavia_Meet",
+    "Cont_AdenBear_Meet",
+    "Alivery_Meet",
+    "Glasta",
+    "Bypin",
+    "Fermos_Sell",
+    "Silver_Wolf_Rib",
+    "Black_Fermos_Meet",
+    "Nova_Wolf_Meet"
+};
+    [SerializeField]
     private GameObject buyBase;
     [SerializeField]
     private GameObject sellBase;
@@ -27,8 +46,9 @@ public class StoreUIManager : MonoBehaviour
     private TextMeshProUGUI ingredientNeedGold;
 
     [SerializeField]
-    private GameObject[] stage2_ingredientButtons; //재료 버튼들
-
+    private GameObject[] stage2_ingredientButtons; // 스테이지 2 전용 재료 버튼들
+    [SerializeField]
+    private GameObject[] sellItemButtons; // 팔 재료 버튼
 
     [Header("Ingredient List")]
     [SerializeField]
@@ -156,9 +176,9 @@ public class StoreUIManager : MonoBehaviour
             Debug.LogWarning("Inventory 오브젝트를 찾을 수 없습니다.");
         }
         ResetIngredientPurchase();
-        //SelectTempestFang(); //처음 시작할 때 TempestFang 선택
         SelectGun(0);
         LevelCostSetting(); //조리도구상점 업그레이드 비용 설정
+        UpdateAllSellButtons();
     }
 
     public void CallChatUI() //대화창 ON
@@ -199,17 +219,6 @@ public class StoreUIManager : MonoBehaviour
         }
     }
     //ingredient
-    public void SelectBuy()
-    {
-        buyBase.SetActive(true);
-        sellBase.SetActive(false);
-    }
-    public void SelectSell()
-    {
-        sellBase.SetActive(true);
-        buyBase.SetActive(false);
-    }
-
     public void PlusButton()
     {
         if(currentPurchaseCount < 99)
@@ -288,14 +297,36 @@ public class StoreUIManager : MonoBehaviour
 
             Debug.Log("아이템 구매");
             ResetIngredientPurchase();
+            UpdateAllSellButtons();
         }
         else
         {
             Debug.Log("골드 부족");
         }
     }
+    public void UpdateAllSellButtons()
+    {
+        for (int i = 0; i < sellItemNames.Count; i++)
+        {
+            string itemName = sellItemNames[i];
+            int itemCount = inventory.GetItemCount(itemName);
 
+            if (i < sellItemButtons.Length)
+            {
+                sellItemButtons[i].SetActive(itemCount > 0);
+            }
+        }
+    }
 
+    public void SellIngredient() // 아이템 판매 로직
+    {
+        if (currentSelectedIngredientIndex < 0)
+        {
+            Debug.Log("재료를 선택하세요");
+            return;
+        }
+        UpdateAllSellButtons();
+    }
     //cook
 
     private void LevelCostSetting()

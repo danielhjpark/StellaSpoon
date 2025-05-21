@@ -20,6 +20,9 @@ public class InputNumber : MonoBehaviour
     [SerializeField]
     private GameObject thePlayer;
 
+    [SerializeField]
+    private GameObject showTextObj;
+
     void Update()
     {
         if (activated)
@@ -80,6 +83,7 @@ public class InputNumber : MonoBehaviour
         DragSlot.instance.dragSlot = null;
         go_Base.SetActive(false);
         activated = false;
+        showTextObj.SetActive(true);
     }
 
     private bool CheckNumber(string _argString)
