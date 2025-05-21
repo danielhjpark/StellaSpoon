@@ -34749,38 +34749,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.data[4].gravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.data[4].weather
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.data[4].planetName
-      value: Store
-      objectReference: {fileID: 0}
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.data[4].description
-      value: "\uC0C1\uC810"
-      objectReference: {fileID: 0}
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.data[4].monsters.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.data[4].monsters.Array.data[0]
-      value: "\uBC14\uB77C\uD3EC\uD06C"
-      objectReference: {fileID: 0}
-    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: planetInfos.Array.data[4].monsters.Array.data[1]
-      value: "\uD6C4\uCE74\uC774\uB85C\uB9E4"
-      objectReference: {fileID: 0}
     - target: {fileID: 656168258246096494, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: popupContainer
       value: 
@@ -34818,17 +34786,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7701444479971631419}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: weaponLevels.Array.data[1].bulletPrefab
-      value: 
-      objectReference: {fileID: 8378503196372639160, guid: 6b78af83ad3cba343bd32c927fb29a9b, type: 3}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: weaponLevels.Array.data[1].weaponObject
       value: 
       objectReference: {fileID: 1237496542}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: weaponLevels.Array.data[2].bulletPrefab
-      value: 
-      objectReference: {fileID: 8378503196372639160, guid: 56a31e3fb12a7da4cb69ab4dfcc420ac, type: 3}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: weaponLevels.Array.data[2].weaponObject
       value: 
@@ -34857,14 +34817,6 @@ PrefabInstance:
       propertyPath: weaponLevels.Array.data[2].weaponClipPoint
       value: 
       objectReference: {fileID: 486276888}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: weaponLevels.Array.data[1].muzzleFlashPrefab
-      value: 
-      objectReference: {fileID: 4186470608034871016, guid: 85859c19852f64d43b1f296d4a7fca03, type: 3}
-    - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      propertyPath: weaponLevels.Array.data[2].muzzleFlashPrefab
-      value: 
-      objectReference: {fileID: 4186470608034871016, guid: 8bc41e1472c45464980c8feeed5f1649, type: 3}
     - target: {fileID: 1165363847365910181, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: mapPanel
       value: 
@@ -59739,6 +59691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipeBase: {fileID: 1494965730}
+  recipeInfoBase: {fileID: 0}
   deActivatePanels:
   - {fileID: 392339040}
   - {fileID: 56914127}
@@ -59764,6 +59717,8 @@ MonoBehaviour:
   - {fileID: 940287022}
   - {fileID: 1511327097}
   - {fileID: 183107108}
+  recipeInfos: []
+  recipeSlots: []
 --- !u!224 &1615024536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -64865,7 +64820,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04f99a8a95aa8a4bb2db2ffe21bd918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalGold: 0
+  spawnPoint: {fileID: 1837453951}
+  doorPoint: {fileID: 0}
+  centerPoint: {fileID: 0}
+  npcPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   sitpositions:
   - {fileID: 1856248132}
   - {fileID: 1478389134}
@@ -64876,13 +64837,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  spawnPoint: {fileID: 1837453951}
-  doorPoint: {fileID: 0}
-  centerPoint: {fileID: 0}
-  npcPrefab:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  npcList: []
 --- !u!114 &1733898783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68025,7 +67980,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcManager: {fileID: 1733898782}
   isMenuSoldOut: 0
-  isStoppedOrder: 0
 --- !u!114 &1780631887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76774,10 +76728,6 @@ PrefabInstance:
     - target: {fileID: 7670591043599254929, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_Name
       value: MapPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7670591043599254929, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7805705967786733121, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_Pivot.x
