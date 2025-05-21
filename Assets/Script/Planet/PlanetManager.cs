@@ -20,7 +20,7 @@ public class PlanetManager : MonoBehaviour
     private List<PlanetInfo> planetInfos; //행성 정보 저장 리스트
 
     private Dictionary<PlanetType, PlanetInfo> planetInfoMap;
-    private static PlanetType selectedPlanet; //현재 행성
+    public static PlanetType selectedPlanet; //현재 행성
 
     private void Awake()
     {
