@@ -2519,6 +2519,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 165648561}
   m_CullTransparentMesh: 1
+--- !u!1 &169315786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 169315788}
+  - component: {fileID: 169315787}
+  m_Layer: 0
+  m_Name: StoreSkyBoxSetting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &169315787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169315786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2813bf92ea4184479206356b9d38be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skyboxMaterial: {fileID: 2100000, guid: b6a3f8bca2c865243929bac258c89b96, type: 2}
+--- !u!4 &169315788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169315786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 894.66473, y: 438.34998, z: 156.63708}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &180801639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29936,3 +29981,4 @@ SceneRoots:
   - {fileID: 469503908}
   - {fileID: 411806859}
   - {fileID: 1940939455}
+  - {fileID: 169315788}

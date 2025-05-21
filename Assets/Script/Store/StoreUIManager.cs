@@ -219,17 +219,6 @@ public class StoreUIManager : MonoBehaviour
         }
     }
     //ingredient
-    public void SelectBuy()
-    {
-        buyBase.SetActive(true);
-        sellBase.SetActive(false);
-    }
-    public void SelectSell()
-    {
-        sellBase.SetActive(true);
-        buyBase.SetActive(false);
-    }
-
     public void PlusButton()
     {
         if(currentPurchaseCount < 99)
