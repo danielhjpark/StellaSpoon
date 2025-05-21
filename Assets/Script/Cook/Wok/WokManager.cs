@@ -81,7 +81,7 @@ public class WokManager : CookManagerBase
         successFireStep = menu.tossingSetting.firePower;
 
         //**Store Setting**//UI Unlock Setting Initialize
-        wokUI.Initialize(0);
+        wokUI.Initialize(successFireStep);
 
         //Start Cooking
         StartCoroutine(UseCookingStep());
@@ -97,6 +97,7 @@ public class WokManager : CookManagerBase
             firstTossingCount = 2;
             secondTossingCount = 2;
             totalTossingCount = firstTossingCount + secondTossingCount - 1;
+            successFireStep = 2;
         }
         else
         {
@@ -106,7 +107,7 @@ public class WokManager : CookManagerBase
             successFireStep = menu.tossingSetting.firePower;
         }
         wokIngredientSystem.InitializeIngredientShader(wokIngredientSystem.mainIngredient, totalTossingCount);
-        wokUI.Initialize(0);
+        wokUI.Initialize(successFireStep);
 
     }
 
@@ -164,7 +165,7 @@ public class WokManager : CookManagerBase
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
-            
+
             RecipeManager.instance.RecipeUnLock(targetRecipe);
             CookSceneManager.instance.UnloadScene("WokMergeTest", targetRecipe);
             Debug.Log("Success");
@@ -306,7 +307,7 @@ public class WokManager : CookManagerBase
         StartCoroutine(cookUIManager.TimerStart(5f));
         while (true)
         {
-            if (cookUIManager.TimerEnd() || wokSauceSystem.IsLiquidFilled())
+            if ((cookUIManager.TimerEnd() && !wokSauceSystem.startLiquidFilled) || wokSauceSystem.IsLiquidFilled())
             {
                 cookUIManager.TimerStop();
                 break;

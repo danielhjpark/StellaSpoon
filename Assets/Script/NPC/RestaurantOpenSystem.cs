@@ -34,8 +34,11 @@ public class RestaurantOpenSystem : MonoBehaviour
     static public bool isRestaurantOpened;
 
     int currentTime = 24;
+
     const int openTime = 18;
+    const int lateOpenTime = 21;
     const int closeTime = 22;
+    const int forceCloseTime = 24;
 
     void Start()
     {

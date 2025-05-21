@@ -241,7 +241,7 @@ public class FryingPanManager : CookManagerBase
         StartCoroutine(cookUIManager.TimerStart(10f));
         while (true)
         {
-            if (cookUIManager.TimerEnd() || fryingSauceSystem.IsLiquidFilled())
+            if ((cookUIManager.TimerEnd() && !fryingSauceSystem.startLiquidFilled) || fryingSauceSystem.IsLiquidFilled())
             {
                 cookUIManager.TimerStop();
                 break;

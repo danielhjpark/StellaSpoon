@@ -153,11 +153,12 @@ public class PotManager : CookManagerBase
             if (currentMenu.boilingSetting.rotatePower != potBoilingSystem.rotatePower)
             {
                 CookSceneManager.instance.UnloadScene("PotMergeTest", CookManager.instance.failMenu);
+                OrderManager.instance.FailMenu(currentMenu);
             }
             else
             {
                 CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
-                OrderManager.instance.FailMenu(currentMenu);
+                //OrderManager.instance.FailMenu(currentMenu);
             }
             return;
         }
@@ -265,8 +266,14 @@ public class PotManager : CookManagerBase
             }
         }
 
-        while (!potSauceSystem.IsLiquidFilled())
+        StartCoroutine(cookUIManager.TimerStart(5f));
+        while (true)
         {
+            if ((cookUIManager.TimerEnd() && !potSauceSystem.startLiquidFilled) || potSauceSystem.IsLiquidFilled())
+            {
+                cookUIManager.TimerStop();
+                break;
+            }
             yield return null;
         }
         potUI.SetActiveBottomButton();

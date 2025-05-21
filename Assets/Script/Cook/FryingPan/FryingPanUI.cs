@@ -21,10 +21,11 @@ public class FryingPanUI : MonoBehaviour
 
     private const int FullLength = 750;
     private int[] sectionRange = new int[3] { 250, 250, 250 };
-    public int fireStep = 1;
     private float currentPos;
     private bool isEnd;
     private bool isUnlockStep;
+    [NonSerialized] public int fireStep = 1;
+
     void Start()
     {
         fryingPanUIObject.SetActive(false);
@@ -40,7 +41,7 @@ public class FryingPanUI : MonoBehaviour
             fireStep = successFireStep;
             powerSliderObject.SetActive(false);
         }
-        else  isUnlockStep = false;
+        else isUnlockStep = false;
 
         SetSections();
     }
@@ -131,8 +132,8 @@ public class FryingPanUI : MonoBehaviour
     {
         fireStep = powerValue;
     }
-    
-     public bool CheckFireStep(int fireStep)
+
+    public bool CheckFireStep(int fireStep)
     {
         if (isUnlockStep) return true;
         else if (this.fireStep == fireStep) return true;

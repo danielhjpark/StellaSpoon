@@ -37,7 +37,7 @@ public class SleepBed : MonoBehaviour
 
         yield return StartCoroutine(FadeOut());
         yield return StartCoroutine(FadeIn());
-
+        InteractUIManger.instance.UsingText(InteractUIManger.TextType.Sleep);
         InteractUIManger.isUseInteractObject = false;
         sleepCoroutine = null;
     }

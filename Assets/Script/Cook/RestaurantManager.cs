@@ -6,10 +6,10 @@ public class RestaurantManager : MonoBehaviour
 {
     public static RestaurantManager instance;
 
-    [SerializeField] public int currentPanLevel = 1;
-    [SerializeField] public int currentWorLevel = 1;
-    [SerializeField] public int currentCuttingBoardLevel = 1;
-    [SerializeField] public int currentPotLevel = 1;
+    [SerializeField] public int currentPanLevel;
+    [SerializeField] public int currentWorLevel;
+    [SerializeField] public int currentCuttingBoardLevel;
+    [SerializeField] public int currentPotLevel;
 
     private void Awake()
     {

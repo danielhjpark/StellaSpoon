@@ -95,6 +95,10 @@ public class CookSceneManager : MonoBehaviour
     public void UnloadScene(string sceneName, Recipe menu)
     {
         if (isSceneLoaded) { }
+        if (menu == CookManager.instance.failMenu)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.FailMenu);
+        }
         mainCamera.transform.gameObject.SetActive(true);
         SceneManager.UnloadSceneAsync(sceneName);
         isSceneLoaded = false;
