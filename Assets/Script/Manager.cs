@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
@@ -16,7 +17,19 @@ public class Manager : MonoBehaviour
     [SerializeField]
     private GameObject GoldUI; //골드 UI 오브젝트
 
+    [SerializeField]
+    private TextMeshProUGUI InvenGoldText;
 
+
+    private void Update()
+    {
+        InvenGoldText.text = gold.ToString(); 
+
+        if(GoldUI.activeSelf)
+        {
+            GoldUI.GetComponent<TextMeshProUGUI>().text = gold.ToString();
+        }
+    }
     private void Awake()
     {
         if (SceneManager.GetActiveScene().name == "Lobby")
