@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 2751290815273979461}
   - component: {fileID: 130289834315445156}
   - component: {fileID: 3326178380857329531}
-  - component: {fileID: 2639854205796304906}
   - component: {fileID: 730372468563279299}
   m_Layer: 7
-  m_Name: Glasta
+  m_Name: Glasta01
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938104900596521848}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 6162db90855d69441b89fcb79095774d, type: 3}
 --- !u!23 &2751290815273979461
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5f27f68436d179b4d8cda8a9fa3106a9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &3326178380857329531
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135,19 +134,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2639854205796304906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938104900596521848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: badb41cd2b9690f41b452b9d9d66b13d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deleteTime: 7
 --- !u!114 &730372468563279299
 MonoBehaviour:
   m_ObjectHideFlags: 0
