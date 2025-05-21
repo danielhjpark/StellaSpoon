@@ -91,6 +91,7 @@ public class DeviceManager : MonoBehaviour
 
     private void CloseUI()
     {
+        isDeactived = true;
         uiPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -103,8 +104,6 @@ public class DeviceManager : MonoBehaviour
         recipeInfoPanel.SetActive(false);
 
         inventoryButtonImage.sprite = defaultSprite;
-
-        isDeactived = true;
 
         Option.OptionActivated = false;
         Planet.planetActivated = false;
