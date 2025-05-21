@@ -29,7 +29,7 @@ public class CookUIManager : MonoBehaviour
 
     void Start()
     {
-        if (CookManager.instance.cookMode == CookManager.CookMode.Select)
+        if (CookManager.instance.cookMode == CookManager.CookMode.Select || CookManager.instance.currentCookType == CookType.Cutting)
         {
             SelectRecipeMode();
         }

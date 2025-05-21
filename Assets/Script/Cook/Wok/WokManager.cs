@@ -24,7 +24,7 @@ public class WokManager : CookManagerBase
     private int firstTossingCount, secondTossingCount;
     private int successTossingCount;
     private int totalTossingCount;
-    private int fireStep;
+    private int successFireStep;
 
     void Awake()
     {
@@ -78,6 +78,7 @@ public class WokManager : CookManagerBase
         firstTossingCount = menu.tossingSetting.firstTossingCount;
         secondTossingCount = menu.tossingSetting.secondTossingCount;
         totalTossingCount = firstTossingCount + secondTossingCount - 1;
+        successFireStep = menu.tossingSetting.firePower;
 
         //**Store Setting**//UI Unlock Setting Initialize
         wokUI.Initialize(0);
@@ -93,9 +94,8 @@ public class WokManager : CookManagerBase
         //Fail recipe setting
         if (menu == null || menu.cookType != CookType.Tossing)
         {
-            int randTossingCount = 2;
-            firstTossingCount = randTossingCount;
-            secondTossingCount = randTossingCount;
+            firstTossingCount = 2;
+            secondTossingCount = 2;
             totalTossingCount = firstTossingCount + secondTossingCount - 1;
         }
         else
@@ -103,6 +103,7 @@ public class WokManager : CookManagerBase
             firstTossingCount = menu.tossingSetting.firstTossingCount;
             secondTossingCount = menu.tossingSetting.secondTossingCount;
             totalTossingCount = firstTossingCount + secondTossingCount - 1;
+            successFireStep = menu.tossingSetting.firePower;
         }
         wokIngredientSystem.InitializeIngredientShader(wokIngredientSystem.mainIngredient, totalTossingCount);
         wokUI.Initialize(0);
@@ -114,8 +115,7 @@ public class WokManager : CookManagerBase
         //Select Recipe
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
-            if (totalTossingCount <= successTossingCount
-            /*&& wokUI.CheckFireStep(fireStep)*/)
+            if (totalTossingCount <= successTossingCount && wokUI.CheckFireStep(successFireStep))
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", currentMenu);
             }
@@ -124,6 +124,7 @@ public class WokManager : CookManagerBase
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 OrderManager.instance.FailMenu(currentMenu);
+                //InteractUIManger.instance.
             }
             return;
         }
@@ -157,7 +158,13 @@ public class WokManager : CookManagerBase
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
                 return;
             }
-
+            if (!wokUI.CheckFireStep(successFireStep))
+            {
+                Debug.Log("Wrong Fire Step");
+                CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
+                return;
+            }
+            
             RecipeManager.instance.RecipeUnLock(targetRecipe);
             CookSceneManager.instance.UnloadScene("WokMergeTest", targetRecipe);
             Debug.Log("Success");

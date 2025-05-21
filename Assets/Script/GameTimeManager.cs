@@ -19,7 +19,7 @@ public class GameTimeManager : MonoBehaviour
     public int gameHours; //게임 시간
     public int gameMinutes; //게임 분
 
-    
+
     private void Start()
     {
         //저장된 시간 가져오기
@@ -30,6 +30,7 @@ public class GameTimeManager : MonoBehaviour
             gameTimeText = GameObject.Find("Canvas/Time").GetComponent<TextMeshProUGUI>();
         }
     }
+
     void Update()
     {
         // 실제 시간의 흐름을 기반으로 게임 시간 증가
@@ -97,5 +98,10 @@ public class GameTimeManager : MonoBehaviour
             // 저장된 데이터가 없으면 초기화
             gameTime = (startHour * 3600) + (startMinute * 60);
         }
+    }
+
+    public void AddTime(int minutes)
+    {
+        gameTime += 60f * minutes;
     }
 }

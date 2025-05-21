@@ -29,7 +29,7 @@ public class SleepBed : MonoBehaviour
     IEnumerator UseSleepBed()
     {
         //Player lock moving or actions;
-        gameTimeManager.gameHours += sleepTime;
+        gameTimeManager.AddTime(300);
         InteractUIManger.isUseInteractObject = true;
 
         fadePanel.SetActive(true);

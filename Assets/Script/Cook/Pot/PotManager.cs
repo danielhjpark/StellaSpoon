@@ -212,6 +212,7 @@ public class PotManager : CookManagerBase
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             ingredientInventory.AddAllIngredients();
+            yield return new WaitForSeconds(0.5f);
             StartCoroutine(cookUIManager.TimerStart(10f));
 
             //if drop ingredient in pot can't escape this scene

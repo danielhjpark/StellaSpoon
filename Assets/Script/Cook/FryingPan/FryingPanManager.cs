@@ -26,7 +26,7 @@ public class FryingPanManager : CookManagerBase
     private int firstFryingCount, secondFryingCount;
     private int totalSuccessCount;
     private int successCount;
-    private int SuccessFireStep;
+    private int successFireStep;
 
     void Awake()
     {
@@ -57,13 +57,14 @@ public class FryingPanManager : CookManagerBase
     public override void SelectRecipe(Recipe menu)
     {
         base.SelectRecipe(menu);
-
+        //±Á±â ´Ü°è
         fryingStep = menu.fryingSetting.fryingStep;
+        //±Á±â È½¼ö
         firstFryingCount = menu.fryingSetting.firstFryingCount;
         secondFryingCount = menu.fryingSetting.secondFryingCount;
         totalSuccessCount = firstFryingCount + secondFryingCount - 1;
-        SuccessFireStep = menu.fryingSetting.firePower;
-        //fryingPanUI.Initialize(true);
+        //±Á±â ¿Âµµ
+        successFireStep = menu.fryingSetting.firePower;
         StartCoroutine(UseCookingStep());
     }
 
@@ -77,6 +78,7 @@ public class FryingPanManager : CookManagerBase
             firstFryingCount = 2;
             secondFryingCount = 2;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
+            successFireStep = 2;
         }
         else
         {
@@ -84,6 +86,7 @@ public class FryingPanManager : CookManagerBase
             firstFryingCount = menu.fryingSetting.firstFryingCount;
             secondFryingCount = menu.fryingSetting.secondFryingCount;
             totalSuccessCount = firstFryingCount + secondFryingCount - 1;
+            successFireStep = menu.fryingSetting.firePower;
         }
         //fryingPanUI.Initialize(true);
     }
@@ -105,7 +108,7 @@ public class FryingPanManager : CookManagerBase
 
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
-            if (totalSuccessCount <= successCount /*&& fryingPanUI.CheckFireStep(SuccessFireStep)*/)
+            if (totalSuccessCount <= successCount && fryingPanUI.CheckFireStep(successFireStep))
             {
                 CookSceneManager.instance.UnloadScene(currentSceneName, currentMenu);
                 return;
@@ -120,6 +123,7 @@ public class FryingPanManager : CookManagerBase
         }
         else
         {
+            Debug.Log(targetRecipe.menuName);
             if (targetRecipe.cookType != CookType.Frying)
             {
                 Debug.Log("Wrong cook type");
@@ -141,15 +145,16 @@ public class FryingPanManager : CookManagerBase
                 return;
             }
 
-            if (fryingSauceSystem.sauceType != targetRecipe.tossingSetting.sauceType)
+            if (fryingSauceSystem.sauceType != targetRecipe.fryingSetting.sauceType)
             {
-                Debug.Log("Wrong sauce type" + fryingSauceSystem.sauceType + "" + targetRecipe.tossingSetting.sauceType);
+                Debug.Log("Wrong sauce type" + fryingSauceSystem.sauceType + "" + targetRecipe.fryingSetting.sauceType);
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
 
-            if (!fryingPanUI.CheckFireStep(targetRecipe.tossingSetting.firePower))
+            if (!fryingPanUI.CheckFireStep(successFireStep))
             {
+                Debug.Log("Wrong Fire Step");
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
                 return;
             }
@@ -185,7 +190,7 @@ public class FryingPanManager : CookManagerBase
     IEnumerator FireControl()
     {
         bool fryingPanUnlock = false;
-        fryingPanUI.Initialize(fryingPanUnlock);
+        fryingPanUI.Initialize(successFireStep);
         if (fryingPanUnlock) yield break;
         StartCoroutine(cookUIManager.TimerStart(3f));
         fryingPanUI.OnFireControlUI();

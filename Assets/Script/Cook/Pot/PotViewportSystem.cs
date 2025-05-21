@@ -33,7 +33,7 @@ public class PotViewportSystem : MonoBehaviour
     private bool isBottomView = false;
     private float viewportSpeed = 2f; 
 
-    void Start()
+    void Awake()
     {
         dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         dolly.m_PathPosition = 1;

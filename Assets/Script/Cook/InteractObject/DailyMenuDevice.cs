@@ -51,7 +51,7 @@ public class DailyMenuDevice : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !RestaurantOpenSystem.isRestaurantOpened)
         {
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;

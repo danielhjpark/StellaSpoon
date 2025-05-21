@@ -29,22 +29,20 @@ public class FryingPanUI : MonoBehaviour
     {
         fryingPanUIObject.SetActive(false);
         powerSliderSnap.OnSliderEvent += OnSliderValueChanged;
+
     }
 
-    public void Initialize(bool unlockStep)
+    public void Initialize(int successFireStep)
     {
-        if (unlockStep)
+        if (RestaurantManager.instance.currentPanLevel >= 2)
         {
             this.isUnlockStep = true;
-            fireStep = 2;
+            fireStep = successFireStep;
             powerSliderObject.SetActive(false);
         }
-        else
-        {
-            isUnlockStep = false;
-        }
-        SetSections();
+        else  isUnlockStep = false;
 
+        SetSections();
     }
 
     public void OnFireControlUI()
