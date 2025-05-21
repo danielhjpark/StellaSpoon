@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RestauantSkyBoxSetting : MonoBehaviour
+public class SkyBoxSetting : MonoBehaviour
 {
     public Material skyboxMaterial;
 
