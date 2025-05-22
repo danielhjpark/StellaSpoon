@@ -17,6 +17,14 @@ public class PopupManager : MonoBehaviour
 
     public void ShowPopup(string message, float duration = 2f)
     {
+        // 최대 5개 이상이면 가장 오래된 팝업 제거
+        if (popupContainer.childCount >= 5)
+        {
+            // 첫 번째 팝업 제거 (가장 오래된 것)
+            Transform oldest = popupContainer.GetChild(0);
+            Destroy(oldest.gameObject);
+        }
+
         GameObject popupGO = Instantiate(popupPrefab, popupContainer);
         popupGO.transform.SetAsLastSibling(); // 밑에 쌓이게
 
