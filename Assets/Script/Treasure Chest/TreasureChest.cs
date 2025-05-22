@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class TreasureChest : MonoBehaviour
@@ -159,45 +160,41 @@ public class TreasureChest : MonoBehaviour
 
         for (int i = 0; i < possibleItems.Count; i++)
         {
-            int createdCount = 0;
-
-            for (int j = 0; j < maxItemCount[i]; j++)
+            float rand = Random.Range(0, 100f);
+            Debug.Log(rand);
+            if(rand > itemPrecent[i])
             {
-                if (j < minItemCount[i] || Random.Range(0, 100f) <= itemPrecent[i])
+                continue; //생성 실패
+            }
+
+            int count = Random.Range(minItemCount[i], maxItemCount[i] + 1); //최소~최대 갯수 랜덤 생성
+
+            Item currentItem = possibleItems[i];
+
+            bool addedToExistingSlot = false;
+            foreach (Slot slot in chestSlots)
+            {
+                if (slot.item != null && slot.item.itemName == currentItem.itemName)
                 {
-                    Item currentItem = possibleItems[i];
-
-                    // 1. 기존 슬롯에서 동일 아이템을 찾는다
-                    bool addedToExistingSlot = false;
-                    foreach (Slot slot in chestSlots)
+                    slot.SetSlotCount(slot.itemCount + count);
+                    addedToExistingSlot = true;
+                    break;
+                }
+            }
+            // 4. 기존 슬롯에 없으면 새로운 슬롯에 추가
+            if (!addedToExistingSlot)
+            {
+                for (int k = 0; k < totalSlotCount; k++)
+                {
+                    if (chestSlots[k].item == null)
                     {
-                        if (slot.item != null && slot.item.itemName == currentItem.itemName)
-                        {
-                            slot.SetSlotCount(1);
-                            addedToExistingSlot = true;
-                            break;
-                        }
+                        chestSlots[k].AddItemWithoutWeight(currentItem, count);
+                        break;
                     }
-
-                    // 2. 기존 슬롯에 없으면 새로운 슬롯을 찾는다
-                    if (!addedToExistingSlot)
+                    if (k == totalSlotCount - 1)
                     {
-                        for (int k = 0; k < totalSlotCount; k++)
-                        {
-                            if (chestSlots[k].item == null)
-                            {
-                                chestSlots[k].AddItemWithoutWeight(currentItem, 1);
-                                break;
-                            }
-
-                            if (k == totalSlotCount - 1)
-                            {
-                                Debug.LogWarning("보물상자 슬롯이 부족합니다. 일부 아이템은 추가되지 않았습니다.");
-                            }
-                        }
+                        Debug.LogWarning("보물상자 슬롯이 부족합니다. 일부 아이템은 추가되지 않았습니다.");
                     }
-
-                    createdCount++;
                 }
             }
         }
