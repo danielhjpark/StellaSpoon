@@ -53,9 +53,14 @@ public class RifleManager : MonoBehaviour
             currentShootDelay += Time.deltaTime;
         }
 
-        //if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
-        //else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
-        //else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            tempestFang = true;
+            infernoLance = true;
+            SwitchWeapon(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
     }
 
     public void Shooting(Vector3 targetPosition)
@@ -69,6 +74,11 @@ public class RifleManager : MonoBehaviour
 
         // 무기 레벨
         int weaponLevel = CurrentWeaponLevel;
+
+        if (CurrentWeapon.bulletShotAudio != null)
+        {
+            AudioSource.PlayClipAtPoint(CurrentWeapon.bulletShotAudio, CurrentWeapon.bulletPoint.position, 0.5f);
+        }
 
         // 총구 화염
         var flashFX = BulletPoolManager.instance.GetObject(weaponLevel, "muzzle", CurrentWeapon.muzzleFlashPrefab);
@@ -90,7 +100,6 @@ public class RifleManager : MonoBehaviour
             bullet.SetDamageFromWeapon(CurrentWeapon);
         }
 
-        // 총 반동이 있다면 여기에 recoil 추가 가능
     }
 
     public void ReloadClip()

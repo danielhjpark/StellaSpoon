@@ -64,7 +64,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private AudioClip Reload_SFX; // 재장전 소리
 
-    private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
     public bool isRestaurant;
 
     private bool rigTemporarilyDisabled = false;
