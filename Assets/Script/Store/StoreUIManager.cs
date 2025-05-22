@@ -41,9 +41,9 @@ public class StoreUIManager : MonoBehaviour
     private GameObject sellBase;
 
     [SerializeField]
-    private TextMeshProUGUI countText;
+    public TextMeshProUGUI countText;
     [SerializeField]
-    private TextMeshProUGUI ingredientNeedGold;
+    public TextMeshProUGUI ingredientNeedGold;
 
     [SerializeField]
     private GameObject[] stage2_ingredientButtons; // 스테이지 2 전용 재료 버튼들
@@ -57,6 +57,13 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private int currentPurchaseCount = 0; //현재 구매 갯수
     private int currentSelectedIngredientIndex = -1; //현재 선택된 재료 인덱스
+
+    public enum CurrentState
+    {
+        Buy,
+        Sell
+    }
+    public CurrentState currentState;
 
     [Header("-----Cook-----")]
     //현재 조리기구 레벨
@@ -126,7 +133,7 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI gunNeedGold;
 
-    [SerializeField] 
+    [SerializeField]
     private int tempestBTCount;
     [SerializeField]
     private int tempestRHBCount;
@@ -136,7 +143,7 @@ public class StoreUIManager : MonoBehaviour
     private int tempestVerCount;
     [SerializeField]
     private int tempestScrCount;
-    
+
     [SerializeField]
     private int infernoRBLCount;
     [SerializeField]
@@ -221,11 +228,25 @@ public class StoreUIManager : MonoBehaviour
     //ingredient
     public void PlusButton()
     {
-        if(currentPurchaseCount < 99)
+        if(currentState == CurrentState.Sell)
         {
-            currentPurchaseCount++;
-            countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
-            UpdateIngredientTotalCost();
+            //가지고 있는 갯수보다 많이 선택 불가능
+            if(currentPurchaseCount < inventory.GetItemCount(items[currentSelectedIngredientIndex].name))
+            {
+                currentPurchaseCount++;
+                countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+                UpdateIngredientTotalCost();
+            }
+        }
+        else if(currentState == CurrentState.Buy)
+        {
+            //구매 갯수 99개까지 가능
+            if (currentPurchaseCount < 99)
+            {
+                currentPurchaseCount++;
+                countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+                UpdateIngredientTotalCost();
+            }
         }
     }
     public void MinusButton()
@@ -240,7 +261,7 @@ public class StoreUIManager : MonoBehaviour
 
     public void SelectedIngredient(int index)
     {
-        if(index < 0 || index >= items.Count)
+        if (index < 0 || index >= items.Count)
         {
             Debug.Log("잘못된 인덱스");
             return;
@@ -269,11 +290,24 @@ public class StoreUIManager : MonoBehaviour
         {
             return;
         }
-        int price = items[currentSelectedIngredientIndex].itemBuyPrice;
+        int price;
+        if (currentState == CurrentState.Sell)
+        {
+            price = items[currentSelectedIngredientIndex].itemSellPrice;
+        }
+        else if (currentState == CurrentState.Buy)
+        {
+            price = items[currentSelectedIngredientIndex].itemBuyPrice;
+        }
+        else
+        {
+            Debug.Log("잘못된 상태");
+            return;
+        }
         int totalCost = price * currentPurchaseCount;
         if (ingredientNeedGold != null)
         {
-            ingredientNeedGold.text  = totalCost.ToString();
+            ingredientNeedGold.text = totalCost.ToString();
         }
     }
 
@@ -304,6 +338,28 @@ public class StoreUIManager : MonoBehaviour
             Debug.Log("골드 부족");
         }
     }
+
+    public void SellIngredient()
+    {
+        if (currentSelectedIngredientIndex < 0)
+        {
+            Debug.Log("재료를 선택하세요");
+            return;
+        }
+        Item selectedItem = items[currentSelectedIngredientIndex];
+        int totalCost = selectedItem.itemSellPrice * currentPurchaseCount;
+
+
+        Manager.gold += totalCost;
+        Debug.Log(string.Format("{0} x {1} 판매 완료. ", selectedItem.itemName, currentPurchaseCount));
+
+        inventory.DecreaseItemCount(selectedItem.name, currentPurchaseCount);
+        //TODO: 인벤토리에서 해당 아이템 제거
+
+        Debug.Log("아이템 판매");
+        ResetIngredientPurchase();
+        UpdateAllSellButtons();
+    }
     public void UpdateAllSellButtons()
     {
         for (int i = 0; i < sellItemNames.Count; i++)
@@ -317,16 +373,6 @@ public class StoreUIManager : MonoBehaviour
             }
         }
     }
-
-    public void SellIngredient() // 아이템 판매 로직
-    {
-        if (currentSelectedIngredientIndex < 0)
-        {
-            Debug.Log("재료를 선택하세요");
-            return;
-        }
-        UpdateAllSellButtons();
-    }
     //cook
 
     private void LevelCostSetting()
@@ -335,7 +381,7 @@ public class StoreUIManager : MonoBehaviour
         worLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentWorLevel.ToString();
         cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentCuttingBoardLevel.ToString();
         potLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPotLevel.ToString();
-        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text =panUpgradeCost[currentPanLevel - 1].ToString();
+        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text = panUpgradeCost[currentPanLevel - 1].ToString();
         worUpgradeCostText.GetComponent<TextMeshProUGUI>().text = worUpgradeCost[currentWorLevel - 1].ToString();
         cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text = cuttingBoardUpgradeCost[currentCuttingBoardLevel - 1].ToString();
         potUpgradeCostText.GetComponent<TextMeshProUGUI>().text = potUpgradeCost[currentPotLevel - 1].ToString();
@@ -351,7 +397,7 @@ public class StoreUIManager : MonoBehaviour
             case "Pan":
                 upgradeCost = panUpgradeCost;
                 upgradeLevel = ref currentPanLevel;
-                if(currentPanLevel >= maxPanLevel)
+                if (currentPanLevel >= maxPanLevel)
                 {
                     Debug.Log("팬 업그레이드 최대 레벨 도달");
                     isMaxLevel = true;
@@ -393,9 +439,9 @@ public class StoreUIManager : MonoBehaviour
                 return;
         }
 
-        if(!isMaxLevel) //최대레벨이 아닐 때
+        if (!isMaxLevel) //최대레벨이 아닐 때
         {
-            if (upgradeCost[upgradeLevel-1] <=Manager.gold) //보유 골드가 업그레이드 비용보다 많을 때
+            if (upgradeCost[upgradeLevel - 1] <= Manager.gold) //보유 골드가 업그레이드 비용보다 많을 때
             {
                 upgradeLevel++;
                 Manager.gold -= upgradeCost[upgradeLevel - 1];
