@@ -68,7 +68,7 @@ public class Manager : MonoBehaviour
 
         //씬이 "레스토랑이나 상점으로 변경되면 골드 UI 활성화
         if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.Restaurant ||
-           PlanetManager.selectedPlanet == PlanetManager.PlanetType.Store)
+           PlanetManager.selectedPlanet == PlanetManager.PlanetType.Shop)
         {
             GoldUI.SetActive(true);
         }
