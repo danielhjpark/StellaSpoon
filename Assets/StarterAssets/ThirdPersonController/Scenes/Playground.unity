@@ -3868,6 +3868,63 @@ RectTransform:
   m_AnchoredPosition: {x: 80, y: 200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &182444960
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.005857468
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.49999958
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.6045585
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 157150170024427317, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404811219071584891, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
+      propertyPath: m_Name
+      value: Allirubium_Pocket
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c78400d1493f07a44a63e03d4468a206, type: 3}
 --- !u!1 &186728468
 GameObject:
   m_ObjectHideFlags: 0
@@ -13400,6 +13457,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0271df749728104eac22c3d897fd8ce, type: 3}
+--- !u!1 &751242858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6762258782525948635, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+  m_PrefabInstance: {fileID: 1005355556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &767306075
 GameObject:
   m_ObjectHideFlags: 0
@@ -17576,6 +17638,10 @@ PrefabInstance:
       propertyPath: theInventory
       value: 
       objectReference: {fileID: 1093855651}
+    - target: {fileID: 4233636328330715547, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
+      propertyPath: go_InputWindow
+      value: 
+      objectReference: {fileID: 1650686601}
     - target: {fileID: 4233636328330715547, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: layerMask.m_Bits
       value: 32896
@@ -27075,6 +27141,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638784636}
   m_CullTransparentMesh: 1
+--- !u!1 &1650686601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8751041859777861667, guid: da2791985bc253f4c87b33e59a1f5aa5, type: 3}
+  m_PrefabInstance: {fileID: 3049753574356837018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1655055277
 GameObject:
   m_ObjectHideFlags: 0
@@ -39349,6 +39420,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PARENT_InventoryBase(DeactivateThis)
       objectReference: {fileID: 0}
+    - target: {fileID: 8234234204556742740, guid: da2791985bc253f4c87b33e59a1f5aa5, type: 3}
+      propertyPath: thePlayer
+      value: 
+      objectReference: {fileID: 751242858}
+    - target: {fileID: 8234234204556742740, guid: da2791985bc253f4c87b33e59a1f5aa5, type: 3}
+      propertyPath: showTextObj
+      value: 
+      objectReference: {fileID: 737944249}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -42505,3 +42584,4 @@ SceneRoots:
   - {fileID: 1005355556}
   - {fileID: 1306494991}
   - {fileID: 1339218551}
+  - {fileID: 182444960}
