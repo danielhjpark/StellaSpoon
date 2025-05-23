@@ -290,6 +290,7 @@ public abstract class MonsterBase : MonoBehaviour
         StartCoroutine(DeathDelay());
         //아이템 드랍
         DropItems();
+        Manager.KillMonsterCount++;
     }
 
     //

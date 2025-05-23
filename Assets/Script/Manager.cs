@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,15 +21,25 @@ public class Manager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI InvenGoldText;
 
+    private const string lastSavedTimeKey = "LastSavedTime"; // PlayerPrefs 키
+    private const string KillCountKey = "KillTime"; // PlayerPrefs 키
+
+    public static int KillMonsterCount = 0; //처치한 몬스터 수
+
 
     private void Update()
     {
-        InvenGoldText.text = gold.ToString(); 
+        InvenGoldText.text = gold.ToString();
 
-        if(GoldUI.activeSelf)
+        if (GoldUI.activeSelf)
         {
             GoldUI.GetComponent<TextMeshProUGUI>().text = gold.ToString();
         }
+    }
+
+    private void Start()
+    {
+        LoadGameKillCount();
     }
     private void Awake()
     {
@@ -75,6 +86,32 @@ public class Manager : MonoBehaviour
         else
         {
             GoldUI.SetActive(false);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        // 게임 종료 시 시간 저장
+        SaveKillCount();
+    }
+    private void SaveKillCount()
+    {
+        // 현재 시간 기록
+        PlayerPrefs.SetString(lastSavedTimeKey, DateTime.Now.ToString());
+        PlayerPrefs.SetInt(KillCountKey, KillMonsterCount);
+        PlayerPrefs.Save();
+    }
+    private void LoadGameKillCount()
+    {
+        // 마지막 저장된 시간 가져오기
+        if (PlayerPrefs.HasKey(lastSavedTimeKey) && PlayerPrefs.HasKey(KillCountKey))
+        {
+            KillMonsterCount = PlayerPrefs.GetInt(KillCountKey);
+        }
+        else
+        {
+            // 저장된 데이터가 없으면 초기화
+            KillMonsterCount = 0;
         }
     }
 }
