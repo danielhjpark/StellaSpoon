@@ -607,7 +607,7 @@ namespace StarterAssets
 
             if (monsterDam <= 0)
             {
-                monsterDam = 10;
+                monsterDam = 1;
             }
 
             curHP -= monsterDam;
@@ -694,14 +694,27 @@ namespace StarterAssets
 
             // 인벤토리 정리 및 리스폰 처리
             InventoryManager.instance.ClearAllSlots();
-            StartCoroutine(Respawn());
+            StartCoroutine(RespawnWithFade());
         }
+        private IEnumerator RespawnWithFade()
+        {
+            yield return new WaitForSeconds(1f);
 
+            // 페이드 아웃 (0 -> 1)
+            if (FadeEffect.Instance != null)
+                yield return StartCoroutine(FadeEffect.Instance.Fade(0, 1));
 
+            // 리스폰 진행
+            yield return StartCoroutine(Respawn());
+
+            // 페이드 인 (1 -> 0)
+            if (FadeEffect.Instance != null)
+                yield return StartCoroutine(FadeEffect.Instance.Fade(1, 0));
+        }
 
         private IEnumerator Respawn()
         {
-            yield return new WaitForSeconds(5f); // 5초 대기
+            yield return new WaitForSeconds(3f); // 3초 대기
 
             // playerRespawn이 null이면 찾아서 할당
             if (playerRespawn == null)
@@ -723,7 +736,7 @@ namespace StarterAssets
             isInvincible = false; // 무적 상태 해제
             _animator.SetTrigger("ReSpawn");
             _characterController.enabled = false;
-            transform.position = playerRespawn.ReSpawnPoint.position; // 🔥 이제 Null 오류 발생 안 함!
+            transform.position = playerRespawn.ReSpawnPoint.position; // 이제 Null 오류 발생 안 함!
             _characterController.enabled = true;
 
             Debug.Log("Player Respawned at: " + playerRespawn.ReSpawnPoint.position);

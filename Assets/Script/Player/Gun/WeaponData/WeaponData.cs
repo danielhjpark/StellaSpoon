@@ -15,6 +15,8 @@ public class WeaponData
     public GameObject bulletCasePrefab;
     public GameObject weaponClipPrefab;
 
+    public AudioClip bulletShotAudio;
+
     [Header("Weapon Stats")]
     public int damage = 20;
     public int weight = 5;

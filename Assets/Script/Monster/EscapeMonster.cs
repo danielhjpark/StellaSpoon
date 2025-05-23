@@ -10,7 +10,7 @@ public class EscapeMonster : MonsterBase
     //도망 몬스터는 공격 범위 없고
     //인지 범위에 들어왔을 때 반대쪽 경로 설정
     [Header("도망 몬스터 information")]
-    public bool isEscaping = false;
+    public bool isEscaping = false; //도망가는중 변수 
     private Vector3 escapeTarget; //도망가는 위치
     [SerializeField]
     private float moveSpeed = 3f; //이동 속도
@@ -48,6 +48,7 @@ public class EscapeMonster : MonsterBase
         {
             if (!nav.pathPending && nav.remainingDistance <= nav.stoppingDistance)
             {
+                animator.SetBool("Run", false);
                 isEscaping = false; //도망 종료
                 isPlayerDetected = false;
                 nav.speed = moveSpeed; //움직임 속도 초기화
@@ -88,8 +89,8 @@ public class EscapeMonster : MonsterBase
 
         nav.speed = escapeSpeed; //도망속도로 변경
 
-        //애니메이션 RUN 으로 변경 필요
-        //도착시 애니메이션 IDLE로 변경 필요
+        animator.SetBool("Walk", false);
+        animator.SetBool("Run", true);
 
         //도망가는 방향 설정
         Vector3 myPos = transform.position;

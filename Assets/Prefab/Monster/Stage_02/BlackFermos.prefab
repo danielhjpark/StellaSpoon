@@ -183,7 +183,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ec328381f4af3e44be7c897da1b31fe, type: 2}
+  - {fileID: 2100000, guid: 448561c95fc03ef4d90a983e9815a9f4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1018,7 +1018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
-  damage: 10
+  damage: 30
   isDead: 0
   isAttack: 0
   attackColl: 0
@@ -1038,6 +1038,7 @@ MonoBehaviour:
   - 20
   - 0.06
   maxDropItems: 020000000100000001000000
+  thirdPersonController: {fileID: 0}
   isEscaping: 0
   moveSpeed: 3
   escapeSpeed: 5

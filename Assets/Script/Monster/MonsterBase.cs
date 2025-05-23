@@ -58,7 +58,7 @@ public abstract class MonsterBase : MonoBehaviour
     private bool isDamage; //데미지를 입었는지 체크 변수
     private bool RandomPositionDecide = false; //랜덤 경로가 정해졌는지 체크 변수
 
-    private float distanceToPlayer; //플레이어와의 거리
+    protected float distanceToPlayer; //플레이어와의 거리
 
     protected void Start()
     {
@@ -290,6 +290,7 @@ public abstract class MonsterBase : MonoBehaviour
         StartCoroutine(DeathDelay());
         //아이템 드랍
         DropItems();
+        Manager.KillMonsterCount++;
     }
 
     //

@@ -15,29 +15,40 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private GameObject chatUI;
 
-    public void CallChatUI() //대화창 ON
-    {
-        chatUI.SetActive(true);
-    }
-    public void CloseChatUI() //대화창 OFF
-    {
-        chatUI.SetActive(false);
-    }
-
     [Header("-----ingredient-----")]
+    [SerializeField]
+    private List<string> sellItemNames = new List<string>
+{
+    "Ruby_Root",
+    "Allirubium",
+    "Barcrose_Meet",
+    "Hornavia_Meet",
+    "AdenBear_LegMeet",
+    "Red_Barcrose_Meet",
+    "Red_Hornavia_Meet",
+    "Cont_AdenBear_Meet",
+    "Alivery_Meet",
+    "Glasta",
+    "Bypin",
+    "Fermos_Sell",
+    "Silver_Wolf_Rib",
+    "Black_Fermos_Meet",
+    "Nova_Wolf_Meet"
+};
     [SerializeField]
     private GameObject buyBase;
     [SerializeField]
     private GameObject sellBase;
 
     [SerializeField]
-    private TextMeshProUGUI countText;
+    public TextMeshProUGUI countText;
     [SerializeField]
-    private TextMeshProUGUI ingredientNeedGold;
+    public TextMeshProUGUI ingredientNeedGold;
 
     [SerializeField]
-    private GameObject[] stage2_ingredientButtons; //재료 버튼들
-
+    private GameObject[] stage2_ingredientButtons; // 스테이지 2 전용 재료 버튼들
+    [SerializeField]
+    private GameObject[] sellItemButtons; // 팔 재료 버튼
 
     [Header("Ingredient List")]
     [SerializeField]
@@ -46,6 +57,13 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private int currentPurchaseCount = 0; //현재 구매 갯수
     private int currentSelectedIngredientIndex = -1; //현재 선택된 재료 인덱스
+
+    public enum CurrentState
+    {
+        Buy,
+        Sell
+    }
+    public CurrentState currentState;
 
     [Header("-----Cook-----")]
     //현재 조리기구 레벨
@@ -165,9 +183,18 @@ public class StoreUIManager : MonoBehaviour
             Debug.LogWarning("Inventory 오브젝트를 찾을 수 없습니다.");
         }
         ResetIngredientPurchase();
-        //SelectTempestFang(); //처음 시작할 때 TempestFang 선택
         SelectGun(0);
         LevelCostSetting(); //조리도구상점 업그레이드 비용 설정
+        UpdateAllSellButtons();
+    }
+
+    public void CallChatUI() //대화창 ON
+    {
+        chatUI.SetActive(true);
+    }
+    public void CloseChatUI() //대화창 OFF
+    {
+        chatUI.SetActive(false);
     }
 
     private void OnEnable()
@@ -199,24 +226,27 @@ public class StoreUIManager : MonoBehaviour
         }
     }
     //ingredient
-    public void SelectBuy()
-    {
-        buyBase.SetActive(true);
-        sellBase.SetActive(false);
-    }
-    public void SelectSell()
-    {
-        sellBase.SetActive(true);
-        buyBase.SetActive(false);
-    }
-
     public void PlusButton()
     {
-        if (currentPurchaseCount < 99)
+        if(currentState == CurrentState.Sell)
         {
-            currentPurchaseCount++;
-            countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
-            UpdateIngredientTotalCost();
+            //가지고 있는 갯수보다 많이 선택 불가능
+            if(currentPurchaseCount < inventory.GetItemCount(items[currentSelectedIngredientIndex].name))
+            {
+                currentPurchaseCount++;
+                countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+                UpdateIngredientTotalCost();
+            }
+        }
+        else if(currentState == CurrentState.Buy)
+        {
+            //구매 갯수 99개까지 가능
+            if (currentPurchaseCount < 99)
+            {
+                currentPurchaseCount++;
+                countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+                UpdateIngredientTotalCost();
+            }
         }
     }
     public void MinusButton()
@@ -260,7 +290,20 @@ public class StoreUIManager : MonoBehaviour
         {
             return;
         }
-        int price = items[currentSelectedIngredientIndex].itemBuyPrice;
+        int price;
+        if (currentState == CurrentState.Sell)
+        {
+            price = items[currentSelectedIngredientIndex].itemSellPrice;
+        }
+        else if (currentState == CurrentState.Buy)
+        {
+            price = items[currentSelectedIngredientIndex].itemBuyPrice;
+        }
+        else
+        {
+            Debug.Log("잘못된 상태");
+            return;
+        }
         int totalCost = price * currentPurchaseCount;
         if (ingredientNeedGold != null)
         {
@@ -288,6 +331,7 @@ public class StoreUIManager : MonoBehaviour
 
             Debug.Log("아이템 구매");
             ResetIngredientPurchase();
+            UpdateAllSellButtons();
         }
         else
         {
@@ -295,19 +339,44 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
-
-    //cook
-    private void LevelSetting()
+    public void SellIngredient()
     {
-        this.currentPanLevel = RestaurantManager.instance.currentPanLevel;
-        this.currentCuttingBoardLevel = RestaurantManager.instance.currentCuttingBoardLevel;
-        this.currentWorLevel = RestaurantManager.instance.currentWorLevel;
-        this.currentPotLevel = RestaurantManager.instance.currentPotLevel;
+        if (currentSelectedIngredientIndex < 0)
+        {
+            Debug.Log("재료를 선택하세요");
+            return;
+        }
+        Item selectedItem = items[currentSelectedIngredientIndex];
+        int totalCost = selectedItem.itemSellPrice * currentPurchaseCount;
+
+
+        Manager.gold += totalCost;
+        Debug.Log(string.Format("{0} x {1} 판매 완료. ", selectedItem.itemName, currentPurchaseCount));
+
+        inventory.DecreaseItemCount(selectedItem.name, currentPurchaseCount);
+        //TODO: 인벤토리에서 해당 아이템 제거
+
+        Debug.Log("아이템 판매");
+        ResetIngredientPurchase();
+        UpdateAllSellButtons();
     }
+    public void UpdateAllSellButtons()
+    {
+        for (int i = 0; i < sellItemNames.Count; i++)
+        {
+            string itemName = sellItemNames[i];
+            int itemCount = inventory.GetItemCount(itemName);
+
+            if (i < sellItemButtons.Length)
+            {
+                sellItemButtons[i].SetActive(itemCount > 0);
+            }
+        }
+    }
+    //cook
 
     private void LevelCostSetting()
     {
-        LevelSetting();
         panLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPanLevel.ToString();
         worLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentWorLevel.ToString();
         cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentCuttingBoardLevel.ToString();

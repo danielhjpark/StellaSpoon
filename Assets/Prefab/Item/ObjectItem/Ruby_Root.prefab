@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6755164156422863255}
   - component: {fileID: 1674226756282841025}
   - component: {fileID: 7888806605581574774}
-  - component: {fileID: 6113720751046866564}
   - component: {fileID: 3353443781101217455}
   m_Layer: 7
   m_Name: Ruby_Root
@@ -31,9 +30,9 @@ Transform:
   m_GameObject: {fileID: 5267651742541315098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.9392817, y: 4.087682, z: 0.23267937}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -44,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5267651742541315098}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -6218066049873941575, guid: 7acb10faf231c40e6969b393f4ee2ff2, type: 3}
 --- !u!23 &6755164156422863255
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 84b61c3b705124e909641ac730035f4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &7888806605581574774
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -130,24 +129,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &6113720751046866564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5267651742541315098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: badb41cd2b9690f41b452b9d9d66b13d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deleteTime: 7
 --- !u!114 &3353443781101217455
 MonoBehaviour:
   m_ObjectHideFlags: 0
