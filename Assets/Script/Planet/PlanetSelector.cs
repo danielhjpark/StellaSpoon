@@ -9,7 +9,7 @@ public class PlanetSelector : MonoBehaviour
 
     [SerializeField]
     private GameObject mapPanel;
-    public void SelectPlanet(string planetName)
+    public void SelectPlanet(string planetName) // 해당 함수를 이용해서 씬 이동
     {
         // enum 값으로 변환
         if (System.Enum.TryParse(planetName, out PlanetManager.PlanetType selectedPlanet))

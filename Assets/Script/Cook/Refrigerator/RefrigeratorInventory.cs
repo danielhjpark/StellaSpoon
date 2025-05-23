@@ -7,11 +7,11 @@ public class RefrigeratorInventory : Inventory
 {
     public RefrigeratorSlot[] refrigeratorSlots;
     [SerializeField] GameObject slotParent;
-    List<Item> items;
+    List<Item> Refriitems;
     void Awake()
     {
         refrigeratorSlots = slotParent.GetComponentsInChildren<RefrigeratorSlot>();
-        items = new List<Item>();
+        Refriitems = new List<Item>();
         foreach (RefrigeratorSlot slot in refrigeratorSlots)
         {
             slot.OnSlotUpdate += SlotUpate;
@@ -114,7 +114,7 @@ public class RefrigeratorInventory : Inventory
                     else
                     {
                         slot.UseItem(currentCount);
-                        if (IngredientManager.IngredientAmount[currentIngredient] <= 0) items.Add(slot.previousItem);
+                        if (IngredientManager.IngredientAmount[currentIngredient] <= 0) Refriitems.Add(slot.previousItem);
                         return;
                     }
                 }
@@ -147,7 +147,7 @@ public class RefrigeratorInventory : Inventory
             }
         }
 
-        foreach (Item item in items)
+        foreach (Item item in Refriitems)
         {
             if (item.itemName == currentIngredient.ingredientName)
             {
@@ -157,7 +157,7 @@ public class RefrigeratorInventory : Inventory
                     {
                         slot.previousItem = item;
                         slot.RecallItem(Count);
-                        items.Remove(item);
+                        Refriitems.Remove(item);
                         return;
                     }
                 }

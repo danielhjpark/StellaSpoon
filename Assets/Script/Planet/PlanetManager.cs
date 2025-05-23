@@ -12,7 +12,7 @@ public class PlanetManager : MonoBehaviour
         Mars, //화성
         aRedForest, //1행성
         Shop,
-        Restaurant //레스토랑 테스트
+        RestaurantTest2 //레스토랑 테스트
         //새로운 행성 추가
     }
 
@@ -33,7 +33,7 @@ public class PlanetManager : MonoBehaviour
             { PlanetType.Mars, planetInfos[2] },
             {PlanetType.aRedForest, planetInfos[3] },
             { PlanetType.Shop, planetInfos[4] },
-            { PlanetType.Restaurant, planetInfos[5] }
+            { PlanetType.RestaurantTest2, planetInfos[5] }
             //새로운 행성 추가
         };
     }

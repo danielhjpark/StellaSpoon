@@ -17,10 +17,55 @@ public class Inventory : MonoBehaviour
 
     private ItemNameData itemNameData;
 
+    public Slot[] GetSlots()
+    {
+        if (slots == null || slots.Length == 0)
+        {
+            slots = go_SlotsParent.GetComponentsInChildren<Slot>(true);
+        }
+        return slots;
+    }
+
+
+    [SerializeField]
+    private Item[] Inventoryitems;
+
+    public void LoadToInven(int _arrNum, string _itemName, int _itemCount)
+    {
+        for (int i = 0; i < Inventoryitems.Length; i++)
+        {
+            if (Inventoryitems[i].itemName == _itemName)
+            {
+                if (_arrNum >= 0 && _arrNum < slots.Length && slots[_arrNum] != null)
+                {
+                    slots[_arrNum].AddItem(Inventoryitems[i], _itemCount);
+                    return;
+                }
+                else
+                {
+                    Debug.LogError($"Invalid slot index {_arrNum} or slot is null.");
+                    return;
+                }
+            }
+        }
+        Debug.LogWarning($"아이템 '{_itemName}' 을 Inventoryitems에서 찾을 수 없습니다.");
+    }
+    private void Awake()
+    {
+        if (go_SlotsParent == null)
+        {
+            Debug.LogError("[Inventory] go_SlotsParent가 할당되지 않았습니다.");
+        }
+        else
+        {
+            slots = go_SlotsParent.GetComponentsInChildren<Slot>(true);
+            Debug.Log($"[Inventory] 슬롯 {slots.Length}개 초기화 완료");
+        }
+    }
     void Start()
     {
-        slots = go_SlotsParent.GetComponentsInChildren<Slot>();
         itemNameData = FindObjectOfType<ItemNameData>();
+        Debug.Log("Inventory Start에서 슬롯 개수: " + slots.Length);
     }
 
     public void OpenInventory()

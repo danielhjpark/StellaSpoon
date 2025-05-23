@@ -45,6 +45,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolSize: 10
+--- !u!1 &3279959753047253141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6403882717770246965}
+  m_Layer: 0
+  m_Name: SaveNLoadManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6403882717770246965
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3279959753047253141}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2427601303184606270}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3928233092353660124
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,6 +118,7 @@ Transform:
   - {fileID: 5337777910766764463}
   - {fileID: 3276584570704568472}
   - {fileID: 8203731293615155098}
+  - {fileID: 6403882717770246965}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &254808030473941572
@@ -101,6 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35fc35630a84d947a15042423be60da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GoldUI: {fileID: 0}
+  InvenGoldText: {fileID: 0}
 --- !u!1 &7735484909860295891
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +649,18 @@ PrefabInstance:
       propertyPath: weaponLevels.Array.data[2].bulletPrefab
       value: 
       objectReference: {fileID: 8378503196372639160, guid: 56a31e3fb12a7da4cb69ab4dfcc420ac, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[0].bulletShotAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 3adcc1d2e3c3edb448013206c08bf699, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[1].bulletShotAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 85d54f35704d4c444b33918246ae90bc, type: 3}
+    - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
+      propertyPath: weaponLevels.Array.data[2].bulletShotAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f0f5110e85fbb840bb59aac88064e2a, type: 3}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponLevels.Array.data[0].bulletCasePrefab
       value: 

@@ -12,6 +12,7 @@ namespace UnityNote
     public class SceneLoader : MonoBehaviour
     {
         public static SceneLoader Instance { get; private set; }
+        public static SaveNLoad instance { get; private set; }
 
         [SerializeField]
         private GameObject loadingScreen;
@@ -26,9 +27,14 @@ namespace UnityNote
 
         private WaitForSeconds waitChangeDelay;
 
+        private SaveNLoad theSaveNLoad; // 사용
+        private bool loadSaveFile = false;
+
+
         private void Awake()
         {
-            if (Instance != null && Instance != this)
+
+            if (Instance != null && Instance != this && instance != null && instance != this)
             {
                 Destroy(gameObject);
             }
@@ -124,6 +130,11 @@ namespace UnityNote
         {
             LoadScene(name.ToString());  // 열고자 하는 씬의 이름을 받아서 로드
         }
+        public void LoadScene(SceneNames name, bool loadSave)
+        {
+            loadSaveFile = loadSave;
+            LoadScene(name.ToString());
+        }
 
         private IEnumerator LoadSceneAsync(string name)
         {
@@ -147,6 +158,25 @@ namespace UnityNote
 
             // 씬 전환
             asyncOperation.allowSceneActivation = true;
+
+            yield return new WaitForSeconds(0.1f);
+
+            theSaveNLoad = FindObjectOfType<SaveNLoad>();
+
+            if (loadSaveFile && theSaveNLoad != null)
+            {
+                theSaveNLoad.LoadData();
+                Debug.Log("씬 로더에 있는 로드 데이터 완료");
+            }
+        }
+        public void OnClick_ContinueGame()
+        {
+            LoadScene(SceneNames.RestaurantTest2, true); // 나중에 변경
+        }
+
+        public void OnClick_NewGame()
+        {
+            LoadScene(SceneNames.RestaurantTest2, false);
         }
     }
 }
