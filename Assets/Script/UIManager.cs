@@ -20,18 +20,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Tab))
-        // {
-        //     Cursor.lockState = CursorLockMode.None;
-        //     Cursor.visible = true;
-        //     Inventory.inventoryActivated = true;
-        // }
-        // if (Input.GetKeyDown(KeyCode.Escape))
-        // {
-        //     Cursor.lockState = CursorLockMode.Locked;
-        //     Cursor.visible = false;
-        //     Inventory.inventoryActivated = false;
-        // }
+
     }
 
 

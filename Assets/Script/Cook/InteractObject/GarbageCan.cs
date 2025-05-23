@@ -5,17 +5,14 @@ using UnityEngine;
 public class GarbageCan : MonoBehaviour
 {
     [SerializeField] private ServeSystem serveSystem;
-    bool isHaveMenu;
-
     void Start()
     {
-        isHaveMenu = false;
         if (serveSystem == null) serveSystem = FindObjectOfType<ServeSystem>();
     }
 
     private void Update()
     {
-        if (InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (CookManager.instance.isPickUpMenu && InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             UseGarbageCan();
         }

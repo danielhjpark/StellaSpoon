@@ -14,6 +14,7 @@ public class OrderManager : MonoBehaviour
     List<Recipe> failMenu = new List<Recipe>();
 
     public Coroutine restaurantCoroutine;
+    public Coroutine restaurantStopCoroutine;
     private float startInterval = 0f;
     private const float minSpwanInterval = 5f, maxSpwanInterval = 10f; //NPC 생성시간 최소
 
@@ -40,7 +41,8 @@ public class OrderManager : MonoBehaviour
 
     public void CloseRestaurant()
     {
-        if(restaurantCoroutine != null) StopCoroutine(restaurantCoroutine);
+        if (restaurantCoroutine != null) StopCoroutine(restaurantCoroutine);
+        if(restaurantStopCoroutine == null) restaurantStopCoroutine =StartCoroutine(StopRestaurant());
         //NPC Return
     }
 
@@ -74,6 +76,24 @@ public class OrderManager : MonoBehaviour
             
         }
         restaurantCoroutine = null;
+    }
+
+    IEnumerator StopRestaurant()
+    {
+        foreach (GameObject npc in npcManager.npcList)
+        {
+            NPCBehavior npcBehavior = npc.GetComponent<NPCBehavior>();
+            npcBehavior.npcState = NPCBehavior.NPCState.Exiting;
+            StartCoroutine(npcBehavior.ForeceExit());
+        }
+
+        while (true)
+        {
+            if (npcManager.npcList.Count > 0) break;
+            yield return null;
+        }
+
+        restaurantStopCoroutine = null;
     }
 
     bool CheckSpawnNPC()

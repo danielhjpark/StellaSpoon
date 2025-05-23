@@ -31,13 +31,20 @@ public class DailyMenuUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         isCanAddMenu = true;
     }
 
-    public void Update() {
-        if(currentMenu != null) {
+    public void ResetUI()
+    {
+        
+    }
+
+    public void Update()
+    {
+        if (currentMenu != null)
+        {
             selectMenuCount.text = DailyMenuManager.dailyMenuList[currentMenu].ToString();
             currentAmount = DailyMenuManager.dailyMenuList[currentMenu];
         }
-        if(currentAmount <= 0 && currentMenu != null) RemoveMenu();
-        CancleMenuCheck();  
+        if (currentAmount <= 0 && currentMenu != null) RemoveMenu();
+        CancleMenuCheck();
 
     }
 

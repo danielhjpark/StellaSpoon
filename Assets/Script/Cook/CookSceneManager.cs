@@ -15,6 +15,7 @@ public class CookSceneManager : MonoBehaviour
     private const string panSceneName = "FryingPanMergeTest";
 
     public bool isSceneLoaded = false; // 씬 로드 상태 체크
+
     public string currentSceneName;
     public GameObject[] SpawnPoint;
 
@@ -29,7 +30,6 @@ public class CookSceneManager : MonoBehaviour
     {
         if (!isSceneLoaded)
         {
-            mainCamera.transform.gameObject.SetActive(false);
             switch (objName)
             {
                 case "CuttingBoard":
@@ -47,6 +47,7 @@ public class CookSceneManager : MonoBehaviour
                 default:
                     break;
             }
+            mainCamera.transform.gameObject.SetActive(false);
             SceneManager.LoadScene(currentSceneName, LoadSceneMode.Additive);
             isSceneLoaded = true;
             Cursor.lockState = CursorLockMode.None;
@@ -94,6 +95,10 @@ public class CookSceneManager : MonoBehaviour
     public void UnloadScene(string sceneName, Recipe menu)
     {
         if (isSceneLoaded) { }
+        if (menu == CookManager.instance.failMenu)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.FailMenu);
+        }
         mainCamera.transform.gameObject.SetActive(true);
         SceneManager.UnloadSceneAsync(sceneName);
         isSceneLoaded = false;

@@ -39,6 +39,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+
     // 무게 업데이트를 일시적으로 비활성화
     public void PauseWeightUpdate()
     {
@@ -76,7 +77,7 @@ public class InventoryManager : MonoBehaviour
         totalWeight = 0;
         foreach (var slot in FindObjectsOfType<Slot>())
         {
-            if (slot is TreasureChestSlot)
+            if (slot is TreasureChestSlot || slot is RefrigeratorSlot)
             {
                 continue;
             }

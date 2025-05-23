@@ -17,6 +17,7 @@ public class FryingSauceSystem : SauceSystem
         fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
         isLiquidFilled = false;
         isCanFillLiquid = false;
+        startLiquidFilled = false;
         maxScale = 25;
         minScale = 0;
         sauceType = SauceType.None;
@@ -24,7 +25,7 @@ public class FryingSauceSystem : SauceSystem
 
     public void Initialize(FryingSetting fryingSetting)
     {
-        scaleValue = maxScale /(fryingSetting.secondFryingCount * 2);
+        scaleValue = maxScale / (fryingSetting.secondFryingCount * 2);
         this.sauceType = fryingSetting.sauceType;
         this.sauceController.Initialize(sauceType);
         this.SetSauceColor();
@@ -32,7 +33,7 @@ public class FryingSauceSystem : SauceSystem
 
     public void InitializeMakeMode(int fryingCount)
     {
-        scaleValue = maxScale /(fryingCount * 2);
+        scaleValue = maxScale / (fryingCount * 2);
         this.sauceController.InitializeMakeMode();
     }
 

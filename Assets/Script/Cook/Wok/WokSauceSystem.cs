@@ -19,6 +19,7 @@ public class WokSauceSystem : SauceSystem
         wokAudioSystem = GetComponent<WokAudioSystem>();
         isLiquidFilled = false;
         isCanFillLiquid = false;
+        sauceType = SauceType.None;
     }
 
     public void Initialize(TossingSetting tossingSetting)

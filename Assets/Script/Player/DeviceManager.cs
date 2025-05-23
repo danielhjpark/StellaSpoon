@@ -45,7 +45,7 @@ public class DeviceManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false && WeaponChanger.isDeactived
-                && !StoreNPCManager.openingStoreUI && !playerController.isDie)
+                && !StoreNPCManager.openingStoreUI && !InteractUIManger.isUseInteractObject)
             {
                 ToggleUI();
             }
@@ -91,7 +91,6 @@ public class DeviceManager : MonoBehaviour
 
     private void CloseUI()
     {
-        isDeactived = true;
         uiPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -104,6 +103,8 @@ public class DeviceManager : MonoBehaviour
         recipeInfoPanel.SetActive(false);
 
         inventoryButtonImage.sprite = defaultSprite;
+
+        isDeactived = true;
 
         Option.OptionActivated = false;
         Planet.planetActivated = false;

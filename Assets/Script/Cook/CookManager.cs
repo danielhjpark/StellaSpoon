@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class CookManager : MonoBehaviour
 {
     static public CookManager instance;
-    static public StoreUIManager storeUIManager; 
+    static public StoreUIManager storeUIManager;
     //---------------- Cook Managers Setting--------------------//
     private CuttingManager cuttingManager;
     private WokManager wokManager;
@@ -26,9 +26,13 @@ public class CookManager : MonoBehaviour
     [SerializeField][Range(1f, 100f)] public float SauceAcceleration;
     [SerializeField][Range(1f, 100f)] public float SlideAcceleration;
 
+    //Use Global
     public enum CookMode { Select, Make };
     [NonSerialized] public CookMode cookMode;
     [NonSerialized] public bool isCanIngredientControll;
+    [NonSerialized] public bool isCanUseMiddleTable = true;
+    [NonSerialized] public bool isCanUseSideTable = true;
+    [NonSerialized] public bool isPickUpMenu = false;
 
     void Awake()
     {
@@ -66,18 +70,25 @@ public class CookManager : MonoBehaviour
     {
         if (!CookSceneManager.instance.isSceneLoaded)
         {
+            if (isPickUpMenu) return;
+            if (RestaurantOpenSystem.isRestaurantOpened) cookMode = CookMode.Select;
+            else cookMode = CookMode.Make;
+
             switch (objName)
             {
                 case "CuttingBoard":
                     InteractOtherObject(objName);
                     break;
                 case "Pot":
+                    if (!isCanUseSideTable) return;
                     InteractPotObject();
                     break;
                 case "Pan":
+                    if (!isCanUseMiddleTable) return;
                     InteractOtherObject(objName);
                     break;
                 case "Wok":
+                    if (!isCanUseMiddleTable) return;
                     InteractOtherObject(objName);
                     break;
                 default:

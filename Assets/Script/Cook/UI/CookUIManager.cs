@@ -27,6 +27,18 @@ public class CookUIManager : MonoBehaviour
 
     }
 
+    void Start()
+    {
+        if (CookManager.instance.cookMode == CookManager.CookMode.Select || CookManager.instance.currentCookType == CookType.Cutting)
+        {
+            SelectRecipeMode();
+        }
+        else
+        {
+            MakeRecipeMode();
+        }
+    }
+
     public void Initialize(CookManagerBase cookManagerBase)
     {
         this.currentCookManager = cookManagerBase;
@@ -44,14 +56,11 @@ public class CookUIManager : MonoBehaviour
     {
         SelectModePanel.SetActive(false);
         SelectRecipePanel.SetActive(true);
-        CookManager.instance.cookMode = CookManager.CookMode.Select;
     }
 
     public void MakeRecipeMode()
     {
         SelectModePanel.SetActive(false);
-        CookManager.instance.cookMode = CookManager.CookMode.Make;
-
         StartCoroutine(VisiblePanel());
         StartCoroutine(currentCookManager.UseCookingStep());
     }
@@ -81,7 +90,7 @@ public class CookUIManager : MonoBehaviour
     public IEnumerator HidePanel()
     {
         inventoryPanel.gameObject.SetActive(true);
-        if(inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
+        if (inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
         inventoryCoroutine = StartCoroutine(HideActive());
     }
 
@@ -106,11 +115,12 @@ public class CookUIManager : MonoBehaviour
     public IEnumerator VisiblePanel()
     {
         inventoryPanel.gameObject.SetActive(true);
-        if(inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
+        if (inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
         inventoryCoroutine = StartCoroutine(VisibleActive());
     }
 
-    private IEnumerator VisibleActive() {
+    private IEnumerator VisibleActive()
+    {
         int startPos = 250;
         while (true)
         {

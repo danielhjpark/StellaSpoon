@@ -78,7 +78,7 @@ public class CuttingManager : CookManagerBase
         IngredientManager.IngredientAmount[trimIngredient] += trimItemCount;
         RefrigeratorManager.instance.AddItem(trimItem, trimItemCount);
 
-        CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest", currentMenu);
+        CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest");
     }
 
     public override void AddIngredient(GameObject obj, Ingredient ingredient)

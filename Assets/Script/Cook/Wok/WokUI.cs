@@ -8,6 +8,7 @@ using System;
 public class WokUI : MonoBehaviour
 {
     [Header("Section")]
+    [SerializeField] GameObject sectionObject;
     [SerializeField] RectTransform sectionMark;
     [SerializeField] RectTransform[] roastSection;
 
@@ -24,32 +25,47 @@ public class WokUI : MonoBehaviour
     private float[] sections;
     private float currentPos;
     private bool isEnd;
-
+    private bool isUnlockStep;
     private int unlockStep; //Store Unlock Upgrade;
 
-    public int fireStep; // fireSlider 
+    [NonSerialized] public int fireStep = 1; // fireSlider 
 
     void Start()
     {
-        fireStep = 1;
         SetSections();
         wokUIObject.SetActive(false);
         powerSliderSnap.OnSliderEvent += OnSliderValueChanged;
     }
 
-    public void Initialize(int unlockStep)
+    public void Initialize(int successFireStep)
     {
-        //this.unlockStep = unlockStep;
-        this.unlockStep = 0;
-        if (unlockStep >= 2)
+        this.unlockStep = RestaurantManager.instance.currentWorLevel;
+
+        if (RestaurantManager.instance.currentWorLevel >= 2)
         {
             AutoFireTemperature();
+            isUnlockStep = true;
+            fireStep = successFireStep;
+            powerSliderObject.SetActive(false);
         }
+        else isUnlockStep = false;
 
         SetSections();
-        wokUIObject.SetActive(false);
     }
 
+    public void OnFireControlUI()
+    {
+        wokUIObject.SetActive(true);
+        powerSliderObject.SetActive(true);
+        sectionObject.SetActive(false);
+    }
+
+    public void OffFireControlUI()
+    {
+        wokUIObject.SetActive(false);
+        powerSliderObject.SetActive(false);
+        sectionObject.SetActive(true);
+    }
 
     void AutoFireTemperature()
     {

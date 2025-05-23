@@ -8,16 +8,16 @@ using Unity.VisualScripting;
 
 public class RestaurantOpenSystem : MonoBehaviour
 {
-    [SerializeField] private float range = 2.0f; 
-    private Transform playerTransform; 
-    
+    private float range = 2.0f;
+    private Transform playerTransform;
+
     [Header("GameTime")]
     [SerializeField] GameTimeManager gameTimeManager;
 
     [Header("Sign")]
     [SerializeField] private Renderer signRenderer;
     [SerializeField] private Material[] signMaterial;
-    [SerializeField] private LayerMask signLayer; 
+    [SerializeField] private LayerMask signLayer;
 
     [Header("UI")]
     [SerializeField] private GameObject OpenAndClosePanel;
@@ -29,115 +29,171 @@ public class RestaurantOpenSystem : MonoBehaviour
     [SerializeField] Animator doorAnimator;
     private string doorOpenName = "character_nearby";
 
-    private enum signState { Open = 0, Close = 1}
+    private enum signState { Open = 0, Close = 1 }
 
-    private bool isOpened; 
+    static public bool isRestaurantOpened;
 
-    int currentTime = 24;
+    int currentTime;
+
     const int openTime = 18;
+    const int lateOpenTime = 21;
     const int closeTime = 22;
+    const int forceCloseTime = 0;
 
-    void Start() {
+    void Start()
+    {
         playerTransform = GameObject.FindWithTag("Player").transform;
-        isOpened = false;
+        isRestaurantOpened = false;
         signRenderer.material = signMaterial[(int)signState.Close];
     }
 
     void Update()
     {
-        //currentTime = gameTimeManager.gameHours;
+        currentTime = gameTimeManager.gameHours;
         AutoCloseRestaurant();
         CheckSign();
         CheckRestaurant();
+        CheckDoorAnimation();
     }
 
 
     //------------------------------------------------------//
-    private bool IsCanInteractSign() {
-  
-        if(!isOpened && currentTime >= openTime && DailyMenuManager.dailyMenuList.Count > 0) {
+    private bool IsCanInteractSign()
+    {   
+        //오픈이 안되어 있고 오픈 시간 보다 이전일 때,
+        if (!isRestaurantOpened && currentTime < openTime)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Open);
+            return false;
+        }
+        //오픈된 상태이며, 클로즈 시간보다 이전일 때,
+        else if (isRestaurantOpened && openTime < currentTime && currentTime < closeTime && DailyMenuManager.dailyMenuList.Count > 0 && NpcManager.instance.npcList.Count > 0)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Close);
+            return false;
+        }
+        
+
+        if (!isRestaurantOpened && currentTime >= openTime && DailyMenuManager.dailyMenuList.Count > 0)
+        {
             return true;
         }
-        else if(isOpened && currentTime >= closeTime && DailyMenuManager.dailyMenuList.Count <= 0 && NpcManager.instance.npcList.Count <= 0) {
+        else if (isRestaurantOpened && currentTime >= closeTime && DailyMenuManager.dailyMenuList.Count <= 0 && NpcManager.instance.npcList.Count <= 0)
+        {
             return true;
         }
-        else {
-            return false;//early return
-        }
+        else return false;
+
+
     }
 
     private void CheckSign()
     {
-        if(!IsCanInteractSign()) {
-            OpenAndClosePanel.SetActive(false);
-            ResetGague();
-            return;
-        }
+        Vector3 rayOrigin = playerTransform.position + Vector3.up * 0.5f;
+        Vector3 rayDirection = playerTransform.forward;
 
-        Vector3 rayOrigin = playerTransform.position + Vector3.up * 0.5f; 
-        Vector3 rayDirection = playerTransform.forward; 
-
-        if(Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hitInfo, range, signLayer)) {
-      
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hitInfo, range, signLayer))
+        {
+            if (!IsCanInteractSign())
+            {
+                OpenAndClosePanel.SetActive(false);
+                ResetGague();
+                return;
+            }
             OpenAndClosePanel.SetActive(true);
-            if(Input.GetKey(KeyCode.F)) {
+            if (Input.GetKey(KeyCode.F))
+            {
                 FillGague();
             }
-            else {
+            else
+            {
                 ResetGague();
             }
         }
-        else {
+        else
+        {
             OpenAndClosePanel.SetActive(false);
             ResetGague();
         }
     }
 
-    private void AutoCloseRestaurant() {
-        if(isOpened && currentTime >= closeTime 
-        && DailyMenuManager.dailyMenuList.Count <= 0 
+    private void AutoCloseRestaurant()
+    {
+        if (isRestaurantOpened /*&& currentTime >= closeTime*/
+        && DailyMenuManager.dailyMenuList.Count <= 0
         && NpcManager.instance.npcList.Count <= 0
-        && OrderManager.instance.restaurantCoroutine == null) {
-            isOpened = false;
+        && OrderManager.instance.restaurantCoroutine == null)
+        {
+            isRestaurantOpened = false;
             OpenUI.SetActive(true);
             CloseUI.SetActive(false);
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Close];
 
-            doorAnimator.SetBool(doorOpenName, false);
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Ingredient);
+            OrderManager.instance.CloseRestaurant();
+        }
+
+        else if (isRestaurantOpened && currentTime < openTime && currentTime >=forceCloseTime)
+        {
+            isRestaurantOpened = false;
+            OpenUI.SetActive(true);
+            CloseUI.SetActive(false);
+            pressGagueImage.fillAmount = 0f;
+            signRenderer.material = signMaterial[(int)signState.Close];
+
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Close2);
+            OrderManager.instance.CloseRestaurant();
         }
     }
 
-    private void CheckRestaurant() {
-        if(pressGagueImage.fillAmount < 1) return;
-        if(!isOpened) {
-            isOpened = true;
+    private void CheckRestaurant()
+    {
+        if (pressGagueImage.fillAmount < 1) return;
+        if (!isRestaurantOpened)
+        {
+            isRestaurantOpened = true;
             OpenUI.SetActive(false);
             CloseUI.SetActive(true);
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Open];
 
-            doorAnimator.SetBool(doorOpenName, true);
             OrderManager.instance.OpenRestaurant();
         }
-        else {
-            isOpened = false;
+        else
+        {
+            isRestaurantOpened = false;
             OpenUI.SetActive(true);
             CloseUI.SetActive(false);
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Close];
 
-            doorAnimator.SetBool(doorOpenName, false);
             OrderManager.instance.CloseRestaurant();
+        }
+
+
+    }
+
+
+    private void CheckDoorAnimation()
+    {
+        if (isRestaurantOpened)
+        {
+            doorAnimator.SetBool(doorOpenName, true);
+        }
+        else if (!isRestaurantOpened && NpcManager.instance.npcList.Count <= 0)
+        {
+            doorAnimator.SetBool(doorOpenName, false);
         }
     }
 
-
-    private void FillGague() {
+    private void FillGague()
+    {
         pressGagueImage.fillAmount += Time.deltaTime * 0.5f;
     }
 
-    private void ResetGague() {
+    private void ResetGague()
+    {
         pressGagueImage.fillAmount = 0f;
     }
 

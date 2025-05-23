@@ -16,6 +16,9 @@ public class PlayerSpawn : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        string[] sceneNames = { "WokMergeTest", "FryingPanMergeTest", "PotMergeTest", "CuttingBoardMergeTest" };
+        foreach (string sceneName in sceneNames) if (scene.name == sceneName) return;
+
         StartCoroutine(SetPlayerPosition());
     }
 

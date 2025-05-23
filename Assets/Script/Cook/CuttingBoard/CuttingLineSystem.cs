@@ -57,7 +57,7 @@ public class CuttingLineSystem : MonoBehaviour
 
         while (true)
         {
-            t = 1; //Store Upgrade;
+            if (RestaurantManager.instance.currentCuttingBoardLevel >= 2) t = 1; //Store Upgrade;
             t += Time.deltaTime * 0.5f;
             ScannerObject.transform.position = Vector3.Lerp(startPos.position, endPos.position, t);
             if (t >= 1)
@@ -80,7 +80,8 @@ public class CuttingLineSystem : MonoBehaviour
         cuttingLines = new List<GameObject>();
     }
 
-    public void VisibleCuttingLines() {
+    public void VisibleCuttingLines()
+    {
         foreach (GameObject cuttingLine in cuttingLines)
         {
             cuttingLine.SetActive(true);

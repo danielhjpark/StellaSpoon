@@ -11,6 +11,7 @@ public class SauceSystem : MonoBehaviour
     [SerializeField, Range(0f, 1f)] protected float minRange;
 
     public SauceType sauceType;
+    public bool startLiquidFilled;
     protected bool isCanFillLiquid;
     protected bool isLiquidFilled;
 

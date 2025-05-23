@@ -6,8 +6,11 @@ using UnityEngine.UI;
 public class SleepBed : MonoBehaviour
 {
     [SerializeField] GameObject fadePanel;
-    bool isPlayerNearby;
+    [SerializeField] GameTimeManager gameTimeManager;
 
+    bool isPlayerNearby;
+    Coroutine sleepCoroutine;
+    int sleepTime = 5;
     void Start()
     {
 
@@ -16,14 +19,16 @@ public class SleepBed : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPlayerNearby && !InteractUIManger.isUseInteractObject && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (isPlayerNearby && !InteractUIManger.isUseInteractObject && Input.GetKeyDown(KeyCode.F) && sleepCoroutine == null) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
-           StartCoroutine(UseSleepBed());
+            sleepCoroutine = StartCoroutine(UseSleepBed());
         }
     }
 
-    IEnumerator UseSleepBed() {
+    IEnumerator UseSleepBed()
+    {
         //Player lock moving or actions;
+        gameTimeManager.AddTime(300);
         InteractUIManger.isUseInteractObject = true;
 
         fadePanel.SetActive(true);
@@ -31,11 +36,13 @@ public class SleepBed : MonoBehaviour
 
         yield return StartCoroutine(FadeOut());
         yield return StartCoroutine(FadeIn());
-
+        InteractUIManger.instance.UsingText(InteractUIManger.TextType.Sleep);
         InteractUIManger.isUseInteractObject = false;
+        fadePanel.SetActive(false);
+        sleepCoroutine = null;
     }
 
-     IEnumerator FadeOut()
+    IEnumerator FadeOut()
     {
         float elapsedTime = 0f; // 누적 경과 시간
         float fadedTime = 2f; // 총 소요 시간
@@ -75,10 +82,10 @@ public class SleepBed : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
-        {
-           StartCoroutine(UseSleepBed());
-        }
+        // if (InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        // {
+        //     StartCoroutine(UseSleepBed());
+        // }
     }
 
     private void OnTriggerExit(Collider other)

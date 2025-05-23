@@ -10,11 +10,9 @@ public class ServeSystem : MonoBehaviour
 {
     [SerializeField] private Transform playerHand;
     [NonSerialized] public Recipe currentMenu;
-    private GameObject serveObject;
-
     [SerializeField] private Animator playerAnimator;
     private string pickupAnimationName = "BringDish";
-
+    private GameObject serveObject;
     public void Start()
     {
         Initialize();
@@ -28,9 +26,13 @@ public class ServeSystem : MonoBehaviour
 
     public void PickUpMenu(GameObject menuObject)
     {
+        //PickUp Animate
         playerAnimator.SetBool(pickupAnimationName, true);
 
+        //PickUp lock
         Destroy(menuObject.GetComponent<Collider>());
+
+        //PickUp Menu transform position setting
         serveObject = menuObject;
         serveObject.transform.SetParent(playerHand);
         this.transform.localPosition = new Vector3(0, 0, 0);
@@ -38,6 +40,12 @@ public class ServeSystem : MonoBehaviour
         playerHand.localPosition = new Vector3(-0.05f, 1.123f, 0.3f);
         menuObject.transform.localPosition = new Vector3(0, 0, 0);
         menuObject.transform.localRotation = Quaternion.identity;
+
+        //PickUp Check && Interact Setting 
+        CookManager.instance.isPickUpMenu = true;
+        CookType cooktype = menuObject.GetComponent<MenuData>().menu.cookType;
+        if (cooktype == CookType.Frying || cooktype == CookType.Tossing) CookManager.instance.isCanUseMiddleTable = true;
+        else if (cooktype == CookType.Tossing) CookManager.instance.isCanUseSideTable = true;
     }
 
     public void ThrowOutMenu()
@@ -46,6 +54,7 @@ public class ServeSystem : MonoBehaviour
         {
             playerAnimator.SetBool(pickupAnimationName, false);
             Destroy(serveObject);
+            CookManager.instance.isPickUpMenu = false;
         }
     }
 
@@ -55,6 +64,7 @@ public class ServeSystem : MonoBehaviour
         {
             playerAnimator.SetBool(pickupAnimationName, false);
             behavior.ReceiveNPC(serveObject);
+            CookManager.instance.isPickUpMenu = false;
         }
     }
 

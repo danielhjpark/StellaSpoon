@@ -689,11 +689,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96b5e0dc64908b942b60eeeb956b739c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuObject: {fileID: 4428916275637433732}
+  menuImageObject: {fileID: 4428916275637433732}
   menuImage: {fileID: 4803041916596106907}
   emotionSprites:
   - {fileID: 21300000, guid: 1c699528b2d83b74f8f9745f55e817b2, type: 3}
   - {fileID: 21300000, guid: d2b25f9afb8db074ea5a4d3b473a4430, type: 3}
+  npcState: 0
   currentMenu: {fileID: 0}
 --- !u!195 &2205206047588559510
 NavMeshAgent:
@@ -707,7 +708,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 2
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 1
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -2305,9 +2306,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2f8a0fab215e10f4c85b14ca4c03f9a8, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1

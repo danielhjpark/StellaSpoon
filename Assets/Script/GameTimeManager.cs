@@ -56,7 +56,7 @@ public class GameTimeManager : MonoBehaviour
         {
             gameTimeText.text = $"Time\n{gameHours:D2}:{gameMinutes:D2}";
         }
-        if(gameDaysText != null)
+        if (gameDaysText != null)
         {
             gameDaysText.text = $"{gameDays}일";
         }
@@ -102,7 +102,7 @@ public class GameTimeManager : MonoBehaviour
             // 24시간을 초과하면 초기화
             gameTime %= 86400f;
 
-            if(PlayerPrefs.HasKey(gameDaysKey))
+            if (PlayerPrefs.HasKey(gameDaysKey))
             {
                 gameDays = PlayerPrefs.GetInt(gameDaysKey); // 게임 일수 복구
             }
@@ -116,5 +116,10 @@ public class GameTimeManager : MonoBehaviour
             // 저장된 데이터가 없으면 초기화
             gameTime = (startHour * 3600) + (startMinute * 60);
         }
+    }
+
+    public void AddTime(int minutes)
+    {
+        gameTime += minutes * 60f;
     }
 }

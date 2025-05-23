@@ -17,15 +17,10 @@ public class DailyMenuDevice : MonoBehaviour
 
     private void Update()
     {
-        //if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
-        if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !RestaurantOpenSystem.isRestaurantOpened) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             OpenDailyMenuUI();
         }
-        // if (DailyMenuUI.activeSelf && Input.GetKeyDown(KeyCode.Escape)) //UI가 열려있고 esc 눌렀을 때
-        // {
-        //     CloseDailyMenuUI();
-        // }
     }
     private void OpenDailyMenuUI() //UI출력
     {
@@ -35,7 +30,6 @@ public class DailyMenuDevice : MonoBehaviour
 
         DailyMenuUI.SetActive(true);
         InteractUIManger.isUseInteractObject = true;
-        Inventory.inventoryActivated = true;
     }
 
     public void CloseDailyMenuUI() //UI 닫기
@@ -46,12 +40,11 @@ public class DailyMenuDevice : MonoBehaviour
 
         DailyMenuUI.SetActive(false);
         InteractUIManger.isUseInteractObject = false;
-        Inventory.inventoryActivated = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !RestaurantOpenSystem.isRestaurantOpened)
         {
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
@@ -60,7 +53,7 @@ public class DailyMenuDevice : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player")&&!isOpenedDevice)
+        if (other.CompareTag("Player") && !isOpenedDevice)
         {
             InteractUIManger.isPlayerNearby = true;
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class NpcManager : MonoBehaviour
 {
@@ -20,38 +21,41 @@ public class NpcManager : MonoBehaviour
     public Transform[] sitpositions = new Transform[4]; //의자 좌표
     public Transform[] sitpoint = new Transform[4]; //의자 옆 좌표
     private bool[] sitOccupied = new bool[4]; //의자 상태 표시
-
-    private TextMeshProUGUI totalGoldText;
+    public Transform[] foodpoint = new Transform[4];//음식 테이블 포인트
 
     //OrderManger use this list
-    public List<GameObject> npcList = new List<GameObject>();
+    [NonSerialized] public List<GameObject> npcList = new List<GameObject>();
 
-    private void Awake() {
-        totalGoldText = GameObject.Find("GoldUI").GetComponent<TextMeshProUGUI>();
+    private void Awake()
+    {
         instance = this;
     }
-    
-    private void Update() {
-        totalGoldText.text = Manager.gold.ToString();
-    }
+
 
     public void SpwanNPCs(Recipe recipe)
     {
         int seatIndex = FindRandomSeat();
         if (seatIndex == -1) return; // 모든 좌석이 차 있을 때
 
-        GameObject npc = Instantiate(npcPrefab[Random.Range(0, npcPrefab.Length)], spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
+        GameObject npc = Instantiate(npcPrefab[UnityEngine.Random.Range(0, npcPrefab.Length)], spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
         npcList.Add(npc);
         StartCoroutine(ManageNPC(npc, recipe));
     }
-    
-    IEnumerator MoveNPC(GameObject npc, Transform targetPosition) {
+
+    IEnumerator MoveNPC(GameObject npc, Transform targetPosition)
+    {
         NavMeshAgent nav = npc.GetComponent<NavMeshAgent>();
+        NPCBehavior npcBehavior = nav.GetComponent<NPCBehavior>();
         nav.enabled = true;
         nav.SetDestination(targetPosition.position);
         // NPC가 목표 위치에 도달할 때까지 대기
         while (nav.pathPending || nav.remainingDistance > nav.stoppingDistance)
         {
+            if (npcBehavior.npcState == NPCBehavior.NPCState.Exiting)
+            {
+                nav.ResetPath();
+                break;
+            }
             // NPC가 목표 지점에 근접했는지 확인
             if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 0.3 &&
                 Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 0.3)
@@ -63,7 +67,7 @@ public class NpcManager : MonoBehaviour
 
             yield return null;
         }
- 
+
     }
 
     IEnumerator ManageNPC(GameObject npc, Recipe menu)
@@ -74,11 +78,12 @@ public class NpcManager : MonoBehaviour
             Destroy(npc);
             yield break;
         }
-        else {
+        else
+        {
             sitOccupied[seatIndex] = true;
         }
         // Set npc sitting
-       // Transform sitPoint = sitpositions[seatIndex];
+        // Transform sitPoint = sitpositions[seatIndex];
         Transform sitPoint = sitpoint[seatIndex];
         npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
 
@@ -87,10 +92,13 @@ public class NpcManager : MonoBehaviour
         yield return StartCoroutine(MoveNPC(npc, centerPoint.transform));
         yield return StartCoroutine(MoveNPC(npc, sitPoint));
         //yield return StartCoroutine(MoveNPC(npc, sitPoint2));
+        if (npc.GetComponent<NPCBehavior>().npcState == NPCBehavior.NPCState.Exiting) yield break;
+
         StartCoroutine(npc.GetComponent<NPCBehavior>().OrderMenu(menu));
     }
 
-    public bool IsCanFindSeat() {
+    public bool IsCanFindSeat()
+    {
         for (int i = 0; i < sitOccupied.Length; i++)
         {
             if (!sitOccupied[i])
@@ -114,7 +122,8 @@ public class NpcManager : MonoBehaviour
         return -1;
     }
 
-    public void SeatEmpty(int seatIndex) {
+    public void SeatEmpty(int seatIndex)
+    {
         sitOccupied[seatIndex] = false;
     }
 
@@ -122,7 +131,7 @@ public class NpcManager : MonoBehaviour
     {
         for (int i = array.Length - 1; i > 0; i--)
         {
-            int randomIndex = Random.Range(0, i + 1);
+            int randomIndex = UnityEngine.Random.Range(0, i + 1);
             int temp = array[i];
             array[i] = array[randomIndex];
             array[randomIndex] = temp;

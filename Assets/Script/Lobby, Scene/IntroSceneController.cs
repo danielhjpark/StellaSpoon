@@ -8,7 +8,7 @@ public class IntroSceneController : MonoBehaviour
     private GameObject lobbyUI;
     public void GameStartEvent()
     {
-        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.RestaurantTest2);
+        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.Restaurant);
         lobbyUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
