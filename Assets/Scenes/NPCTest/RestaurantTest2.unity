@@ -34682,6 +34682,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 147116322}
     - target: {fileID: 7104655076725965515, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: recipePanel
+      value: 
+      objectReference: {fileID: 1494965730}
+    - target: {fileID: 7104655076725965515, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: equipmentPanel
       value: 
       objectReference: {fileID: 124064265}
@@ -34693,6 +34697,10 @@ PrefabInstance:
       propertyPath: inventoryButton
       value: 
       objectReference: {fileID: 812409105}
+    - target: {fileID: 7104655076725965515, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: recipeInfoPanel
+      value: 
+      objectReference: {fileID: 1338141213}
     - target: {fileID: 7104655076725965515, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: inventoryButtonImage
       value: 
@@ -51556,9 +51564,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 147116321}
-        m_TargetAssemblyTypeName: Planet, Assembly-CSharp
-        m_MethodName: OpenPlanet
+      - m_Target: {fileID: 1615024535}
+        m_TargetAssemblyTypeName: DeviceRecipeUI, Assembly-CSharp
+        m_MethodName: CloseRecipe
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -51568,9 +51576,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1615024535}
-        m_TargetAssemblyTypeName: DeviceRecipeUI, Assembly-CSharp
-        m_MethodName: CloseRecipe
+      - m_Target: {fileID: 147116321}
+        m_TargetAssemblyTypeName: Planet, Assembly-CSharp
+        m_MethodName: OpenPlanet
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
