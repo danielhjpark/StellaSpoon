@@ -22,7 +22,6 @@ public class Refrigerator : MonoBehaviour
 
     private void Update()
     {
-        //if (!refrigeratorUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
         if (!refrigeratorUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             OpenRefrigeratorUI();
@@ -43,7 +42,6 @@ public class Refrigerator : MonoBehaviour
         inventoryBG.SetActive(true);
 
         InteractUIManger.isUseInteractObject = true;
-        Inventory.inventoryActivated = true;
     }
     
     private void CloseRefrigeratorUI() //보물상자 UI 닫기
@@ -56,9 +54,7 @@ public class Refrigerator : MonoBehaviour
         inventoryUI.SetActive(false);
         inventoryBG.SetActive(false);
 
-        InteractUIManger.isUseInteractObject = false;
-        Inventory.inventoryActivated = false;
-        
+        InteractUIManger.isUseInteractObject = false;        
     }
 
     private void OnTriggerEnter(Collider other)

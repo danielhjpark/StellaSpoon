@@ -48,7 +48,7 @@ public class InteractController : MonoBehaviour
     }
     private void OnSceneUnloaded(Scene current)
     {
-        if(current.name == "RestaurantTest" || current.name == "RestaurantTest2")
+        if(current.name == "Restaurant" || current.name == "RestaurantTest2")
             Destroy(gameObject);
     }
 

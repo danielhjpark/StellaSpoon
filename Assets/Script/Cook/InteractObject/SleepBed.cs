@@ -38,6 +38,7 @@ public class SleepBed : MonoBehaviour
         yield return StartCoroutine(FadeIn());
         InteractUIManger.instance.UsingText(InteractUIManger.TextType.Sleep);
         InteractUIManger.isUseInteractObject = false;
+        fadePanel.SetActive(false);
         sleepCoroutine = null;
     }
 
@@ -81,10 +82,10 @@ public class SleepBed : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
-        {
-            StartCoroutine(UseSleepBed());
-        }
+        // if (InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        // {
+        //     StartCoroutine(UseSleepBed());
+        // }
     }
 
     private void OnTriggerExit(Collider other)

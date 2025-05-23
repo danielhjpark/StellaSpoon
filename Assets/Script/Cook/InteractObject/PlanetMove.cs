@@ -15,7 +15,6 @@ public class PlanetMove : MonoBehaviour
 
     private void Update()
     {
-        //if (!refrigeratorUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
         if (isPlayerNearby && InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F))
         {
             OpenUI();
@@ -32,7 +31,6 @@ public class PlanetMove : MonoBehaviour
         Cursor.visible = true;
 
         InteractUIManger.isUseInteractObject = true;
-        Inventory.inventoryActivated = true;
     }
     private void CloseUI()
     {
@@ -40,7 +38,6 @@ public class PlanetMove : MonoBehaviour
         Cursor.lockState -= CursorLockMode.Locked;
         Cursor.visible = false;
         InteractUIManger.isUseInteractObject = false;
-        Inventory.inventoryActivated = false;
     }
 
     private void OnTriggerEnter(Collider other)

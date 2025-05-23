@@ -31,10 +31,10 @@ public class Manager : MonoBehaviour
     {
         InvenGoldText.text = gold.ToString();
 
-        if (GoldUI.activeSelf)
-        {
-            GoldUI.GetComponent<TextMeshProUGUI>().text = gold.ToString();
-        }
+        // if (GoldUI.activeSelf)
+        // {
+        //     GoldUI.GetComponent<TextMeshProUGUI>().text = gold.ToString();
+        // }
     }
 
     private void Start()
@@ -81,11 +81,11 @@ public class Manager : MonoBehaviour
         if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.Restaurant ||
            PlanetManager.selectedPlanet == PlanetManager.PlanetType.Shop)
         {
-            GoldUI.SetActive(true);
+            //GoldUI.SetActive(true);
         }
         else
         {
-            GoldUI.SetActive(false);
+            //GoldUI.SetActive(false);
         }
     }
 

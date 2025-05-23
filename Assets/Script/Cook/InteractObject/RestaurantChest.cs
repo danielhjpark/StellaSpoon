@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RestaurantChest : MonoBehaviour
+public class RestaurantdChest : MonoBehaviour
 {
     [SerializeField] GameObject chestInventory;
     private GameObject inventoryUI; //인벤토리 UI
@@ -10,7 +10,7 @@ public class RestaurantChest : MonoBehaviour
     bool isPlayerNearby;
     bool isOpenedChest;
 
-    void Start()
+    void Awake()
     {
         isPlayerNearby = false;
         isOpenedChest = false;
@@ -20,7 +20,7 @@ public class RestaurantChest : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F)&& !Inventory.inventoryActivated)
+        if (!chestInventory.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F))
         {
             OpenChestUI();
         }
@@ -42,8 +42,6 @@ public class RestaurantChest : MonoBehaviour
         inventoryBG.SetActive(true);
         
         InteractUIManger.isUseInteractObject = true;
-        Inventory.inventoryActivated = true;
-
     }
 
     private void CloseChestUI()
@@ -59,7 +57,6 @@ public class RestaurantChest : MonoBehaviour
         inventoryBG.SetActive(false);
         
         InteractUIManger.isUseInteractObject = false;
-        Inventory.inventoryActivated = false;
     }
 
     private void OnTriggerEnter(Collider other)
