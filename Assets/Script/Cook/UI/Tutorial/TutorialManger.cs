@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class TutorialManger : MonoBehaviour
     [SerializeField] GameObject buttonUI;
     [SerializeField] GameObject leftButton;
     [SerializeField] GameObject rightButton;
-    private GameObject currentTutorial;
+    [NonSerialized] public GameObject currentTutorial;
 
     private int currentPage;
     private int maxPage;

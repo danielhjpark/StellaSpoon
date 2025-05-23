@@ -6,6 +6,7 @@ public class TutorialDevice : MonoBehaviour
 {
     //InteractUI
     [SerializeField] private GameObject tutorialUI; //인벤토리 UI
+    TutorialManger tutorialManger;
     bool isPlayerNearby;
     bool isOpenedDevice;
 
@@ -13,6 +14,7 @@ public class TutorialDevice : MonoBehaviour
     {
         isPlayerNearby = false;
         isOpenedDevice = false;
+        tutorialManger = tutorialUI.GetComponent<TutorialManger>();
     }
 
     private void Update()
@@ -20,14 +22,15 @@ public class TutorialDevice : MonoBehaviour
         //if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !Inventory.inventoryActivated)
         if (!tutorialUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !RestaurantOpenSystem.isRestaurantOpened) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
-            OpenDailyMenuUI();
+            OpenTutorialUI();
         }
-        // if (DailyMenuUI.activeSelf && Input.GetKeyDown(KeyCode.Escape)) //UI가 열려있고 esc 눌렀을 때
-        // {
-        //     CloseDailyMenuUI();
-        // }
+        else if (tutorialUI.activeSelf && Input.GetKeyDown(KeyCode.Escape) && tutorialManger.currentTutorial == null) //UI가 열려있고 esc 눌렀을 때
+        {
+            CloseTutorialUI();
+        }
     }
-    private void OpenDailyMenuUI() //UI출력
+
+    private void OpenTutorialUI() //UI출력
     {
         isOpenedDevice = true;
         Cursor.lockState = CursorLockMode.None;
@@ -38,7 +41,7 @@ public class TutorialDevice : MonoBehaviour
         Inventory.inventoryActivated = true;
     }
 
-    public void CloseDailyMenuUI() //UI 닫기
+    public void CloseTutorialUI() //UI 닫기
     {
         isOpenedDevice = false;
         Cursor.lockState -= CursorLockMode.Locked;

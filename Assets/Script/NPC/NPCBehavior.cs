@@ -21,7 +21,9 @@ public class NPCBehavior : MonoBehaviour
     private float orderTime; // 주문한 시간
     private int currentSeatIndex;
     private int payPrice;
-    
+
+    public enum NPCState { Idle, Entering, Sitting, Exiting }
+    public NPCState npcState = NPCState.Idle;
 
     //NPC want menu
     public Recipe currentMenu;
@@ -56,6 +58,7 @@ public class NPCBehavior : MonoBehaviour
 
     public IEnumerator OrderMenu(Recipe menu)
     {
+        
         npcAnimator.SetBool("isSitting", true);
         npcNav.enabled = false;
         this.transform.rotation = Quaternion.Euler(0, -180, 0);
@@ -73,7 +76,8 @@ public class NPCBehavior : MonoBehaviour
         
         yield return new WaitForSeconds(2f);// 기다린 후 주문
 
-        if (!hasOrdered)
+        if(npcState != NPCState.Exiting) yield break;
+        else if(!hasOrdered)
         {
             Debug.Log("NPC OrderMenu.");
             hasOrdered = true;
@@ -81,8 +85,9 @@ public class NPCBehavior : MonoBehaviour
             menuImage.sprite = menu.menuImage;
             // 주문 시간 기록
             orderTime = Time.time;
+            StartCoroutine(ReceiveMenu());
         }
-        StartCoroutine(ReceiveMenu());
+        
     }
 
     IEnumerator ReceiveMenu() {
@@ -92,9 +97,13 @@ public class NPCBehavior : MonoBehaviour
         // float npcWaitTime = 40f;
 
         while(true) {
-            if(waitTime < stayDuration) //해당 시간동안 음식을 받는지 체크함.
+            if (npcState == NPCState.Exiting)
             {
-                waitTime += 1f;
+                break;
+            }
+            else if (waitTime < stayDuration) //해당 시간동안 음식을 받는지 체크함.
+            {
+                waitTime += Time.deltaTime;
             }
             else if (!hasReceivedMenu) //음식을 받지 못하였을 때
             {
@@ -102,15 +111,16 @@ public class NPCBehavior : MonoBehaviour
                 yield return Exit();
                 yield break;
             }
-            else {
+            else
+            {
                 //yield return Exit(this.gameObject, npcSpawnPoint, npcNav, currentSeatIndex);
                 break;
             }
-            yield return new WaitForSeconds(1f);
+            yield return null;
         }
     }
     
-    private IEnumerator Exit()
+    public IEnumerator Exit()
     {
         // 퇴장 절차
         npcAnimator.SetBool("isSitting", false);
@@ -121,6 +131,36 @@ public class NPCBehavior : MonoBehaviour
         yield return StartCoroutine(MoveNPC(doorPoint));
         yield return StartCoroutine(MoveNPC(spawnPoint));
 
+        NpcManager.instance.SeatEmpty(currentSeatIndex);
+        NpcManager.instance.npcList.Remove(this.gameObject);
+        Destroy(this.gameObject); // NPC 제거
+    }
+
+
+    public IEnumerator ForeceExit()
+    {
+        npcAnimator.SetBool("isSitting", false);
+        npcNav.enabled = true; // 이동 재개
+        menuImage.enabled = false;
+        Vector3 npcPos = this.transform.position;
+        float centerDistance = Vector3.Distance(npcPos, centerPoint.position);
+        float doorDistance = Vector3.Distance(npcPos, doorPoint.position);
+        float spawnDistance = Vector3.Distance(npcPos, spawnPoint.position);
+        if (centerDistance < doorDistance && centerDistance < spawnDistance)
+        {
+            yield return StartCoroutine(MoveNPC(centerPoint));
+            yield return StartCoroutine(MoveNPC(doorPoint));
+            yield return StartCoroutine(MoveNPC(spawnPoint));
+        }
+        else if (doorDistance < centerDistance && doorDistance < spawnDistance)
+        {
+            yield return StartCoroutine(MoveNPC(doorPoint));
+            yield return StartCoroutine(MoveNPC(spawnPoint));
+        }
+        else
+        {
+            yield return StartCoroutine(MoveNPC(spawnPoint));
+        }
         NpcManager.instance.SeatEmpty(currentSeatIndex);
         NpcManager.instance.npcList.Remove(this.gameObject);
         Destroy(this.gameObject); // NPC 제거

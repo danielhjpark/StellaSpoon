@@ -57,7 +57,8 @@ public class RestaurantChest : MonoBehaviour
         chestInventory.SetActive(false);
         inventoryUI.SetActive(false);
         inventoryBG.SetActive(false);
-
+        
+        InteractUIManger.isUseInteractObject = false;
         Inventory.inventoryActivated = false;
     }
 

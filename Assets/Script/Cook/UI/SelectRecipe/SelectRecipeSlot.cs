@@ -16,7 +16,7 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public event Action OnSelectRecipe;
 
     private void Awake() {
-        recipeImage = GetComponent<Image>();
+        recipeImage = this.transform.GetChild(0).GetComponent<Image>();
         initColor = Color.white;
         disableColor = Color.grey;
     }

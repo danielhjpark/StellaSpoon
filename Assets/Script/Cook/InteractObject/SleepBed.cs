@@ -19,8 +19,7 @@ public class SleepBed : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPlayerNearby && !InteractUIManger.isUseInteractObject && Input.GetKeyDown(KeyCode.F)
-        && sleepCoroutine == null) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (isPlayerNearby && !InteractUIManger.isUseInteractObject && Input.GetKeyDown(KeyCode.F) && sleepCoroutine == null) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             sleepCoroutine = StartCoroutine(UseSleepBed());
         }

@@ -17,6 +17,7 @@ public class RestaurantManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+
     void Upgrade()
     {
 

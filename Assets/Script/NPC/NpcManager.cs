@@ -45,11 +45,17 @@ public class NpcManager : MonoBehaviour
     IEnumerator MoveNPC(GameObject npc, Transform targetPosition)
     {
         NavMeshAgent nav = npc.GetComponent<NavMeshAgent>();
+        NPCBehavior npcBehavior = nav.GetComponent<NPCBehavior>();
         nav.enabled = true;
         nav.SetDestination(targetPosition.position);
         // NPC가 목표 위치에 도달할 때까지 대기
         while (nav.pathPending || nav.remainingDistance > nav.stoppingDistance)
         {
+            if (npcBehavior.npcState == NPCBehavior.NPCState.Exiting)
+            {
+                nav.ResetPath();
+                break;
+            }
             // NPC가 목표 지점에 근접했는지 확인
             if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 0.3 &&
                 Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 0.3)
@@ -86,6 +92,8 @@ public class NpcManager : MonoBehaviour
         yield return StartCoroutine(MoveNPC(npc, centerPoint.transform));
         yield return StartCoroutine(MoveNPC(npc, sitPoint));
         //yield return StartCoroutine(MoveNPC(npc, sitPoint2));
+        if (npc.GetComponent<NPCBehavior>().npcState == NPCBehavior.NPCState.Exiting) yield break;
+
         StartCoroutine(npc.GetComponent<NPCBehavior>().OrderMenu(menu));
     }
 

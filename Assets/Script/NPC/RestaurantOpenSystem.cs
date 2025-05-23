@@ -33,12 +33,12 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     static public bool isRestaurantOpened;
 
-    int currentTime = 24;
+    int currentTime;
 
     const int openTime = 18;
     const int lateOpenTime = 21;
     const int closeTime = 22;
-    const int forceCloseTime = 24;
+    const int forceCloseTime = 0;
 
     void Start()
     {
@@ -49,16 +49,30 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     void Update()
     {
-        //currentTime = gameTimeManager.gameHours;
+        currentTime = gameTimeManager.gameHours;
         AutoCloseRestaurant();
         CheckSign();
         CheckRestaurant();
+        CheckDoorAnimation();
     }
 
 
     //------------------------------------------------------//
     private bool IsCanInteractSign()
-    {
+    {   
+        //오픈이 안되어 있고 오픈 시간 보다 이전일 때,
+        if (!isRestaurantOpened && currentTime < openTime)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Open);
+            return false;
+        }
+        //오픈된 상태이며, 클로즈 시간보다 이전일 때,
+        else if (isRestaurantOpened && openTime < currentTime && currentTime < closeTime && DailyMenuManager.dailyMenuList.Count > 0 && NpcManager.instance.npcList.Count > 0)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Close);
+            return false;
+        }
+        
 
         if (!isRestaurantOpened && currentTime >= openTime && DailyMenuManager.dailyMenuList.Count > 0)
         {
@@ -68,27 +82,24 @@ public class RestaurantOpenSystem : MonoBehaviour
         {
             return true;
         }
-        else
-        {
-            return false;//early return
-        }
+        else return false;
+
+
     }
 
     private void CheckSign()
     {
-        if (!IsCanInteractSign())
-        {
-            OpenAndClosePanel.SetActive(false);
-            ResetGague();
-            return;
-        }
-
         Vector3 rayOrigin = playerTransform.position + Vector3.up * 0.5f;
         Vector3 rayDirection = playerTransform.forward;
 
         if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hitInfo, range, signLayer))
         {
-
+            if (!IsCanInteractSign())
+            {
+                OpenAndClosePanel.SetActive(false);
+                ResetGague();
+                return;
+            }
             OpenAndClosePanel.SetActive(true);
             if (Input.GetKey(KeyCode.F))
             {
@@ -108,7 +119,7 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     private void AutoCloseRestaurant()
     {
-        if (isRestaurantOpened && currentTime >= closeTime
+        if (isRestaurantOpened /*&& currentTime >= closeTime*/
         && DailyMenuManager.dailyMenuList.Count <= 0
         && NpcManager.instance.npcList.Count <= 0
         && OrderManager.instance.restaurantCoroutine == null)
@@ -119,7 +130,20 @@ public class RestaurantOpenSystem : MonoBehaviour
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Close];
 
-            doorAnimator.SetBool(doorOpenName, false);
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Ingredient);
+            OrderManager.instance.CloseRestaurant();
+        }
+
+        else if (isRestaurantOpened && currentTime < openTime && currentTime >=forceCloseTime)
+        {
+            isRestaurantOpened = false;
+            OpenUI.SetActive(true);
+            CloseUI.SetActive(false);
+            pressGagueImage.fillAmount = 0f;
+            signRenderer.material = signMaterial[(int)signState.Close];
+
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Close2);
+            OrderManager.instance.CloseRestaurant();
         }
     }
 
@@ -134,7 +158,6 @@ public class RestaurantOpenSystem : MonoBehaviour
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Open];
 
-            doorAnimator.SetBool(doorOpenName, true);
             OrderManager.instance.OpenRestaurant();
         }
         else
@@ -145,11 +168,24 @@ public class RestaurantOpenSystem : MonoBehaviour
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Close];
 
-            doorAnimator.SetBool(doorOpenName, false);
             OrderManager.instance.CloseRestaurant();
         }
+
+
     }
 
+
+    private void CheckDoorAnimation()
+    {
+        if (isRestaurantOpened)
+        {
+            doorAnimator.SetBool(doorOpenName, true);
+        }
+        else if (!isRestaurantOpened && NpcManager.instance.npcList.Count <= 0)
+        {
+            doorAnimator.SetBool(doorOpenName, false);
+        }
+    }
 
     private void FillGague()
     {

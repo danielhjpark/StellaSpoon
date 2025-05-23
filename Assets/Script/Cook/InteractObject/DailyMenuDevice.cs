@@ -22,10 +22,6 @@ public class DailyMenuDevice : MonoBehaviour
         {
             OpenDailyMenuUI();
         }
-        // if (DailyMenuUI.activeSelf && Input.GetKeyDown(KeyCode.Escape)) //UI가 열려있고 esc 눌렀을 때
-        // {
-        //     CloseDailyMenuUI();
-        // }
     }
     private void OpenDailyMenuUI() //UI출력
     {
