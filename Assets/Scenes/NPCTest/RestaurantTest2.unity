@@ -25933,7 +25933,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 678071373}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &678862692
 GameObject:
   m_ObjectHideFlags: 0
@@ -27984,6 +27984,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718358432}
   m_CullTransparentMesh: 1
+--- !u!1 &718738549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 718738550}
+  - component: {fileID: 718738551}
+  m_Layer: 0
+  m_Name: SaveNLoadManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &718738550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718738549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 898296705}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &718738551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718738549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38bc212fe9fee864c838317228d972dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theInventory: {fileID: 1605902081}
 --- !u!1 &722533196
 GameObject:
   m_ObjectHideFlags: 0
@@ -35031,12 +35076,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 812409102}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3279959753047253141, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 3279959753047253141, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2427601303184606270, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 898296706}
+      addedObject: {fileID: 718738550}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
 --- !u!114 &898296701 stripped
 MonoBehaviour:
@@ -35082,24 +35128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc8174147b5c4b42b70b5f420a64042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &898296705 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3279959753047253141, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+--- !u!4 &898296705 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2427601303184606270, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
   m_PrefabInstance: {fileID: 898296700}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &898296706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 898296705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38bc212fe9fee864c838317228d972dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  theInventory: {fileID: 1605902081}
 --- !u!1 &898629331
 GameObject:
   m_ObjectHideFlags: 0
@@ -64584,7 +64617,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  npcList: []
+  foodpoint:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1733898783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64592,12 +64629,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733898781}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acef8c702f2238e45b5a1f2ef5f22caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
   gameTimeManager: {fileID: 0}
   signRenderer: {fileID: 1478819210}
   signMaterial:
@@ -69475,7 +69511,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 898296706}
+      - m_Target: {fileID: 718738551}
         m_TargetAssemblyTypeName: SaveNLoad, Assembly-CSharp
         m_MethodName: SaveData
         m_Mode: 1

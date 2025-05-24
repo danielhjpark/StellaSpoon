@@ -4,8 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
+using System.IO;
 
-public enum SceneNames { Lobby = 0, Playground, Restaurant, RestaurantTest2 }
+public enum SceneNames { Lobby = 0, Playground, Restaurant, RestaurantTest2, Shop, aRedForest }
 
 namespace UnityNote
 {
@@ -30,6 +31,7 @@ namespace UnityNote
         private SaveNLoad theSaveNLoad; // 사용
         private bool loadSaveFile = false;
 
+        private bool isInChainedLoad = false; // 중간 단계에서는 로딩창 유지
 
         private void Awake()
         {
@@ -59,7 +61,7 @@ namespace UnityNote
             Debug.Log($"씬 로딩됨: {scene.name}");
 
             // 로딩 화면 종료
-            if (loadingScreen != null)
+            if (!isInChainedLoad && loadingScreen != null)
                 loadingScreen.SetActive(false);
 
             StartCoroutine(DelayedAssignButtonEvents());
@@ -171,7 +173,101 @@ namespace UnityNote
         }
         public void OnClick_ContinueGame()
         {
-            LoadScene(SceneNames.RestaurantTest2, true); // 나중에 변경
+            StartCoroutine(ContinueGameRoutine());
+        }
+
+        private IEnumerator ContinueGameRoutine()
+        {
+            string path = Application.dataPath + "/Saves/SaveFile.txt";
+
+            // 로딩 화면 시작
+            foreach (var text in tipText)
+                text.gameObject.SetActive(false);
+
+            int index = Random.Range(0, tipText.Length);
+            tipText[index].gameObject.SetActive(true);
+
+            loadingProgress.value = 0f;
+            loadingScreen.SetActive(true);
+
+            // 중간 로딩 상태 활성화
+            isInChainedLoad = true;
+
+            if (!File.Exists(path))
+            {
+                Debug.LogWarning("세이브 파일 없음. 기본 씬으로 이동");
+                yield return StartCoroutine(LoadSceneAsync("RestaurantTest2"));
+                isInChainedLoad = false; // 단일 로딩이므로 리셋
+                loadingScreen.SetActive(false);
+                yield break;
+            }
+
+            string json = File.ReadAllText(path);
+            SaveData tempData = JsonUtility.FromJson<SaveData>(json);
+            string targetScene = tempData.currentSceneName;
+
+            if (string.IsNullOrEmpty(targetScene))
+            {
+                Debug.LogWarning("저장된 씬 없음. 기본 씬으로 이동");
+                yield return StartCoroutine(LoadSceneAsync("RestaurantTest2"));
+                isInChainedLoad = false;
+                loadingScreen.SetActive(false);
+                yield break;
+            }
+
+            // 1. RestaurantTest2 씬 로드 (공용 오브젝트만 추출 목적)
+            AsyncOperation setupLoadOp = SceneManager.LoadSceneAsync("RestaurantTest2");
+            setupLoadOp.allowSceneActivation = false;
+
+            while (setupLoadOp.progress < 0.9f)
+            {
+                float progress = Mathf.Clamp01(setupLoadOp.progress / 0.9f);
+                loadingProgress.value = progress * 0.4f;
+                textProgress.text = $"{Mathf.RoundToInt(progress * 40)}%";
+                yield return null;
+            }
+
+            setupLoadOp.allowSceneActivation = true;
+            yield return new WaitUntil(() => setupLoadOp.isDone);
+
+            // 공용 오브젝트 처리
+            GameObject player = GameObject.FindWithTag("Player");
+            GameObject canvas = GameObject.Find("Canvas");
+            GameObject manager = GameObject.Find("GameManager");
+
+            if (player != null) DontDestroyOnLoad(player);
+            if (canvas != null) DontDestroyOnLoad(canvas);
+            if (manager != null) DontDestroyOnLoad(manager);
+
+            yield return new WaitForSeconds(0.1f);
+
+            // 2. 저장된 씬 로드
+            AsyncOperation mainLoadOp = SceneManager.LoadSceneAsync(targetScene);
+            mainLoadOp.allowSceneActivation = false;
+
+            while (mainLoadOp.progress < 0.9f)
+            {
+                float progress = 0.4f + (mainLoadOp.progress / 0.9f) * 0.6f;
+                loadingProgress.value = progress;
+                textProgress.text = $"{Mathf.RoundToInt(progress * 100)}%";
+                yield return null;
+            }
+
+            mainLoadOp.allowSceneActivation = true;
+            yield return new WaitUntil(() => mainLoadOp.isDone);
+
+            yield return new WaitForSeconds(0.1f);
+
+            theSaveNLoad = FindObjectOfType<SaveNLoad>();
+            if (theSaveNLoad != null)
+            {
+                theSaveNLoad.LoadData();
+                Debug.Log("ContinueGame: 저장 데이터 불러오기 완료");
+            }
+
+            // 최종 로딩이므로 로딩 종료
+            isInChainedLoad = false;
+            loadingScreen.SetActive(false);
         }
 
         public void OnClick_NewGame()

@@ -11,6 +11,8 @@ public class SaveData
     public Vector3 playerPos;
     public Vector3 playerRot;
 
+    public string currentSceneName;
+
     public List<int> invenArrayNumber = new List<int>();
     public List<string> invenItemName = new List<string>();
     public List<int> invenItemNumber = new List<int>();
@@ -63,7 +65,6 @@ public class SaveNLoad : MonoBehaviour
     public void SaveData()
     {
         thePlayer = FindObjectOfType<ThirdPersonController>();
-        //theInventory = FindObjectOfType<Inventory>();
 
         if (theInventory == null)
         {
@@ -73,6 +74,7 @@ public class SaveNLoad : MonoBehaviour
 
         saveData.playerPos = thePlayer.transform.position;
         saveData.playerRot = thePlayer.transform.eulerAngles;
+        saveData.currentSceneName = SceneManager.GetActiveScene().name;
 
         // 리스트 초기화
         saveData.invenArrayNumber.Clear();
@@ -117,7 +119,6 @@ public class SaveNLoad : MonoBehaviour
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
             thePlayer = FindObjectOfType<ThirdPersonController>();
-            //theInventory = FindObjectOfType<Inventory>();
 
             if (thePlayer != null)
             {
