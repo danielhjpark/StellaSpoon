@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
 
     private ItemNameData itemNameData;
 
-    public Slot[] GetSlots()
+    public virtual Slot[] GetSlots()
     {
         if (slots == null || slots.Length == 0)
         {
@@ -26,11 +26,10 @@ public class Inventory : MonoBehaviour
         return slots;
     }
 
-
     [SerializeField]
     private Item[] Inventoryitems;
 
-    public void LoadToInven(int _arrNum, string _itemName, int _itemCount)
+    public virtual void LoadToInven(int _arrNum, string _itemName, int _itemCount)
     {
         for (int i = 0; i < Inventoryitems.Length; i++)
         {
@@ -65,7 +64,6 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         itemNameData = FindObjectOfType<ItemNameData>();
-        Debug.Log("Inventory Start에서 슬롯 개수: " + slots.Length);
     }
 
     public void OpenInventory()

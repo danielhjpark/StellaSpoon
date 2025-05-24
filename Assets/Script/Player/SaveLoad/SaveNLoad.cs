@@ -13,9 +13,15 @@ public class SaveData
 
     public string currentSceneName;
 
-    public List<int> invenArrayNumber = new List<int>();
+    [Header("인벤토리")]
+    public List<int> invenArrayNumber = new List<int>(); 
     public List<string> invenItemName = new List<string>();
     public List<int> invenItemNumber = new List<int>();
+
+    [Header("냉장고")]
+    public List<int> refriArrayNumber = new List<int>();
+    public List<string> refriItemName = new List<string>();
+    public List<int> refriItemNumber = new List<int>();
 
 }
 public class SaveNLoad : MonoBehaviour
@@ -28,6 +34,8 @@ public class SaveNLoad : MonoBehaviour
     private ThirdPersonController thePlayer;
     [SerializeField]
     private Inventory theInventory;
+    [SerializeField]
+    private RefrigeratorInventory theRefrigeratorInventory;
 
     // Start is called before the first frame update
     void Start()
@@ -52,9 +60,12 @@ public class SaveNLoad : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameObject inventoryObject = GameObject.Find("PARENT_InventoryBase(DeactivateThis)");
+        GameObject refriInventoryObject = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)");
+
         if (inventoryObject != null)
         {
             theInventory = inventoryObject.GetComponent<Inventory>();
+            theRefrigeratorInventory = refriInventoryObject.GetComponent<RefrigeratorInventory>();
         }
         else
         {
@@ -81,7 +92,11 @@ public class SaveNLoad : MonoBehaviour
         saveData.invenItemName.Clear();
         saveData.invenItemNumber.Clear();
 
-        Slot[] slots = theInventory.GetSlots();
+        saveData.refriArrayNumber.Clear();
+        saveData.refriItemName.Clear();
+        saveData.refriItemNumber.Clear();
+
+        Slot[] slots = theInventory.GetSlots(); // 인벤토리 저장
         if (slots == null)
         {
             Debug.LogError("슬롯 배열이 null입니다.");
@@ -104,6 +119,28 @@ public class SaveNLoad : MonoBehaviour
             }
         }
 
+        RefrigeratorSlot[] refriSlots = theRefrigeratorInventory.refrigeratorSlots; // 냉장고 저장
+        if (refriSlots == null)
+        {
+            Debug.LogError("냉장고 슬롯 배열이 null입니다.");
+            return;
+        }
+        Debug.Log("냉장고 슬롯 개수: " + refriSlots.Length);
+
+        for (int i = 0; i < refriSlots.Length; i++)
+        {
+            if (refriSlots[i].item != null)
+            {
+                saveData.refriArrayNumber.Add(i);
+                saveData.refriItemName.Add(refriSlots[i].item.itemName);
+                saveData.refriItemNumber.Add(refriSlots[i].itemCount);
+                Debug.Log($"냉장고 슬롯 {i}: {refriSlots[i].item.itemName} ({refriSlots[i].itemCount}) 저장됨");
+            }
+            else
+            {
+                Debug.Log($"냉장고 슬롯 {i}은 비어 있음");
+            }
+        }
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(SAVE_DATA_DIRECTORY + SAVE_FILENAME, json);
 
@@ -124,13 +161,19 @@ public class SaveNLoad : MonoBehaviour
             {
                 thePlayer.transform.position = saveData.playerPos;
                 thePlayer.transform.eulerAngles = saveData.playerRot;
-
+                // 인벤토리 로드
                 for(int i = 0; i < saveData.invenItemName.Count; i++)
                 {
                     theInventory.LoadToInven(saveData.invenArrayNumber[i], saveData.invenItemName[i], saveData.invenItemNumber[i]);
                     Debug.Log("인벤토리 로드 완료");
                 }
                 Debug.Log("로드 완료");
+                // 냉장고 로드
+                for (int i = 0; i < saveData.refriItemName.Count; i++)
+                {
+                    theRefrigeratorInventory.LoadToInven(saveData.refriArrayNumber[i], saveData.refriItemName[i], saveData.refriItemNumber[i]);
+                }
+                Debug.Log("냉장고 로드 완료");
             }
             else
             {

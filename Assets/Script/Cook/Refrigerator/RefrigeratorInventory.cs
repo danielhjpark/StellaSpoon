@@ -18,6 +18,37 @@ public class RefrigeratorInventory : Inventory
         }
     }
 
+    [SerializeField]
+    private Item[] refriInventoryitems;  // 냉장고용 아이템들
+
+    public override Slot[] GetSlots()
+    {
+        // RefrigeratorInventory는 기본 slots이 아닌 refrigeratorSlots를 기준으로 동작해야 함
+        return refrigeratorSlots;
+    }
+
+    public override void LoadToInven(int _arrNum, string _itemName, int _itemCount)
+    {
+        for (int i = 0; i < refriInventoryitems.Length; i++)
+        {
+            if (refriInventoryitems[i].itemName == _itemName)
+            {
+                if (_arrNum >= 0 && _arrNum < refrigeratorSlots.Length && refrigeratorSlots[_arrNum] != null)
+                {
+                    refrigeratorSlots[_arrNum].AddItem(refriInventoryitems[i], _itemCount);
+                    Debug.Log($"[냉장고] 슬롯 {_arrNum}에 {_itemName} {_itemCount}개 로드됨");
+                    return;
+                }
+                else
+                {
+                    Debug.LogError($"[냉장고] 잘못된 슬롯 인덱스 {_arrNum} 또는 null 슬롯");
+                    return;
+                }
+            }
+        }
+        Debug.LogWarning($"[냉장고] Inventoryitems에 '{_itemName}' 아이템이 없습니다.");
+    }
+
     public void AcquireItem(Item _item, int _count = 1)
     {
         if(_item.itemType != Item.ItemType.contaminatedIngredient) return;

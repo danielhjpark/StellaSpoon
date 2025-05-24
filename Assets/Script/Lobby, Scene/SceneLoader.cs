@@ -189,15 +189,13 @@ namespace UnityNote
 
             loadingProgress.value = 0f;
             loadingScreen.SetActive(true);
-
-            // 중간 로딩 상태 활성화
             isInChainedLoad = true;
 
             if (!File.Exists(path))
             {
                 Debug.LogWarning("세이브 파일 없음. 기본 씬으로 이동");
                 yield return StartCoroutine(LoadSceneAsync("RestaurantTest2"));
-                isInChainedLoad = false; // 단일 로딩이므로 리셋
+                isInChainedLoad = false;
                 loadingScreen.SetActive(false);
                 yield break;
             }
@@ -215,7 +213,26 @@ namespace UnityNote
                 yield break;
             }
 
-            // 1. RestaurantTest2 씬 로드 (공용 오브젝트만 추출 목적)
+            // 여기 추가: 중복 로딩 방지
+            if (targetScene == "RestaurantTest2")
+            {
+                Debug.Log("저장된 씬이 RestaurantTest2이므로 바로 로드");
+                yield return StartCoroutine(LoadSceneAsync(targetScene));
+
+                theSaveNLoad = FindObjectOfType<SaveNLoad>();
+                if (theSaveNLoad != null)
+                {
+                    theSaveNLoad.LoadData();
+                    Debug.Log("ContinueGame: 저장 데이터 불러오기 완료");
+                }
+
+                isInChainedLoad = false;
+                loadingScreen.SetActive(false);
+                yield break;
+            }
+
+            // 기존 중간 로딩 단계 유지
+            // 1. RestaurantTest2 임시 로드
             AsyncOperation setupLoadOp = SceneManager.LoadSceneAsync("RestaurantTest2");
             setupLoadOp.allowSceneActivation = false;
 
@@ -230,7 +247,6 @@ namespace UnityNote
             setupLoadOp.allowSceneActivation = true;
             yield return new WaitUntil(() => setupLoadOp.isDone);
 
-            // 공용 오브젝트 처리
             GameObject player = GameObject.FindWithTag("Player");
             GameObject canvas = GameObject.Find("Canvas");
             GameObject manager = GameObject.Find("GameManager");
@@ -265,7 +281,6 @@ namespace UnityNote
                 Debug.Log("ContinueGame: 저장 데이터 불러오기 완료");
             }
 
-            // 최종 로딩이므로 로딩 종료
             isInChainedLoad = false;
             loadingScreen.SetActive(false);
         }
