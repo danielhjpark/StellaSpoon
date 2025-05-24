@@ -30,5 +30,6 @@ public class PlanetSelector : MonoBehaviour
         mapPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        InteractUIManger.isUseInteractObject = false;
     }
 }
