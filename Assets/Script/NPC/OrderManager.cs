@@ -41,10 +41,16 @@ public class OrderManager : MonoBehaviour
 
     public void CloseRestaurant()
     {
-        if (restaurantCoroutine != null) StopCoroutine(restaurantCoroutine);
-        if(restaurantStopCoroutine == null) restaurantStopCoroutine =StartCoroutine(StopRestaurant());
-        //NPC Return
-    }
+        if (restaurantCoroutine != null)
+        {
+            StopCoroutine(restaurantCoroutine);
+        }
+        if (restaurantStopCoroutine == null)
+            {
+                restaurantStopCoroutine = StartCoroutine(StopRestaurant());
+                DailyMenuManager.instance.DailyMenuReset();
+            }
+        }
 
     IEnumerator StartRestaurant()
     {
@@ -92,7 +98,7 @@ public class OrderManager : MonoBehaviour
             if (npcManager.npcList.Count > 0) break;
             yield return null;
         }
-
+        restaurantCoroutine = null;
         restaurantStopCoroutine = null;
     }
 

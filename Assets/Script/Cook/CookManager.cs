@@ -80,15 +80,27 @@ public class CookManager : MonoBehaviour
                     InteractOtherObject(objName);
                     break;
                 case "Pot":
-                    if (!isCanUseSideTable) return;
+                    if (!isCanUseSideTable)
+                    {
+                        InteractUIManger.instance.UsingText(InteractUIManger.TextType.ClearMenu);
+                        return;
+                    }
                     InteractPotObject();
                     break;
                 case "Pan":
-                    if (!isCanUseMiddleTable) return;
+                    if (!isCanUseMiddleTable)
+                    {
+                        InteractUIManger.instance.UsingText(InteractUIManger.TextType.ClearMenu);
+                        return;
+                    }
                     InteractOtherObject(objName);
                     break;
                 case "Wok":
-                    if (!isCanUseMiddleTable) return;
+                    if (!isCanUseMiddleTable)
+                    {
+                        InteractUIManger.instance.UsingText(InteractUIManger.TextType.ClearMenu);
+                        return;
+                    }
                     InteractOtherObject(objName);
                     break;
                 default:

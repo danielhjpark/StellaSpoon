@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SleepBed : MonoBehaviour
+public class SleepBed : InteractObject
 {
     [SerializeField] GameObject fadePanel;
     [SerializeField] GameTimeManager gameTimeManager;
@@ -11,10 +11,7 @@ public class SleepBed : MonoBehaviour
     bool isPlayerNearby;
     Coroutine sleepCoroutine;
     int sleepTime = 5;
-    void Start()
-    {
 
-    }
 
     // Update is called once per frame
     void Update()
@@ -27,25 +24,26 @@ public class SleepBed : MonoBehaviour
 
     IEnumerator UseSleepBed()
     {
-        //Player lock moving or actions;
         gameTimeManager.AddTime(300);
         InteractUIManger.isUseInteractObject = true;
-
         fadePanel.SetActive(true);
         fadePanel.GetComponent<CanvasRenderer>().SetAlpha(0f);
+        PlayAudio();
 
         yield return StartCoroutine(FadeOut());
         yield return StartCoroutine(FadeIn());
+
         InteractUIManger.instance.UsingText(InteractUIManger.TextType.Sleep);
         InteractUIManger.isUseInteractObject = false;
         fadePanel.SetActive(false);
         sleepCoroutine = null;
+        StopAudio();
     }
 
     IEnumerator FadeOut()
     {
         float elapsedTime = 0f; // 누적 경과 시간
-        float fadedTime = 2f; // 총 소요 시간
+        float fadedTime = 3f; // 총 소요 시간
 
         while (elapsedTime <= fadedTime)
         {

@@ -26,8 +26,8 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
     {
         if (!CookManager.instance.isCanIngredientControll)
         {
-            //CancleIngredientControll();
-            //return;
+            CancleIngredientControll();
+            return;
         }
         if (controllObject != null && isControll)
         {
@@ -96,7 +96,6 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
                 IngredientManager.IngredientAmount[ingredientSlot.currentIngredient]--;
                 ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, 1);
             }
-
         }
     }
 

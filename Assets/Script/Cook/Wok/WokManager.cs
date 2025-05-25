@@ -30,7 +30,6 @@ public class WokManager : CookManagerBase
     {
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
-        CookManager.instance.isCanUseMiddleTable = false;
         cookUIManager.Initialize(this);
         //int unlockStep = CookManager.storeUIManager.currentWorLevel;
     }
@@ -50,7 +49,6 @@ public class WokManager : CookManagerBase
     {
         if (Input.GetKeyDown(KeyCode.Escape) && isCanEscape)
         {
-            CookManager.instance.isCanUseMiddleTable = true;
             CookSceneManager.instance.UnloadScene();
         }
     }
@@ -281,6 +279,7 @@ public class WokManager : CookManagerBase
             }
             yield return null;
         }
+        CookManager.instance.isCanIngredientControll = false;
         yield return StartCoroutine(cookUIManager.HidePanel());
     }
 

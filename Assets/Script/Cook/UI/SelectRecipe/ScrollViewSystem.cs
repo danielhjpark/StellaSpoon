@@ -18,12 +18,14 @@ public class ScrollViewSystem : MonoBehaviour
 
     void Start()
     {
-        RecipePanelInit();
+        
     }
 
     void Update()
     {
+        if(scrollParent.transform.childCount > 3) RecipePanelInit();
         HideButton();
+        
     }
     public void RecipePanelInit()
     {
@@ -31,6 +33,15 @@ public class ScrollViewSystem : MonoBehaviour
         int rectWidth = correctRecipeCount * 220, rectHeight = 200;//size + spacing
         scrollRect.sizeDelta = new Vector2(rectWidth, rectHeight);
         scrollRect.pivot = new Vector2(0, 0.5f);
+
+    }
+
+    //---------------Button------------------//
+
+    void HideButton()
+    {
+        rightButton.SetActive(true);
+        leftButton.SetActive(true);
 
         if (scrollParent.transform.childCount > 3)
         {
@@ -40,14 +51,6 @@ public class ScrollViewSystem : MonoBehaviour
         {
             buttonUIObject.SetActive(false);
         }
-    }
-
-    //---------------Button------------------//
-
-    void HideButton()
-    {
-        rightButton.SetActive(true);
-        leftButton.SetActive(true);
 
         if (rectViewPos <= 0)
             leftButton.SetActive(false);
@@ -79,7 +82,7 @@ public class ScrollViewSystem : MonoBehaviour
     {
         while (true)
         {
-            if (Vector2.Distance(scrollRect.anchoredPosition, targetPos) < 2f)
+            if (Mathf.Abs(scrollRect.anchoredPosition.x - targetPos.x) < 2f)
             {
                 scrollRect.anchoredPosition = targetPos;
                 break;
@@ -87,6 +90,7 @@ public class ScrollViewSystem : MonoBehaviour
             scrollRect.anchoredPosition = Vector2.Lerp(scrollRect.anchoredPosition, targetPos, Time.deltaTime * 5f);
             yield return null;
         }
+        
         movePanel = null;
     }
 }

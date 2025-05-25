@@ -6,16 +6,17 @@ using System;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 
-public class DeviceRecipeSlot : MonoBehaviour, IPointerClickHandler
+public class DeviceRecipeSlot : MonoBehaviour
 {
-    GameObject recipeInfo;
     [SerializeField] Image recipeImage;
-    Image DeactiveImage;
-
+    [SerializeField] GameObject deactiveImage;
+    GameObject recipeInfo;
+    Recipe currentRecipe;
     public event Action OnSelectRecipe;
 
     public void Initialize(GameObject recipeInfo, Recipe recipe)
     {
+        this.currentRecipe = recipe;
         this.recipeInfo = recipeInfo;
         recipeImage.sprite = recipe.menuImage;
     }
@@ -23,12 +24,20 @@ public class DeviceRecipeSlot : MonoBehaviour, IPointerClickHandler
     // Update is called once per frame
     void Update()
     {
-
+        if (currentRecipe != null && RecipeManager.instance.RecipeUnlockCheck[currentRecipe])
+        {
+            deactiveImage.SetActive(false);
+        }
+        else
+        {
+            deactiveImage.SetActive(true);
+        }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnClick()
     {
         OnSelectRecipe?.Invoke();
         recipeInfo.SetActive(true);
+        Debug.Log("Click");
     }
 }

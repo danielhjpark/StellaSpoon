@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Refrigerator : MonoBehaviour
+public class Refrigerator : InteractObject
 {
-    [SerializeField] private GameObject refrigeratorUI; //보물상자 UI
-    [SerializeField] private GameObject inventoryUI; //인벤토리 UI
-    [SerializeField] private GameObject inventoryBG;
-    //[SerializeField] private GameObject CloseButton;
+    private GameObject refrigeratorUI; //보물상자 UI
+    private GameObject inventoryUI; //인벤토리 UI
+    private GameObject inventoryBG;
     bool isPlayerNearby;
     bool isOpenedRefrigerator;
 
@@ -17,7 +16,7 @@ public class Refrigerator : MonoBehaviour
         isOpenedRefrigerator = false;
         refrigeratorUI = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)").transform.GetChild(0).gameObject;
         inventoryUI = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(1).gameObject;
-         inventoryBG = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(0).gameObject;
+        inventoryBG = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(0).gameObject;
     }
 
     private void Update()
@@ -36,7 +35,8 @@ public class Refrigerator : MonoBehaviour
         isOpenedRefrigerator = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
+        PlayAudio();
+        
         refrigeratorUI.SetActive(true);
         inventoryUI.SetActive(true);
         inventoryBG.SetActive(true);

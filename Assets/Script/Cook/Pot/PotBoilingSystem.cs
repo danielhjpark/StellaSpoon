@@ -44,6 +44,7 @@ public class PotBoilingSystem : MonoBehaviour
 
     public void OnIncreasePower()
     {
+        potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.PowerButton);
         if (rotatePower < 3) rotatePower++;
         powerText.text = rotatePower.ToString();
         if (rotateCoroutine == null)
@@ -54,6 +55,7 @@ public class PotBoilingSystem : MonoBehaviour
 
     public void OnDecreasePower()
     {
+        potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.PowerButton);
         if (rotatePower > 0) rotatePower--;
         powerText.text = rotatePower.ToString();
         if (rotateCoroutine == null)

@@ -9,6 +9,7 @@ public class IngredientInventory : MonoBehaviour
     IngredientSlot[] ingredientSlots;
     [SerializeField] GameObject ingredientSlotPrefab;
     [SerializeField] GameObject ingredientSlotParent;
+    [SerializeField] SlotToolTip slotToolTip;
 
     void Awake()
     {
@@ -24,7 +25,9 @@ public class IngredientInventory : MonoBehaviour
     void CreateIngredientSlot(Ingredient ingredient, int ingredientCount) {
         GameObject ingredientslot = Instantiate(ingredientSlotPrefab);
         ingredientslot.transform.SetParent(ingredientSlotParent.transform);
+
         ingredientslot.GetComponent<IngredientSlot>().refrigeratorInventory = refrigeratorInventory;
+        ingredientslot.GetComponent<IngredientSlot>().slotToolTip = slotToolTip;
         ingredientslot.GetComponent<IngredientSlot>().BindingIngredient(ingredient);
         ingredientslot.GetComponent<IngredientSlot>().itemCount = ingredientCount;
         

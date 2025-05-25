@@ -7,10 +7,10 @@ using cakeslice;
 
 public class PotViewportSystem : MonoBehaviour
 {
+    private PotAudioSystem potAudioSystem;
     [Header("TimeLine")]
     [SerializeField] PlayableDirector lidTimeline;
     
-
     [Header("Cinemachine")]
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     private CinemachineTrackedDolly dolly;
@@ -36,6 +36,7 @@ public class PotViewportSystem : MonoBehaviour
     void Awake()
     {
         dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
+        potAudioSystem = GetComponent<PotAudioSystem>();
         dolly.m_PathPosition = 1;
 
         ingredientInventoryPanel.interactable = false;   // 버튼 등 이벤트 차단
@@ -44,8 +45,14 @@ public class PotViewportSystem : MonoBehaviour
         frontButton.SetActive(false);
     }
 
+    public void ButtonAudio()
+    {
+        potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.ViewButton);
+    }
+
     // Button Change TopView /// Upper Button Active
-    public void PutIngredient() {
+    public void PutIngredient()
+    {
         StartCoroutine(TopView());
     }
 

@@ -9,6 +9,7 @@ public class IngredientSlot : Slot
 {
     bool isEmpty;
     public RefrigeratorInventory refrigeratorInventory;
+    public SlotToolTip slotToolTip;
     [SerializeField] Image ingredientImage;
     [SerializeField] TextMeshProUGUI ingredientName;
     public Ingredient currentIngredient { get; set; }
@@ -22,7 +23,7 @@ public class IngredientSlot : Slot
     {
         currentIngredient = ingredient;
         ingredientImage.sprite = ingredient.ingredientImage;
-        ingredientName.text = ingredient.ingredientName;
+        //ingredientName.text = ingredient.ingredientName;
         isEmpty = false;
     }
 
@@ -30,8 +31,9 @@ public class IngredientSlot : Slot
     {
         currentIngredient = ingredient;
         ingredientImage.sprite = ingredient.ingredientImage;
-        ingredientName.text = ingredient.ingredientName;
+        //ingredientName.text = ingredient.ingredientName;
         isEmpty = false;
+        slotToolTip.HideToolTip();
     }
 
     public Ingredient GetIngredient()
@@ -49,11 +51,20 @@ public class IngredientSlot : Slot
         this.gameObject.transform.SetAsLastSibling();
         currentIngredient = null;
         ingredientImage.sprite = null;
-        ingredientName.text = null;
+        //ingredientName.text = null;
         isEmpty = true;
     }
+    
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        slotToolTip.ShowToolTip(currentIngredient.ingredientText, transform.position);
+    }
 
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        slotToolTip.HideToolTip();
+    }
     //Hide parent func
     public override void OnEndDrag(PointerEventData eventData) {}
-    public override void OnPointerExit(PointerEventData eventData){}
+    
 }

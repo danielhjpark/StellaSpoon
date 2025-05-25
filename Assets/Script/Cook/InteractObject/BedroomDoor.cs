@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BedroomDoor : MonoBehaviour
+public class BedroomDoor : InteractObject
 {
     Animator doorAnimator;
     private string doorOpenName = "character_nearby";

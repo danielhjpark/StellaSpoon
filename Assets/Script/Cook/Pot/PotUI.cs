@@ -39,10 +39,10 @@ public class PotUI : MonoBehaviour
         StartCoroutine(potTimerSystem.TimerStart(second));
         yield return StartCoroutine(mainTimerSystem.TimerStart(second));
 
-        //Disable
+        //Timer Complete
+        mainTimerSystem.TimerCompleteAudio();
         mainTimer.GetComponent<CanvasGroup>().alpha = 0f;
         potTimer.SetActive(false);
-        mainTimer.SetActive(false);
     }
 
     public void TimerReset()

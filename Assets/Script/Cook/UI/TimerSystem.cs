@@ -10,9 +10,13 @@ public class TimerSystem : MonoBehaviour
     [SerializeField] Image timerGague;
     [SerializeField] bool onBillboard;
     [NonSerialized] public bool antiClockwise;
+    [SerializeField] AudioClip timerAudio;
+
     bool isTimerEnd = false;
     Coroutine timerCoroutine;
-    void Start() {
+
+    void Start()
+    {
         antiClockwise = false;
     }
 
@@ -20,8 +24,11 @@ public class TimerSystem : MonoBehaviour
     {
         TimerBillboard();
     }
-    
-    private void TimerBillboard() {
+
+
+
+    private void TimerBillboard()
+    {
         if (onBillboard && Camera.main != null)
         {
             Vector3 targetPosition = Camera.main.transform.position; // 바라볼 대상
@@ -34,7 +41,8 @@ public class TimerSystem : MonoBehaviour
         }
     }
 
-    public IEnumerator TimerStart(float second) {
+    public IEnumerator TimerStart(float second)
+    {
         timerCoroutine = StartCoroutine(TimerOperate(second));
         yield return timerCoroutine;
     }
@@ -45,20 +53,23 @@ public class TimerSystem : MonoBehaviour
         float targetValue;
         isTimerEnd = false;
 
-        if(antiClockwise) {
+        if (antiClockwise)
+        {
             timerGague.fillAmount = 0;
             targetValue = 1;
-            secondValue = 1 /(second * 20) * -1;
+            secondValue = 1 / (second * 20) * -1;
         }
-        else {
+        else
+        {
             timerGague.fillAmount = 1;
             targetValue = 0;
-            secondValue = 1 /(second * 20);
+            secondValue = 1 / (second * 20);
         }
 
-        while(true)
+        while (true)
         {
-            if(Mathf.Abs(timerGague.fillAmount - targetValue) <= 0.01f) {
+            if (Mathf.Abs(timerGague.fillAmount - targetValue) <= 0.01f)
+            {
                 break;
             }
             timerGague.fillAmount -= secondValue;
@@ -77,5 +88,10 @@ public class TimerSystem : MonoBehaviour
     public bool TimerEnd()
     {
         return isTimerEnd;
+    }
+
+    public void TimerCompleteAudio()
+    {
+        AudioSource.PlayClipAtPoint(timerAudio, this.transform.position);
     }
 }

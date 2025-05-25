@@ -14,11 +14,13 @@ public class CookUIManager : MonoBehaviour
     TimerSystem timerSystem;
     private int panelSpeed = 10;
     private Coroutine inventoryCoroutine;
+    private bool isHidePanel;
 
     void Awake()
     {
         SelectRecipePanel.SetActive(false);
         inventoryPanel.gameObject.SetActive(false);
+        isHidePanel = true;
         if (TimerPanel != null && TimerPanel.TryGetComponent<TimerSystem>(out TimerSystem timerSystem))
         {
             this.timerSystem = timerSystem;
@@ -91,11 +93,12 @@ public class CookUIManager : MonoBehaviour
     {
         inventoryPanel.gameObject.SetActive(true);
         if (inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
-        inventoryCoroutine = StartCoroutine(HideActive());
+        if(!isHidePanel) inventoryCoroutine = StartCoroutine(HideActive());
     }
 
     public IEnumerator HideActive()
     {
+        isHidePanel = true;
         int startPos = -250;
         while (true)
         {
@@ -116,11 +119,12 @@ public class CookUIManager : MonoBehaviour
     {
         inventoryPanel.gameObject.SetActive(true);
         if (inventoryCoroutine != null) yield return new WaitUntil(() => inventoryCoroutine != null);
-        inventoryCoroutine = StartCoroutine(VisibleActive());
+        if(isHidePanel) inventoryCoroutine = StartCoroutine(VisibleActive());
     }
 
     private IEnumerator VisibleActive()
     {
+        isHidePanel = false;
         int startPos = 250;
         while (true)
         {

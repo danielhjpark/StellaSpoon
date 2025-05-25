@@ -54,7 +54,7 @@ public class CuttingManager : CookManagerBase
     {
         isCanEscape = false;
         base.SelectRecipe(menu);
-
+        CookManager.instance.cookMode = CookManager.CookMode.Select;
         StartCoroutine(cookUIManager.VisiblePanel());
         horizontalCount = currentMenu.cuttingSetting.cuttingCount;
         verticalCount = currentMenu.cuttingSetting.cuttingCount;

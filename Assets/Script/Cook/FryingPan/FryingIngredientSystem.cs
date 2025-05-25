@@ -38,7 +38,7 @@ public class FryingIngredientSystem : MonoBehaviour
             if (fryingMainIngredient.transform.localPosition.y <= 0f) break;
             yield return null;
         }
-        fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
+        //fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
     }
 
     public void AddMainIngredient(GameObject ingredients, Ingredient ingredient)

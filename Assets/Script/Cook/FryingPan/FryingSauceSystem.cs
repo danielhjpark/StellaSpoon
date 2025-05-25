@@ -73,6 +73,7 @@ public class FryingSauceSystem : SauceSystem
     public IEnumerator UseSauce()
     {
         float targetScale = currentScale - scaleValue;
+        if (this.sauceType == SauceType.None) yield break;
         while (true)
         {
             currentScale -= 0.1f;

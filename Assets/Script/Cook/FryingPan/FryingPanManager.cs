@@ -37,7 +37,6 @@ public class FryingPanManager : CookManagerBase
 
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
-        CookManager.instance.isCanUseMiddleTable = false;
         cookUIManager.Initialize(this);
 
         isCanEscape = true;
@@ -48,7 +47,6 @@ public class FryingPanManager : CookManagerBase
     {
         if (Input.GetKeyDown(KeyCode.Escape) && isCanEscape)
         {
-            CookManager.instance.isCanUseMiddleTable = true;
             CookSceneManager.instance.UnloadScene();
         }
     }
@@ -205,6 +203,7 @@ public class FryingPanManager : CookManagerBase
             }
             yield return null;
         }
+        fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
 
     }
 
@@ -302,6 +301,7 @@ public class FryingPanManager : CookManagerBase
             }
             yield return null;
         }
+        CookManager.instance.isCanIngredientControll = false;
         yield return StartCoroutine(cookUIManager.HidePanel());
     }
 

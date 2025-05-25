@@ -12,11 +12,13 @@ public class PotAudioSystem : CookAudioSystem<PotAudioSystem.AudioType>
 
     [SerializeField] AudioSource pouringSauceAudio;
     [Header("UI")]
-    [SerializeField] AudioSource view;
+    [SerializeField] AudioSource viewButtonAudio;
+    [SerializeField] AudioSource powerButtonAudio;
 
     public enum AudioType
     {
-        MainIngredientDrop, SubIngredientDrop, RotaitionPot, PutPotLid, PouringSauce
+        MainIngredientDrop, SubIngredientDrop, RotaitionPot, PutPotLid, PouringSauce,
+        ViewButton, PowerButton,
     }
 
     protected override AudioSource CallAudioSource(AudioType audioType)
@@ -38,6 +40,12 @@ public class PotAudioSystem : CookAudioSystem<PotAudioSystem.AudioType>
                 break;
             case AudioType.PouringSauce:
                 currentAudioSource = pouringSauceAudio;
+                break;
+            case AudioType.ViewButton:
+                currentAudioSource = viewButtonAudio;
+                break;
+            case AudioType.PowerButton:
+                currentAudioSource = powerButtonAudio;
                 break;
             default:
                 currentAudioSource = null;

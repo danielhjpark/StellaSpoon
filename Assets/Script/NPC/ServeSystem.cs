@@ -11,12 +11,16 @@ public class ServeSystem : MonoBehaviour
     [SerializeField] private Transform playerHand;
     [NonSerialized] public Recipe currentMenu;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private AudioClip putDishAudio;
+
     private string pickupAnimationName = "BringDish";
     private GameObject serveObject;
     public void Start()
     {
         Initialize();
     }
+    
+    private void EndingCheck() { }
 
     public void Initialize()
     {
@@ -46,12 +50,18 @@ public class ServeSystem : MonoBehaviour
         CookType cooktype = menuObject.GetComponent<MenuData>().menu.cookType;
         if (cooktype == CookType.Frying || cooktype == CookType.Tossing) CookManager.instance.isCanUseMiddleTable = true;
         else if (cooktype == CookType.Tossing) CookManager.instance.isCanUseSideTable = true;
+        else
+        {
+            CookManager.instance.isCanUseSideTable = true;
+            CookManager.instance.isCanUseMiddleTable = true;
+        }
     }
 
     public void ThrowOutMenu()
     {
         if (serveObject != null)
         {
+            AudioSource.PlayClipAtPoint(putDishAudio, playerHand.position);
             playerAnimator.SetBool(pickupAnimationName, false);
             Destroy(serveObject);
             CookManager.instance.isPickUpMenu = false;
@@ -62,6 +72,8 @@ public class ServeSystem : MonoBehaviour
     {
         if (hitInfo.transform.gameObject.TryGetComponent<NPCBehavior>(out NPCBehavior behavior))
         {
+            if(!behavior.IsCanReceivedMenu()) return;
+            AudioSource.PlayClipAtPoint(putDishAudio, playerHand.position);
             playerAnimator.SetBool(pickupAnimationName, false);
             behavior.ReceiveNPC(serveObject);
             CookManager.instance.isPickUpMenu = false;

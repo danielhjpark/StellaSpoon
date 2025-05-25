@@ -8,10 +8,10 @@ public class RecipeManager : MonoBehaviour
     static public RecipeManager instance = null;
 
     [SerializeField] Recipe[] BasicRecipes;
+    [SerializeField] Recipe HiddenRecipe;
     public Dictionary<string, Recipe> RecipeList; //?엫?떆 ?뜲?씠?꽣 踰좎씠?뒪
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     private GameObject NewRecipeUI;
-    private DeviceRecipeUI deviceRecipeUI;
 
     void Awake()
     {
@@ -26,7 +26,6 @@ public class RecipeManager : MonoBehaviour
 
         Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas를 찾기
         NewRecipeUI = canvasTransform.Find("NewRecipePanel")?.gameObject; // MapPanel을 찾기
-        deviceRecipeUI = canvasTransform.Find("PARENT_Recipe(DeactivateThis)").gameObject.GetComponent<DeviceRecipeUI>();
         RecipeUnLockInit();
     }
 
@@ -39,8 +38,8 @@ public class RecipeManager : MonoBehaviour
         foreach (Recipe recipe in RecipeScriptable)
         {
             RecipeList.Add(recipe.name, recipe);
-            //RecipeUnlockCheck.Add(recipe, false);
             RecipeUnlockCheck.Add(recipe, true);
+           // RecipeUnlockCheck.Add(recipe, false);
         }
 
         foreach (Recipe BasicRecipe in BasicRecipes)
@@ -57,13 +56,24 @@ public class RecipeManager : MonoBehaviour
             Debug.Log("RecipeUnLock : " + getRecipe.name);
             RecipeUnLockUI();
         }
+        CheckHiddenRecipeUnlock();
+    }
+
+    void CheckHiddenRecipeUnlock()
+    {
+        int count = 0;
+        foreach (bool isUnlock in RecipeUnlockCheck.Values)
+        {
+            if (isUnlock) count++;
+        }
+
+        if(count >= 12) RecipeUnlockCheck[HiddenRecipe] = true;
     }
 
     public void RecipeUnLockUI()
     {
         NewRecipeUI.SetActive(true);
         StartCoroutine(RecipeUnLockFade());
-        UpdateRecipeDevice();
     }
 
     IEnumerator RecipeUnLockFade()
@@ -73,10 +83,7 @@ public class RecipeManager : MonoBehaviour
         NewRecipeUI.SetActive(false);
     }
 
-    void UpdateRecipeDevice()
-    {
-        deviceRecipeUI.UnlockRecipe();
-    }
+
 
     //----- Get all of unlock recipelist -------------//
     public List<Recipe> MakeRecipeUnLockList()

@@ -25,6 +25,18 @@ public class CookSceneManager : MonoBehaviour
         mainCamera = Camera.main;
     }
 
+    void Update()
+    {
+        if (SpawnPoint[0].transform.childCount > 0)
+            CookManager.instance.isCanUseSideTable = false;
+        else 
+            CookManager.instance.isCanUseSideTable = true;
+        
+        if (SpawnPoint[1].transform.childCount > 0)
+            CookManager.instance.isCanUseMiddleTable = false;
+        else
+            CookManager.instance.isCanUseMiddleTable = true;
+    }
 
     public void LoadScene(string objName)
     {
@@ -64,15 +76,19 @@ public class CookSceneManager : MonoBehaviour
         switch (sceneName)
         {
             case cuttingSceneName:
+                meneInstance.transform.SetParent(SpawnPoint[3].transform);
                 meneInstance.transform.position = SpawnPoint[3].transform.position;
                 break;
             case potSceneName:
+                meneInstance.transform.SetParent(SpawnPoint[0].transform);
                 meneInstance.transform.position = SpawnPoint[0].transform.position;
                 break;
             case panSceneName:
+                meneInstance.transform.SetParent(SpawnPoint[1].transform);
                 meneInstance.transform.position = SpawnPoint[1].transform.position;
                 break;
             case wokSceneName:
+                meneInstance.transform.SetParent(SpawnPoint[2].transform);
                 meneInstance.transform.position = SpawnPoint[2].transform.position;
                 break;
             default:
@@ -111,6 +127,7 @@ public class CookSceneManager : MonoBehaviour
     {
         mainCamera.transform.gameObject.SetActive(true);
         SceneManager.UnloadSceneAsync(sceneName);
+        isSceneLoaded = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
