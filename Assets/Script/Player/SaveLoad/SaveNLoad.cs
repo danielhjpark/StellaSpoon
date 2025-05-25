@@ -8,9 +8,12 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class SaveData
 {
+    [Header("플레이어")]
     public Vector3 playerPos;
     public Vector3 playerRot;
+    public float playerHp;
 
+    [Header("씬")]
     public string currentSceneName;
 
     [Header("인벤토리")]
@@ -23,6 +26,14 @@ public class SaveData
     public List<string> refriItemName = new List<string>();
     public List<int> refriItemNumber = new List<int>();
 
+    //[Header("상자")]
+
+    [Header("변수")]
+    public int equippedWeaponIndex;
+    public bool gunTempest;
+    public bool gunInferno;
+    public bool stage1Clear;
+    public bool stage2Clear;
 }
 public class SaveNLoad : MonoBehaviour
 {
@@ -32,6 +43,7 @@ public class SaveNLoad : MonoBehaviour
     private string SAVE_FILENAME = "/SaveFile.txt";
 
     private ThirdPersonController thePlayer;
+    private RifleManager rifleManager;
     [SerializeField]
     private Inventory theInventory;
     [SerializeField]
@@ -76,15 +88,26 @@ public class SaveNLoad : MonoBehaviour
     public void SaveData()
     {
         thePlayer = FindObjectOfType<ThirdPersonController>();
+        rifleManager = FindObjectOfType<RifleManager>();
 
         if (theInventory == null)
         {
             Debug.LogWarning("Inventory를 찾을 수 없습니다. SaveData 중단됨.");
             return;
         }
-
+        // 플레이어
         saveData.playerPos = thePlayer.transform.position;
         saveData.playerRot = thePlayer.transform.eulerAngles;
+        saveData.playerHp = thePlayer.curHP;
+
+        // 변수
+        saveData.equippedWeaponIndex = rifleManager.CurrentWeaponLevel;
+        saveData.gunTempest = rifleManager.tempestFang;
+        saveData.gunInferno = rifleManager.infernoLance;
+        saveData.stage1Clear = Manager.stage_01_clear;
+        saveData.stage2Clear = Manager.stage_02_clear;
+
+        // 씬 이름
         saveData.currentSceneName = SceneManager.GetActiveScene().name;
 
         // 리스트 초기화
@@ -96,7 +119,7 @@ public class SaveNLoad : MonoBehaviour
         saveData.refriItemName.Clear();
         saveData.refriItemNumber.Clear();
 
-        Slot[] slots = theInventory.GetSlots(); // 인벤토리 저장
+        Slot[] slots = theInventory.GetSlots();
         if (slots == null)
         {
             Debug.LogError("슬롯 배열이 null입니다.");
@@ -104,7 +127,7 @@ public class SaveNLoad : MonoBehaviour
         }
         Debug.Log("슬롯 개수: " + slots.Length);
 
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++) // 인벤토리 저장
         {
             if (slots[i].item != null)
             {
@@ -156,13 +179,27 @@ public class SaveNLoad : MonoBehaviour
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
             thePlayer = FindObjectOfType<ThirdPersonController>();
+            rifleManager = FindObjectOfType<RifleManager>();
 
             if (thePlayer != null)
             {
+                // 플레이어
                 thePlayer.transform.position = saveData.playerPos;
                 thePlayer.transform.eulerAngles = saveData.playerRot;
+                // HP
+                thePlayer.curHP = saveData.playerHp;
+                thePlayer._hpBar.value = thePlayer.curHP;
+                // 총 변수 로드
+                rifleManager.tempestFang = saveData.gunTempest;
+                rifleManager.infernoLance = saveData.gunInferno;
+                rifleManager.SwitchWeapon(saveData.equippedWeaponIndex);
+
+                // 일반 변수 로드
+                Manager.stage_01_clear = saveData.stage1Clear;
+                Manager.stage_02_clear = saveData.stage2Clear;
+
                 // 인벤토리 로드
-                for(int i = 0; i < saveData.invenItemName.Count; i++)
+                for (int i = 0; i < saveData.invenItemName.Count; i++)
                 {
                     theInventory.LoadToInven(saveData.invenArrayNumber[i], saveData.invenItemName[i], saveData.invenItemNumber[i]);
                     Debug.Log("인벤토리 로드 완료");

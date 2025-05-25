@@ -109,7 +109,7 @@ namespace StarterAssets
         // 캐릭터 기본 스테이터스
         [Header("Player Status")]
         public float MaxHP = 100f;
-        private float curHP;
+        public float curHP;
         public float Def = 20;
 
         // Hit, Die
@@ -121,8 +121,7 @@ namespace StarterAssets
         private PlayerRespawn playerRespawn;
 
         // HPBar
-        [SerializeField]
-        private Slider _hpBar;
+        public Slider _hpBar;
 
         // DamageText
         [SerializeField]
