@@ -39,6 +39,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        Debug.Log(totalWeight);
+    }
 
     // 무게 업데이트를 일시적으로 비활성화
     public void PauseWeightUpdate()
@@ -75,7 +79,7 @@ public class InventoryManager : MonoBehaviour
     public void RecalculateTotalWeight()
     {
         totalWeight = 0;
-        foreach (var slot in FindObjectsOfType<Slot>())
+        foreach (var slot in FindObjectsOfType<Slot>(true))
         {
             if (slot is TreasureChestSlot || slot is RefrigeratorSlot)
             {

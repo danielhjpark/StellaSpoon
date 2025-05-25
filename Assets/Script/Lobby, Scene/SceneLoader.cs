@@ -194,7 +194,7 @@ namespace UnityNote
             if (!File.Exists(path))
             {
                 Debug.LogWarning("세이브 파일 없음. 기본 씬으로 이동");
-                yield return StartCoroutine(LoadSceneAsync("RestaurantTest2"));
+                yield return StartCoroutine(LoadSceneAsync("Restaurant"));
                 isInChainedLoad = false;
                 loadingScreen.SetActive(false);
                 yield break;
@@ -207,16 +207,16 @@ namespace UnityNote
             if (string.IsNullOrEmpty(targetScene))
             {
                 Debug.LogWarning("저장된 씬 없음. 기본 씬으로 이동");
-                yield return StartCoroutine(LoadSceneAsync("RestaurantTest2"));
+                yield return StartCoroutine(LoadSceneAsync("Restaurant"));
                 isInChainedLoad = false;
                 loadingScreen.SetActive(false);
                 yield break;
             }
 
             // 여기 추가: 중복 로딩 방지
-            if (targetScene == "RestaurantTest2")
+            if (targetScene == "Restaurant")
             {
-                Debug.Log("저장된 씬이 RestaurantTest2이므로 바로 로드");
+                Debug.Log("저장된 씬이 Restaurant면 바로 로드");
                 yield return StartCoroutine(LoadSceneAsync(targetScene));
 
                 theSaveNLoad = FindObjectOfType<SaveNLoad>();
@@ -233,7 +233,7 @@ namespace UnityNote
 
             // 기존 중간 로딩 단계 유지
             // 1. RestaurantTest2 임시 로드
-            AsyncOperation setupLoadOp = SceneManager.LoadSceneAsync("RestaurantTest2");
+            AsyncOperation setupLoadOp = SceneManager.LoadSceneAsync("Restaurant");
             setupLoadOp.allowSceneActivation = false;
 
             while (setupLoadOp.progress < 0.9f)
@@ -287,7 +287,7 @@ namespace UnityNote
 
         public void OnClick_NewGame()
         {
-            LoadScene(SceneNames.RestaurantTest2, false);
+            LoadScene(SceneNames.Restaurant, false);
         }
     }
 }
