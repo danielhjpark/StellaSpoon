@@ -12,7 +12,9 @@ public class PlanetManager : MonoBehaviour
         Mars, //화성
         aRedForest, //1행성
         Shop,
-        RestaurantTest2 //레스토랑 테스트
+        RestaurantTest2, //레스토랑 테스트
+        Restaurant,
+        Serenoxia
         //새로운 행성 추가
     }
 

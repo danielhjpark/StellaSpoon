@@ -6,7 +6,7 @@ using TMPro;
 using System.Linq;
 using System.IO;
 
-public enum SceneNames { Lobby = 0, Playground, Restaurant, RestaurantTest2, Shop, aRedForest }
+public enum SceneNames { Lobby = 0, Playground, Restaurant, Serenoxia, Shop, aRedForest }
 
 namespace UnityNote
 {

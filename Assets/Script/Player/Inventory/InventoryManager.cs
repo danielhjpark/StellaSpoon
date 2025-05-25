@@ -39,11 +39,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        Debug.Log(totalWeight);
-    }
-
     // 무게 업데이트를 일시적으로 비활성화
     public void PauseWeightUpdate()
     {
