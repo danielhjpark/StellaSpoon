@@ -117,7 +117,7 @@ public class ActionController : MonoBehaviour
 
     private void TryShakeTree()
     {
-        if (TreeActivated && selectTree != null)
+        if (TreeActivated && selectTree != null && ObjectTree.canshake)
         {
             selectTree.DropAliverry();
             selectTree = null;

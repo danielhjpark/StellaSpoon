@@ -44,7 +44,7 @@ public class WorldTimeManager : MonoBehaviour
     }
     private void Update()
     {
-        if(PlanetManager.Instance.GetSelectedPlanet() == PlanetManager.PlanetType.RestaurantTest2 ||
+        if(PlanetManager.Instance.GetSelectedPlanet() == PlanetManager.PlanetType.Restaurant ||
            PlanetManager.Instance.GetSelectedPlanet() == PlanetManager.PlanetType.Shop) return; //레스토랑, 상점 씬에서는 스카이 박스 업데이트 안함
         float gameHour = gameTimeManager.gameHours + (gameTimeManager.gameMinutes / 60.0f);
         SunUpdate(gameHour);
