@@ -207,6 +207,7 @@ public class SaveNLoad : MonoBehaviour
                 Debug.Log($"ªÛ¿⁄2 ΩΩ∑‘ {i}: {chest2Slots[i].item.itemName} ({chest2Slots[i].itemCount}) ¿˙¿Âµ ");
             }
         }
+
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(SAVE_DATA_DIRECTORY + SAVE_FILENAME, json);
 
