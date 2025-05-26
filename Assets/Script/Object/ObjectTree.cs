@@ -15,6 +15,10 @@ public class ObjectTree : MonoBehaviour
 
     public static bool canshake = true;
 
+    private void Start()
+    {
+        canshake = true; //트리 흔들기 가능
+    }
     public void DropAliverry()
     {
         foreach (GameObject obj in seeAliverrys) //배열내의 갯수만큼 반복해서 떨어트림
@@ -25,19 +29,6 @@ public class ObjectTree : MonoBehaviour
                 Instantiate(aliverrys, obj.transform.position, Quaternion.identity);
             }
         }
-
-        RespawnAliverry();//오브젝트 리스폰 쿨타임 시작
-    }
-
-    IEnumerator RespawnAliverry()
-    {
-        canshake = false;
-
-        yield return new WaitForSeconds(objectRespawnTime);
-        foreach (GameObject obj in seeAliverrys)
-        {
-            obj.SetActive(true);
-        }
-        canshake = true;
+                canshake = false;
     }
 }

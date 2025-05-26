@@ -12,7 +12,7 @@ public class MonsterHPBar : MonoBehaviour
     {
         if (monster != null)
         {
-            hpSlider.value = (float)monster.currentHealth / monster.maxHealth;
+            hpSlider.value = monster.currentHealth;
             // 몬스터 방향을 카메라로 향하게
             Vector3 dir = Camera.main.transform.position - transform.position;
             dir.y = 0; // y축 고정
