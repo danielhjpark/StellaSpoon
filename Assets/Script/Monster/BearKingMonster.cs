@@ -39,13 +39,8 @@ public class BearKingMonster : MonsterBase
     private GameObject currentEffect;
     private bool jumpEffectOn; //점프 이펙트 생성 변수
 
-    [Header("Health UI")]
     [SerializeField]
-    private GameObject bossHealthUI;
-    [SerializeField]
-    private Slider bossHealthSlider;
-    [SerializeField]
-    private GameObject sliderFill;
+    protected GameObject bossHealthUI;
 
 
     private bool isPlayerInRange = false;
@@ -60,12 +55,6 @@ public class BearKingMonster : MonsterBase
         if (bossHealthUI != null)
         {
             bossHealthUI.SetActive(false);
-        }
-
-        if (bossHealthSlider != null)
-        {
-            bossHealthSlider.maxValue = maxHealth;
-            bossHealthSlider.value = currentHealth;
         }
     }
 
@@ -88,13 +77,6 @@ public class BearKingMonster : MonsterBase
             {
                 bossHealthUI.SetActive(false);
             }
-        }
-        // 체력 슬라이더 업데이트
-        if (isPlayerInRange && bossHealthSlider != null)
-        {
-            bossHealthSlider.value = currentHealth;
-
-            sliderFill.SetActive(currentHealth > 0);
         }
     }
 

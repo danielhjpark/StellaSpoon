@@ -1358,18 +1358,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7805705967786733121, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1379497176}
-    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 76893571}
-    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 103293157}
     - targetCorrespondingSourceObject: {fileID: 5049163656497857009, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 946615804}
     - targetCorrespondingSourceObject: {fileID: 5049163656497857009, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 900301346}
+    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 76893571}
+    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 103293157}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
 --- !u!224 &42480490 stripped
@@ -24552,8 +24552,10 @@ MonoBehaviour:
   go_InventoryBase: {fileID: 16566642}
   go_EquipmentBase: {fileID: 0}
   go_SlotsParent: {fileID: 916110108}
+  Inventoryitems: []
   refrigeratorSlots: []
   slotParent: {fileID: 916110108}
+  refriInventoryitems: []
 --- !u!224 &1438835899 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1124722947256654631, guid: b59c3faf0b4ba5d41b7b1d23f4e47d19, type: 3}
@@ -32499,6 +32501,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a69adb959db5d540837e13343d3d95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1850405805
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.228189
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.6519442
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3705960333913335643, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119413243245140397, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119413243245140397, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6001326091237340331, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
+      propertyPath: m_Name
+      value: BlackFermos
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e049368e95744e4c99ecf13441106e8, type: 3}
 --- !u!1 &1854638761
 GameObject:
   m_ObjectHideFlags: 0
@@ -36469,6 +36536,7 @@ MonoBehaviour:
   go_InventoryBase: {fileID: 1865713163}
   go_EquipmentBase: {fileID: 503373661}
   go_SlotsParent: {fileID: 353169817}
+  Inventoryitems: []
 --- !u!114 &2038007454 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6549758383376741487, guid: da2791985bc253f4c87b33e59a1f5aa5, type: 3}
@@ -42585,3 +42653,4 @@ SceneRoots:
   - {fileID: 1306494991}
   - {fileID: 1339218551}
   - {fileID: 182444960}
+  - {fileID: 1850405805}

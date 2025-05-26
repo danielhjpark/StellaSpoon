@@ -66,10 +66,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3011818775521703378}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 8, y: -2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2895593082223785197
 CanvasRenderer:
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 244195a6d7e812742ab335e58ffac689, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -365,7 +365,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10.000004, y: 0}
+  m_SizeDelta: {x: -14, y: -0.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1177131686192970288
 GameObject:
@@ -1272,7 +1272,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1629,6 +1629,9 @@ MonoBehaviour:
   dropProbability: []
   maxDropItems: 
   thirdPersonController: {fileID: 0}
+  isDamage: 0
+  HealthSlider: {fileID: 4824595539021582759}
+  sliderFill: {fileID: 528876570575431335}
   attackRadius: 1.5
   shockwaveRadius: 20.1
   chargeSpeed: 10
@@ -1640,8 +1643,6 @@ MonoBehaviour:
   currentGroundEffect: {fileID: 0}
   jumpEffectprefab: {fileID: 8378648546881499446, guid: 9106061eca171b4439cf4786ee960d40, type: 3}
   bossHealthUI: {fileID: 3659957499360623399}
-  bossHealthSlider: {fileID: 4824595539021582759}
-  sliderFill: {fileID: 528876570575431335}
 --- !u!195 &6334015971420277287
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1935,7 +1936,7 @@ GameObject:
   - component: {fileID: 7358315007180020351}
   - component: {fileID: 5088919050669265310}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NameText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2382,8 +2383,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: b096f37a7d8a2a349b2476f0f988db2f, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
