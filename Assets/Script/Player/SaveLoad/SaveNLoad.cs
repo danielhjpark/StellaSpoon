@@ -59,7 +59,10 @@ public class SaveData
     [Header("골드")]
     public int gold;
 
-    // 엔딩 조건
+    [Header("엔딩")]
+    public int killMonsterCount;
+    public int npcCount;
+    public string firstRecipe;
 }
 public class SaveNLoad : MonoBehaviour
 {
@@ -152,6 +155,9 @@ public class SaveNLoad : MonoBehaviour
         saveData.stage1Clear = Manager.stage_01_clear;
         saveData.stage2Clear = Manager.stage_02_clear;
         saveData.gold = Manager.gold;
+        saveData.killMonsterCount = Manager.KillMonsterCount;
+        saveData.npcCount = Manager.NPCSpawnCount;
+        saveData.firstRecipe = Manager.FirstCreateRecipe;
 
         // 씬 이름
         saveData.currentSceneName = SceneManager.GetActiveScene().name;
@@ -284,6 +290,9 @@ public class SaveNLoad : MonoBehaviour
                 Manager.stage_01_clear = saveData.stage1Clear;
                 Manager.stage_02_clear = saveData.stage2Clear;
                 Manager.gold = saveData.gold;
+                Manager.KillMonsterCount = saveData.killMonsterCount;
+                Manager.NPCSpawnCount = saveData.npcCount;
+                Manager.FirstCreateRecipe = saveData.firstRecipe;
 
                 // 인벤토리 로드
                 for (int i = 0; i < saveData.invenItemName.Count; i++)
