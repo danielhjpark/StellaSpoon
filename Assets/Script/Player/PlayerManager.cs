@@ -104,7 +104,6 @@ public class PlayerManager : MonoBehaviour
             isRestaurant = true;
             SetRigWeight(0);
             ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경
-
         }
         else
         {
@@ -271,8 +270,13 @@ public class PlayerManager : MonoBehaviour
         {
             if (!isRestaurant) anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
-            RifleManager.instance.WeaponUI.SetActive(false);
-            RifleManager.instance.SpriteUI.SetActive(false);
+            if (isRestaurant)
+            {
+                if (RifleManager.instance.WeaponUI)
+                    RifleManager.instance.WeaponUI.SetActive(false);
+                if (RifleManager.instance.SpriteUI)
+                    RifleManager.instance.SpriteUI.SetActive(false);
+            }
         }
     }
 
