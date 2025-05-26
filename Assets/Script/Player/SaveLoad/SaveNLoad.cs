@@ -95,8 +95,8 @@ public class SaveNLoad : MonoBehaviour
     {
         GameObject inventoryObject = GameObject.Find("PARENT_InventoryBase(DeactivateThis)");
         GameObject refriInventoryObject = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)");
-        GameObject chest1InventoryObject = GameObject.Find("PARENT_RestaurantChestBase (1)");
-        GameObject chest2InventoryObject = GameObject.Find("PARENT_RestaurantChestBase (2)");
+        GameObject chest1InventoryObject = GameObject.Find("PARENT_RestaurantChestBase_1");
+        GameObject chest2InventoryObject = GameObject.Find("PARENT_RestaurantChestBase_2");
 
         if (inventoryObject != null)
         {
