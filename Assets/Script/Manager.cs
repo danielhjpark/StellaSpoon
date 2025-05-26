@@ -10,7 +10,7 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
 
-    public static bool stage_01_clear = false; //스테이지 1 클리어 여부
+    public static bool stage_01_clear = true; //스테이지 1 클리어 여부
     public static bool stage_02_clear = false; //스테이지 2 클리어 여부
 
     public static int gold = 300000; //플레이어 보유 골드
@@ -78,7 +78,7 @@ public class Manager : MonoBehaviour
         }
 
         //씬이 "레스토랑이나 상점으로 변경되면 골드 UI 활성화
-        if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.Restaurant ||
+        if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.RestaurantTest2 ||
            PlanetManager.selectedPlanet == PlanetManager.PlanetType.Shop)
         {
             //GoldUI.SetActive(true);

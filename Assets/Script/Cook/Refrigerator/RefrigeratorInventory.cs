@@ -7,15 +7,46 @@ public class RefrigeratorInventory : Inventory
 {
     public RefrigeratorSlot[] refrigeratorSlots;
     [SerializeField] GameObject slotParent;
-    List<Item> items;
+    List<Item> Refriitems;
     void Awake()
     {
         refrigeratorSlots = slotParent.GetComponentsInChildren<RefrigeratorSlot>();
-        items = new List<Item>();
+        Refriitems = new List<Item>();
         foreach (RefrigeratorSlot slot in refrigeratorSlots)
         {
             slot.OnSlotUpdate += SlotUpate;
         }
+    }
+
+    [SerializeField]
+    private Item[] refriInventoryitems;  // 냉장고용 아이템들
+
+    public override Slot[] GetSlots()
+    {
+        // RefrigeratorInventory는 기본 slots이 아닌 refrigeratorSlots를 기준으로 동작해야 함
+        return refrigeratorSlots;
+    }
+
+    public override void LoadToInven(int _arrNum, string _itemName, int _itemCount)
+    {
+        for (int i = 0; i < refriInventoryitems.Length; i++)
+        {
+            if (refriInventoryitems[i].itemName == _itemName)
+            {
+                if (_arrNum >= 0 && _arrNum < refrigeratorSlots.Length && refrigeratorSlots[_arrNum] != null)
+                {
+                    refrigeratorSlots[_arrNum].AddItem(refriInventoryitems[i], _itemCount);
+                    Debug.Log($"[냉장고] 슬롯 {_arrNum}에 {_itemName} {_itemCount}개 로드됨");
+                    return;
+                }
+                else
+                {
+                    Debug.LogError($"[냉장고] 잘못된 슬롯 인덱스 {_arrNum} 또는 null 슬롯");
+                    return;
+                }
+            }
+        }
+        Debug.LogWarning($"[냉장고] Inventoryitems에 '{_itemName}' 아이템이 없습니다.");
     }
 
     public void AcquireItem(Item _item, int _count = 1)
@@ -114,7 +145,7 @@ public class RefrigeratorInventory : Inventory
                     else
                     {
                         slot.UseItem(currentCount);
-                        if (IngredientManager.IngredientAmount[currentIngredient] <= 0) items.Add(slot.previousItem);
+                        if (IngredientManager.IngredientAmount[currentIngredient] <= 0) Refriitems.Add(slot.previousItem);
                         return;
                     }
                 }
@@ -147,7 +178,7 @@ public class RefrigeratorInventory : Inventory
             }
         }
 
-        foreach (Item item in items)
+        foreach (Item item in Refriitems)
         {
             if (item.itemName == currentIngredient.ingredientName)
             {
@@ -157,7 +188,7 @@ public class RefrigeratorInventory : Inventory
                     {
                         slot.previousItem = item;
                         slot.RecallItem(Count);
-                        items.Remove(item);
+                        Refriitems.Remove(item);
                         return;
                     }
                 }

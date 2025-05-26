@@ -88,7 +88,7 @@ public class PlayerManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        string[] restaurantScenes = { "Restaurant", "RestaurantTest2", "WokMergeTest", "FryingPanMergeTest", "CuttingBoardMergeTest", "PotMergeTest", "Store" };
+        string[] restaurantScenes = { "Restaurant", "RestaurantTest2", "WokMergeTest", "FryingPanMergeTest", "CuttingBoardMergeTest", "PotMergeTest", "Store", "Shop" };
         foreach (string restaurantScene in restaurantScenes)
         {
             if (scene.name == restaurantScene)

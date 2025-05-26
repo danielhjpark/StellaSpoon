@@ -332,6 +332,16 @@ public class BearKingMonster : MonsterBase
         yield return new WaitForSeconds(2.0f); // 2초간 멈춤
     }
 
+    protected override void HandleDeath()
+    {
+        base.HandleDeath();
+        if(!Manager.stage_01_clear)
+        {
+            Manager.stage_01_clear = true;
+            Debug.Log("스테이지 1 클리어");
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         base.OnDrawGizmosSelected();

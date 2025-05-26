@@ -18,7 +18,7 @@ public abstract class MonsterBase : MonoBehaviour
 {
     [Header("몬스터 Information")]
     public int maxHealth; //최대 체력
-    public int currentHealth; //현재 체력
+    protected int currentHealth; //현재 체력
     public int damage; //공격력
     protected Vector3 initialPosition; //최초 위치
     public bool isDead = false; //죽음 체크 변수
