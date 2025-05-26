@@ -190,9 +190,8 @@ public class WokManager : CookManagerBase
 
     IEnumerator FireControl()
     {
-        int wokUnlock = 0;
-        wokUI.Initialize(wokUnlock);
-        if (wokUnlock >= 2) yield break;
+        wokUI.Initialize(successFireStep);
+        if (StoreUIManager.currentWorLevel >= 2) yield break;
         StartCoroutine(cookUIManager.TimerStart(3f));
         wokUI.OnFireControlUI();
 

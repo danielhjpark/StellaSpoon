@@ -26,7 +26,7 @@ public class CuttingManager : CookManagerBase
     {
         isCanEscape = true;
         CookManager.instance.BindingManager(this);
-        //StoreManager
+        CookManager.instance.spawnPoint = dropPos;
     }
 
     void Start()

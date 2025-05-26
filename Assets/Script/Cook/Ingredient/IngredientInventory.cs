@@ -10,6 +10,7 @@ public class IngredientInventory : MonoBehaviour
     [SerializeField] GameObject ingredientSlotPrefab;
     [SerializeField] GameObject ingredientSlotParent;
     [SerializeField] SlotToolTip slotToolTip;
+    Dictionary<Ingredient, bool> checkCreateIngredient = new Dictionary<Ingredient, bool>();
 
     void Awake()
     {
@@ -22,7 +23,16 @@ public class IngredientInventory : MonoBehaviour
     }
 
 
-    void CreateIngredientSlot(Ingredient ingredient, int ingredientCount) {
+    void CreateIngredientSlot(Ingredient ingredient, int ingredientCount)
+    {
+        if (!checkCreateIngredient.ContainsKey(ingredient))
+            checkCreateIngredient.Add(ingredient, true);
+        else if (!checkCreateIngredient[ingredient])
+        {
+            checkCreateIngredient[ingredient] = true;
+        }
+        else return;
+
         GameObject ingredientslot = Instantiate(ingredientSlotPrefab);
         ingredientslot.transform.SetParent(ingredientSlotParent.transform);
 
@@ -30,7 +40,8 @@ public class IngredientInventory : MonoBehaviour
         ingredientslot.GetComponent<IngredientSlot>().slotToolTip = slotToolTip;
         ingredientslot.GetComponent<IngredientSlot>().BindingIngredient(ingredient);
         ingredientslot.GetComponent<IngredientSlot>().itemCount = ingredientCount;
-        
+
+
     }
 
     // Pot Use This
@@ -99,8 +110,11 @@ public class IngredientInventory : MonoBehaviour
 
     //-------------- Clear & Disable --------------------//
     public void IngredientSlotInit() {
-        foreach(Transform ingredientSlot in ingredientSlotParent.transform) {
+        foreach (Transform ingredientSlot in ingredientSlotParent.transform)
+        {
+            checkCreateIngredient[ingredientSlot.GetComponent<IngredientSlot>().currentIngredient] = false;
             Destroy(ingredientSlot.gameObject);
+            
         }
     }
 

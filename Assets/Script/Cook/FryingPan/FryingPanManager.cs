@@ -187,9 +187,9 @@ public class FryingPanManager : CookManagerBase
 
     IEnumerator FireControl()
     {
-        bool fryingPanUnlock = false;
+        
         fryingPanUI.Initialize(successFireStep);
-        if (fryingPanUnlock) yield break;
+        if (StoreUIManager.currentPanLevel >=2) yield break;
         StartCoroutine(cookUIManager.TimerStart(3f));
         fryingPanUI.OnFireControlUI();
 

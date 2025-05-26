@@ -96,7 +96,6 @@ public class RefrigeratorSlot : Slot
         // 슬롯의 이미지와 텍스트를 초기화
         itemImage.sprite = null;
         text_count.gameObject.SetActive(false);
-
         // 슬롯을 비활성화 색상으로 표시
         SetColor(0);
         OnSlotUpdate?.Invoke();
@@ -129,6 +128,7 @@ public class RefrigeratorSlot : Slot
         {
             ClearSlot();
         }
+        OnSlotUpdate?.Invoke();
     }
 
 }

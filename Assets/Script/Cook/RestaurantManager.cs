@@ -13,7 +13,11 @@ public class RestaurantManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null) instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else Destroy(gameObject);
     }
 
@@ -30,6 +34,9 @@ public class RestaurantManager : MonoBehaviour
 
     void Update()
     {
-
+        currentPanLevel = StoreUIManager.currentPanLevel;
+        currentWorLevel = StoreUIManager.currentWorLevel;
+        currentCuttingBoardLevel = StoreUIManager.currentCuttingBoardLevel;
+        currentPotLevel = StoreUIManager.currentPotLevel;
     }
 }

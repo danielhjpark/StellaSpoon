@@ -52,6 +52,7 @@ public class TrimIngredientUI : MonoBehaviour
 
     private bool CheckRequireIngredient(Recipe recipe)
     {
+        Debug.Log(IngredientManager.IngredientAmount[recipe.mainIngredient]);
         if (IngredientManager.IngredientAmount[recipe.mainIngredient] > 0)
         {
             return true;
