@@ -10,7 +10,6 @@ using System;
 public class NpcManager : MonoBehaviour
 {
     public static NpcManager instance;
-    public static int totalNpcCount = 0;
     //-------------- SpawnNpc Setting --------------------//
     [Header("NPC Move Path")]
     [SerializeField] public Transform spawnPoint;
@@ -40,7 +39,7 @@ public class NpcManager : MonoBehaviour
 
         GameObject npc = Instantiate(npcPrefab[UnityEngine.Random.Range(0, npcPrefab.Length)], spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
         npcList.Add(npc);
-        totalNpcCount++;
+        Manager.NPCSpawnCount++;
         StartCoroutine(ManageNPC(npc, recipe));
     }
 

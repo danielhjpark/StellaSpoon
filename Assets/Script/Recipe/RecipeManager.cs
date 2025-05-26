@@ -30,6 +30,10 @@ public class RecipeManager : MonoBehaviour
         NewRecipeUI = canvasTransform.Find("NewRecipePanel")?.gameObject; // MapPanelÀ» Ã£±â
         
     }
+    void Update()
+    {
+        if(!RecipeUnlockCheck[HiddenRecipe]) CheckHiddenRecipeUnlock();
+    }
 
     void RecipeUnLockInit()
     {
@@ -47,6 +51,7 @@ public class RecipeManager : MonoBehaviour
         {
             RecipeUnlockCheck[BasicRecipe] = true;
         }
+        
     }
     //--------------- RecipeUnLock System -----------------//
     public void RecipeUnLock(Recipe getRecipe)
@@ -54,10 +59,10 @@ public class RecipeManager : MonoBehaviour
         if (getRecipe != null && !RecipeUnlockCheck[getRecipe])
         {
             RecipeUnlockCheck[getRecipe] = true;
+            if (Manager.FirstCreateRecipe == null) Manager.FirstCreateRecipe = getRecipe.name;
             Debug.Log("RecipeUnLock : " + getRecipe.name);
             RecipeUnLockUI();
         }
-        CheckHiddenRecipeUnlock();
     }
 
     void CheckHiddenRecipeUnlock()
@@ -67,7 +72,7 @@ public class RecipeManager : MonoBehaviour
         {
             if (isUnlock) count++;
         }
-
+        Debug.Log(count);
         if(count >= 12) RecipeUnlockCheck[HiddenRecipe] = true;
     }
 

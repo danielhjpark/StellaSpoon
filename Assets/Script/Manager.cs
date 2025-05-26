@@ -25,7 +25,8 @@ public class Manager : MonoBehaviour
     private const string KillCountKey = "KillTime"; // PlayerPrefs 키
 
     public static int KillMonsterCount = 0; //처치한 몬스터 수
-
+    public static int NPCSpawnCount = 0;
+    public static string FirstCreateRecipe = "";
 
     private void Update()
     {
