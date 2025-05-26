@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using StarterAssets;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 [System.Serializable]
 public class SaveData
@@ -40,6 +41,15 @@ public class SaveData
     public bool gunInferno;
     public bool stage1Clear;
     public bool stage2Clear;
+
+    [Header("레시피")]
+    public List<string> unlockedRecipeNames = new List<string>();
+
+    [Header("조리도구 레벨")]
+    public int currentPanLevel;
+    public int currentWorLevel;
+    public int currentCuttingBoardLevel;
+    public int currentPotLevel;
 }
 public class SaveNLoad : MonoBehaviour
 {
@@ -129,6 +139,12 @@ public class SaveNLoad : MonoBehaviour
         // 씬 이름
         saveData.currentSceneName = SceneManager.GetActiveScene().name;
 
+        // 조리 도구
+        saveData.currentPanLevel = StoreUIManager.currentPanLevel;
+        saveData.currentWorLevel = StoreUIManager.currentWorLevel;
+        saveData.currentCuttingBoardLevel = StoreUIManager.currentCuttingBoardLevel;
+        saveData.currentPotLevel = StoreUIManager.currentPotLevel;
+
         // 리스트 초기화
         saveData.invenArrayNumber.Clear();
         saveData.invenItemName.Clear();
@@ -146,7 +162,8 @@ public class SaveNLoad : MonoBehaviour
         }
         Debug.Log("슬롯 개수: " + slots.Length);
 
-        for (int i = 0; i < slots.Length; i++) // 인벤토리 저장
+        // 인벤토리 저장
+        for (int i = 0; i < slots.Length; i++) 
         {
             if (slots[i].item != null)
             {
@@ -160,8 +177,8 @@ public class SaveNLoad : MonoBehaviour
                 Debug.Log($"슬롯 {i}은 비어 있음");
             }
         }
-
-        RefrigeratorSlot[] refriSlots = theRefrigeratorInventory.refrigeratorSlots; // 냉장고 저장
+        // 냉장고 저장
+        RefrigeratorSlot[] refriSlots = theRefrigeratorInventory.refrigeratorSlots;
         if (refriSlots == null)
         {
             Debug.LogError("냉장고 슬롯 배열이 null입니다.");
@@ -208,6 +225,14 @@ public class SaveNLoad : MonoBehaviour
             }
         }
 
+        // 레시피 저장
+        saveData.unlockedRecipeNames.Clear();
+        foreach (var pair in RecipeManager.instance.RecipeUnlockCheck)
+        {
+            if (pair.Value)
+                saveData.unlockedRecipeNames.Add(pair.Key.name);
+        }
+
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(SAVE_DATA_DIRECTORY + SAVE_FILENAME, json);
 
@@ -249,6 +274,7 @@ public class SaveNLoad : MonoBehaviour
                     Debug.Log("인벤토리 로드 완료");
                 }
                 Debug.Log("로드 완료");
+
                 // 냉장고 로드
                 for (int i = 0; i < saveData.refriItemName.Count; i++)
                 {
@@ -256,17 +282,37 @@ public class SaveNLoad : MonoBehaviour
                 }
                 Debug.Log("냉장고 로드 완료");
 
+                // 상자1 로드
                 for (int i = 0; i < saveData.chest1ItemName.Count; i++)
                 {
                     chest1Inventory.LoadToInven(saveData.chest1ArrayNumber[i], saveData.chest1ItemName[i], saveData.chest1ItemNumber[i]);
                 }
                 Debug.Log("상자1 로드 완료");
 
+                // 상자2 로드
                 for (int i = 0; i < saveData.chest2ItemName.Count; i++)
                 {
                     chest2Inventory.LoadToInven(saveData.chest2ArrayNumber[i], saveData.chest2ItemName[i], saveData.chest2ItemNumber[i]);
                 }
                 Debug.Log("상자2 로드 완료");
+
+                // 레시피 로드
+                foreach (var key in RecipeManager.instance.RecipeUnlockCheck.Keys.ToList())
+                {
+                    RecipeManager.instance.RecipeUnlockCheck[key] = false;
+                }
+                foreach (string recipeName in saveData.unlockedRecipeNames)
+                {
+                    Recipe recipe = RecipeManager.instance.FindRecipe(recipeName);
+                    if (recipe != null)
+                        RecipeManager.instance.RecipeUnlockCheck[recipe] = true;
+                }
+
+                // 조리도구 레벨 로드
+                StoreUIManager.currentPanLevel = saveData.currentPanLevel;
+                StoreUIManager.currentWorLevel = saveData.currentWorLevel;
+                StoreUIManager.currentCuttingBoardLevel = saveData.currentCuttingBoardLevel;
+                StoreUIManager.currentPotLevel = saveData.currentPotLevel;
             }
             else
             {
