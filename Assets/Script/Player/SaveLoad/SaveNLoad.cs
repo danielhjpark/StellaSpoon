@@ -50,6 +50,14 @@ public class SaveData
     public int currentWorLevel;
     public int currentCuttingBoardLevel;
     public int currentPotLevel;
+
+    [Header("게임 시간")]
+    public int gameHour;
+    public int gameMinute;
+    public int gameDay;
+
+    [Header("골드")]
+    public int gold;
 }
 public class SaveNLoad : MonoBehaviour
 {
@@ -118,12 +126,18 @@ public class SaveNLoad : MonoBehaviour
     {
         thePlayer = FindObjectOfType<ThirdPersonController>();
         rifleManager = FindObjectOfType<RifleManager>();
+        GameTimeManager timeManager = FindObjectOfType<GameTimeManager>();
 
         if (theInventory == null)
         {
             Debug.LogWarning("Inventory를 찾을 수 없습니다. SaveData 중단됨.");
             return;
         }
+        // 게임 시간
+        saveData.gameHour = timeManager.gameHours;
+        saveData.gameMinute = timeManager.gameMinutes;
+        saveData.gameDay = timeManager.gameDays;
+
         // 플레이어
         saveData.playerPos = thePlayer.transform.position;
         saveData.playerRot = thePlayer.transform.eulerAngles;
@@ -135,6 +149,7 @@ public class SaveNLoad : MonoBehaviour
         saveData.gunInferno = rifleManager.infernoLance;
         saveData.stage1Clear = Manager.stage_01_clear;
         saveData.stage2Clear = Manager.stage_02_clear;
+        saveData.gold = Manager.gold;
 
         // 씬 이름
         saveData.currentSceneName = SceneManager.GetActiveScene().name;
@@ -249,7 +264,7 @@ public class SaveNLoad : MonoBehaviour
 
             thePlayer = FindObjectOfType<ThirdPersonController>();
             rifleManager = FindObjectOfType<RifleManager>();
-
+            GameTimeManager timeManager = FindObjectOfType<GameTimeManager>();
             if (thePlayer != null)
             {
                 // 플레이어
@@ -266,6 +281,7 @@ public class SaveNLoad : MonoBehaviour
                 // 일반 변수 로드
                 Manager.stage_01_clear = saveData.stage1Clear;
                 Manager.stage_02_clear = saveData.stage2Clear;
+                Manager.gold = saveData.gold;
 
                 // 인벤토리 로드
                 for (int i = 0; i < saveData.invenItemName.Count; i++)
@@ -313,6 +329,12 @@ public class SaveNLoad : MonoBehaviour
                 StoreUIManager.currentWorLevel = saveData.currentWorLevel;
                 StoreUIManager.currentCuttingBoardLevel = saveData.currentCuttingBoardLevel;
                 StoreUIManager.currentPotLevel = saveData.currentPotLevel;
+
+                // 게임 시간
+                timeManager.gameHours = saveData.gameHour;
+                timeManager.gameMinutes = saveData.gameMinute;
+                timeManager.gameDays = saveData.gameDay;
+                timeManager.gameTime = (saveData.gameHour * 3600f) + (saveData.gameMinute * 60f);
             }
             else
             {

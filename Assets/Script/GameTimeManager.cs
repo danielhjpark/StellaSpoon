@@ -10,7 +10,7 @@ public class GameTimeManager : MonoBehaviour
     public TextMeshProUGUI gameTimeText; // 게임 시간을 표시할 UI 텍스트
     public TextMeshProUGUI gameDaysText; // 게임 일수를 표시할 UI 텍스트
 
-    private float gameTime = 0f; // 게임 내 시간 (단위: 초)
+    public float gameTime = 0f; // 게임 내 시간 (단위: 초)
     private const string lastSavedTimeKey = "LastSavedTime"; // PlayerPrefs 키
     private const string gameTimeKey = "GameTime"; // PlayerPrefs 키
     private const string gameDaysKey = "GameDays"; // PlayerPrefs 키
