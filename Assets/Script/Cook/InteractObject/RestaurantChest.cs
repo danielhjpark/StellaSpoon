@@ -9,7 +9,8 @@ public class RestaurantdChest : InteractObject
     private GameObject inventoryBG;
     bool isPlayerNearby;
     bool isOpenedChest;
-
+    
+   
     void Awake()
     {
         isPlayerNearby = false;

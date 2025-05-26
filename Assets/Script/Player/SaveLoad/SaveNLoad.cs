@@ -26,7 +26,13 @@ public class SaveData
     public List<string> refriItemName = new List<string>();
     public List<int> refriItemNumber = new List<int>();
 
-    //[Header("상자")]
+    [Header("상자 1, 2")]
+    public List<int> chest1ArrayNumber = new List<int>();
+    public List<string> chest1ItemName = new List<string>();
+    public List<int> chest1ItemNumber = new List<int>();
+    public List<int> chest2ArrayNumber = new List<int>();
+    public List<string> chest2ItemName = new List<string>();
+    public List<int> chest2ItemNumber = new List<int>();
 
     [Header("변수")]
     public int equippedWeaponIndex;
@@ -44,10 +50,16 @@ public class SaveNLoad : MonoBehaviour
 
     private ThirdPersonController thePlayer;
     private RifleManager rifleManager;
+
     [SerializeField]
     private Inventory theInventory;
     [SerializeField]
     private RefrigeratorInventory theRefrigeratorInventory;
+    [SerializeField]
+    private Inventory chest1Inventory;
+    [SerializeField]
+    private Inventory chest2Inventory;
+
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +85,8 @@ public class SaveNLoad : MonoBehaviour
     {
         GameObject inventoryObject = GameObject.Find("PARENT_InventoryBase(DeactivateThis)");
         GameObject refriInventoryObject = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)");
+        GameObject chest1InventoryObject = GameObject.Find("PARENT_RestaurantChestBase (1)");
+        GameObject chest2InventoryObject = GameObject.Find("PARENT_RestaurantChestBase (2)");
 
         if (inventoryObject != null)
         {
@@ -83,6 +97,11 @@ public class SaveNLoad : MonoBehaviour
         {
             Debug.LogWarning("Inventory 오브젝트를 찾지 못했습니다");
         }
+        if (chest1InventoryObject != null)
+            chest1Inventory = chest1InventoryObject.GetComponent<Inventory>();
+
+        if (chest2InventoryObject != null)
+            chest2Inventory = chest2InventoryObject.GetComponent<Inventory>();
     }
 
     public void SaveData()
@@ -164,6 +183,31 @@ public class SaveNLoad : MonoBehaviour
                 Debug.Log($"냉장고 슬롯 {i}은 비어 있음");
             }
         }
+        // 상자1 저장
+        Slot[] chest1Slots = chest1Inventory.GetSlots();
+        for (int i = 0; i < chest1Slots.Length; i++)
+        {
+            if (chest1Slots[i].item != null)
+            {
+                saveData.chest1ArrayNumber.Add(i);
+                saveData.chest1ItemName.Add(chest1Slots[i].item.itemName);
+                saveData.chest1ItemNumber.Add(chest1Slots[i].itemCount);
+                Debug.Log($"상자1 슬롯 {i}: {chest1Slots[i].item.itemName} ({chest1Slots[i].itemCount}) 저장됨");
+            }
+        }
+        // 상자2 저장
+        Slot[] chest2Slots = chest2Inventory.GetSlots();
+        for (int i = 0; i < chest2Slots.Length; i++)
+        {
+            if (chest2Slots[i].item != null)
+            {
+                saveData.chest2ArrayNumber.Add(i);
+                saveData.chest2ItemName.Add(chest2Slots[i].item.itemName);
+                saveData.chest2ItemNumber.Add(chest2Slots[i].itemCount);
+                Debug.Log($"상자2 슬롯 {i}: {chest2Slots[i].item.itemName} ({chest2Slots[i].itemCount}) 저장됨");
+            }
+        }
+
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(SAVE_DATA_DIRECTORY + SAVE_FILENAME, json);
 
@@ -211,6 +255,18 @@ public class SaveNLoad : MonoBehaviour
                     theRefrigeratorInventory.LoadToInven(saveData.refriArrayNumber[i], saveData.refriItemName[i], saveData.refriItemNumber[i]);
                 }
                 Debug.Log("냉장고 로드 완료");
+
+                for (int i = 0; i < saveData.chest1ItemName.Count; i++)
+                {
+                    chest1Inventory.LoadToInven(saveData.chest1ArrayNumber[i], saveData.chest1ItemName[i], saveData.chest1ItemNumber[i]);
+                }
+                Debug.Log("상자1 로드 완료");
+
+                for (int i = 0; i < saveData.chest2ItemName.Count; i++)
+                {
+                    chest2Inventory.LoadToInven(saveData.chest2ArrayNumber[i], saveData.chest2ItemName[i], saveData.chest2ItemNumber[i]);
+                }
+                Debug.Log("상자2 로드 완료");
             }
             else
             {
