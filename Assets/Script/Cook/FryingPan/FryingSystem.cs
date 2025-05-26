@@ -80,8 +80,6 @@ public class FryingSystem : MonoBehaviour
 
     }
 
-
-
     IEnumerator RotatePan()
     {
         float radius = 1f;    // 회전 반경

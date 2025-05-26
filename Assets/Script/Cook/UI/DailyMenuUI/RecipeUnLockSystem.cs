@@ -12,7 +12,7 @@ public class RecipeUnLockSystem : MonoBehaviour {
         List<Recipe> recipeList = RecipeManager.instance.MakeRecipeUnLockList();
         
         foreach (Recipe recipe in recipeList) {
-            if(menuSlots.FirstOrDefault(menu => menu.currentRecipe == recipe)) break;
+            if(menuSlots.FirstOrDefault(menu => menu.currentRecipe == recipe)) continue;
             GameObject menu = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             menu.transform.SetParent(recipePanel.transform);
 

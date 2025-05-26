@@ -39,9 +39,9 @@ public class WokUI : MonoBehaviour
 
     public void Initialize(int successFireStep)
     {
-        this.unlockStep = RestaurantManager.instance.currentWorLevel;
+        this.unlockStep = StoreUIManager.currentWorLevel;
 
-        if (RestaurantManager.instance.currentWorLevel >= 2)
+        if (StoreUIManager.currentWorLevel >= 2)
         {
             AutoFireTemperature();
             isUnlockStep = true;

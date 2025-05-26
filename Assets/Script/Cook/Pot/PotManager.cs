@@ -28,7 +28,7 @@ public class PotManager : CookManagerBase
     [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject potViewCamera;
     [SerializeField] GameObject uiObject;
-
+    [SerializeField] GameObject mainLight;
     private Ingredient mainIngredient;
     private List<GameObject> potIngredients = new List<GameObject>();
     private List<IngredientAmount> checkIngredients = new List<IngredientAmount>();
@@ -41,7 +41,6 @@ public class PotManager : CookManagerBase
         isCanEscape = true;
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
-        CookManager.instance.isCanUseSideTable = false;
         cookUIManager.Initialize(this);
 
         potBoilingSystem = GetComponent<PotBoilingSystem>();
@@ -63,7 +62,6 @@ public class PotManager : CookManagerBase
             }
             else
             {
-                CookManager.instance.isCanUseSideTable = true;
                 CookSceneManager.instance.UnloadScene("PotMergeTest");
             }
         }
@@ -71,7 +69,7 @@ public class PotManager : CookManagerBase
 
     private void UpgradePot()
     {
-        int unlockStep = RestaurantManager.instance.currentPotLevel;
+        int unlockStep = StoreUIManager.currentPotLevel;
         switch (unlockStep)
         {
             case 0:
@@ -110,7 +108,7 @@ public class PotManager : CookManagerBase
         }
         else
         {
-            cookCompleteTime = currentMenu.boilingSetting.cookTime;
+            cookCompleteTime = menu.boilingSetting.cookTime;
         }
         cookCompleteTime -= decreaseCompleteTime;
     }
@@ -169,7 +167,7 @@ public class PotManager : CookManagerBase
             return;
         }
 
-        if (!RecipeManager.instance.CompareRecipe(currentMenu, checkIngredients))
+        if (!RecipeManager.instance.CompareRecipe(targetRecipe, checkIngredients))
         {
             Debug.Log("Ingredient mismatch");
             CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
@@ -192,7 +190,7 @@ public class PotManager : CookManagerBase
 
         //UnLock New Recipe;
         RecipeManager.instance.RecipeUnLock(targetRecipe);
-        CookSceneManager.instance.UnloadScene("PotMergeTest", currentMenu);
+        CookSceneManager.instance.UnloadScene("PotMergeTest", targetRecipe);
         Debug.Log("Success");
         return;
     }
@@ -206,11 +204,13 @@ public class PotManager : CookManagerBase
         if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
             isCanEscape = false;
+            cookMode = CookMode.Select;
             StartCoroutine(cookUIManager.VisiblePanel());
             ingredientInventory.IngredientAdd(currentMenu.mainIngredient);
         }
         else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
+            cookMode = CookMode.Make;
             ingredientInventory.AddAllIngredients();
             yield return new WaitForSeconds(0.5f);
             StartCoroutine(cookUIManager.TimerStart(10f));
@@ -327,6 +327,7 @@ public class PotManager : CookManagerBase
     {
         potAudioSystem.UnPauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(true);
+        mainLight.SetActive(true);
         CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         potViewCamera.SetActive(true);
         CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
@@ -343,6 +344,7 @@ public class PotManager : CookManagerBase
     {
         potAudioSystem.PauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(false);
+        mainLight.SetActive(false);
         CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(true);
         potViewCamera.SetActive(false);
         CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();

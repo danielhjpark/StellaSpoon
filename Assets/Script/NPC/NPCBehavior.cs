@@ -10,6 +10,7 @@ public class NPCBehavior : MonoBehaviour
     [SerializeField] private GameObject menuImageObject;
     [SerializeField] private Image menuImage; // NPC 머리 위에 표시될 메뉴 스프라이트
     [SerializeField] private Sprite[] emotionSprites;// 0 - yes , 1 - no
+    [SerializeField] private AudioClip npcSittingAudio;
 
     private Animator npcAnimator;
     private NavMeshAgent npcNav;
@@ -18,10 +19,11 @@ public class NPCBehavior : MonoBehaviour
 
     private bool hasOrdered = false; // 주문 완료 여부
     private bool hasReceivedMenu = false; // 메뉴 수령 여부
+    private bool isCanReceivedMenu = true;
+
     private float orderTime; // 주문한 시간
     private int currentSeatIndex;
     private int payPrice;
-
     public enum NPCState { Idle, Entering, Sitting, Exiting }
     public NPCState npcState = NPCState.Idle;
 
@@ -31,6 +33,8 @@ public class NPCBehavior : MonoBehaviour
     private Transform spawnPoint;
     private Transform doorPoint;
     private Transform centerPoint;
+
+    private Coroutine eatCoroutine;
 
     private void Start()
     {
@@ -58,8 +62,8 @@ public class NPCBehavior : MonoBehaviour
 
     public IEnumerator OrderMenu(Recipe menu)
     {
-        
         npcAnimator.SetBool("isSitting", true);
+        AudioSource.PlayClipAtPoint(npcSittingAudio, this.transform.position);
         npcNav.enabled = false;
         this.transform.rotation = Quaternion.Euler(0, -180, 0);
 
@@ -76,7 +80,7 @@ public class NPCBehavior : MonoBehaviour
         
         yield return new WaitForSeconds(2f);// 기다린 후 주문
 
-        if(npcState != NPCState.Exiting) yield break;
+        if(npcState == NPCState.Exiting) yield break;
         else if(!hasOrdered)
         {
             Debug.Log("NPC OrderMenu.");
@@ -93,7 +97,6 @@ public class NPCBehavior : MonoBehaviour
     IEnumerator ReceiveMenu() {
         float waitTime = 0f;
         float stayDuration = 30f;
-        // float orderDelay = 10f;
         // float npcWaitTime = 40f;
 
         while(true) {
@@ -107,6 +110,7 @@ public class NPCBehavior : MonoBehaviour
             }
             else if (!hasReceivedMenu) //음식을 받지 못하였을 때
             {
+                isCanReceivedMenu = false;
                 OrderManager.instance.RetuenMenu(currentMenu); //메뉴 회수
                 yield return Exit();
                 yield break;
@@ -139,6 +143,10 @@ public class NPCBehavior : MonoBehaviour
 
     public IEnumerator ForeceExit()
     {
+        if (eatCoroutine != null)
+        {
+            yield break;
+        }
         npcAnimator.SetBool("isSitting", false);
         npcNav.enabled = true; // 이동 재개
         menuImage.enabled = false;
@@ -222,7 +230,7 @@ public class NPCBehavior : MonoBehaviour
 
             Debug.Log($"음식 가격: {payPrice} 골드");
             // 음식 섭취 시작
-            StartCoroutine(EatAndExit());
+            eatCoroutine = StartCoroutine(EatAndExit());
         }
     }
     
@@ -232,8 +240,8 @@ public class NPCBehavior : MonoBehaviour
         //float eatingTime = Random.Range(40f, 60f);
         float eatingTime = Random.Range(5f, 10f);
         yield return new WaitForSeconds(eatingTime);
-        Manager.gold += payPrice;
         Destroy(serveObject);
+        yield return StartCoroutine(PayGold());
         yield return Exit();
     }
 
@@ -252,14 +260,18 @@ public class NPCBehavior : MonoBehaviour
         menuImage.sprite = currentMenu.menuImage;
     }
 
-    IEnumerator PayGold() {
+    IEnumerator PayGold()
+    {
+        menuImage.enabled = true;
         menuImage.sprite = emotionSprites[2]; // Gold Sprite 추가필요
-        yield return emotionWaitTime;
+        Manager.gold += payPrice;
+        yield return new WaitForSeconds(1f);
         menuImage.sprite = currentMenu.menuImage;
+        menuImage.enabled = false;
     }
 
 
-
+    public bool IsCanReceivedMenu() { return isCanReceivedMenu; }
 
 }
 

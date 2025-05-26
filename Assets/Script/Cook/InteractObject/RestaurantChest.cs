@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RestaurantdChest : MonoBehaviour
+public class RestaurantdChest : InteractObject
 {
     [SerializeField] GameObject chestInventory;
     private GameObject inventoryUI; //인벤토리 UI
@@ -33,9 +33,9 @@ public class RestaurantdChest : MonoBehaviour
     private void OpenChestUI()
     {
         isOpenedChest = true;
-
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        PlayAudio();
 
         chestInventory.SetActive(true);
         inventoryUI.SetActive(true);

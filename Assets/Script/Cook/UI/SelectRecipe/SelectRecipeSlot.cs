@@ -7,6 +7,7 @@ using System;
 
 public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [SerializeField] AudioClip SelectAudio;
     private Recipe currentRecipe;
     private Image recipeImage;
     private bool isEnter;
@@ -29,6 +30,7 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
             if (isEnter)
             {
                 //ingredientInventory.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(SelectAudio, Camera.main.transform.position);
                 ingredientInventory.IngredientSlotClear();
                 ingredientInventory.IngredientAdd(currentRecipe);
                 CookManager.instance.SelectRecipe(currentRecipe);

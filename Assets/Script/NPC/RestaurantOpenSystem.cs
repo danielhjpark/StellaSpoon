@@ -59,11 +59,23 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     //------------------------------------------------------//
     private bool IsCanInteractSign()
-    {   
+    {
         //오픈이 안되어 있고 오픈 시간 보다 이전일 때,
         if (!isRestaurantOpened && currentTime < openTime)
         {
             InteractUIManger.instance.UsingText(InteractUIManger.TextType.Open);
+            return false;
+        }
+        //오픈이 안되어 있고 21시가 넘었을 때,
+        else if (!isRestaurantOpened && currentTime >= lateOpenTime && currentTime <= 23)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Open3);
+            return false;
+        }
+        // 오픈이 안되어 있고 당일메뉴가 없을 때,
+        else if (!isRestaurantOpened && currentTime >= openTime && DailyMenuManager.dailyMenuList.Count <= 0)
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.Open2);
             return false;
         }
         //오픈된 상태이며, 클로즈 시간보다 이전일 때,
@@ -78,7 +90,7 @@ public class RestaurantOpenSystem : MonoBehaviour
         {
             return true;
         }
-        else if (isRestaurantOpened && currentTime >= closeTime && DailyMenuManager.dailyMenuList.Count <= 0 && NpcManager.instance.npcList.Count <= 0)
+        else if (isRestaurantOpened && currentTime >= closeTime /*&& DailyMenuManager.dailyMenuList.Count <= 0 && NpcManager.instance.npcList.Count <= 0*/)
         {
             return true;
         }
@@ -132,9 +144,10 @@ public class RestaurantOpenSystem : MonoBehaviour
 
             InteractUIManger.instance.UsingText(InteractUIManger.TextType.Ingredient);
             OrderManager.instance.CloseRestaurant();
+
         }
 
-        else if (isRestaurantOpened && currentTime < openTime && currentTime >=forceCloseTime)
+        else if (isRestaurantOpened && currentTime < openTime && currentTime >= forceCloseTime)
         {
             isRestaurantOpened = false;
             OpenUI.SetActive(true);
@@ -150,6 +163,7 @@ public class RestaurantOpenSystem : MonoBehaviour
     private void CheckRestaurant()
     {
         if (pressGagueImage.fillAmount < 1) return;
+        
         if (!isRestaurantOpened)
         {
             isRestaurantOpened = true;

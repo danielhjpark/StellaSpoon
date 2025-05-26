@@ -57,7 +57,7 @@ public class CuttingLineSystem : MonoBehaviour
 
         while (true)
         {
-            if (RestaurantManager.instance.currentCuttingBoardLevel >= 2) t = 1; //Store Upgrade;
+            if (StoreUIManager.currentCuttingBoardLevel >= 2) t = 1; //Store Upgrade;
             t += Time.deltaTime * 0.5f;
             ScannerObject.transform.position = Vector3.Lerp(startPos.position, endPos.position, t);
             if (t >= 1)

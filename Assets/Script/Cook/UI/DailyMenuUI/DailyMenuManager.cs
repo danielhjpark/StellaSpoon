@@ -13,13 +13,17 @@ public class DailyMenuManager : MonoBehaviour
     [NonSerialized] static public Dictionary<Recipe, int> dailyMenuList = new Dictionary<Recipe, int>();
 
     //-----------------------UI Object ----------------------//
-
+    [Header("UI Object")]
     [SerializeField] GameObject dailyMenuPanel;
     [SerializeField] GameObject recipePanel;
     [SerializeField] DetailMenuUI detailMenuUI;
-
-    //-------------------------------------------------------//
     [SerializeField] GameObject recipePrefab;
+
+    [Header("Audio Clip")]
+    [SerializeField] AudioClip menuSelectAudio;
+    [SerializeField] AudioClip menuSelectCompleteAudio;
+    [SerializeField] AudioClip menuAmountAudio;
+
     RecipeUnLockSystem recipeUnLockSystem;
 
     void Awake()
@@ -41,22 +45,24 @@ public class DailyMenuManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
     }
 
     //-------------------Button----------------------//
     public void AddAmount()
     {
+        AudioSource.PlayClipAtPoint(menuAmountAudio, Camera.main.transform.position);
         detailMenuUI.AddAmount();
     }
 
     public void RemoveAmount()
     {
+        AudioSource.PlayClipAtPoint(menuAmountAudio, Camera.main.transform.position);
         detailMenuUI.RemoveAmount();
     }
 
     public void AddMenu()
     {
+        AudioSource.PlayClipAtPoint(menuSelectAudio, Camera.main.transform.position);
         Recipe currentRecipe = detailMenuUI.currentRecipe;
         int currentAmount = detailMenuUI.currentAmount;
         if (RecipeManager.instance.IsCanMakeMenu(currentRecipe))
@@ -108,9 +114,10 @@ public class DailyMenuManager : MonoBehaviour
 
     }
 
-    void DailyMenuUpdate()
+    public void DailyMenuReset()
     {
-
+        foreach (Recipe recipe in dailyMenuList.Keys)
+            dailyMenuList[recipe] = 0;
     }
 
     //---------------MenuList Create -----------------//

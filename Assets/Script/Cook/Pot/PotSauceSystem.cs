@@ -15,7 +15,7 @@ public class PotSauceSystem : SauceSystem
         isLiquidFilled = false;
         isCanFillLiquid = false;
         liquidVolume.level = 0;
-        
+        sauceType = SauceType.None;
     }
 
     public void Initialize(BoilingSetting boilingSetting)

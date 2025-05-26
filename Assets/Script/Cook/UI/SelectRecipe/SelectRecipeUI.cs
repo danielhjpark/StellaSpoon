@@ -45,7 +45,6 @@ public class SelectRecipeUI : MonoBehaviour
             GameObject recipeObject = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             recipeObject.transform.SetParent(recipeParent.transform);
 
-            recipeObject.AddComponent<SelectRecipeSlot>();
             SelectRecipeSlot selectRecipe = recipeObject.GetComponent<SelectRecipeSlot>();
             selectRecipe.OnSelectRecipe += RecipeUpdate;
             selectRecipe.RecipeUISetup(recipe, ingredientInventory);

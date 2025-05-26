@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DetailMenuUI : MonoBehaviour
 {
     //----------------Menu Data Binding ----------------//
+    [SerializeField] GameObject menuObject;
     [SerializeField] TextMeshProUGUI menuName;
-    [SerializeField] TextMeshProUGUI menuDescription;
     [SerializeField] TextMeshProUGUI menuAmount;
     [SerializeField] TextMeshProUGUI menuPrice;
     [SerializeField] Image menuImage;
@@ -27,11 +28,18 @@ public class DetailMenuUI : MonoBehaviour
          }
     }
 
+    void OnEnable()
+    {
+        DetailUIClear();
+    }
+
     //-----------------Button-------------------------//
 
-    public void AddAmount() {
+    public void AddAmount()
+    {
         int checkAmount = currentAmount + 1;
-        if(RecipeManager.instance.IsCanMakeMenu(currentRecipe, checkAmount)) {
+        if (RecipeManager.instance.IsCanMakeMenu(currentRecipe, checkAmount))
+        {
             DetailUpdate(currentRecipe, checkAmount);
         }
     }
@@ -85,7 +93,8 @@ public class DetailMenuUI : MonoBehaviour
         menuImage.gameObject.SetActive(false);
         menuPrice.text = "";
 
-        for(int i = 0; i < currentRecipe.ingredients.Count + 1; i++) {
+        for (int i = 0; i < ingredients.transform.childCount; i++)
+        {
             ingredients.transform.GetChild(i).gameObject.SetActive(false);
         }
 

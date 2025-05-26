@@ -35,7 +35,7 @@ public class FryingPanUI : MonoBehaviour
 
     public void Initialize(int successFireStep)
     {
-        if (RestaurantManager.instance.currentPanLevel >= 2)
+        if (StoreUIManager.currentPanLevel >= 2)
         {
             this.isUnlockStep = true;
             fireStep = successFireStep;

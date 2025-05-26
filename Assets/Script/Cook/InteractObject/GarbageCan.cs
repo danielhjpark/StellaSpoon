@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GarbageCan : MonoBehaviour
+public class GarbageCan : InteractObject
 {
     [SerializeField] private ServeSystem serveSystem;
+    bool isPlayerNearby;
+
     void Start()
     {
         if (serveSystem == null) serveSystem = FindObjectOfType<ServeSystem>();
@@ -12,7 +14,7 @@ public class GarbageCan : MonoBehaviour
 
     private void Update()
     {
-        if (CookManager.instance.isPickUpMenu && InteractUIManger.isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (CookManager.instance.isPickUpMenu && isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             UseGarbageCan();
         }
@@ -29,6 +31,7 @@ public class GarbageCan : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
         }
     }
@@ -38,6 +41,7 @@ public class GarbageCan : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            isPlayerNearby = false;
             InteractUIManger.isPlayerNearby = false;
         }
     }

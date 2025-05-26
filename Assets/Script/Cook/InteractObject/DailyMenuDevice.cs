@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DailyMenuDevice : MonoBehaviour
+public class DailyMenuDevice : InteractObject
 {
     //InteractUI
+    [SerializeField] private AudioClip closeAudio;
     [SerializeField] private GameObject DailyMenuUI; //인벤토리 UI
+    
     bool isPlayerNearby;
     bool isOpenedDevice;
 
@@ -37,7 +39,8 @@ public class DailyMenuDevice : MonoBehaviour
         isOpenedDevice = false;
         Cursor.lockState -= CursorLockMode.Locked;
         Cursor.visible = false;
-
+        AudioSource.PlayClipAtPoint(closeAudio, this.transform.position);
+        
         DailyMenuUI.SetActive(false);
         InteractUIManger.isUseInteractObject = false;
     }

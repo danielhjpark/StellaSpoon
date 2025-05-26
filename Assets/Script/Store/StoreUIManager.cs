@@ -68,13 +68,13 @@ public class StoreUIManager : MonoBehaviour
     [Header("-----Cook-----")]
     //현재 조리기구 레벨
     [SerializeField]
-    public int currentPanLevel = 1;
+    static public int currentPanLevel = 1;
     [SerializeField]
-    public int currentWorLevel = 1;
+    static public int currentWorLevel = 1;
     [SerializeField]
-    public int currentCuttingBoardLevel = 1;
+    static public int currentCuttingBoardLevel = 1;
     [SerializeField]
-    public int currentPotLevel = 1;
+    static public int currentPotLevel = 1;
 
     //최대 조리기구 레벨
     private int maxPanLevel = 2;

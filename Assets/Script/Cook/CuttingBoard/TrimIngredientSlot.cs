@@ -38,8 +38,8 @@ public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         initColor = Color.white;
         disableColor = Color.grey;
-        slotImage = GetComponent<Image>();
-
+        //slotImage = GetComponent<Image>();
+        slotImage = this.transform.GetChild(0).GetComponent<Image>();
 
         this.ingredient = recipe.mainIngredient;
         this.ingredientInventory = ingredientInventory;
