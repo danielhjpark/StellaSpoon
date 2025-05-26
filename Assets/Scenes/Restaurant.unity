@@ -50474,13 +50474,53 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 345508134}
     - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: HiddenRecipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c220b96cf6543a428eadcf2f7516f06, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: BasicRecipes.Array.size
-      value: 3
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: BasicRecipes.Array.data[3]
       value: 
+      objectReference: {fileID: 11400000, guid: ba1d93ff7217e2c428a05d3613fc5c33, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[4]
+      value: 
       objectReference: {fileID: 11400000, guid: e5462f53b98bdfa47b97fb9e6cb8c85f, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1be4c90e2004a394288dcbdff65cbbaa, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2387cadb1266e094bbf5c0f40f24c71d, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3061fae72a7556041a50ae1d5f9947ce, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: 295eb37c488343942bdd28cf8c05e7c4, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4606389f5ea7ace4d8b2495cf987fbf0, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 33cbb14c78604bb4ba2c8ac777d04783, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 42ac946217855f5459f06dd469947090, type: 2}
+    - target: {fileID: 963046544530128016, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: BasicRecipes.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: 42ac946217855f5459f06dd469947090, type: 2}
     - target: {fileID: 1165363847365910181, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: mapPanel
       value: 
@@ -50733,16 +50773,11 @@ PrefabInstance:
       propertyPath: inventoryButtonImage
       value: 
       objectReference: {fileID: 907321284}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4796668637725673201, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5361376806079141323, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1746533527}
-    - targetCorrespondingSourceObject: {fileID: 5361376806079141323, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1746533528}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
 --- !u!114 &1741860261 stripped
 MonoBehaviour:
@@ -51080,40 +51115,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746320383}
   m_Mesh: {fileID: 4300000, guid: f3bf6b5a90134a44c9aa28b43b484d59, type: 3}
---- !u!1 &1746533523 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5361376806079141323, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-  m_PrefabInstance: {fileID: 1741860260}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1746533527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746533523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e138105582cb6704d8f48640ba37660b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPanLevel: 1
-  currentWorLevel: 1
-  currentCuttingBoardLevel: 1
-  currentPotLevel: 1
---- !u!114 &1746533528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746533523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5af70c8a0f70cf45ae8f547d302f953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldText: {fileID: 0}
 --- !u!1 &1751931924 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 129894, guid: a4b101bd1cf6bc9478190c1aa0f3d52e, type: 3}
@@ -63327,6 +63328,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1186353416}
     m_Modifications:
+    - target: {fileID: 862551340824190006, guid: bbc63c2699a67a14aa71c8d9948d425a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2243295637571787168, guid: bbc63c2699a67a14aa71c8d9948d425a, type: 3}
       propertyPath: m_Name
       value: PARENT_Recipe(DeactivateThis)
