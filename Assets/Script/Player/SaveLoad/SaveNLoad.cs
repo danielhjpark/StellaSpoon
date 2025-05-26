@@ -58,6 +58,8 @@ public class SaveData
 
     [Header("골드")]
     public int gold;
+
+    // 엔딩 조건
 }
 public class SaveNLoad : MonoBehaviour
 {
