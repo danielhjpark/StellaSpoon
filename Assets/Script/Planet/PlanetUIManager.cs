@@ -60,6 +60,6 @@ public class PlanetUIManager : MonoBehaviour
         planetInformationText.text = $"Description: {planetInfo.description}\n"
             + $"Weather: {planetInfo.weather} \n"
             + $"Gravity: {planetInfo.gravity} \n"
-            + $"Monsters: {string.Join(", ", planetInfo.monsters)}";
+            + $"<size=50>서식 생물\n</size>-{string.Join("\n- ", planetInfo.monsters)}";
     }
 }
