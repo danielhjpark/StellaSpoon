@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class RestaurantdChest : InteractObject
 {
-    [SerializeField] GameObject chestInventory;
+    GameObject chestInventory;
     private GameObject inventoryUI; //인벤토리 UI
     private GameObject inventoryBG;
     bool isPlayerNearby;
     bool isOpenedChest;
+    public int chestNum;
 
     void Awake()
     {
         isPlayerNearby = false;
         isOpenedChest = false;
+        chestInventory = GameObject.Find("PARENT_RestaurantChestBase").transform.GetChild(chestNum).gameObject;
         inventoryBG = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(0).gameObject;
         inventoryUI = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(1).gameObject;
     }

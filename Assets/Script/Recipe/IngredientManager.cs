@@ -15,15 +15,16 @@ public class IngredientManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            IngredientList = new Dictionary<string, Ingredient>();
+            IngredientAmount = new Dictionary<Ingredient, int>();
+            IngredientAmountInit();
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             if (instance != this) Destroy(this.gameObject);
         }
-        IngredientList = new Dictionary<string, Ingredient>();
-        IngredientAmount = new Dictionary<Ingredient, int>();
-        IngredientAmountInit();
+
     }
 
     void IngredientAmountInit()
