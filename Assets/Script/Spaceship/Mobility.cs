@@ -86,6 +86,7 @@ public class Mobility : MonoBehaviour
 
     private void ToggleMapUI()
     {
+        SoundManager.instance.PlaySound(SoundManager.Interact.TurnOnMovePlanet);
         mapUI.SetActive(!mapUI.activeSelf);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

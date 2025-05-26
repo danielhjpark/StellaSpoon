@@ -22,6 +22,7 @@ public class DragSlot : MonoBehaviour
     // 드래그 되는 슬롯의 이미지가 들어옴. 자기 자신의 이미지에 인수로 들어온 Sprite 이미지 할당
     public void DragSetImage(Image _itemImage)
     {
+        SoundManager.instance.PlaySound(SoundManager.Display.Move_Item);
         gameObject.SetActive(true);
         imageItem.sprite = _itemImage.sprite;
         SetColor(1);

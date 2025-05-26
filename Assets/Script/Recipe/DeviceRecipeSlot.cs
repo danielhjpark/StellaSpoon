@@ -38,6 +38,6 @@ public class DeviceRecipeSlot : MonoBehaviour
     {
         OnSelectRecipe?.Invoke();
         recipeInfo.SetActive(true);
-        Debug.Log("Click");
+        SoundManager.instance.PlaySound(SoundManager.Display.Receipe_Select);
     }
 }

@@ -77,6 +77,7 @@ public class InputNumber : MonoBehaviour
                 thePlayer.transform.position + thePlayer.transform.forward,
                 Quaternion.identity);
             DragSlot.instance.dragSlot.SetSlotCount(-1);
+            SoundManager.instance.PlaySound(SoundManager.Display.Drop_Item);
             yield return new WaitForSeconds(0.05f);
         }
 

@@ -37,8 +37,9 @@ public class DeviceRecipeUI : MonoBehaviour
         if (recipeActivated) return;
 
         recipeBase.SetActive(true);
-        
+
         recipeActivated = true;
+        SoundManager.instance.PlaySound(SoundManager.Display.Display_Menu_Button);
     }
 
     public void CloseRecipe()
@@ -46,6 +47,7 @@ public class DeviceRecipeUI : MonoBehaviour
         recipeBase.SetActive(false);
         recipeInfoBase.SetActive(true);
         recipeActivated = false;
+        
         foreach (GameObject recipeInfo in recipeInfos)
         {
             recipeInfo.gameObject.SetActive(false);

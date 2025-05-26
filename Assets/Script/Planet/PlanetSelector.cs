@@ -31,5 +31,6 @@ public class PlanetSelector : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         InteractUIManger.isUseInteractObject = false;
+        SoundManager.instance.PlaySound(SoundManager.Interact.MovePlanet);
     }
 }

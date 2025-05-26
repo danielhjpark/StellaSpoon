@@ -39,8 +39,7 @@ public class DailyMenuDevice : InteractObject
         isOpenedDevice = false;
         Cursor.lockState -= CursorLockMode.Locked;
         Cursor.visible = false;
-        AudioSource.PlayClipAtPoint(closeAudio, this.transform.position);
-        
+        SoundManager.instance.PlaySound(SoundManager.DailyMenu.Daily_Menu_Complete_Button);
         DailyMenuUI.SetActive(false);
         InteractUIManger.isUseInteractObject = false;
     }

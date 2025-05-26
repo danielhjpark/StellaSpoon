@@ -12,6 +12,7 @@ public class Planet : MonoBehaviour
     {
         go_Planet.SetActive(true);
         planetActivated = true;
+        SoundManager.instance.PlaySound(SoundManager.Display.Display_Menu_Button);
     }
 
     public void ClosePlanet()

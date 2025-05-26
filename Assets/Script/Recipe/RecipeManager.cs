@@ -40,8 +40,7 @@ public class RecipeManager : MonoBehaviour
         foreach (Recipe recipe in RecipeScriptable)
         {
             RecipeList.Add(recipe.name, recipe);
-            RecipeUnlockCheck.Add(recipe, true);
-           // RecipeUnlockCheck.Add(recipe, false);
+            RecipeUnlockCheck.Add(recipe, false);
         }
 
         foreach (Recipe BasicRecipe in BasicRecipes)

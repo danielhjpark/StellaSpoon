@@ -23,24 +23,53 @@ public class SoundManager : MonoBehaviour
         SFX_GUNSHOT,
     }
 
+    public enum Interact
+    {
+        TurnOnMovePlanet,
+        MovePlanet,
+    }
+
+    public enum Display
+    {
+        Display_Menu_Button,
+        Button,
+        Drop_Item,
+        Move_Item,
+        Receipe_Select,
+    }
+
+    public enum DailyMenu
+    {
+        Daily_Menu_Button,
+        Daily_Menu_Complete_Button,
+        Button_,
+    }
+
+    public enum Store
+    {
+        Daily_Menu_Button,
+        Button,
+    }
+
     //audio clip 담을 수 있는 배열
-    [SerializeField]
-    public AudioClip[] bgms;
-    [SerializeField]
-    public AudioClip[] sfxs;
+    [SerializeField] public AudioClip[] bgms;
+    [SerializeField] public AudioClip[] sfxs;
+    [SerializeField] AudioClip[] displays;
+    [SerializeField] AudioClip[] dailyMenus;
+    [SerializeField] AudioClip[] stores;
+    [SerializeField] AudioClip[] interacts;
 
     //플레이하는 AudioSource
-    [SerializeField]
-    public AudioSource audioBgm;
-    [SerializeField]
-    public AudioSource audioSfx;
+    [Header("Audio Source")]
+    [SerializeField] AudioSource audioBgm;
+    [SerializeField] AudioSource audioSfx;
+
 
     [Header("사운드 조절")]
     public AudioMixer masterMixer;
     public Slider bgmAudioSlider;
     public Slider sfxAudioSlider;
     public Slider masterAudioSlider;
-
 
 
     private void Start()
@@ -79,6 +108,21 @@ public class SoundManager : MonoBehaviour
     public void PlaySFX(ESfx esfx)
     {
         audioSfx.PlayOneShot(sfxs[(int)esfx]);
+    }
+
+    public void PlaySound(Display display)
+    {
+        audioSfx.PlayOneShot(displays[(int)display]);
+    }
+
+    public void PlaySound(DailyMenu dailyMenu)  
+    {
+        audioSfx.PlayOneShot(dailyMenus[(int)dailyMenu]);
+    }
+    
+    public void PlaySound(Interact interact)
+    {
+        audioSfx.PlayOneShot(interacts[(int)interact]);
     }
 
     //사용예시

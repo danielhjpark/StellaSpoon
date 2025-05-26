@@ -50,19 +50,19 @@ public class DailyMenuManager : MonoBehaviour
     //-------------------Button----------------------//
     public void AddAmount()
     {
-        AudioSource.PlayClipAtPoint(menuAmountAudio, Camera.main.transform.position);
+        SoundManager.instance.PlaySound(SoundManager.DailyMenu.Button_);
         detailMenuUI.AddAmount();
     }
 
     public void RemoveAmount()
     {
-        AudioSource.PlayClipAtPoint(menuAmountAudio, Camera.main.transform.position);
+        SoundManager.instance.PlaySound(SoundManager.DailyMenu.Button_);
         detailMenuUI.RemoveAmount();
     }
 
     public void AddMenu()
     {
-        AudioSource.PlayClipAtPoint(menuSelectAudio, Camera.main.transform.position);
+        SoundManager.instance.PlaySound(SoundManager.DailyMenu.Daily_Menu_Button);
         Recipe currentRecipe = detailMenuUI.currentRecipe;
         int currentAmount = detailMenuUI.currentAmount;
         if (RecipeManager.instance.IsCanMakeMenu(currentRecipe))

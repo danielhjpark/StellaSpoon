@@ -73,6 +73,7 @@ public class Inventory : MonoBehaviour
         go_InventoryBase.SetActive(true);
         go_EquipmentBase.SetActive(true);
         inventoryActivated = true;
+        SoundManager.instance.PlaySound(SoundManager.Display.Display_Menu_Button);
     }
 
     public void CloseInventory()
