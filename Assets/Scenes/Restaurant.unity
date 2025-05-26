@@ -36705,8 +36705,16 @@ PrefabInstance:
       value: 2.713797
       objectReference: {fileID: 0}
     - target: {fileID: 6510422, guid: 43d083e8215b4544594282d6c144d7ba, type: 3}
+      propertyPath: m_Size.z
+      value: 3.1822608
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510422, guid: 43d083e8215b4544594282d6c144d7ba, type: 3}
       propertyPath: m_Center.x
-      value: 0.2619419
+      value: 0.26194197
+      objectReference: {fileID: 0}
+    - target: {fileID: 6510422, guid: 43d083e8215b4544594282d6c144d7ba, type: 3}
+      propertyPath: m_Center.z
+      value: -0.5104784
       objectReference: {fileID: 0}
     - target: {fileID: 6510422, guid: 43d083e8215b4544594282d6c144d7ba, type: 3}
       propertyPath: m_IsTrigger
@@ -56831,6 +56839,10 @@ PrefabInstance:
       propertyPath: inventorySlots.Array.data[19]
       value: 
       objectReference: {fileID: 237253771}
+    - target: {fileID: 4796668637725673201, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: goldText
+      value: 
+      objectReference: {fileID: 377095852}
     - target: {fileID: 7104655076725965515, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: uiPanel
       value: 
@@ -56874,13 +56886,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5361376806079141323, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1746533527}
-    - targetCorrespondingSourceObject: {fileID: 5361376806079141323, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1746533528}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
 --- !u!114 &1741860261 stripped
 MonoBehaviour:
@@ -57218,40 +57224,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746320383}
   m_Mesh: {fileID: 4300000, guid: f3bf6b5a90134a44c9aa28b43b484d59, type: 3}
---- !u!1 &1746533523 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5361376806079141323, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
-  m_PrefabInstance: {fileID: 1741860260}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1746533527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746533523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e138105582cb6704d8f48640ba37660b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPanLevel: 1
-  currentWorLevel: 1
-  currentCuttingBoardLevel: 1
-  currentPotLevel: 1
---- !u!114 &1746533528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746533523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5af70c8a0f70cf45ae8f547d302f953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldText: {fileID: 377095852}
 --- !u!1 &1753839034
 GameObject:
   m_ObjectHideFlags: 0
@@ -68486,13 +68458,17 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Serenoxia
       objectReference: {fileID: 0}
+    - target: {fileID: 7207754994910671560, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7670591043599254929, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_Name
       value: MapPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7670591043599254929, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7805705967786733121, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_Pivot.x
