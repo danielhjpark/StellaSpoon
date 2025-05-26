@@ -10,7 +10,7 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
 
-    public static bool stage_01_clear = false; //스테이지 1 클리어 여부
+    public static bool stage_01_clear = true; //스테이지 1 클리어 여부
     public static bool stage_02_clear = false; //스테이지 2 클리어 여부
 
     public static int gold = 300000; //플레이어 보유 골드
