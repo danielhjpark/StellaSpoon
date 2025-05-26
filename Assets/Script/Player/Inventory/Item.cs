@@ -29,5 +29,6 @@ public class Item : ScriptableObject
     [Header("아이템의 가격")]
     public int itemBuyPrice; // 아이템 가격
     public int itemSellPrice; // 아이템 판매 가격
-    //public string weaponType; // 무기 유형 보류
+    [Header("설명할 아이템의 한글 명")]
+    public string descItemName;
 }
