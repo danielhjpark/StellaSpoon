@@ -68,7 +68,7 @@ public abstract class MonsterBase : MonoBehaviour
     [SerializeField]
     protected GameObject sliderFill;
 
-    protected void Start()
+    protected virtual void Start()
     {
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();

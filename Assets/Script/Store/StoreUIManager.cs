@@ -119,16 +119,6 @@ public class StoreUIManager : MonoBehaviour
     private TextMeshProUGUI gunName;
     [SerializeField]
     private TextMeshProUGUI gunStats;
-    [SerializeField]
-    private TextMeshProUGUI Ingredient01Count;
-    [SerializeField]
-    private TextMeshProUGUI Ingredient02Count;
-    [SerializeField]
-    private TextMeshProUGUI Ingredient03Count;
-    [SerializeField]
-    private TextMeshProUGUI Ingredient04Count;
-    [SerializeField]
-    private TextMeshProUGUI Ingredient05Count;
     // ÇÊ¿äÇÑ °¹¼ö
     [SerializeField]
     private TextMeshProUGUI gunNeedGold;
@@ -170,6 +160,7 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gunName1;
     [SerializeField] private TextMeshProUGUI gunStats1;
     [SerializeField] private TextMeshProUGUI[] ingredientCounts; // 0~4
+    [SerializeField] private GameObject[] ingredientImage;
     [SerializeField] private TextMeshProUGUI gunNeedGold1;
 
     [Header("Gun Recipes")]
@@ -517,10 +508,13 @@ public class StoreUIManager : MonoBehaviour
                 var ing = recipe.ingredients[i];
                 int currentCount = inventory.GetItemCount(ing.ingredientName);
                 ingredientCounts[i].text = $"{currentCount}/{ing.requiredAmount}";
+                ingredientImage[i].SetActive(true);
+                ingredientImage[i].GetComponent<Image>().sprite = ing.ingredientSprite;
             }
             else
             {
                 ingredientCounts[i].text = "-";
+                ingredientImage[i].SetActive(false); // ³²´Â ½½·ÔÀº ¼û±è
             }
         }
     }
@@ -528,6 +522,12 @@ public class StoreUIManager : MonoBehaviour
     public void CreateGun()
     {
         GunRecipe recipe = gunRecipes[gunType];
+
+        if(RifleManager.instance.tempestFang == true || RifleManager.instance.infernoLance == true)
+        {
+            PopupManager.Instance.ShowPopup("ÀÌ¹Ì Á¦ÀÛµÊ.");
+            return;
+        }
 
         if (Manager.gold < recipe.needGold)
         {

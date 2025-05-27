@@ -126,12 +126,12 @@ public class WokUI : MonoBehaviour
     {
         float startPos = 0;
         float endPos = FullLength;
-        float Speed = 0.1f * CookManager.instance.SlideAcceleration;
+        float Speed = 0.2f * CookManager.instance.SlideAcceleration;
         isEnd = false;
 
         while (true)
         {
-            startPos += Speed * fireStep;
+            startPos += Speed;
             sectionMark.anchoredPosition = new Vector2(sectionMark.anchoredPosition.x, startPos);
             currentPos = startPos;
             CheckSection();

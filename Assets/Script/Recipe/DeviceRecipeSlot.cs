@@ -8,16 +8,22 @@ using Unity.VisualScripting;
 
 public class DeviceRecipeSlot : MonoBehaviour
 {
+    [Header("Recipe & Info")]
+    [SerializeField] GameObject recipeInfo;
+    [SerializeField] Recipe currentRecipe;
+
+    [Header("Unlock Image")]
     [SerializeField] Image recipeImage;
     [SerializeField] GameObject deactiveImage;
-    GameObject recipeInfo;
-    Recipe currentRecipe;
+
+    private DeviceRecipeInfo deviceRecipeInfo;
     public event Action OnSelectRecipe;
 
     public void Initialize(GameObject recipeInfo, Recipe recipe)
     {
         this.currentRecipe = recipe;
         this.recipeInfo = recipeInfo;
+        deviceRecipeInfo = this.recipeInfo.GetComponent<DeviceRecipeInfo>();
         recipeImage.sprite = recipe.menuImage;
     }
 
@@ -38,6 +44,7 @@ public class DeviceRecipeSlot : MonoBehaviour
     {
         OnSelectRecipe?.Invoke();
         recipeInfo.SetActive(true);
+        deviceRecipeInfo.OpenRecipeIngredient();
         SoundManager.instance.PlaySound(SoundManager.Display.Receipe_Select);
     }
 }

@@ -12,7 +12,7 @@ public class Item : ScriptableObject
         Used, // 소비 아이템
         contaminatedIngredient, // 오염된 재료 아이템
         Ingredient, // 재료 아이템
-        Recipe,
+        Recipe,// 레시피
         ETC, // 기타 아이템
     }
 
