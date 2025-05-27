@@ -82,6 +82,7 @@ public class DeviceManager : MonoBehaviour
         Cursor.visible = true;
 
         inventoryPanel.SetActive(true);
+        Inventory.inventoryActivated = true;
         equipmentPanel.SetActive(true);
 
         inventoryButtonImage.sprite = selectedSprite;
@@ -96,6 +97,7 @@ public class DeviceManager : MonoBehaviour
         Cursor.visible = false;
 
         inventoryPanel.SetActive(false);
+        Inventory.inventoryActivated = false;
         equipmentPanel.SetActive(false);
         optionPanel.SetActive(false);
         planetPanel.SetActive(false);

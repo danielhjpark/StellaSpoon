@@ -25,7 +25,7 @@ public class RangedMonster : MonsterBase
         //공격 구현
     }
 
-    
+
     public void InstantBullet() //Bullet 생성 함수
     {
         GameObject bulletObj = Instantiate(projectilePrefab, AttackTF.position, AttackTF.rotation);

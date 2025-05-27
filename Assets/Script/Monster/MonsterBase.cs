@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using static UnityEditor.Rendering.ShadowCascadeGUI;
 
 
@@ -18,7 +19,7 @@ public abstract class MonsterBase : MonoBehaviour
 {
     [Header("몬스터 Information")]
     public int maxHealth; //최대 체력
-    protected int currentHealth; //현재 체력
+    public int currentHealth; //현재 체력
     public int damage; //공격력
     protected Vector3 initialPosition; //최초 위치
     public bool isDead = false; //죽음 체크 변수
@@ -55,12 +56,19 @@ public abstract class MonsterBase : MonoBehaviour
     protected ThirdPersonController thirdPersonController;
 
     private bool canDamage; //플레이어 공격 인지 범위 내에 있는지 체크 변수
-    private bool isDamage; //데미지를 입었는지 체크 변수
+    [SerializeField]
+    protected bool isDamage; //데미지를 입었는지 체크 변수
     private bool RandomPositionDecide = false; //랜덤 경로가 정해졌는지 체크 변수
 
     protected float distanceToPlayer; //플레이어와의 거리
 
-    protected void Start()
+    [Header("Health UI")]
+    [SerializeField]
+    protected Slider HealthSlider;
+    [SerializeField]
+    protected GameObject sliderFill;
+
+    protected virtual void Start()
     {
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
@@ -84,10 +92,28 @@ public abstract class MonsterBase : MonoBehaviour
         lastAttackTime = -damageDelayTime; //공격 딜레이 초기화
 
         nav.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
+
+        if (HealthSlider != null)
+        {
+            HealthSlider.maxValue = maxHealth;
+            HealthSlider.value = currentHealth;
+        }
     }
 
     protected void Update()
     {
+        // 체력 슬라이더 업데이트
+        if (HealthSlider != null)
+        {
+            HealthSlider.value = currentHealth;
+
+            sliderFill.SetActive(currentHealth > 0);
+            if(currentHealth <=0)
+            {
+                sliderFill.SetActive(false); //체력이 0 이하일 때 슬라이더 비활성화
+            }
+        }
+
         if (!isDead)
         {
             if (currentHealth <= 0)
@@ -287,9 +313,12 @@ public abstract class MonsterBase : MonoBehaviour
         coll.enabled = false;
         //네비매쉬끄기
         nav.ResetPath();
+        nav.isStopped = true;
+        nav.enabled = false;
         StartCoroutine(DeathDelay());
         //아이템 드랍
         DropItems();
+        isDead = true; //죽음 상태로 변경
         Manager.KillMonsterCount++;
     }
 
@@ -306,7 +335,7 @@ public abstract class MonsterBase : MonoBehaviour
         return center;
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(int damage)
     {
         //todo뒤로 넉백하는 코드 필요
         currentHealth -= damage;
@@ -315,7 +344,6 @@ public abstract class MonsterBase : MonoBehaviour
         animator.SetBool("Walk", false);
         if (currentHealth <= 0)
         {
-            isDead = true;
             currentState = MonsterStates.Death;
             HandleState();
         }
@@ -323,16 +351,18 @@ public abstract class MonsterBase : MonoBehaviour
         {
             previousState = currentState; //이전 상태 저장
 
-            if (!isDamage) //첫 피격일 때
+            if(this.name != "Bypin")
             {
-                isDamage = true;
-                animator.SetBool("Hit", true);
+                if (!isDamage) //첫 피격일 때
+                {
+                    isDamage = true;
+                    animator.SetBool("Hit", true);
+                }
+                else
+                {
+                    animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
+                }
             }
-            else
-            {
-                animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
-            }
-
         }
         if (canDamage)
         {

@@ -16,7 +16,9 @@ public class Manager : MonoBehaviour
     public static int gold = 300000; //플레이어 보유 골드
 
     [SerializeField]
-    private GameObject GoldUI; //골드 UI 오브젝트
+    private GameObject GoldBase; //골드 UI 오브젝트
+    [SerializeField]
+    private TextMeshProUGUI GoldText; //골드 UI 텍스트
 
     [SerializeField]
     private TextMeshProUGUI InvenGoldText;
@@ -32,10 +34,10 @@ public class Manager : MonoBehaviour
     {
         InvenGoldText.text = gold.ToString();
 
-        // if (GoldUI.activeSelf)
-        // {
-        //     GoldUI.GetComponent<TextMeshProUGUI>().text = gold.ToString();
-        // }
+        if (GoldBase.activeSelf)
+        {
+            GoldText.GetComponent<TextMeshProUGUI>().text = gold.ToString();
+        }
     }
 
     private void Start()
@@ -82,11 +84,11 @@ public class Manager : MonoBehaviour
         if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.RestaurantTest2 ||
            PlanetManager.selectedPlanet == PlanetManager.PlanetType.Shop)
         {
-            //GoldUI.SetActive(true);
+            GoldBase.SetActive(true);
         }
         else
         {
-            //GoldUI.SetActive(false);
+            GoldBase.SetActive(false);
         }
     }
 

@@ -529,6 +529,12 @@ public class StoreUIManager : MonoBehaviour
     {
         GunRecipe recipe = gunRecipes[gunType];
 
+        if(RifleManager.instance.tempestFang == true || RifleManager.instance.infernoLance == true)
+        {
+            PopupManager.Instance.ShowPopup("¿ÃπÃ ¡¶¿€µ .");
+            return;
+        }
+
         if (Manager.gold < recipe.needGold)
         {
             Debug.Log("∞ÒµÂ ∫Œ¡∑");

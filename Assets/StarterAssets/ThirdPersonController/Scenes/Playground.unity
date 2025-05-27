@@ -1358,18 +1358,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7805705967786733121, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1379497176}
-    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 76893571}
-    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 103293157}
     - targetCorrespondingSourceObject: {fileID: 5049163656497857009, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 946615804}
     - targetCorrespondingSourceObject: {fileID: 5049163656497857009, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 900301346}
+    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 76893571}
+    - targetCorrespondingSourceObject: {fileID: 3696336994964026959, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 103293157}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
 --- !u!224 &42480490 stripped
@@ -3522,6 +3522,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[1].monsters.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[1].monsters.Array.data[1]
+      value: "\uC591"
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[1].monsters.Array.data[2]
+      value: "\uBC40"
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[1].monsters.Array.data[3]
+      value: "\uBCC4\uBCC4\uBCC4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[1].monsters.Array.data[4]
+      value: "\uC774\uB7F0\uC800\uB7F0"
+      objectReference: {fileID: 0}
+    - target: {fileID: 220403360879986652, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
+      propertyPath: planetInfos.Array.data[1].monsters.Array.data[5]
+      value: "\uBCC4\uBCC4"
+      objectReference: {fileID: 0}
     - target: {fileID: 933791267056433277, guid: 5d9354f8a35f0e5469bff411300a4617, type: 3}
       propertyPath: SpriteUI
       value: 
@@ -9274,31 +9298,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeBase: {fileID: 574522170}
   recipeInfoBase: {fileID: 0}
-  deActivatePanels:
-  - {fileID: 2017789866}
-  - {fileID: 1899703607}
-  - {fileID: 401278750}
-  - {fileID: 1010737097}
-  - {fileID: 17871042}
-  - {fileID: 1869453584}
-  - {fileID: 1609182016}
-  - {fileID: 152434879}
-  - {fileID: 1977645209}
-  - {fileID: 1854638761}
-  - {fileID: 1196516565}
-  - {fileID: 1513232649}
-  - {fileID: 366735563}
-  - {fileID: 165296102}
-  - {fileID: 429323252}
-  - {fileID: 858306719}
-  - {fileID: 223104855}
-  - {fileID: 1435249190}
-  - {fileID: 1919168622}
-  - {fileID: 1330071024}
-  - {fileID: 1814257275}
-  - {fileID: 2016471261}
-  - {fileID: 296976579}
-  - {fileID: 1789022889}
   recipeInfos: []
   recipeSlots: []
 --- !u!1 &519996793
@@ -17622,10 +17621,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1207641992772985010, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -79.84833
-      objectReference: {fileID: 0}
     - target: {fileID: 2074205385253182539, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_Name
       value: PlayerGroup (1)
@@ -17642,18 +17637,6 @@ PrefabInstance:
       propertyPath: go_InputWindow
       value: 
       objectReference: {fileID: 1650686601}
-    - target: {fileID: 4233636328330715547, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: layerMask.m_Bits
-      value: 32896
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233636328330715547, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: itemLayerMask.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 4233636328330715547, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: objectLayerMask.m_Bits
-      value: 32768
-      objectReference: {fileID: 0}
     - target: {fileID: 4728239298351437909, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: aimImage
       value: 
@@ -17674,10 +17657,6 @@ PrefabInstance:
       propertyPath: defenseText
       value: 
       objectReference: {fileID: 1431238758}
-    - target: {fileID: 5452402340295312044, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -79.84833
-      objectReference: {fileID: 0}
     - target: {fileID: 6158608495094892015, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: ReSpawnPoint
       value: 
@@ -24552,8 +24531,10 @@ MonoBehaviour:
   go_InventoryBase: {fileID: 16566642}
   go_EquipmentBase: {fileID: 0}
   go_SlotsParent: {fileID: 916110108}
+  Inventoryitems: []
   refrigeratorSlots: []
   slotParent: {fileID: 916110108}
+  refriInventoryitems: []
 --- !u!224 &1438835899 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1124722947256654631, guid: b59c3faf0b4ba5d41b7b1d23f4e47d19, type: 3}
@@ -36469,6 +36450,7 @@ MonoBehaviour:
   go_InventoryBase: {fileID: 1865713163}
   go_EquipmentBase: {fileID: 503373661}
   go_SlotsParent: {fileID: 353169817}
+  Inventoryitems: []
 --- !u!114 &2038007454 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6549758383376741487, guid: da2791985bc253f4c87b33e59a1f5aa5, type: 3}
@@ -39208,6 +39190,7 @@ MonoBehaviour:
   theInventory: {fileID: 1093855651}
   Item_PickUp_SFX: {fileID: 8300000, guid: df7670e1a4581cf4aa67981315928e07, type: 3}
   go_InputWindow: {fileID: 0}
+  currentTarget: {fileID: 0}
 --- !u!224 &2540900440905552884
 RectTransform:
   m_ObjectHideFlags: 0
