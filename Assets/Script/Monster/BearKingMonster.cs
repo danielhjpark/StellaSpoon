@@ -45,7 +45,7 @@ public class BearKingMonster : MonsterBase
 
     private bool isPlayerInRange = false;
 
-    private void Start()
+    protected override void Start()
     {
         base.Start();
         leftHandCollider.enabled = false;
