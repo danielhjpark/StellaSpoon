@@ -135,12 +135,12 @@ public class RifleManager : MonoBehaviour
         // 무기 잠금 조건 확인
         if (levelIndex == 1 && !tempestFang)
         {
-            Debug.Log("아직 해금 안된 tempestFang");
+            PopupManager.Instance.ShowPopup("아직 해금 안됨");
             return; // tempestFang 무기 해금 안 됨
         }
         if (levelIndex == 2 && !infernoLance)
         {
-            Debug.Log("아직 해금 안된 infernoLance");
+            PopupManager.Instance.ShowPopup("아직 해금 안됨");
             return; // infernoLance 무기 해금 안 됨
         }
 
