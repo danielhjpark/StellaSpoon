@@ -19,10 +19,6 @@ public class DailyMenuManager : MonoBehaviour
     [SerializeField] DetailMenuUI detailMenuUI;
     [SerializeField] GameObject recipePrefab;
 
-    [Header("Audio Clip")]
-    [SerializeField] AudioClip menuSelectAudio;
-    [SerializeField] AudioClip menuSelectCompleteAudio;
-    [SerializeField] AudioClip menuAmountAudio;
 
     RecipeUnLockSystem recipeUnLockSystem;
 
@@ -80,9 +76,10 @@ public class DailyMenuManager : MonoBehaviour
         if (dailyMenuList.ContainsKey(currentRecipe))
         {
             dailyMenuList[currentRecipe] -= 1;
-            if (dailyMenuList[currentRecipe] <= 0) {
+            if (dailyMenuList[currentRecipe] <= 0)
+            {
                 dailyMenuList.Remove(currentRecipe);
-            } 
+            }
             //DailyMenuUpdate();
             return;
         }

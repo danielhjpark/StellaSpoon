@@ -28,11 +28,11 @@ public class RecipeManager : MonoBehaviour
 
         Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas¸¦ Ã£±â
         NewRecipeUI = canvasTransform.Find("NewRecipePanel")?.gameObject; // MapPanelÀ» Ã£±â
-        
+
     }
     void Update()
     {
-        if(!RecipeUnlockCheck[HiddenRecipe]) CheckHiddenRecipeUnlock();
+        if (!RecipeUnlockCheck[HiddenRecipe]) CheckHiddenRecipeUnlock();
     }
 
     void RecipeUnLockInit()
@@ -51,7 +51,7 @@ public class RecipeManager : MonoBehaviour
         {
             RecipeUnlockCheck[BasicRecipe] = true;
         }
-        
+
     }
     //--------------- RecipeUnLock System -----------------//
     public void RecipeUnLock(Recipe getRecipe)
@@ -73,7 +73,7 @@ public class RecipeManager : MonoBehaviour
             if (isUnlock) count++;
         }
         Debug.Log(count);
-        if(count >= 12) RecipeUnlockCheck[HiddenRecipe] = true;
+        if (count >= 12) RecipeUnlockCheck[HiddenRecipe] = true;
     }
 
     public void RecipeUnLockUI()
@@ -95,7 +95,7 @@ public class RecipeManager : MonoBehaviour
     public List<Recipe> MakeRecipeUnLockList()
     {
         List<Recipe> unlockedRecipes = RecipeUnlockCheck
-            .Where(Recipe => Recipe.Value) // bool ê°’ì´ true?¸ ?•­ëª? ?•„?„°ë§?
+            .Where(recipe => recipe.Value && recipe.Key != HiddenRecipe) // bool ê°’ì´ true?¸ ?•­ëª? ?•„?„°ë§?
             .Select(Recipe => Recipe.Key) // Recipeë§? ì¶”ì¶œ
             .ToList();
 
@@ -103,7 +103,6 @@ public class RecipeManager : MonoBehaviour
     }
 
     //--------------ë©”ë‰´ ?ƒ?„± ?—¬ë¶??™•?¸------------------------//
-    //?‹¨?ˆ˜
     public bool IsCanMakeMenu(Recipe recipe)
     {
         if (recipe == null) return false;

@@ -7,12 +7,6 @@ public class DeviceRecipeInfo : MonoBehaviour
     [SerializeField] GameObject recipeIngredient;
     [SerializeField] GameObject recipeDescription;
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     //Button
     public void OpenRecipeIngredient()
     {
@@ -25,5 +19,5 @@ public class DeviceRecipeInfo : MonoBehaviour
         recipeIngredient.SetActive(false);
         recipeDescription.SetActive(true);
     }
-    
+
 }
