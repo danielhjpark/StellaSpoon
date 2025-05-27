@@ -46,19 +46,23 @@ namespace cakeslice
 			SkinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
 			SpriteRenderer = GetComponent<SpriteRenderer>();
 			MeshFilter = GetComponent<MeshFilter>();
+
+			this.GetComponent<Outline>().enabled = false;
 		}
 
 		void OnEnable()
-		{
-			OutlineEffect.Instance?.AddOutline(this);
-		}
+        {
+            if (cakeslice.OutlineEffect.Instance != null)
+                cakeslice.OutlineEffect.Instance.AddOutline(this);
+        }
 
-		void OnDisable()
-		{
-			OutlineEffect.Instance?.RemoveOutline(this);
-		}
+        void OnDisable()
+        {
+            if (cakeslice.OutlineEffect.Instance != null)
+                cakeslice.OutlineEffect.Instance.RemoveOutline(this);
+        }
 
-		private Material[] _SharedMaterials;
+        private Material[] _SharedMaterials;
 		public Material[] SharedMaterials
 		{
 			get

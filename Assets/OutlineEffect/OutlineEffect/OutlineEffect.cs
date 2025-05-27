@@ -50,7 +50,7 @@ namespace cakeslice
 		[Range(0, 10)]
 		public float lineIntensity = .5f;
 		[Range(0, 1)]
-		public float fillAmount = 0.2f;
+		public float fillAmount = 0f;
 
 		public Color lineColor0 = Color.red;
 		public Color lineColor1 = Color.green;
@@ -420,9 +420,9 @@ namespace cakeslice
 					}
 				}
 				outlineShaderMaterial.SetFloat("_LineIntensity", lineIntensity);
-				outlineShaderMaterial.SetFloat("_FillAmount", fillAmount);
+				outlineShaderMaterial.SetFloat("_FillAmount", 0f); //채우기 없애기
 				outlineShaderMaterial.SetColor("_FillColor", fillColor);
-				outlineShaderMaterial.SetFloat("_UseFillColor", useFillColor ? 1 : 0);
+				outlineShaderMaterial.SetFloat("_UseFillColor", 0); //채우기 색상 사용하지 않음
 				outlineShaderMaterial.SetColor("_LineColor1", lineColor0 * lineColor0);
 				outlineShaderMaterial.SetColor("_LineColor2", lineColor1 * lineColor1);
 				outlineShaderMaterial.SetColor("_LineColor3", lineColor2 * lineColor2);

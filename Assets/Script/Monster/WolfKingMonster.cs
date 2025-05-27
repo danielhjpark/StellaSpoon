@@ -49,12 +49,10 @@ public class WolfKingMonster : MonsterBase
     private GameObject bossHealthUI;
     [SerializeField]
     private Slider bossHealthSlider;
-    [SerializeField]
-    private GameObject sliderFill;
 
     private bool isPlayerInRange = false;
 
-    private void Start()
+    protected override void Start()
     {
         base.Start();
 
@@ -89,13 +87,6 @@ public class WolfKingMonster : MonsterBase
             {
                 bossHealthUI.SetActive(false);
             }
-        }
-        // 체력 슬라이더 업데이트
-        if (isPlayerInRange && bossHealthSlider != null)
-        {
-            bossHealthSlider.value = currentHealth;
-
-            sliderFill.SetActive(currentHealth > 0);
         }
     }
 
