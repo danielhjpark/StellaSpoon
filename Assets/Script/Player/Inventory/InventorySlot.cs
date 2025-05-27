@@ -9,10 +9,33 @@ public class InventorySlot : Slot
 
     public override void OnDrop(PointerEventData eventData)
     {
-
+        Debug.Log("123");
         if (DragSlot.instance.dragSlot != null)
         {
             Slot draggedSlot = DragSlot.instance.dragSlot;
+
+            // 드롭된 아이템이 레시피일 경우
+            if (draggedSlot.item != null && draggedSlot.item.itemType == Item.ItemType.Recipe)
+            {
+                string recipeName = draggedSlot.item.itemName;
+
+                // 레시피 찾기 시도
+                Recipe targetRecipe = RecipeManager.instance.FindRecipe(recipeName);
+                if (targetRecipe != null)
+                {
+                    // 레시피 등록
+                    RecipeManager.instance.RecipeUnLock(targetRecipe);
+                    Debug.Log($"[InventorySlot] '{recipeName}' 레시피 등록 완료");
+                }
+                else
+                {
+                    Debug.LogWarning($"[InventorySlot] 레시피 '{recipeName}' 찾을 수 없음");
+                }
+
+                // 아이템 제거
+                draggedSlot.ClearSlot();
+                return;
+            }
 
             if (draggedSlot is TreasureChestSlot || draggedSlot is InventorySlot)
             {

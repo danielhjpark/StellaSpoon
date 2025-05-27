@@ -48,11 +48,11 @@ public class ActionController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            var itemPickUp = hitInfo.transform?.GetComponent<ItemPickUp>();
-            if (itemPickUp != null && itemPickUp.item != null && itemPickUp.item.itemType == Item.ItemType.Recipe)
-            {
-                CheckRecipe();
-            }
+            //var itemPickUp = hitInfo.transform?.GetComponent<ItemPickUp>(); 최종 삭제 예정
+            //if (itemPickUp != null && itemPickUp.item != null && itemPickUp.item.itemType == Item.ItemType.Recipe)
+            //{
+            //    CheckRecipe();
+            //}
 
             CanPickUp();
             TryShakeTree();
@@ -66,7 +66,7 @@ public class ActionController : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, layerMask))
         {
-            Debug.Log("Ray hit: " + hitInfo.transform.name); // 추가
+            //Debug.Log("Ray hit: " + hitInfo.transform.name); // 추가
             if (hitInfo.transform.CompareTag("Item"))
             {
                 ItemInfoAppear();
@@ -142,20 +142,20 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    private void CheckRecipe()
-    {
-        if (hitInfo.transform != null)
-        {
-            var itemPickUp = hitInfo.transform.GetComponent<ItemPickUp>();
-            if (itemPickUp.item.itemType == Item.ItemType.Recipe)
-            {
-                Recipe unLockTarget = RecipeManager.instance.FindRecipe(itemPickUp.item.itemName);
-                RecipeManager.instance.RecipeUnLock(unLockTarget);
-                AudioSource.PlayClipAtPoint(Item_PickUp_SFX, characterTransform.position, 0.5f);
-                Destroy(hitInfo.transform.gameObject);
-            }
-        }
-    }
+    //private void CheckRecipe()  최종 삭제 예정
+    //{
+    //    if (hitInfo.transform != null)
+    //    {
+    //        var itemPickUp = hitInfo.transform.GetComponent<ItemPickUp>();
+    //        if (itemPickUp.item.itemType == Item.ItemType.Recipe)
+    //        {
+    //            Recipe unLockTarget = RecipeManager.instance.FindRecipe(itemPickUp.item.itemName);
+    //            RecipeManager.instance.RecipeUnLock(unLockTarget);
+    //            AudioSource.PlayClipAtPoint(Item_PickUp_SFX, characterTransform.position, 0.5f);
+    //            Destroy(hitInfo.transform.gameObject);
+    //        }
+    //    }
+    //}
 
     private bool IsInputWindowActive()
     {
