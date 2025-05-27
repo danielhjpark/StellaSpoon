@@ -11,6 +11,8 @@ public class DeviceRecipeSlot : MonoBehaviour
     [SerializeField] Image recipeImage;
     [SerializeField] GameObject deactiveImage;
     GameObject recipeInfo;
+    [SerializeField] GameObject recipeIngredient;
+    [SerializeField] GameObject recipeDescription;
     Recipe currentRecipe;
     public event Action OnSelectRecipe;
 
