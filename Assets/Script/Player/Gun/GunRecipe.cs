@@ -7,6 +7,7 @@ public class IngredientRequirement
 {
     public string ingredientName;
     public int requiredAmount;
+    public Sprite ingredientSprite;
 }
 [System.Serializable]
 public class GunRecipe

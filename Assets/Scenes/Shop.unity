@@ -22017,15 +22017,15 @@ RectTransform:
   m_GameObject: {fileID: 1273918648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.08, y: 0.08, z: 0.08}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 98972558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -81, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_SizeDelta: {x: 1024, y: 1024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1273918650
 MonoBehaviour:
@@ -22047,7 +22047,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: aeefadf25b54aa5418540a7b3b41036b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8488aed0cfbb87648ab1ff891d34fbfc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23160,11 +23160,6 @@ MonoBehaviour:
   gunImage: {fileID: 1801009472}
   gunName: {fileID: 652043692}
   gunStats: {fileID: 1297875811}
-  Ingredient01Count: {fileID: 60099004}
-  Ingredient02Count: {fileID: 1330677078}
-  Ingredient03Count: {fileID: 1161094407}
-  Ingredient04Count: {fileID: 1635293944}
-  Ingredient05Count: {fileID: 643150547}
   gunNeedGold: {fileID: 1432868137}
   tempestBTCount: 3
   tempestRHBCount: 5
@@ -23188,36 +23183,52 @@ MonoBehaviour:
   - {fileID: 1161094407}
   - {fileID: 1635293944}
   - {fileID: 643150547}
+  ingredientImage:
+  - {fileID: 970686697}
+  - {fileID: 1642847301}
+  - {fileID: 1784284639}
+  - {fileID: 1325141305}
+  - {fileID: 1401919940}
   gunNeedGold1: {fileID: 1432868137}
   gunRecipes:
   - gunName: TempestFang
-    spritePath: Gun/TempestFang
+    spritePath: Gun/Tempest Fang
     needGold: 1500
     ingredients:
     - ingredientName: Barcrose_Tusks
       requiredAmount: 3
+      ingredientSprite: {fileID: 21300000, guid: f72f3526dc8c01c459263471df35cd40, type: 3}
     - ingredientName: Red_Hornavia_Blade
       requiredAmount: 5
+      ingredientSprite: {fileID: 0}
     - ingredientName: AdenBear_Leather
       requiredAmount: 5
+      ingredientSprite: {fileID: 0}
     - ingredientName: Veridion
       requiredAmount: 10
+      ingredientSprite: {fileID: 21300000, guid: 3f8246a990cc5c849a6d9d9cbfff8c7d, type: 3}
     - ingredientName: Screw
       requiredAmount: 7
+      ingredientSprite: {fileID: 21300000, guid: f22a8dc676f2c5d4db2fe08b6b40d728, type: 3}
   - gunName: InfernoLance
-    spritePath: Gun/InfernoLance
+    spritePath: Gun/Inferno Lance
     needGold: 2700
     ingredients:
     - ingredientName: Red_Barcrose_Leather
       requiredAmount: 5
+      ingredientSprite: {fileID: 0}
     - ingredientName: Black_Fermos_Fur
       requiredAmount: 3
+      ingredientSprite: {fileID: 21300000, guid: 861c3c17e25a3794bb02d46e3c33c348, type: 3}
     - ingredientName: Nova_Wolf_Claw
       requiredAmount: 7
+      ingredientSprite: {fileID: 21300000, guid: 615a30217e37ba4449a88d2bc1d19ed3, type: 3}
     - ingredientName: Inferium
       requiredAmount: 5
+      ingredientSprite: {fileID: 21300000, guid: e833492a240df814eb27ed87c9e09ee5, type: 3}
     - ingredientName: Screw
       requiredAmount: 10
+      ingredientSprite: {fileID: 21300000, guid: f22a8dc676f2c5d4db2fe08b6b40d728, type: 3}
 --- !u!1 &1314198310
 GameObject:
   m_ObjectHideFlags: 0
@@ -32086,15 +32097,15 @@ RectTransform:
   m_GameObject: {fileID: 1745040374}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.059999995, y: 0.059999995, z: 0.059999995}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1524333142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -81, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_SizeDelta: {x: 1536, y: 1024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1745040376
 MonoBehaviour:
@@ -32116,7 +32127,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 87c9f7ee5e67e874ca5504f1152046fa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a3bc9ede08204ca45bfcf40c62752f74, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
