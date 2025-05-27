@@ -288,6 +288,7 @@ public class WokManager : CookManagerBase
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             wokSauceSystem.InitializeMakeMode(currentMenu.tossingSetting);
+            StartCoroutine(cookUIManager.TimerStart(5f));
         }
         else
         {
@@ -298,10 +299,11 @@ public class WokManager : CookManagerBase
             else
             {
                 wokSauceSystem.Initialize(currentMenu.tossingSetting);
+                yield return new WaitUntil(() => wokSauceSystem.IsLiquidFilled());
             }
         }
 
-        StartCoroutine(cookUIManager.TimerStart(5f));
+        
         while (true)
         {
             if ((cookUIManager.TimerEnd() && !wokSauceSystem.startLiquidFilled) || wokSauceSystem.IsLiquidFilled())

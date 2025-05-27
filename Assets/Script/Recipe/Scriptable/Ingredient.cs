@@ -14,10 +14,12 @@ public class Ingredient : ScriptableObject {
     public int ingredientUseCount;
 }
 
-public enum IngredientType {
-    Main, 
+public enum IngredientType
+{
+    Main,
     Sub,
-    Trim
+    Trim,
+    End
 }
 
 

@@ -225,6 +225,7 @@ public class FryingPanManager : CookManagerBase
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             fryingSauceSystem.InitializeMakeMode(secondFryingCount);
+            StartCoroutine(cookUIManager.TimerStart(5f));
         }
         else
         {
@@ -235,9 +236,11 @@ public class FryingPanManager : CookManagerBase
             else
             {
                 fryingSauceSystem.Initialize(currentMenu.fryingSetting);
+                yield return new WaitUntil(() => fryingSauceSystem.IsLiquidFilled());
+                yield break;
             }
         }
-        StartCoroutine(cookUIManager.TimerStart(10f));
+        
         while (true)
         {
             if ((cookUIManager.TimerEnd() && !fryingSauceSystem.startLiquidFilled) || fryingSauceSystem.IsLiquidFilled())

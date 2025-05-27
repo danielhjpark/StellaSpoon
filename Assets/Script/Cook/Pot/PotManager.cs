@@ -131,7 +131,19 @@ public class PotManager : CookManagerBase
             IngredientAddAmount(checkIngredients, ingredient, ingredient.ingredientUseCount);
             potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.SubIngredientDrop);
         }
-
+        if (ingredient.ingredientType == IngredientType.End)
+        {
+            if (ingredient.ingredientName == "Luna_Wolf_King_LegMeat")
+            {
+                mainIngredient = ingredient;
+                potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.MainIngredientDrop);
+            }
+            else
+            {
+                IngredientAddAmount(checkIngredients, ingredient, ingredient.ingredientUseCount);
+                potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.SubIngredientDrop);
+            }
+        }
     }
 
     public override IEnumerator UseCookingStep()
@@ -252,6 +264,7 @@ public class PotManager : CookManagerBase
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
             potSauceSystem.InitializeMakeMode();
+            StartCoroutine(cookUIManager.TimerStart(5f));
         }
         else
         {
@@ -262,10 +275,11 @@ public class PotManager : CookManagerBase
             else
             {
                 potSauceSystem.Initialize(currentMenu.boilingSetting);
+                yield return new WaitUntil(() => potSauceSystem.IsLiquidFilled());
+                yield break;
             }
         }
 
-        StartCoroutine(cookUIManager.TimerStart(5f));
         while (true)
         {
             if ((cookUIManager.TimerEnd() && !potSauceSystem.startLiquidFilled) || potSauceSystem.IsLiquidFilled())
