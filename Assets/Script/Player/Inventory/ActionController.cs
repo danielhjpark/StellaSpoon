@@ -35,9 +35,6 @@ public class ActionController : MonoBehaviour
     [SerializeField]
     private GameObject go_InputWindow; // InputNumber 창의 go_Base 참조
 
-    [SerializeField]
-    private GameObject currentTarget = null; // 현재 바라보는 오브젝트
-
     void Update()
     {
         // InputNumber 창이 열려있으면 행동 검사 중단
@@ -51,11 +48,11 @@ public class ActionController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            var itemPickUp = hitInfo.transform?.GetComponent<ItemPickUp>();
-            if (itemPickUp != null && itemPickUp.item != null && itemPickUp.item.itemType == Item.ItemType.Recipe)
-            {
-                CheckRecipe();
-            }
+            //var itemPickUp = hitInfo.transform?.GetComponent<ItemPickUp>(); 최종 삭제 예정
+            //if (itemPickUp != null && itemPickUp.item != null && itemPickUp.item.itemType == Item.ItemType.Recipe)
+            //{
+            //    CheckRecipe();
+            //}
 
             CanPickUp();
             TryShakeTree();
@@ -69,23 +66,7 @@ public class ActionController : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, layerMask))
         {
-            GameObject hitObject = hitInfo.transform.gameObject;
-
-            // 이전과 다른 오브젝트라면
-            if (hitObject != currentTarget)
-            {
-                if (currentTarget != null)
-                {
-                    var outline = currentTarget.GetComponent<OutlineEffect>();
-                    if (outline != null) outline.DisableOutline();
-                }
-
-                currentTarget = hitObject;
-                var newOutline = currentTarget.GetComponent<OutlineEffect>();
-                if (newOutline != null) newOutline.EnableOutline();
-            }
-
-            Debug.Log("Ray hit: " + hitInfo.transform.name); // 추가
+            //Debug.Log("Ray hit: " + hitInfo.transform.name); // 추가
             if (hitInfo.transform.CompareTag("Item"))
             {
                 ItemInfoAppear();
@@ -98,14 +79,6 @@ public class ActionController : MonoBehaviour
         }
         else
         {
-            // 감지된 오브젝트가 없을 때 외곽선 제거
-            if (currentTarget != null)
-            {
-                var outline = currentTarget.GetComponent<OutlineEffect>();
-                if (outline != null) outline.DisableOutline();
-                currentTarget = null;
-            }
-
             ItemInfoDisappear();
             TreeObjectDIsappear();
         }
@@ -169,20 +142,20 @@ public class ActionController : MonoBehaviour
         }
     }
 
-    private void CheckRecipe()
-    {
-        if (hitInfo.transform != null)
-        {
-            var itemPickUp = hitInfo.transform.GetComponent<ItemPickUp>();
-            if (itemPickUp.item.itemType == Item.ItemType.Recipe)
-            {
-                Recipe unLockTarget = RecipeManager.instance.FindRecipe(itemPickUp.item.itemName);
-                RecipeManager.instance.RecipeUnLock(unLockTarget);
-                AudioSource.PlayClipAtPoint(Item_PickUp_SFX, characterTransform.position, 0.5f);
-                Destroy(hitInfo.transform.gameObject);
-            }
-        }
-    }
+    //private void CheckRecipe()  최종 삭제 예정
+    //{
+    //    if (hitInfo.transform != null)
+    //    {
+    //        var itemPickUp = hitInfo.transform.GetComponent<ItemPickUp>();
+    //        if (itemPickUp.item.itemType == Item.ItemType.Recipe)
+    //        {
+    //            Recipe unLockTarget = RecipeManager.instance.FindRecipe(itemPickUp.item.itemName);
+    //            RecipeManager.instance.RecipeUnLock(unLockTarget);
+    //            AudioSource.PlayClipAtPoint(Item_PickUp_SFX, characterTransform.position, 0.5f);
+    //            Destroy(hitInfo.transform.gameObject);
+    //        }
+    //    }
+    //}
 
     private bool IsInputWindowActive()
     {
