@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class SauceController : MonoBehaviour
 {
     [SerializeField] Transform SaucePos;
-    [SerializeField] OutlineEffect outlineEffect;
+    [SerializeField] cakeslice.OutlineEffect outlineEffect;
     [SerializeField] GameObject[] sauceContainers = new GameObject[3];
     [SerializeField] SauceSystem bottomSauceSystem;
 
