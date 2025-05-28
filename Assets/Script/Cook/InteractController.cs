@@ -12,8 +12,7 @@ public class InteractController : MonoBehaviour
     [SerializeField] private RestaurantOpenSystem restaurantOpenSystem;
 
     private Transform playerTransfom;
-    [SerializeField] private GameObject InteractUI;
-    [SerializeField] private TextMeshProUGUI actionText;
+
     [SerializeField] private CinemachineVirtualCamera playerFollowCamera;
 
     [Header("Interact Layer")]
@@ -22,7 +21,7 @@ public class InteractController : MonoBehaviour
     [SerializeField] private LayerMask NPCLayerMask;
 
     [Header("UI Object")]
-    [SerializeField] private GameObject InteractPanel;
+    [SerializeField] private InteractUI interactUI;
 
     private bool isCanInteract;
     private float range = 1f;
@@ -31,8 +30,6 @@ public class InteractController : MonoBehaviour
     {
         serveSystem = GetComponent<ServeSystem>();
         isCanInteract = true;
-        InteractPanel.SetActive(false);
-
         playerTransfom = GameObject.FindGameObjectWithTag("Player").transform;
         this.transform.SetParent(playerTransfom);
         playerFollowCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
@@ -49,7 +46,7 @@ public class InteractController : MonoBehaviour
     }
     private void OnSceneUnloaded(Scene current)
     {
-        if(current.name == "Restaurant" || current.name == "RestaurantTest2")
+        if (current.name == "Restaurant" || current.name == "RestaurantTest2")
             Destroy(gameObject);
     }
 
@@ -66,8 +63,7 @@ public class InteractController : MonoBehaviour
 
         if (brain != null && brain.ActiveVirtualCamera != null)
         {
-            actionText.gameObject.SetActive(false);
-            InteractUI.SetActive(false);
+            interactUI.DisableInteractUI();
             return brain.ActiveVirtualCamera.VirtualCameraGameObject == playerFollowCamera.gameObject;
         }
 
@@ -78,14 +74,12 @@ public class InteractController : MonoBehaviour
     private void CheckLayer()
     {
         Vector3 rayOrigin = playerTransfom.position + Vector3.up; // 캐릭터 중심에서 약간 위로
-        
         Vector3 rayDirection = playerTransfom.forward; // 캐릭터의 forward 방향
         RaycastHit hitInfo;
+
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, utensilLayer))
         {
-            //ChangeActionText("Utensil");
-            //actionText.gameObject.SetActive(true);
-            InteractUI.SetActive(true);
+            interactUI.UseInteractUI(hitInfo.transform.gameObject);
             if (Input.GetKeyDown(KeyCode.F))
             {
                 CookManager.instance.InteractObject(hitInfo.transform.name);
@@ -93,9 +87,7 @@ public class InteractController : MonoBehaviour
         }
         else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, menuLayer))
         {
-            //ChangeActionText("Menu");
-            //actionText.gameObject.SetActive(true);
-            InteractUI.SetActive(true);
+            interactUI.UseInteractUI(hitInfo.transform.gameObject);
             if (Input.GetKeyDown(KeyCode.F))
             {
                 serveSystem.PickUpMenu(hitInfo.transform.gameObject);
@@ -104,9 +96,7 @@ public class InteractController : MonoBehaviour
         }
         else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, NPCLayerMask))
         {
-            //ChangeActionText("NPC");
-            //actionText.gameObject.SetActive(true);
-            InteractUI.SetActive(true);
+            interactUI.UseInteractUI(hitInfo.transform.gameObject);
             if (Input.GetKeyDown(KeyCode.F))
             {
                 serveSystem.ServeMenu(hitInfo.transform.gameObject);
@@ -114,38 +104,10 @@ public class InteractController : MonoBehaviour
         }
         else
         {
-            InteractUI.SetActive(false);
-            actionText.gameObject.SetActive(false);
+            interactUI.DisableInteractUI();
         }
 
     }
 
-
-    private void ChangeActionText(string textType)
-    {
-        string defaultText = "Press F";
-        string utensilText = "Use Utensil Press F";
-        string menuText = "Pick Up Menu Press F";
-        string garbageCanText = "Throw out Press F";
-        string npcText = "Serve To Menu Press F";
-        switch (textType)
-        {
-            case "Menu":
-                actionText.text = menuText;
-                break;
-            case "Utensil":
-                actionText.text = utensilText;
-                break;
-            case "GarbageCan":
-                actionText.text = garbageCanText;
-                break;
-            case "NPC":
-                actionText.text = npcText;
-                break;
-            default:
-                actionText.text = defaultText;
-                break;
-        }
-    }
 
 }

@@ -75,6 +75,7 @@ public class SleepBed : InteractObject
         if (other.CompareTag("Player"))
         {
             InteractUIManger.isPlayerNearby = true;
+            InteractUIManger.currentInteractObject = this.gameObject;
             isPlayerNearby = true;
         }
     }

@@ -55,6 +55,7 @@ public class TutorialDevice : MonoBehaviour
         {
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
+            InteractUIManger.currentInteractObject = this.gameObject;
         }
     }
 

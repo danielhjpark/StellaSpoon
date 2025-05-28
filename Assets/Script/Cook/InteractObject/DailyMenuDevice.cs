@@ -7,7 +7,7 @@ public class DailyMenuDevice : InteractObject
     //InteractUI
     [SerializeField] private AudioClip closeAudio;
     [SerializeField] private GameObject DailyMenuUI; //인벤토리 UI
-    
+
     bool isPlayerNearby;
     bool isOpenedDevice;
 
@@ -50,6 +50,7 @@ public class DailyMenuDevice : InteractObject
         {
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
+            InteractUIManger.currentInteractObject = this.gameObject;
         }
     }
 

@@ -33,6 +33,7 @@ public class GarbageCan : InteractObject
         {
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
+            InteractUIManger.currentInteractObject = this.gameObject;
         }
     }
 

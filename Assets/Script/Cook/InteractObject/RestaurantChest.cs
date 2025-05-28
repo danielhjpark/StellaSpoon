@@ -10,7 +10,7 @@ public class RestaurantdChest : InteractObject
     bool isPlayerNearby;
     bool isOpenedChest;
     public int chestNum;
-   
+
     void Awake()
     {
         isPlayerNearby = false;
@@ -42,8 +42,9 @@ public class RestaurantdChest : InteractObject
         chestInventory.SetActive(true);
         inventoryUI.SetActive(true);
         inventoryBG.SetActive(true);
-        
+
         InteractUIManger.isUseInteractObject = true;
+        InteractUIManger.currentInteractObject = this.gameObject;
     }
 
     private void CloseChestUI()
@@ -57,7 +58,7 @@ public class RestaurantdChest : InteractObject
         chestInventory.SetActive(false);
         inventoryUI.SetActive(false);
         inventoryBG.SetActive(false);
-        
+
         InteractUIManger.isUseInteractObject = false;
     }
 
