@@ -41,7 +41,7 @@ public class PotManager : CookManagerBase
         isCanEscape = true;
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
-        //CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         cookUIManager.Initialize(this);
         
         potBoilingSystem = GetComponent<PotBoilingSystem>();
