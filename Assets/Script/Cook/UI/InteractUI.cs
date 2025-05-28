@@ -1,21 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractUI : MonoBehaviour
 {
-    [SerializeField] GameObject target;
-    void Start()
+    [SerializeField] GameObject interactObject;
+
+    private RectTransform interactRect;
+    private GameObject currentTarget;
+
+    void Awake()
     {
-        this.transform.position = Camera.main.WorldToScreenPoint(target.transform.position);
+        interactRect = interactObject.GetComponent<RectTransform>();
+    }
+
+    private void Update()
+    {
+        UpdatePos();
+    }
+
+    public void UseInteractUI(GameObject target)
+    {
+        currentTarget = target;
+        interactObject.SetActive(true);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(currentTarget.transform.position);
+        // Vector3 dir = Camera.main.transform.position - transform.position;
+        //dir.y = 0; // y축 고정
+        //transform.rotation = Quaternion.LookRotation(-dir);
+        interactRect.position = screenPos;
+    }
+
+    public void DisableInteractUI()
+    {
+        currentTarget = null;
+        interactObject.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
+    public void UpdatePos()
     {
-        this.transform.position = Camera.main.WorldToScreenPoint(target.transform.position);
-        Vector3 dir = Camera.main.transform.position - transform.position;
-        dir.y = 0; // y축 고정
-        transform.rotation = Quaternion.LookRotation(-dir);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(currentTarget.transform.position);
+        // Vector3 dir = Camera.main.transform.position - transform.position;
+        //dir.y = 0; // y축 고정
+        //transform.rotation = Quaternion.LookRotation(-dir);
+        interactRect.position = screenPos;
     }
 }

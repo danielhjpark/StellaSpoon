@@ -49,6 +49,7 @@ public class SoundManager : MonoBehaviour
     {
         Daily_Menu_Button,
         Button,
+        Error,
     }
 
     public enum Gun
@@ -130,7 +131,10 @@ public class SoundManager : MonoBehaviour
     {
         audioSfx.PlayOneShot(interacts[(int)interact]);
     }
-
+    public void PlaySound(Store store)
+    {
+        audioSfx.PlayOneShot(stores[(int)store]);
+    }
     public void Play_GunChangeSound(Gun gun)
     {
         audioSfx.PlayOneShot(guns[(int)gun]);

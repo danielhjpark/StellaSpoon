@@ -10,15 +10,19 @@ public class InteractUIManger : MonoBehaviour
 {
     static public InteractUIManger instance;
 
-    [SerializeField] GameObject interactUI;
+    [Header("Interact")]
+    //[SerializeField] GameObject interactUI;
+    [SerializeField] InteractUI interactUI;
+
     [Header("Popup")]
     [SerializeField] Transform popupContainer;
     [SerializeField] GameObject warningTextPrefab;
     [SerializeField] GameObject noticeTextPrefab;
+
     public AudioSource interactAudioSource;
+
     public enum TextType { Open, Open2, Open3, Close, Close2, Ingredient, UnlockRecipe, Sleep, FailMenu, ClearMenu }
     private Dictionary<TextType, bool> checkUseText;
-
     private string[] textList = {
         "오후 6시부터 식당을 열 수 있습니다.",
         "데일리 메뉴를 설정해야 합니다",
@@ -31,8 +35,10 @@ public class InteractUIManger : MonoBehaviour
         "조리에 실패하여 먹을 수 없는\n 무언가를 만들었습니다.",
         "옆의 접시를 치워야 합니다.",
     };
+
     public static bool isUseInteractObject;
     public static bool isPlayerNearby;
+    public static GameObject currentInteractObject;
 
     void Awake()
     {
@@ -96,12 +102,12 @@ public class InteractUIManger : MonoBehaviour
 
     public void VisibleInteractUI()
     {
-        interactUI.SetActive(true);
+        interactUI.UseInteractUI(currentInteractObject);
     }
 
     public void HideInteractUI()
     {
-        interactUI.SetActive(false);
+        interactUI.DisableInteractUI();
     }
 
 }

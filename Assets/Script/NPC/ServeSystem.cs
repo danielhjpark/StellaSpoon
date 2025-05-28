@@ -12,7 +12,7 @@ public class ServeSystem : MonoBehaviour
     [NonSerialized] public Recipe currentMenu;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private AudioClip putDishAudio;
-
+    [SerializeField] private AudioClip trashAudio;
     private string pickupAnimationName = "BringDish";
     private GameObject serveObject;
     public void Start()
@@ -61,7 +61,7 @@ public class ServeSystem : MonoBehaviour
     {
         if (serveObject != null)
         {
-            AudioSource.PlayClipAtPoint(putDishAudio, playerHand.position);
+            AudioSource.PlayClipAtPoint(trashAudio, playerHand.position);
             playerAnimator.SetBool(pickupAnimationName, false);
             Destroy(serveObject);
             CookManager.instance.isPickUpMenu = false;

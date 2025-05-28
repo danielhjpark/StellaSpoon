@@ -27,6 +27,7 @@ public class CuttingManager : CookManagerBase
         isCanEscape = true;
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
     }
 
     void Start()

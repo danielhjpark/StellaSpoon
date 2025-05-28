@@ -30,6 +30,7 @@ public class WokManager : CookManagerBase
     {
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         cookUIManager.Initialize(this);
         //int unlockStep = CookManager.storeUIManager.currentWorLevel;
     }
@@ -300,10 +301,11 @@ public class WokManager : CookManagerBase
             {
                 wokSauceSystem.Initialize(currentMenu.tossingSetting);
                 yield return new WaitUntil(() => wokSauceSystem.IsLiquidFilled());
+                yield break;
             }
         }
 
-        
+
         while (true)
         {
             if ((cookUIManager.TimerEnd() && !wokSauceSystem.startLiquidFilled) || wokSauceSystem.IsLiquidFilled())

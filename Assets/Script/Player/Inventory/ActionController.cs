@@ -63,7 +63,7 @@ public class ActionController : MonoBehaviour
 
     private void CheckItem()
     {
-        Vector3 rayOrigin = characterTransform.position + Vector3.up * 0.5f;
+        Vector3 rayOrigin = characterTransform.position + Vector3.up * 0.3f;
         Vector3 rayDirection = characterTransform.forward;
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, layerMask))

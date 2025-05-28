@@ -47,6 +47,7 @@ public class PlanetMove : MonoBehaviour
             Debug.Log("플레이어 감지");
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
+            InteractUIManger.currentInteractObject = this.gameObject;
         }
     }
 

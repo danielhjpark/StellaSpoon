@@ -14,7 +14,7 @@ public class GarbageCan : InteractObject
 
     private void Update()
     {
-        if (CookManager.instance.isPickUpMenu && isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (CookManager.instance.isPickUpMenu && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && DeviceManager.isDeactived) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             UseGarbageCan();
         }
@@ -33,6 +33,7 @@ public class GarbageCan : InteractObject
         {
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
+            InteractUIManger.currentInteractObject = this.gameObject;
         }
     }
 

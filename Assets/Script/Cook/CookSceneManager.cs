@@ -59,7 +59,6 @@ public class CookSceneManager : MonoBehaviour
                 default:
                     break;
             }
-            mainCamera.transform.gameObject.SetActive(false);
             SceneManager.LoadScene(currentSceneName, LoadSceneMode.Additive);
             isSceneLoaded = true;
             Cursor.lockState = CursorLockMode.None;

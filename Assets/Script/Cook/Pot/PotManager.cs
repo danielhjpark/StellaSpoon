@@ -41,8 +41,9 @@ public class PotManager : CookManagerBase
         isCanEscape = true;
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         cookUIManager.Initialize(this);
-
+        
         potBoilingSystem = GetComponent<PotBoilingSystem>();
         potSauceSystem = GetComponent<PotSauceSystem>();
         potViewportSystem = GetComponent<PotViewportSystem>();
@@ -52,8 +53,10 @@ public class PotManager : CookManagerBase
         UpgradePot();//Store Unlock upgrade
     }
 
+
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isCanEscape)
@@ -343,6 +346,8 @@ public class PotManager : CookManagerBase
     {
         potAudioSystem.UnPauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(true);
+        mainCamera.GetComponent<AudioListener>().enabled = true;
+
         mainLight.SetActive(true);
         CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         potViewCamera.SetActive(true);
@@ -360,6 +365,7 @@ public class PotManager : CookManagerBase
     {
         potAudioSystem.PauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(false);
+        mainCamera.GetComponent<AudioListener>().enabled = false;
         mainLight.SetActive(false);
         CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(true);
         potViewCamera.SetActive(false);
