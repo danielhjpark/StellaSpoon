@@ -52,6 +52,7 @@ public abstract class MonsterBase : MonoBehaviour
     protected Animator animator;
     protected GameObject player;
     protected Collider coll;
+    protected Rigidbody rb; //몬스터의 리지드바디
     [SerializeField]
     protected ThirdPersonController thirdPersonController;
 
@@ -73,6 +74,7 @@ public abstract class MonsterBase : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        rb = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
         thirdPersonController = player.GetComponent<ThirdPersonController>();
 
@@ -309,6 +311,9 @@ public abstract class MonsterBase : MonoBehaviour
         currentHealth = 0;
         //애니메이션 죽음 실행
         animator.SetTrigger("Die");
+        //중력 제거
+        rb.useGravity = false; //중력 사용 안함
+        rb.isKinematic = true; //물리엔진에서 제외
         //충돌 제거
         coll.enabled = false;
         //네비매쉬끄기
@@ -363,6 +368,10 @@ public abstract class MonsterBase : MonoBehaviour
                     animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
                 }
             }
+            else
+            {
+                StartCoroutine(KnockbackCoroutine());
+            }
         }
         if (canDamage)
         {
@@ -370,6 +379,30 @@ public abstract class MonsterBase : MonoBehaviour
             //플레이어 쫒기
             currentState = MonsterStates.Chasing;
         }
+    }
+
+    private IEnumerator KnockbackCoroutine()
+    {
+        // 넉백 처리
+        Vector3 knockbackDir = (transform.position - player.transform.position).normalized;
+        float knockbackForce = 3f; // 넉백 거리
+        float knockbackTime = 0.2f; // 넉백 지속 시간
+
+        float elapsed = 0f;
+        while (elapsed < knockbackTime)
+        {
+            nav.Move(knockbackDir * knockbackForce * Time.deltaTime);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.3f); // 넉백 후 잠시 대기
+
+        // 넉백 후 상태 복귀
+        animator.SetBool("Hit", false);
+        nav.isStopped = false;
+        isDamage = false;
+        currentState = previousState; // 이전 상태로 복귀
     }
 
     protected bool IsHpZero() //체력이 0 이하인지 검사
