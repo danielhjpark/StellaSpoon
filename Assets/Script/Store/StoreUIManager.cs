@@ -482,11 +482,11 @@ public class StoreUIManager : MonoBehaviour
 
         if (index == 0)
         {
-            gunStats.text = "Damage: 25\nWeight: 2\nSpeed: 20";
+            gunStats.text = "Damage: 10\nWeight: 3\nSpeed: 0.15";
         }
         else if (index == 1)
         {
-            gunStats.text = "Damage: 25\nWeight: 2\nSpeed: 20";
+            gunStats.text = "Damage: 70\nWeight: 10\nSpeed: 0.8";
         }
 
         gunType = index;
