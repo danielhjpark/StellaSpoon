@@ -13,19 +13,20 @@ public class DetailMenuUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI menuAmount;
     [SerializeField] TextMeshProUGUI menuPrice;
     [SerializeField] Image menuImage;
-    
+
     //--------------Ingredient Parent--------------------//
     [SerializeField] GameObject ingredients;
 
-    
+
     public Recipe currentRecipe;
     public int currentAmount;
-    
+
     void Update()
     {
-         if(currentRecipe != null) {
-             IngredientsUpdate(currentAmount);
-         }
+        if (currentRecipe != null)
+        {
+            IngredientsUpdate(currentAmount);
+        }
     }
 
     void OnEnable()
@@ -44,17 +45,21 @@ public class DetailMenuUI : MonoBehaviour
         }
     }
 
-    public void RemoveAmount() {
+    public void RemoveAmount()
+    {
         int checkAmount = currentAmount - 1;
-        if(checkAmount < 1) { return;}
+        if (checkAmount < 1) { return; }
 
-        if(RecipeManager.instance.IsCanMakeMenu(currentRecipe, checkAmount)) {
+        if (RecipeManager.instance.IsCanMakeMenu(currentRecipe, checkAmount))
+        {
             DetailUpdate(currentRecipe, checkAmount);
         }
     }
 
     //-------------------------------------------//
-    public void DetailUpdate(Recipe recipe, int Amount) {
+    public void DetailUpdate(Recipe recipe, int Amount)
+    {
+        menuObject.SetActive(true);
         currentRecipe = recipe;
         currentAmount = Amount;
 
@@ -63,11 +68,12 @@ public class DetailMenuUI : MonoBehaviour
         menuImage.gameObject.SetActive(true);
         menuImage.sprite = recipe.menuImage;
         menuPrice.text = recipe.menuPrice.ToString();
-        
+
         IngredientsUpdate(Amount);
     }
 
-    public void IngredientsUpdate(int Amount) {
+    public void IngredientsUpdate(int Amount)
+    {
         int ingredientPanelCount = ingredients.transform.childCount;
         int ingredientCount = currentRecipe.ingredients.Count;
 
@@ -75,24 +81,28 @@ public class DetailMenuUI : MonoBehaviour
         currnetIngredient.SetActive(true);
         currnetIngredient.GetComponent<IngredientUI>().IngredientUpdate(currentRecipe.mainIngredient, Amount);
 
-        for(int i = 0; i < ingredientCount; i++) {
-            
+        for (int i = 0; i < ingredientCount; i++)
+        {
+
             currnetIngredient = ingredients.transform.GetChild(i + 1).gameObject;
             currnetIngredient.SetActive(true);
             currnetIngredient.GetComponent<IngredientUI>().IngredientUpdate(currentRecipe.ingredients[i], Amount);
         }
-        for(int i = ingredientCount + 1; i < ingredientPanelCount; i++) {
+        for (int i = ingredientCount + 1; i < ingredientPanelCount; i++)
+        {
             ingredients.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 
-    public void DetailUIClear() {
+    public void DetailUIClear()
+    {
+
         menuAmount.text = null;
         menuName.text = null;
         menuImage.sprite = null;
         menuImage.gameObject.SetActive(false);
         menuPrice.text = "";
-
+        menuObject.SetActive(false);
         for (int i = 0; i < ingredients.transform.childCount; i++)
         {
             ingredients.transform.GetChild(i).gameObject.SetActive(false);
