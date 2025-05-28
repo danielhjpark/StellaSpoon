@@ -110,12 +110,16 @@ public abstract class MonsterBase : MonoBehaviour
             HealthSlider.value = currentHealth;
 
             sliderFill.SetActive(currentHealth > 0);
-            if(currentHealth <=0)
+            if (currentHealth <= 0)
             {
                 sliderFill.SetActive(false); //체력이 0 이하일 때 슬라이더 비활성화
             }
         }
 
+        if (isDamage)
+        {
+            return;
+        }
         if (!isDead)
         {
             if (currentHealth <= 0)
@@ -342,36 +346,40 @@ public abstract class MonsterBase : MonoBehaviour
 
     public virtual void Damage(int damage)
     {
+        if (currentState == MonsterStates.Death) return; // 이미 죽었으면 무시
+
         //todo뒤로 넉백하는 코드 필요
         currentHealth -= damage;
         //Debug.Log(damage + " 데미지 입음! " + currentHealth + " 체력 남음");
         nav.isStopped = true;
-        animator.SetBool("Walk", false);
+
         if (currentHealth <= 0)
         {
             currentState = MonsterStates.Death;
             HandleState();
+            return;
         }
-        else
-        {
-            previousState = currentState; //이전 상태 저장
 
-            if(this.name != "Bypin")
+        animator.SetBool("Walk", false);
+        animator.SetTrigger("Hit");
+
+        previousState = currentState; //이전 상태 저장
+
+        if (this.name != "Bypin")
+        {
+            if (!isDamage) //첫 피격일 때
             {
-                if (!isDamage) //첫 피격일 때
-                {
-                    isDamage = true;
-                    animator.SetBool("Hit", true);
-                }
-                else
-                {
-                    animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
-                }
+                isDamage = true;
+                //animator.SetBool("Hit", true);
             }
             else
             {
-                StartCoroutine(KnockbackCoroutine());
+                animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
             }
+        }
+        else
+        {
+            StartCoroutine(KnockbackCoroutine());
         }
         if (canDamage)
         {
