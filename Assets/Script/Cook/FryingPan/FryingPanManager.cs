@@ -37,6 +37,7 @@ public class FryingPanManager : CookManagerBase
 
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         cookUIManager.Initialize(this);
 
         isCanEscape = true;
