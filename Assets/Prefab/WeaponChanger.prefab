@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 8322783793025610938}
   - component: {fileID: 4268173260781506900}
   - component: {fileID: 8718284905687885039}
+  - component: {fileID: 2085741611708410256}
   m_Layer: 5
   m_Name: ChangeButton
   m_TagString: Untagged
@@ -617,7 +618,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -628,9 +629,9 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 21300000, guid: 0ba2423e5e34665489315ef32a663877, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: d3f6596db406c2840baed2fbe3dc6a9e, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: d3f6596db406c2840baed2fbe3dc6a9e, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -641,7 +642,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4268173260781506900}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RifleManager, Assembly-CSharp
+        m_MethodName: SwitchWeapon
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2085741611708410256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530622163532847321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0d13e6e5ad5184388739e31411d698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonType: 0
 --- !u!1 &2749404233895266545
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,6 +833,7 @@ GameObject:
   - component: {fileID: 2364310379626183767}
   - component: {fileID: 8841146540571350182}
   - component: {fileID: 8088781002058831020}
+  - component: {fileID: 1277145515488494426}
   m_Layer: 5
   m_Name: ChangeButton
   m_TagString: Untagged
@@ -890,7 +917,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -901,9 +928,9 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 21300000, guid: 0ba2423e5e34665489315ef32a663877, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: d3f6596db406c2840baed2fbe3dc6a9e, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: d3f6596db406c2840baed2fbe3dc6a9e, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -914,7 +941,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8841146540571350182}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RifleManager, Assembly-CSharp
+        m_MethodName: SwitchWeapon
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1277145515488494426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510492409329090402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0d13e6e5ad5184388739e31411d698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonType: 2
 --- !u!1 &5812197089775848315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,7 +1058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6791829032023898522
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1175,6 +1227,7 @@ GameObject:
   - component: {fileID: 7153446504312394472}
   - component: {fileID: 3919554587122701225}
   - component: {fileID: 687466153974826648}
+  - component: {fileID: 5693371640479506885}
   m_Layer: 5
   m_Name: ChangeButton
   m_TagString: Untagged
@@ -1258,7 +1311,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1269,9 +1322,9 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 21300000, guid: 0ba2423e5e34665489315ef32a663877, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: d3f6596db406c2840baed2fbe3dc6a9e, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: d3f6596db406c2840baed2fbe3dc6a9e, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -1282,7 +1335,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3919554587122701225}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RifleManager, Assembly-CSharp
+        m_MethodName: SwitchWeapon
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5693371640479506885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536434819151619010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0d13e6e5ad5184388739e31411d698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonType: 1
 --- !u!1 &8124161018663964447
 GameObject:
   m_ObjectHideFlags: 0

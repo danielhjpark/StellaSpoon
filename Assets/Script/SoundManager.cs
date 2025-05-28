@@ -51,6 +51,11 @@ public class SoundManager : MonoBehaviour
         Button,
     }
 
+    public enum Gun
+    {
+        Button
+    }
+
     //audio clip 담을 수 있는 배열
     [SerializeField] public AudioClip[] bgms;
     [SerializeField] public AudioClip[] sfxs;
@@ -58,6 +63,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] dailyMenus;
     [SerializeField] AudioClip[] stores;
     [SerializeField] AudioClip[] interacts;
+    [SerializeField] AudioClip[] guns;
 
     //플레이하는 AudioSource
     [Header("Audio Source")]
@@ -123,6 +129,11 @@ public class SoundManager : MonoBehaviour
     public void PlaySound(Interact interact)
     {
         audioSfx.PlayOneShot(interacts[(int)interact]);
+    }
+
+    public void Play_GunChangeSound(Gun gun)
+    {
+        audioSfx.PlayOneShot(guns[(int)gun]);
     }
 
     //사용예시
