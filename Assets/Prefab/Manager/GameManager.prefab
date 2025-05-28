@@ -102,7 +102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35fc35630a84d947a15042423be60da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoldUI: {fileID: 0}
+  GoldBase: {fileID: 0}
+  GoldText: {fileID: 0}
   InvenGoldText: {fileID: 0}
 --- !u!1 &6079395042701829298
 GameObject:
@@ -150,6 +151,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theInventory: {fileID: 0}
   theRefrigeratorInventory: {fileID: 0}
+  chest1Inventory: {fileID: 0}
+  chest2Inventory: {fileID: 0}
 --- !u!1 &7735484909860295891
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupPrefab: {fileID: 5923958570210853091, guid: e27356e2053a54e41bc96fba5e198f3a, type: 3}
   popupContainer: {fileID: 0}
+  popupSFX: {fileID: 8300000, guid: 143d8772af709fa4a847ce92353c482e, type: 3}
 --- !u!1001 &687397049249369240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -265,6 +269,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2427601303184606270}
     m_Modifications:
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: HiddenRecipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c220b96cf6543a428eadcf2f7516f06, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba1d93ff7217e2c428a05d3613fc5c33, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e5462f53b98bdfa47b97fb9e6cb8c85f, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1be4c90e2004a394288dcbdff65cbbaa, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2387cadb1266e094bbf5c0f40f24c71d, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3061fae72a7556041a50ae1d5f9947ce, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: 295eb37c488343942bdd28cf8c05e7c4, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4606389f5ea7ace4d8b2495cf987fbf0, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 33cbb14c78604bb4ba2c8ac777d04783, type: 2}
+    - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
+      propertyPath: BasicRecipes.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 42ac946217855f5459f06dd469947090, type: 2}
     - target: {fileID: 4042485619290663459, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -316,9 +364,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4894691746404145491, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1954404665808238851}
-    - targetCorrespondingSourceObject: {fileID: 4894691746404145491, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4796668637725673201}
   m_SourcePrefab: {fileID: 100100000, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
 --- !u!4 &3572432824216118971 stripped
 Transform:
@@ -346,19 +391,6 @@ MonoBehaviour:
   currentWorLevel: 1
   currentCuttingBoardLevel: 1
   currentPotLevel: 1
---- !u!114 &4796668637725673201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5361376806079141323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5af70c8a0f70cf45ae8f547d302f953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldText: {fileID: 0}
 --- !u!1001 &912810076836672852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -457,6 +489,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2427601303184606270}
     m_Modifications:
+    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
+      propertyPath: guns.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
+      propertyPath: guns.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 84ac9938c7ff83943b01d4a09892db43, type: 3}
+    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
+      propertyPath: interacts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
+      propertyPath: interacts.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: c23c9c9ac1b97854ea59ff9a468a1320, type: 3}
+    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
+      propertyPath: interacts.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 607bf9d8d7b87cd49820abb73d4b582b, type: 3}
     - target: {fileID: 4439271136906260240, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
       propertyPath: m_Name
       value: SoundManager
@@ -662,7 +714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponLevels.Array.data[2].damage
-      value: 50
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponLevels.Array.data[2].weight
@@ -674,11 +726,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponLevels.Array.data[1].fireRate
-      value: 0.1
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponLevels.Array.data[2].fireRate
-      value: 0.2
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 3358423856349525434, guid: 1c53827b80f9cfa4e8a3b6c179b0eed7, type: 3}
       propertyPath: weaponLevels.Array.data[0].maxBullet
