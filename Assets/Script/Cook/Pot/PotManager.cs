@@ -41,8 +41,9 @@ public class PotManager : CookManagerBase
         isCanEscape = true;
         CookManager.instance.BindingManager(this);
         CookManager.instance.spawnPoint = dropPos;
+        //CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         cookUIManager.Initialize(this);
-
+        
         potBoilingSystem = GetComponent<PotBoilingSystem>();
         potSauceSystem = GetComponent<PotSauceSystem>();
         potViewportSystem = GetComponent<PotViewportSystem>();
@@ -52,8 +53,10 @@ public class PotManager : CookManagerBase
         UpgradePot();//Store Unlock upgrade
     }
 
+
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isCanEscape)

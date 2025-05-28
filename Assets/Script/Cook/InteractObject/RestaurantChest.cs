@@ -44,7 +44,7 @@ public class RestaurantdChest : InteractObject
         inventoryBG.SetActive(true);
 
         InteractUIManger.isUseInteractObject = true;
-        InteractUIManger.currentInteractObject = this.gameObject;
+
     }
 
     private void CloseChestUI()
@@ -68,6 +68,7 @@ public class RestaurantdChest : InteractObject
         {
             isPlayerNearby = true;
             InteractUIManger.isPlayerNearby = true;
+            InteractUIManger.currentInteractObject = this.gameObject;
         }
     }
 

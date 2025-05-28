@@ -219,17 +219,17 @@ public class StoreUIManager : MonoBehaviour
     //ingredient
     public void PlusButton()
     {
-        if(currentState == CurrentState.Sell)
+        if (currentState == CurrentState.Sell)
         {
             //가지고 있는 갯수보다 많이 선택 불가능
-            if(currentPurchaseCount < inventory.GetItemCount(items[currentSelectedIngredientIndex].name))
+            if (currentPurchaseCount < inventory.GetItemCount(items[currentSelectedIngredientIndex].name))
             {
                 currentPurchaseCount++;
                 countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
                 UpdateIngredientTotalCost();
             }
         }
-        else if(currentState == CurrentState.Buy)
+        else if (currentState == CurrentState.Buy)
         {
             //구매 갯수 99개까지 가능
             if (currentPurchaseCount < 99)
@@ -239,6 +239,7 @@ public class StoreUIManager : MonoBehaviour
                 UpdateIngredientTotalCost();
             }
         }
+        SoundManager.instance.PlaySound(SoundManager.Store.Button);
     }
     public void MinusButton()
     {
@@ -248,6 +249,7 @@ public class StoreUIManager : MonoBehaviour
             countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
             UpdateIngredientTotalCost();
         }
+        SoundManager.instance.PlaySound(SoundManager.Store.Button);
     }
 
     public void SelectedIngredient(int index)
@@ -323,9 +325,11 @@ public class StoreUIManager : MonoBehaviour
             Debug.Log("아이템 구매");
             ResetIngredientPurchase();
             UpdateAllSellButtons();
+            SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
         }
         else
         {
+            PopupManager.Instance.ShowPopup("골드 부족");
             Debug.Log("골드 부족");
         }
     }
@@ -350,6 +354,7 @@ public class StoreUIManager : MonoBehaviour
         Debug.Log("아이템 판매");
         ResetIngredientPurchase();
         UpdateAllSellButtons();
+        SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
     }
     public void UpdateAllSellButtons()
     {
@@ -392,7 +397,6 @@ public class StoreUIManager : MonoBehaviour
                 {
                     Debug.Log("팬 업그레이드 최대 레벨 도달");
                     isMaxLevel = true;
-                    return;
                 }
                 break;
             case "Wor":
@@ -402,7 +406,6 @@ public class StoreUIManager : MonoBehaviour
                 {
                     Debug.Log("웍 업그레이드 최대 레벨 도달");
                     isMaxLevel = true;
-                    return;
                 }
                 break;
             case "CuttingBoard":
@@ -412,7 +415,6 @@ public class StoreUIManager : MonoBehaviour
                 {
                     Debug.Log("도마 업그레이드 최대 레벨 도달");
                     isMaxLevel = true;
-                    return;
                 }
                 break;
             case "Pot":
@@ -422,7 +424,6 @@ public class StoreUIManager : MonoBehaviour
                 {
                     Debug.Log("냄비 업그레이드 최대 레벨 도달");
                     isMaxLevel = true;
-                    return;
                 }
                 break;
             default:
@@ -434,8 +435,8 @@ public class StoreUIManager : MonoBehaviour
         {
             if (upgradeCost[upgradeLevel - 1] <= Manager.gold) //보유 골드가 업그레이드 비용보다 많을 때
             {
-                upgradeLevel++;
                 Manager.gold -= upgradeCost[upgradeLevel - 1];
+                upgradeLevel++;
                 Debug.Log(tools + " 업그레이드 완료. 현재 레벨" + upgradeLevel);
 
                 switch (tools)
@@ -466,12 +467,18 @@ public class StoreUIManager : MonoBehaviour
                         potUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentPotLevel >= maxPotLevel) ? "Max" : potUpgradeCost[currentPotLevel - 1].ToString();
                         break;
                 }
+                SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
 
             }
             else
             {
+                PopupManager.Instance.ShowPopup("골드 부족");
                 Debug.Log("골드 부족");
             }
+        }
+        else
+        {
+            SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
         }
     }
 
@@ -523,7 +530,7 @@ public class StoreUIManager : MonoBehaviour
     {
         GunRecipe recipe = gunRecipes[gunType];
 
-        if(RifleManager.instance.tempestFang == true || RifleManager.instance.infernoLance == true)
+        if (RifleManager.instance.tempestFang == true || RifleManager.instance.infernoLance == true)
         {
             PopupManager.Instance.ShowPopup("이미 제작됨.");
             return;
@@ -561,5 +568,6 @@ public class StoreUIManager : MonoBehaviour
             RifleManager.instance.infernoLance = true;
 
         Debug.Log($"{recipe.gunName} 생성 완료");
+        SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
     }
 }

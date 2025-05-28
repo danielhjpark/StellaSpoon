@@ -112,12 +112,12 @@ public class CookManager : MonoBehaviour
     public void InteractOtherObject(string objName)
     {
         CookSceneManager.instance.LoadScene(objName);
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
     }
 
     public void InteractPotObject()
     {
         const string potSceneName = "PotMergeTest";
-        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         if (CookSceneManager.instance.IsSceneLoaded(potSceneName))
         {
             potManager.OpenSceneView();
@@ -129,6 +129,7 @@ public class CookManager : MonoBehaviour
             CookSceneManager.instance.isSceneLoaded = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
         }
     }
 
