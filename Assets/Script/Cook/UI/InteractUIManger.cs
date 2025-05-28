@@ -45,7 +45,7 @@ public class InteractUIManger : MonoBehaviour
         isPlayerNearby = false;
         isUseInteractObject = false;
         checkUseText = new Dictionary<TextType, bool>();
-         foreach (TextType type in Enum.GetValues(typeof(TextType)))
+        foreach (TextType type in Enum.GetValues(typeof(TextType)))
         {
             checkUseText[type] = false;
         }
@@ -59,8 +59,7 @@ public class InteractUIManger : MonoBehaviour
 
     void Update()
     {
-        if (isUseInteractObject) HideInteractUI();
-        else if (!isPlayerNearby) HideInteractUI();
+        if (isUseInteractObject || !isPlayerNearby || !DeviceManager.isDeactived) HideInteractUI();
         else if (isPlayerNearby) VisibleInteractUI();
     }
 
@@ -74,7 +73,7 @@ public class InteractUIManger : MonoBehaviour
         {
             StartCoroutine(CheckUseText(textType));
             GameObject popupText;
-            if (textType == TextType.Open || textType == TextType.Open2 ||textType == TextType.Open3||textType == TextType.Close || textType == TextType.ClearMenu)
+            if (textType == TextType.Open || textType == TextType.Open2 || textType == TextType.Open3 || textType == TextType.Close || textType == TextType.ClearMenu)
             {
                 popupText = Instantiate(warningTextPrefab, popupContainer);
             }
