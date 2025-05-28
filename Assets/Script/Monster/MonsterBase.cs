@@ -56,7 +56,7 @@ public abstract class MonsterBase : MonoBehaviour
     [SerializeField]
     protected ThirdPersonController thirdPersonController;
 
-    private bool canDamage; //플레이어 공격 인지 범위 내에 있는지 체크 변수
+    protected bool canDamage; //플레이어 공격 인지 범위 내에 있는지 체크 변수
     [SerializeField]
     protected bool isDamage; //데미지를 입었는지 체크 변수
     private bool RandomPositionDecide = false; //랜덤 경로가 정해졌는지 체크 변수
@@ -365,21 +365,14 @@ public abstract class MonsterBase : MonoBehaviour
 
         previousState = currentState; //이전 상태 저장
 
-        if (this.name != "Bypin")
+        if (!isDamage) //첫 피격일 때
         {
-            if (!isDamage) //첫 피격일 때
-            {
-                isDamage = true;
-                //animator.SetBool("Hit", true);
-            }
-            else
-            {
-                animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
-            }
+            isDamage = true;
+            //animator.SetBool("Hit", true);
         }
         else
         {
-            StartCoroutine(KnockbackCoroutine());
+            animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
         }
         if (canDamage)
         {
@@ -387,30 +380,6 @@ public abstract class MonsterBase : MonoBehaviour
             //플레이어 쫒기
             currentState = MonsterStates.Chasing;
         }
-    }
-
-    private IEnumerator KnockbackCoroutine()
-    {
-        // 넉백 처리
-        Vector3 knockbackDir = (transform.position - player.transform.position).normalized;
-        float knockbackForce = 3f; // 넉백 거리
-        float knockbackTime = 0.2f; // 넉백 지속 시간
-
-        float elapsed = 0f;
-        while (elapsed < knockbackTime)
-        {
-            nav.Move(knockbackDir * knockbackForce * Time.deltaTime);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(0.3f); // 넉백 후 잠시 대기
-
-        // 넉백 후 상태 복귀
-        animator.SetBool("Hit", false);
-        nav.isStopped = false;
-        isDamage = false;
-        currentState = previousState; // 이전 상태로 복귀
     }
 
     protected bool IsHpZero() //체력이 0 이하인지 검사
