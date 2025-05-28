@@ -829,5 +829,19 @@ namespace StarterAssets
             }
             return Vector3.up;
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.CompareTag("Water"))
+            {
+                StartCoroutine(DieAfterDelay(0.5f));
+            }
+        }
+        private IEnumerator DieAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            _hpBar.value = 0;
+            Die();
+        }
     }
 }
