@@ -5,6 +5,7 @@ using UnityEngine;
 public class Refrigerator : InteractObject
 {
     private GameObject refrigeratorUI; //보물상자 UI
+    private GameObject refrigeratorBG; //보물상자 UI
     private GameObject inventoryUI; //인벤토리 UI
     private GameObject inventoryBG;
     bool isPlayerNearby;
@@ -14,14 +15,15 @@ public class Refrigerator : InteractObject
     {
         isPlayerNearby = false;
         isOpenedRefrigerator = false;
-        refrigeratorUI = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)").transform.GetChild(0).gameObject;
+        refrigeratorUI = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)").transform.GetChild(1).gameObject;
+        refrigeratorBG = GameObject.Find("PARENT_RefrigeratorBase(DeactivateThis)").transform.GetChild(0).gameObject;
         inventoryUI = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(1).gameObject;
         inventoryBG = GameObject.Find("PARENT_InventoryBase(DeactivateThis)").transform.GetChild(0).gameObject;
     }
 
     private void Update()
     {
-        if (!refrigeratorUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F)) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (!refrigeratorUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && DeviceManager.isDeactived) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             OpenRefrigeratorUI();
         }
@@ -38,6 +40,7 @@ public class Refrigerator : InteractObject
         PlayAudio();
 
         refrigeratorUI.SetActive(true);
+        refrigeratorBG.SetActive(true);
         inventoryUI.SetActive(true);
         inventoryBG.SetActive(true);
 
@@ -51,6 +54,7 @@ public class Refrigerator : InteractObject
         Cursor.visible = false;
 
         refrigeratorUI.SetActive(false);
+        refrigeratorBG.SetActive(false);
         inventoryUI.SetActive(false);
         inventoryBG.SetActive(false);
 

@@ -300,10 +300,11 @@ public class WokManager : CookManagerBase
             {
                 wokSauceSystem.Initialize(currentMenu.tossingSetting);
                 yield return new WaitUntil(() => wokSauceSystem.IsLiquidFilled());
+                yield break;
             }
         }
 
-        
+
         while (true)
         {
             if ((cookUIManager.TimerEnd() && !wokSauceSystem.startLiquidFilled) || wokSauceSystem.IsLiquidFilled())

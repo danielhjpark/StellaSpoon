@@ -22,7 +22,7 @@ public class RestaurantdChest : InteractObject
 
     private void Update()
     {
-        if (!chestInventory.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F))
+        if (!chestInventory.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && DeviceManager.isDeactived)
         {
             OpenChestUI();
         }

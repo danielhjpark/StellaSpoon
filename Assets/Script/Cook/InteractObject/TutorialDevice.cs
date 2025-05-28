@@ -19,7 +19,8 @@ public class TutorialDevice : MonoBehaviour
 
     private void Update()
     {
-        if (!tutorialUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F) && !RestaurantOpenSystem.isRestaurantOpened) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+        if (!tutorialUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F)
+        && DeviceManager.isDeactived) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
             OpenTutorialUI();
         }
