@@ -15,14 +15,6 @@ public class StoreButtonImageChanger : MonoBehaviour
     }
 
     public StoreUIButton[] storeUIButtons;
-
-    private void Update()
-    {
-        if(StoreNPCManager.isIngredient)
-        {
-            SetDefalutSprite();
-        }
-    }
     void Start()
     {
         // 버튼에 클릭 이벤트 추가
