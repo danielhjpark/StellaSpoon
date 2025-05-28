@@ -270,12 +270,14 @@ public class PotManager : CookManagerBase
         {
             if (currentMenu.boilingSetting.sauceType == SauceType.None)
             {
+                potUI.SetActiveBottomButton();
                 yield break;
             }
             else
             {
                 potSauceSystem.Initialize(currentMenu.boilingSetting);
                 yield return new WaitUntil(() => potSauceSystem.IsLiquidFilled());
+                potUI.SetActiveBottomButton();
                 yield break;
             }
         }
