@@ -254,7 +254,7 @@ public abstract class MonsterBase : MonoBehaviour
             return;
         }
         animator.SetBool("Walk", true);
-        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 1f);
+        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 1.5f);
         if (canDamage && isDamage)
         {
             //5초 뒤에 idle 상태로 변환
