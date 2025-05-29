@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterSpawner : MonoBehaviour
 {
@@ -83,6 +84,7 @@ public class MonsterSpawner : MonoBehaviour
                     monster.SetActive(true);
                 }
             }
+            monster.GetComponent<NavMeshAgent>().enabled = true;
         }
     }
     protected virtual void OnDrawGizmos()//항상 보이게 //선택시 보이게 OnDrawGizmosSelected
