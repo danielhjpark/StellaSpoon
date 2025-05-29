@@ -18,17 +18,11 @@ public class UIManager : MonoBehaviour
         RefrigeratorAddIngredient();
     }
 
-    void Update()
-    {
-
-    }
-
-
     void RefrigeratorAddIngredient()
     {
         foreach (var item in items)
         {
-            RefrigeratorManager.instance.AddItem(item, 50);
+            RefrigeratorManager.instance.AddItem(item, 20);
         }
     }
 

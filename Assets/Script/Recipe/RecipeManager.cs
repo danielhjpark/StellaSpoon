@@ -59,7 +59,7 @@ public class RecipeManager : MonoBehaviour
         if (getRecipe != null && !RecipeUnlockCheck[getRecipe])
         {
             RecipeUnlockCheck[getRecipe] = true;
-            if (Manager.FirstCreateRecipe == null) Manager.FirstCreateRecipe = getRecipe.name;
+            if (Manager.FirstCreateRecipe == "") Manager.FirstCreateRecipe = getRecipe.name;
             Debug.Log("RecipeUnLock : " + getRecipe.name);
             RecipeUnLockUI();
         }

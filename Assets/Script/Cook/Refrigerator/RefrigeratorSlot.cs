@@ -18,7 +18,28 @@ public class RefrigeratorSlot : Slot
         {
             return;
         }
-        base.AddItem(_item, _count);
+        //base.AddItem(_item, _count);
+                // 슬롯에 추가할 아이템 정보 저장
+        item = _item;
+        itemCount = _count;
+
+        // 아이템 이미지를 슬롯에 표시
+        itemImage.sprite = item.itemImage;
+
+        // 아이템이 장비 타입이 아닌 경우, 아이템 개수를 텍스트로 표시
+        if (item.itemType != Item.ItemType.Equipment)
+        {
+            text_count.text = itemCount.ToString();
+            text_count.gameObject.SetActive(true);
+        }
+        else
+        {
+            // 장비 타입인 경우, 갯수를 알려주는 텍스트를 비활성화
+            text_count.gameObject.SetActive(false);
+        }
+
+        // 슬롯의 색상 불투명도로 활성화 표시
+        SetColor(1);
         previousItem = _item;
         currentIngredient = IngredientManager.instance.FindIngredient(_item.itemName);
         OnSlotUpdate?.Invoke();
