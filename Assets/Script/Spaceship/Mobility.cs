@@ -9,7 +9,7 @@ public class Mobility : MonoBehaviour
 {
     [SerializeField]
     private GameObject mapUI; //지도 UI
-
+    private InteractUI interactUI;
     private bool collPlayer = false; //플레이어 충돌체크
 
     public PlanetManager planetManager;
@@ -32,7 +32,7 @@ public class Mobility : MonoBehaviour
         // Canvas의 자식 오브젝트 중 MapPanel을 찾기
         Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas를 찾기
         mapUI = canvasTransform.Find("MapPanel")?.gameObject; // MapPanel을 찾기
-
+        interactUI = canvasTransform.Find("InteractPanel")?.GetComponent<InteractUI>();
         if (mapUI != null)
         {
             Debug.Log("MapUI 찾기 성공!");
@@ -67,6 +67,9 @@ public class Mobility : MonoBehaviour
         {
             CloseMapUI();
         }
+        if (!mapUI.activeSelf && collPlayer) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
+        else interactUI.DisableInteractUI(this.gameObject);
+        
     }
     private void OnTriggerStay(Collider other)
     {

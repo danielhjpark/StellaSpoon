@@ -43,6 +43,16 @@ public class StoreNPCManager : MonoBehaviour
     [SerializeField]
     private string[] gunChatText; //총기 상인 대화 내용
 
+    private InteractUI interactUI; //상호작용 패널
+
+    private void Awake()
+    {
+        // Canvas의 자식 오브젝트 중 WeaponChanger 찾기
+        Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas를 찾기
+        interactUI = canvasTransform.Find("InteractPanel")?.GetComponent<InteractUI>();
+
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -60,10 +70,11 @@ public class StoreNPCManager : MonoBehaviour
 
     private void Update()
     {
-        if(iscollPlayer)
+        if (iscollPlayer)
         {
-            if(!openingStoreUI)
+            if (!openingStoreUI)
             {
+                interactUI.UseInteractUI(this.gameObject, Vector2.down * 0.5f);
                 if (Input.GetKeyDown(KeyCode.F)) //F키 눌렀을 때 
                 {
                     openingStoreUI = true;
@@ -95,6 +106,7 @@ public class StoreNPCManager : MonoBehaviour
             }
             else
             {
+                interactUI.DisableInteractUI(this.gameObject);
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     //플레이어 이동 제한 해제
@@ -119,7 +131,8 @@ public class StoreNPCManager : MonoBehaviour
                 }
             }
 
-        }        
+        }
+        else interactUI.DisableInteractUI(this.gameObject);   
     }
 
     public void ChangeChat(NPCType npcType)//해당 NPC와 대화하기

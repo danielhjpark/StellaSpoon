@@ -30,6 +30,7 @@ public class FryingSystem : MonoBehaviour
     private FryingStep currentFryingStep;
     public int successFryingCount;
     private bool isHalf;
+    private bool isFryingAudioPlay;
 
     private int grabNum;
     Queue<int> grabQueue;
@@ -38,6 +39,17 @@ public class FryingSystem : MonoBehaviour
     {
         fryingSauceSystem = GetComponent<FryingSauceSystem>();
         fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
+        isFryingAudioPlay = false;
+    }
+
+    public void Update()
+    {
+        if(!isFryingAudioPlay) {
+            fryingPanAudioSystem.PauseAudioSource(FryingPanAudioSystem.AudioType.Frying);
+        }
+        else {
+            fryingPanAudioSystem.UnPauseAudioSource(FryingPanAudioSystem.AudioType.Frying);
+        }
     }
 
     public void Initialize(GameObject mainIngredient, FryingStep fryingStep, int totalSuccessCount)
@@ -49,12 +61,13 @@ public class FryingSystem : MonoBehaviour
         {
             mainIngredientPart.Add(t.gameObject);
             mainIngredientPreviousPos.Add(t.transform.localPosition);
-            if(t.gameObject.TryGetComponent(out IngredientShader ingredientShader)) {
+            if (t.gameObject.TryGetComponent(out IngredientShader ingredientShader))
+            {
                 ingredientShader.Initialize(totalSuccessCount + 1);
                 mainIngredientShaders.Add(ingredientShader);
 
             }
-            else {Debug.Log("Fail");}
+            else { Debug.Log("Fail"); }
         }
 
     }
@@ -102,6 +115,7 @@ public class FryingSystem : MonoBehaviour
 
     public IEnumerator InherentMotion(int fryingCount, System.Action<int> callback)
     {
+        isFryingAudioPlay = true;
         if (fryingCount <= 0)
         {
             GrabOrder();
@@ -116,12 +130,6 @@ public class FryingSystem : MonoBehaviour
         {
             SetActiveTongs();
             //Check Timeline End
-            if(timeline.state == PlayState.Playing) {
-                fryingPanAudioSystem.PauseAudioSource(FryingPanAudioSystem.AudioType.Frying);
-            }
-            else {
-                fryingPanAudioSystem.UnPauseAudioSource(FryingPanAudioSystem.AudioType.Frying);
-            }
             if (isHalf && timeline.time >= timeline.duration)
             {
                 isHalf = false;
@@ -157,7 +165,9 @@ public class FryingSystem : MonoBehaviour
         if (fryingPanUI.GetCurrentSection() == currentFryingStep) { successFryingCount++; }
         ReturnObject();
         StopCoroutine(rotateRoutine);
+        isFryingAudioPlay = false;
         yield return new WaitForSeconds(0.5f);
+        isFryingAudioPlay = true;
         yield return StartCoroutine(InherentMotion(--fryingCount, callback));
 
     }

@@ -8,7 +8,7 @@ public class WeaponChanger : MonoBehaviour
 
     [SerializeField]
     private GameObject weaponChanger;
-
+    private InteractUI interactUI;
     private bool collPlayer = false;
     public static bool isDeactived = true;
 
@@ -29,7 +29,7 @@ public class WeaponChanger : MonoBehaviour
         // Canvas의 자식 오브젝트 중 WeaponChanger 찾기
         Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas를 찾기
         weaponChanger = canvasTransform.Find("WeaponChanger")?.gameObject; // MapPanel을 찾기
-
+        interactUI = canvasTransform.Find("InteractPanel")?.GetComponent<InteractUI>();
         if (weaponChanger != null)
         {
             Debug.Log("MapUI 찾기 성공!");
@@ -51,6 +51,8 @@ public class WeaponChanger : MonoBehaviour
         {
             CloseMapUI();
         }
+        if (!weaponChanger.activeSelf && collPlayer) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
+        else interactUI.DisableInteractUI(this.gameObject);
     }
 
     private void OnTriggerStay(Collider other)
