@@ -85,6 +85,7 @@ public class MonsterSpawner : MonoBehaviour
                 }
             }
             monster.GetComponent<NavMeshAgent>().enabled = true;
+            monster.GetComponent<Rigidbody>().useGravity = true;
         }
     }
     protected virtual void OnDrawGizmos()//항상 보이게 //선택시 보이게 OnDrawGizmosSelected
