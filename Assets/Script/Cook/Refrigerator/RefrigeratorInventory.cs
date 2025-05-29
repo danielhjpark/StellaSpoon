@@ -194,10 +194,5 @@ public class RefrigeratorInventory : Inventory
                 }
             }
         }
-
-
-
     }
-
-
 }
