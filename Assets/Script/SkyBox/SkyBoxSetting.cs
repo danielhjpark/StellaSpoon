@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SkyBoxSetting : MonoBehaviour
 {
-    public Material skyboxMaterial;
+    [SerializeField]
+    private Material skyboxMaterial;
 
     void Start()
     {

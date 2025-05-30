@@ -43,6 +43,11 @@ public class WorldTimeManager : MonoBehaviour
 
     private void Update()
     {
+        if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.Restaurant ||
+           PlanetManager.selectedPlanet == PlanetManager.PlanetType.Shop)
+        {
+            return;
+        }
         float currentHour = gameTimeManager.gameHours + gameTimeManager.gameMinutes / 60f;
         float t = 0f;
 
