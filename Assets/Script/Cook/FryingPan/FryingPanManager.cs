@@ -204,7 +204,6 @@ public class FryingPanManager : CookManagerBase
             }
             yield return null;
         }
-        fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
 
     }
 
@@ -212,7 +211,7 @@ public class FryingPanManager : CookManagerBase
     {
         fryingPanUI.OnFryingPanUI();
         fryingSystem.InitializeInherentMotion();
-        //fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
+        fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
         yield return StartCoroutine(fryingSystem.InherentMotion(fryingCount, (callbackValue) =>
         {
             successCount += callbackValue;

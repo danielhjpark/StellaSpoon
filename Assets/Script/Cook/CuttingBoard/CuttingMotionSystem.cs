@@ -261,17 +261,22 @@ public class CuttingMotionSystem : MonoBehaviour
         cuttingBoardUI.VisibleRotateUI();
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Space)) isRot = true;
-            if (!isRot)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                yield return null;
-                continue;
+                isRot = true;
+                cuttingBoardUI.VisibleRotateClickUI();
             }
+            if (!isRot)
+                {
+                    yield return null;
+                    continue;
+                }
             t += Time.deltaTime * rotateSpeed;
 
             rotateObject.transform.rotation = Quaternion.Lerp(startRot, endRot, t);
             if (t >= 1)
             {
+                cuttingBoardUI.HideRotateClickUI();
                 cuttingBoardUI.VisibleSliceUI();
                 break;
             }

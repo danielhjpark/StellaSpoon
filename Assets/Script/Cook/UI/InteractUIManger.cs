@@ -48,6 +48,7 @@ public class InteractUIManger : MonoBehaviour
 
     void Start()
     {
+
         isPlayerNearby = false;
         isUseInteractObject = false;
         checkUseText = new Dictionary<TextType, bool>();
@@ -65,6 +66,11 @@ public class InteractUIManger : MonoBehaviour
 
     void Update()
     {
+        if (popupContainer == null)
+        {
+            Transform canvasTransform = GameObject.Find("Canvas")?.gameObject.transform; // Canvas¸¦ Ã£±â
+            popupContainer = canvasTransform.Find("PopupContainer")?.gameObject.transform;
+        }
         if (isUseInteractObject || !isPlayerNearby || !DeviceManager.isDeactived) HideInteractUI();
         else if (isPlayerNearby) VisibleInteractUI();
     }

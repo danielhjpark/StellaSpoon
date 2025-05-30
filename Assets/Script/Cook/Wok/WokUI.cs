@@ -78,16 +78,16 @@ public class WokUI : MonoBehaviour
         float sectionValue;
         switch (unlockStep)
         {
-            case 0:
+            case 1:
                 sectionValue = 150;
                 break;
-            case 1:
-                sectionValue = 187.5f;
-                break;
             case 2:
-                sectionValue = 187.5f;
+                sectionValue = 150f;
                 break;
             case 3:
+                sectionValue = 187.5f;
+                break;
+            case 4:
                 sectionValue = 225;
                 break;
             default:

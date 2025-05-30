@@ -9,11 +9,14 @@ public class CuttingBoardUI : MonoBehaviour
     [SerializeField] GameObject sliceUI;
     [SerializeField] GameObject sliceClickUI;
     [SerializeField] GameObject rotateUI;
+    [SerializeField] GameObject rotateClickUI;
 
+    //Visible UI
     public void VisibleRotateUI()
     {
         cuttingBoardUI.SetActive(true);
         rotateUI.SetActive(true);
+        rotateClickUI.SetActive(false);
         sliceUI.SetActive(false);
     }
 
@@ -24,6 +27,14 @@ public class CuttingBoardUI : MonoBehaviour
         sliceUI.SetActive(true);
     }
 
+    public void HideCuttingBoardUI()
+    {
+        cuttingBoardUI.SetActive(false);
+        rotateUI.SetActive(false);
+        sliceUI.SetActive(false);
+    }
+
+    //Slice Click
     public void VisibleSliceClickUI()
     {
         sliceClickUI.SetActive(true);
@@ -34,12 +45,15 @@ public class CuttingBoardUI : MonoBehaviour
         sliceClickUI.SetActive(false);
     }
 
-    public void HideCuttingBoardUI()
+    //Rotate Click
+    public void VisibleRotateClickUI()
     {
-        cuttingBoardUI.SetActive(false);
-        rotateUI.SetActive(false);
-        sliceUI.SetActive(false);
+        rotateClickUI.SetActive(true);
     }
 
+    public void HideRotateClickUI()
+    {
+        rotateClickUI.SetActive(false);
+    }
 
 }

@@ -75,17 +75,20 @@ public class PotManager : CookManagerBase
         int unlockStep = StoreUIManager.currentPotLevel;
         switch (unlockStep)
         {
-            case 0:
+            case 1:
                 decreaseCompleteTime = 0;
                 break;
-            case 1:
+            case 2:
                 decreaseCompleteTime = 1;
                 break;
-            case 2:
+            case 3:
                 decreaseCompleteTime = 3;
                 break;
-            case 3:
+            case 4:
                 decreaseCompleteTime = 5;
+                break;
+            default:
+                decreaseCompleteTime = 0;
                 break;
         }
     }

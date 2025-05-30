@@ -57,8 +57,9 @@ public class CuttingLineSystem : MonoBehaviour
 
         while (true)
         {
-            if (StoreUIManager.currentCuttingBoardLevel >= 2) t = 1; //Store Upgrade;
-            t += Time.deltaTime * 0.5f;
+            if (StoreUIManager.currentCuttingBoardLevel >= 3) t = 1; //Store Upgrade;
+            else if(StoreUIManager.currentCuttingBoardLevel >= 2)t += Time.deltaTime * 0.5f * 2;
+            else t += Time.deltaTime * 0.5f;
             ScannerObject.transform.position = Vector3.Lerp(startPos.position, endPos.position, t);
             if (t >= 1)
             {
