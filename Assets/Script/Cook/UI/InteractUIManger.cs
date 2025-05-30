@@ -13,7 +13,6 @@ public class InteractUIManger : MonoBehaviour
     [Header("Interact")]
     //[SerializeField] GameObject interactUI;
     [SerializeField] InteractUI interactUI;
-
     [Header("Popup")]
     [SerializeField] Transform popupContainer;
     [SerializeField] GameObject warningTextPrefab;

@@ -93,7 +93,7 @@ public class EndingUI : MonoBehaviour
 
     IEnumerator FadeInOutText()
     {
-        float alphaValue = 0.01f;
+        float alphaValue = 0.005f;
         bool isIncrease = true;
         PressAnyButtonText.gameObject.SetActive(true);
         while (true)

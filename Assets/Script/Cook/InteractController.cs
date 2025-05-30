@@ -9,10 +9,8 @@ using UnityEngine.SceneManagement;
 public class InteractController : MonoBehaviour
 {
     private ServeSystem serveSystem;
-    [SerializeField] private RestaurantOpenSystem restaurantOpenSystem;
-
     private Transform playerTransfom;
-
+    
     [SerializeField] private CinemachineVirtualCamera playerFollowCamera;
 
     [Header("Interact Layer")]
@@ -22,7 +20,7 @@ public class InteractController : MonoBehaviour
 
     [Header("UI Object")]
     [SerializeField] private InteractUI interactUI;
-
+    [SerializeField] private GameObject goldBase;
     private bool isCanInteract;
     private float range = 1f;
 
@@ -33,6 +31,7 @@ public class InteractController : MonoBehaviour
         playerTransfom = GameObject.FindGameObjectWithTag("Player").transform;
         this.transform.SetParent(playerTransfom);
         playerFollowCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
+        goldBase = GameObject.Find("GoldBase")?.gameObject;
     }
 
     private void OnEnable()
@@ -53,7 +52,13 @@ public class InteractController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsCheckInteract()) return;
+        if (!IsCheckInteract())
+        {
+            goldBase.SetActive(false);
+            return;
+        }
+        if(InteractUIManger.isUseInteractObject) goldBase.SetActive(false);
+        else goldBase.SetActive(true);
         CheckLayer();
     }
 
@@ -66,7 +71,7 @@ public class InteractController : MonoBehaviour
             interactUI.DisableInteractUI();
             return brain.ActiveVirtualCamera.VirtualCameraGameObject == playerFollowCamera.gameObject;
         }
-
+        
         return false;
 
     }
