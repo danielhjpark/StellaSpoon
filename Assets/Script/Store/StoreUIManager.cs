@@ -326,6 +326,7 @@ public class StoreUIManager : MonoBehaviour
     {
         if (currentSelectedIngredientIndex < 0)
         {
+            PopupManager.Instance.ShowPopup("재료를 선택하세요.");
             Debug.Log("재료를 선택하세요");
             return;
         }
@@ -347,8 +348,7 @@ public class StoreUIManager : MonoBehaviour
         }
         else
         {
-            PopupManager.Instance.ShowPopup("골드 부족");
-            Debug.Log("골드 부족");
+            PopupManager.Instance.ShowPopup("금액이 부족합니다.");
         }
     }
 
@@ -356,7 +356,7 @@ public class StoreUIManager : MonoBehaviour
     {
         if (currentSelectedIngredientIndex < 0)
         {
-            Debug.Log("재료를 선택하세요");
+            PopupManager.Instance.ShowPopup("재료를 선택하세요.");
             return;
         }
         Item selectedItem = items[currentSelectedIngredientIndex];
@@ -569,14 +569,13 @@ public class StoreUIManager : MonoBehaviour
 
         if (RifleManager.instance.tempestFang == true || RifleManager.instance.infernoLance == true)
         {
-            PopupManager.Instance.ShowPopup("이미 제작됨.");
+            PopupManager.Instance.ShowPopup("이미 제작된 총입니다.");
             return;
         }
 
         if (Manager.gold < recipe.needGold)
         {
-            Debug.Log("골드 부족");
-            PopupManager.Instance.ShowPopup("골드 부족");
+            PopupManager.Instance.ShowPopup("금액이 부족합니다.");
             return;
         }
 
@@ -585,7 +584,7 @@ public class StoreUIManager : MonoBehaviour
             if (inventory.GetItemCount(ing.ingredientName) < ing.requiredAmount)
             {
                 Debug.Log($"재료 부족: {ing.ingredientName}");
-                PopupManager.Instance.ShowPopup("재료 부족");
+                PopupManager.Instance.ShowPopup("재료가 부족합니다.");
                 return;
             }
         }
