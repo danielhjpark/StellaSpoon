@@ -8,7 +8,7 @@ public class PlanetViewer : MonoBehaviour
 
     private void Start()
     {
-        var earthInfo = planetManager.GetPlanetInfo(PlanetManager.PlanetType.Earth);
+        var earthInfo = planetManager.GetPlanetInfo(PlanetManager.PlanetType.Restaurant);
         if (earthInfo != null)
         {
             Debug.Log($"Planet: {earthInfo.planetName}, Description: {earthInfo.description}");

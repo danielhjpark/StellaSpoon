@@ -6,8 +6,9 @@ using UnityEngine;
 public class PlanetInfo
 {
     public string planetName; //행성 이름
-    public string description; //행성 설명
-    public string weather; //행성 날씨
-    public float gravity; //중력 정도
+    public string type; //유형
+    public string location; //위치
+    public string description; //설명
     public List<string> monsters; //등장 몬스터 목록
+    public List<string> plant; //자생식물
 }

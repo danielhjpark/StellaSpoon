@@ -7,13 +7,9 @@ public class PlanetManager : MonoBehaviour
     public static PlanetManager Instance { get; private set; }
     public enum PlanetType
     {
-        Moon, //달
-        Earth, //지구
-        Mars, //화성
-        aRedForest, //1행성
         Shop,
-        RestaurantTest2, //레스토랑 테스트
         Restaurant,
+        aRedForest, //1행성
         Serenoxia
         //새로운 행성 추가
     }
@@ -30,12 +26,10 @@ public class PlanetManager : MonoBehaviour
 
         planetInfoMap = new Dictionary<PlanetType, PlanetInfo>
         {
-            { PlanetType.Earth, planetInfos[0] },
-            { PlanetType.Moon, planetInfos[1] },
-            { PlanetType.Mars, planetInfos[2] },
-            {PlanetType.aRedForest, planetInfos[3] },
-            { PlanetType.Shop, planetInfos[4] },
-            { PlanetType.RestaurantTest2, planetInfos[5] }
+            { PlanetType.aRedForest, planetInfos[0] },
+            { PlanetType.Serenoxia, planetInfos[1] },
+            { PlanetType.Restaurant, planetInfos[2] },
+            { PlanetType.Shop, planetInfos[3] }
             //새로운 행성 추가
         };
     }

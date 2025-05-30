@@ -117,8 +117,16 @@ public class WorldTimeManager : MonoBehaviour
         }
         else
         {
-            intensity = 0.05f;
-            sunColor = new Color(0.2f, 0.2f, 0.4f);
+            if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.aRedForest)
+            {
+                intensity = 0.1f;
+                sunColor = new Color(0.2f, 0.2f, 0.4f);
+            }
+            else if (PlanetManager.selectedPlanet == PlanetManager.PlanetType.Serenoxia)
+            {
+                intensity = 1.2f;
+                sunColor = new Color(0.2f, 0.2f, 0.4f);
+            }
         }
 
         if (sunLight != null)
