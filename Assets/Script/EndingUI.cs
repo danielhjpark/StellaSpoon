@@ -51,7 +51,7 @@ public class EndingUI : MonoBehaviour
         yield return StartCoroutine(StartTyping(EndRecipeText));
         yield return StartCoroutine(StartTyping(NPCSpawnCountText));
 
-
+        yield return new WaitForSeconds(1.5f);
         yield return StartCoroutine(FadeInOutText());
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
