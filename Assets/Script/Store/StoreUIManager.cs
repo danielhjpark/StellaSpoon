@@ -490,8 +490,7 @@ public class StoreUIManager : MonoBehaviour
             }
             else
             {
-                PopupManager.Instance.ShowPopup("골드 부족");
-                Debug.Log("골드 부족");
+                PopupManager.Instance.ShowPopup("금액이 부족합니다.");
             }
         }
         else
