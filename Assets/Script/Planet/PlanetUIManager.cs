@@ -57,9 +57,10 @@ public class PlanetUIManager : MonoBehaviour
             return;
         }
         planetNameText.text = planetInfo.planetName;
-        planetInformationText.text = $"Description: {planetInfo.description}\n"
-            + $"Weather: {planetInfo.weather} \n"
-            + $"Gravity: {planetInfo.gravity} \n\n"
-            + $"<size=40>서식 생물\n</size>-{string.Join("\n- ", planetInfo.monsters)}";
+        planetInformationText.text = $"유형: {planetInfo.type}\n"
+            + $"위치: {planetInfo.location} \n"
+            + $"설명: {planetInfo.description} \n\n"
+            + $"<size=40>서식 생물\n</size>-{string.Join("\n- ", planetInfo.monsters)}\n"
+            + $"자생 식물{string.Join("\n-",planetInfo.plant)}";
     }
 }

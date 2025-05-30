@@ -7,23 +7,22 @@ using UnityEngine.SceneManagement;
 public class WorldTimeManager : MonoBehaviour
 {
     public GameTimeManager gameTimeManager;
-    public Material[] skyboxes;
-    private int skyIdx = 0;
-    private float blendValue = 0.0f;
 
-    [SerializeField]
-    private int currentHour = 0;
+    private Material lerpSkybox;
+
+    public Material aRedForestDaySkybox;
+    public Material aRedForestNightSkybox;
+    public Material SerenoxiaDaySkybox;
+    public Material SerenoxiaNightSkybox;
 
     [SerializeField]
     private Light sunLight; // Sun Light
-
 
     private void Awake()
     {
         AssignSunLight();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -33,7 +32,6 @@ public class WorldTimeManager : MonoBehaviour
     {
         AssignSunLight();
     }
-
     private void AssignSunLight()
     {
         var lightObj = GameObject.Find("Directional Light");
@@ -42,87 +40,129 @@ public class WorldTimeManager : MonoBehaviour
         else
             sunLight = null;
     }
+
     private void Update()
     {
-        if(PlanetManager.Instance.GetSelectedPlanet() == PlanetManager.PlanetType.Restaurant ||
-           PlanetManager.Instance.GetSelectedPlanet() == PlanetManager.PlanetType.Shop) return; //레스토랑, 상점 씬에서는 스카이 박스 업데이트 안함
-        float gameHour = gameTimeManager.gameHours + (gameTimeManager.gameMinutes / 60.0f);
-        SunUpdate(gameHour);
-    }
+        float currentHour = gameTimeManager.gameHours + gameTimeManager.gameMinutes / 60f;
+        float t = 0f;
 
-    void SunUpdate(float gameHour)
-    {
-        //Debug.Log("들어옴");
-        if (currentHour != (int)gameHour)
+        // 현재 선택된 행성에 따라 스카이박스 선택
+        Material daySkybox = null;
+        Material nightSkybox = null;
+
+        switch (PlanetManager.selectedPlanet)
         {
-            currentHour = (int)gameHour;
-            switch (currentHour)
-            {
-                case 0:
-                    SetBlendSkyTexture(skyboxes[0]);
-                    skyIdx = 3;
-                    break;
-                case 6:
-                    SetBlendSkyTexture(skyboxes[1]);
-                    skyIdx = 0;
-                    break;
-                case 12:
-                    SetBlendSkyTexture(skyboxes[2]);
-                    skyIdx = 1;
-                    break;
-                case 18:
-                    SetBlendSkyTexture(skyboxes[3]);
-                    skyIdx = 2;
-                    break;
-                
-            }
+            case PlanetManager.PlanetType.aRedForest:
+                daySkybox = aRedForestDaySkybox;
+                nightSkybox = aRedForestNightSkybox;
+                break;
+            case PlanetManager.PlanetType.Serenoxia:
+                daySkybox = SerenoxiaDaySkybox;
+                nightSkybox = SerenoxiaNightSkybox;
+                break;
+            default:
+                Debug.LogWarning("Unknown planet selected.");
+                return;
         }
 
-        blendValue = Mathf.Clamp01((gameHour % 6) / 6.0f);
-        RenderSettings.skybox.SetFloat("_Blend", blendValue);
+        // 1. 밤→낮 전환 (6~8시)
+        if (currentHour >= 6f && currentHour < 8f)
+        {
+            t = (currentHour - 6f) / 2f;
+            ApplyLerpSkybox(nightSkybox, daySkybox, t);
+        }
+        // 2. 낮→밤 전환 (18~20시)
+        else if (currentHour >= 18f && currentHour < 20f)
+        {
+            t = 1f - (currentHour - 18f) / 2f;
+            ApplyLerpSkybox(nightSkybox, daySkybox, t);
+        }
+        // 3. 완전 낮 (8~18시)
+        else if (currentHour >= 8f && currentHour < 18f)
+        {
+            if (RenderSettings.skybox != daySkybox)
+            { 
+                RenderSettings.skybox = daySkybox;
+            }
+            lerpSkybox = null; // Lerp 머티리얼 해제
+        }
+        // 4. 완전 밤 (20~6시)
+        else
+        {
+            if (RenderSettings.skybox != nightSkybox)
+            {
+                RenderSettings.skybox = nightSkybox;
+            }
+            lerpSkybox = null; // Lerp 머티리얼 해제
+        }
 
-        // --- Sun Light 밝기/색상 조절 ---
-        // 예시: 새벽/저녁은 약하게, 낮은 강하게, 밤은 거의 없음
+        // --- Sun Light 밝기/색상 조절 (기존 코드 유지) ---
         float intensity = 0f;
         Color sunColor = Color.white;
 
-        if (gameHour >= 6f && gameHour < 18f)
+        if (currentHour >= 6f && currentHour < 18f)
         {
-            // 낮: 1.0 ~ 1.2
-            intensity = Mathf.Lerp(1.0f, 1.2f, Mathf.Sin((gameHour - 6f) / 12f * Mathf.PI));
-            sunColor = Color.Lerp(new Color(1f, 0.95f, 0.8f), Color.white, (gameHour - 6f) / 12f);
+            intensity = Mathf.Lerp(1.0f, 1.2f, Mathf.Sin((currentHour - 6f) / 12f * Mathf.PI));
+            sunColor = Color.Lerp(new Color(1f, 0.95f, 0.8f), Color.white, (currentHour - 6f) / 12f);
         }
-        else if (gameHour >= 5f && gameHour < 6f)
+        else if (currentHour >= 5f && currentHour < 6f)
         {
-            // 해 뜨기 전: 점점 밝아짐
-            intensity = Mathf.Lerp(0.1f, 1.0f, gameHour - 5f);
-            sunColor = Color.Lerp(new Color(1f, 0.7f, 0.4f), new Color(1f, 0.95f, 0.8f), gameHour - 5f);
+            intensity = Mathf.Lerp(0.1f, 1.0f, currentHour - 5f);
+            sunColor = Color.Lerp(new Color(1f, 0.7f, 0.4f), new Color(1f, 0.95f, 0.8f), currentHour - 5f);
         }
-        else if (gameHour >= 18f && gameHour < 19f)
+        else if (currentHour >= 18f && currentHour < 19f)
         {
-            // 해 질 때: 점점 어두워짐
-            intensity = Mathf.Lerp(1.0f, 0.1f, gameHour - 18f);
-            sunColor = Color.Lerp(Color.white, new Color(1f, 0.7f, 0.4f), gameHour - 18f);
+            intensity = Mathf.Lerp(1.0f, 0.1f, currentHour - 18f);
+            sunColor = Color.Lerp(Color.white, new Color(1f, 0.7f, 0.4f), currentHour - 18f);
         }
         else
         {
-            // 밤: 거의 없음
-            intensity = 0.05f;
-            sunColor = new Color(0.2f, 0.2f, 0.4f);
+            if(PlanetManager.selectedPlanet == PlanetManager.PlanetType.aRedForest)
+            {
+                intensity = 0.1f;
+                sunColor = new Color(0.2f, 0.2f, 0.4f);
+            }
+            else if (PlanetManager.selectedPlanet == PlanetManager.PlanetType.Serenoxia)
+            {
+                intensity = 1.2f;
+                sunColor = new Color(0.2f, 0.2f, 0.4f);
+            }
         }
 
-        sunLight.intensity = intensity;
-        sunLight.color = sunColor;
+        if (sunLight != null)
+        {
+            sunLight.intensity = intensity;
+            sunLight.color = sunColor;
+        }
     }
 
-    void SetBlendSkyTexture(Material skybox)
+    // 전환 구간에서만 호출
+    private void ApplyLerpSkybox(Material nightSkybox, Material daySkybox, float t)
     {
-        string[] texParts = { "_FrontTex", "_BackTex", "_LeftTex", "_RightTex", "_UpTex", "_DownTex" };
+        if (lerpSkybox == null || lerpSkybox.shader != daySkybox.shader)
+            lerpSkybox = new Material(daySkybox);
 
-        foreach (string texPart in texParts)
+        // Skybox/Procedural 기준
+        if (daySkybox.HasProperty("_SkyTint") && nightSkybox.HasProperty("_SkyTint"))
         {
-            RenderSettings.skybox.SetTexture(texPart, skyboxes[skyIdx].GetTexture(texPart));
-            RenderSettings.skybox.SetTexture(texPart + "2", skybox.GetTexture(texPart));
+            Color dayTint = daySkybox.GetColor("_SkyTint");
+            Color nightTint = nightSkybox.GetColor("_SkyTint");
+            lerpSkybox.SetColor("_SkyTint", Color.Lerp(nightTint, dayTint, t));
         }
+        if (daySkybox.HasProperty("_GroundColor") && nightSkybox.HasProperty("_GroundColor"))
+        {
+            Color dayGround = daySkybox.GetColor("_GroundColor");
+            Color nightGround = nightSkybox.GetColor("_GroundColor");
+            lerpSkybox.SetColor("_GroundColor", Color.Lerp(nightGround, dayGround, t));
+        }
+        if (daySkybox.HasProperty("_Exposure") && nightSkybox.HasProperty("_Exposure"))
+        {
+            float dayExp = daySkybox.GetFloat("_Exposure");
+            float nightExp = nightSkybox.GetFloat("_Exposure");
+            lerpSkybox.SetFloat("_Exposure", Mathf.Lerp(nightExp, dayExp, t));
+        }
+        // 필요한 속성 추가로 Lerp
+
+        RenderSettings.skybox = lerpSkybox;
     }
 }
