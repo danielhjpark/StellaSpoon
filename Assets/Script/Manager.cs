@@ -13,7 +13,7 @@ public class Manager : MonoBehaviour
     public static bool stage_01_clear = true; //스테이지 1 클리어 여부
     public static bool stage_02_clear = false; //스테이지 2 클리어 여부
 
-    public static int gold = 5000; //플레이어 보유 골드
+    public static int gold = 0; //플레이어 보유 골드
 
     [SerializeField]
     private GameObject GoldBase; //골드 UI 오브젝트
