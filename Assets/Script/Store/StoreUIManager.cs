@@ -50,7 +50,6 @@ public class StoreUIManager : MonoBehaviour
     [SerializeField]
     private GameObject[] sellItemButtons; // 팔 재료 버튼
 
-    [Header("Ingredient List")]
     [SerializeField]
     private List<Item> items; //재료 정보들 리스트
 
@@ -66,6 +65,16 @@ public class StoreUIManager : MonoBehaviour
     public CurrentState currentState;
 
     [Header("-----Cook-----")]
+    //조리기구 레벨 Text
+    [SerializeField]
+    private GameObject panLevelText;
+    [SerializeField]
+    private GameObject worLevelText;
+    [SerializeField]
+    private GameObject cuttingBoardLevelText;
+    [SerializeField]
+    private GameObject potLevelText;
+
     //현재 조리기구 레벨
     [SerializeField]
     static public int currentPanLevel = 1;
@@ -81,16 +90,7 @@ public class StoreUIManager : MonoBehaviour
     private int maxWorLevel = 4;
     private int maxCuttingBoardLevel = 3;
     private int maxPotLevel = 4;
-
-    //조리기구 레벨 Text
-    [SerializeField]
-    private GameObject panLevelText;
-    [SerializeField]
-    private GameObject worLevelText;
-    [SerializeField]
-    private GameObject cuttingBoardLevelText;
-    [SerializeField]
-    private GameObject potLevelText;
+    
 
     //업그레이드 비용
     [SerializeField]
@@ -111,6 +111,24 @@ public class StoreUIManager : MonoBehaviour
     private GameObject cuttingBoardUpgradeCostText;
     [SerializeField]
     private GameObject potUpgradeCostText;
+
+    [SerializeField]
+    private TextMeshProUGUI panUpgradeDetailText;
+    [SerializeField]
+    private TextMeshProUGUI worUpgradeDetailText;
+    [SerializeField]
+    private TextMeshProUGUI cuttingBoardUpgradeDetailText;
+    [SerializeField]
+    private TextMeshProUGUI potUpgradeDetailText;
+
+    [SerializeField]
+    private List<string> panUpgradeList = new List<string>();
+    [SerializeField]
+    private List<string> worUpgradeList = new List<string>();
+    [SerializeField]
+    private List<string> cuttingBoardUpgradeList = new List<string>();
+    [SerializeField]
+    private List<string> potUpgradeList = new List<string>();
 
     [Header("-----Gun-----")]
     [SerializeField]
@@ -438,7 +456,7 @@ public class StoreUIManager : MonoBehaviour
                 Manager.gold -= upgradeCost[upgradeLevel - 1];
                 upgradeLevel++;
                 Debug.Log(tools + " 업그레이드 완료. 현재 레벨" + upgradeLevel);
-
+                UpgradeCookDetail(tools);
                 switch (tools)
                 {
                     case "Pan":
@@ -479,6 +497,25 @@ public class StoreUIManager : MonoBehaviour
         else
         {
             SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
+        }
+    }
+
+    private void UpgradeCookDetail(string name)
+    {
+        switch (name)
+        {
+            case "Pan":
+                    panUpgradeDetailText.text = panUpgradeList[currentPanLevel - 1];
+                break;
+            case "Wor":
+                    worUpgradeDetailText.text = worUpgradeList[currentWorLevel - 1];
+                break;
+            case "CuttingBoard":
+                    cuttingBoardUpgradeDetailText.text = cuttingBoardUpgradeList[currentCuttingBoardLevel - 1];
+                break;
+            case "Pot":
+                    potUpgradeDetailText.text = potUpgradeList[currentPotLevel - 1];
+                break;
         }
     }
 
