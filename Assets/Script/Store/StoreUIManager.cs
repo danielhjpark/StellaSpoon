@@ -463,25 +463,25 @@ public class StoreUIManager : MonoBehaviour
                         //각각 조리도구 업그레이드 
                         //현재 조리도구의 레벨은 upgradeLevel, current000Level로 가능
 
-                        panLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPanLevel.ToString();
+                        panLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentPanLevel.ToString();
                         panUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentPanLevel >= maxPanLevel) ? "Max" : panUpgradeCost[currentPanLevel - 1].ToString();
                         break;
                     case "Wor":
                         //각각 조리도구 업그레이드
 
-                        worLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentWorLevel.ToString();
+                        worLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentWorLevel.ToString();
                         worUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentWorLevel >= maxWorLevel) ? "Max" : worUpgradeCost[currentWorLevel - 1].ToString();
                         break;
                     case "CuttingBoard":
                         //각각 조리도구 업그레이드
 
-                        cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentCuttingBoardLevel.ToString();
+                        cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentCuttingBoardLevel.ToString();
                         cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentCuttingBoardLevel >= maxCuttingBoardLevel) ? "Max" : cuttingBoardUpgradeCost[currentCuttingBoardLevel - 1].ToString();
                         break;
                     case "Pot":
                         //각각 조리도구 업그레이드
 
-                        potLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPotLevel.ToString();
+                        potLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentPotLevel.ToString();
                         potUpgradeCostText.GetComponent<TextMeshProUGUI>().text = (currentPotLevel >= maxPotLevel) ? "Max" : potUpgradeCost[currentPotLevel - 1].ToString();
                         break;
                 }
