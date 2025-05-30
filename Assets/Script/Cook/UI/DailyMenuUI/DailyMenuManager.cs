@@ -5,7 +5,6 @@ using System;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using System.Linq;
-using OpenCover.Framework.Model;
 
 public class DailyMenuManager : MonoBehaviour
 {

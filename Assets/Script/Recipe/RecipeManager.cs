@@ -8,7 +8,7 @@ public class RecipeManager : MonoBehaviour
     static public RecipeManager instance = null;
 
     [SerializeField] Recipe[] BasicRecipes;
-    [SerializeField] Recipe HiddenRecipe;
+    [SerializeField] public Recipe HiddenRecipe;
     public Dictionary<string, Recipe> RecipeList; //?ûÑ?ãú ?ç∞?ù¥?Ñ∞ Î≤†Ïù¥?ä§
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     private GameObject NewRecipeUI;

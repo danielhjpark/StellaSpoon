@@ -16,6 +16,7 @@ public class SleepBed : InteractObject
     // Update is called once per frame
     void Update()
     {
+        if (gameTimeManager == null) gameTimeManager = FindObjectOfType<GameTimeManager>();
         if (isPlayerNearby && !InteractUIManger.isUseInteractObject && Input.GetKeyDown(KeyCode.F)
             && sleepCoroutine == null && !RestaurantOpenSystem.isRestaurantOpened && DeviceManager.isDeactived) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {

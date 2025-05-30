@@ -19,8 +19,13 @@ public class ServeSystem : MonoBehaviour
     {
         Initialize();
     }
-    
-    private void EndingCheck() { }
+
+    private bool EndingCheck(GameObject menuObject)
+    {
+        MenuData menuData = menuObject.GetComponent<MenuData>();
+        if (menuData.menu == RecipeManager.instance.HiddenRecipe) return true;
+        return false;
+    }
 
     public void Initialize()
     {
@@ -30,6 +35,9 @@ public class ServeSystem : MonoBehaviour
 
     public void PickUpMenu(GameObject menuObject)
     {
+        if(EndingCheck(menuObject)) {
+            return;
+        }
         //PickUp Animate
         playerAnimator.SetBool(pickupAnimationName, true);
 

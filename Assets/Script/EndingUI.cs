@@ -15,14 +15,21 @@ public class EndingUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI PressAnyButtonText;
 
     public float typingSpeed = 0.5f;
+    private Coroutine endSceneCoroutine;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            StartCoroutine(StartEndingScene());
+           StartEndingScene();
         }
     }
+
+    public void StartEndingScene()
+    {
+        if(endSceneCoroutine == null)
+            endSceneCoroutine = StartCoroutine(EndingScene());
+    } 
 
     void SetText()
     {
@@ -32,7 +39,7 @@ public class EndingUI : MonoBehaviour
         NPCSpawnCountText.text += Manager.NPCSpawnCount + "Έν";
     }
 
-    public IEnumerator StartEndingScene()
+    public IEnumerator EndingScene()
     {
         SetText();
         //yield return StartCoroutine(FadeOut());
@@ -48,7 +55,7 @@ public class EndingUI : MonoBehaviour
         yield return StartCoroutine(FadeInOutText());
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-         UnityNote.SceneLoader.Instance.LoadScene("Lobby");
+        UnityNote.SceneLoader.Instance.LoadScene("Lobby");
     }
 
     private IEnumerator StartTyping(TextMeshProUGUI targetText)

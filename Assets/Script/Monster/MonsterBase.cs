@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-using static UnityEditor.Rendering.ShadowCascadeGUI;
-
 
 public enum MonsterStates //몬스터 상태
 {

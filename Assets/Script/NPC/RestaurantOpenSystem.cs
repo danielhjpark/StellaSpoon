@@ -49,6 +49,7 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     void Update()
     {
+        if (gameTimeManager == null) FindObjectOfType<GameTimeManager>();
         currentTime = gameTimeManager.gameHours;
         AutoCloseRestaurant();
         CheckSign();
