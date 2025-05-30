@@ -7,9 +7,7 @@ public class FadeEffect : MonoBehaviour
 {
     public static FadeEffect Instance;
 
-    [SerializeField]
-    [Range(0.01f, 10f)]
-    private float fadeTime;
+    private float fadeTime = 2f;
     private Image image;
 
     private void Awake()

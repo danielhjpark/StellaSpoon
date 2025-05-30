@@ -718,7 +718,7 @@ namespace StarterAssets
 
         private IEnumerator Respawn()
         {
-            yield return new WaitForSeconds(3f); // 3초 대기
+            yield return new WaitForSeconds(1.5f); // 1.5초 대기
 
             // playerRespawn이 null이면 찾아서 할당
             if (playerRespawn == null)
