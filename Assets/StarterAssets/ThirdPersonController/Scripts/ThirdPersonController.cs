@@ -219,6 +219,11 @@ namespace StarterAssets
         {
             CheckSlope();
 
+            if(Input.GetKeyDown(KeyCode.Alpha5)) // 5 체력 치트
+            {
+                SetMaxHealth(MaxHP);
+            }
+
             if (isSliding)
             {
                 Vector3 slideDirection = Vector3.ProjectOnPlane(Vector3.down, GetGroundNormal()).normalized;

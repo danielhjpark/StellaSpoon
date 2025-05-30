@@ -32,7 +32,7 @@ namespace UnityNote
         private bool loadSaveFile = false;
 
         private bool isInChainedLoad = false; // 중간 단계에서는 로딩창 유지
-
+        private bool isNewGame = false;
         private void Awake()
         {
 
@@ -59,6 +59,18 @@ namespace UnityNote
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log($"씬 로딩됨: {scene.name}");
+
+            if (isNewGame)
+            {
+                GameTimeManager timeManager = FindObjectOfType<GameTimeManager>();
+                if (timeManager != null)
+                {
+                    timeManager.DisableAutoLoad(); // 자동 로드 막기
+                    timeManager.InitializeNewGameTime();
+                    Debug.Log("GameTime 초기화 완료 (NewGame)");
+                }
+                isNewGame = false;
+            }
 
             // 로딩 화면 종료
             if (!isInChainedLoad && loadingScreen != null)
@@ -287,6 +299,7 @@ namespace UnityNote
 
         public void OnClick_NewGame()
         {
+            isNewGame = true;
             LoadScene(SceneNames.Restaurant, false);
         }
     }

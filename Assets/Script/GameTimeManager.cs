@@ -17,17 +17,21 @@ public class GameTimeManager : MonoBehaviour
 
     public int startHour = 0; // 초기 게임 시각 (예: 0시)
     public int startMinute = 0;
+    public int startDays = 0;
 
     public int gameHours; //게임 시간
     public int gameMinutes; //게임 분
-
     public int gameDays = 0; //게임 일
 
+    private bool shouldLoadSavedTime = true; // 기본은 저장된 시간 불러오기
 
     private void Start()
     {
         //저장된 시간 가져오기
-        LoadGameTime();
+        if (shouldLoadSavedTime)
+        {
+            LoadGameTime();
+        }
 
         if (gameTimeText == null)
         {
@@ -121,5 +125,20 @@ public class GameTimeManager : MonoBehaviour
     public void AddTime(int minutes)
     {
         gameTime += minutes * 60f;
+    }
+    public void InitializeNewGameTime()
+    {
+        // 1일차 오전 8시 00분 (총 초 계산)
+        gameTime = (8 * 3600); // 8시간 = 8 * 3600초
+        gameDays = 1;
+
+        gameHours = 8;
+        gameMinutes = 0;
+
+        Debug.Log("New Game 시간 초기화: 1일 08:00");
+    }
+    public void DisableAutoLoad()
+    {
+        shouldLoadSavedTime = false;
     }
 }

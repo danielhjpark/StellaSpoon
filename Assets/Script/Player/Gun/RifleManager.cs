@@ -31,6 +31,8 @@ public class RifleManager : MonoBehaviour
 
     public bool tempestFang = false;
     public bool infernoLance = false;
+    public bool damageCheat = false;
+
 
     private void Awake()
     {
@@ -69,6 +71,10 @@ public class RifleManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
         else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            damageCheat = true;
+        }
     }
 
     public void Shooting(Vector3 targetPosition)
@@ -151,7 +157,6 @@ public class RifleManager : MonoBehaviour
 
         currentWeaponIndex = levelIndex;
 
-        // 무기 정보 적용
         attackDamage = CurrentWeapon.damage;
         maxBullet = CurrentWeapon.maxBullet;
         maxShootDelay = CurrentWeapon.fireRate;

@@ -43,7 +43,14 @@ public class BulletManager : MonoBehaviour
 
     public void SetDamageFromWeapon(WeaponData data)
     {
-        bulletDamage = data.damage;
+        if (RifleManager.instance != null && RifleManager.instance.damageCheat)
+        {
+            bulletDamage = 999;
+        }
+        else
+        {
+            bulletDamage = data.damage;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
