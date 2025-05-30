@@ -38,6 +38,15 @@ public class Manager : MonoBehaviour
         {
             GoldText.GetComponent<TextMeshProUGUI>().text = gold.ToString();
         }
+
+        //치트
+        //테스트용 골드 추가
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            gold += 30000;
+        }
+        //치트
+
     }
 
     private void Start()
