@@ -391,10 +391,10 @@ public class StoreUIManager : MonoBehaviour
 
     private void LevelCostSetting()
     {
-        panLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPanLevel.ToString();
-        worLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentWorLevel.ToString();
-        cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentCuttingBoardLevel.ToString();
-        potLevelText.GetComponent<TextMeshProUGUI>().text = "Level: " + currentPotLevel.ToString();
+        panLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentPanLevel.ToString();
+        worLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentWorLevel.ToString();
+        cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentCuttingBoardLevel.ToString();
+        potLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentPotLevel.ToString();
         panUpgradeCostText.GetComponent<TextMeshProUGUI>().text = panUpgradeCost[currentPanLevel - 1].ToString();
         worUpgradeCostText.GetComponent<TextMeshProUGUI>().text = worUpgradeCost[currentWorLevel - 1].ToString();
         cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text = cuttingBoardUpgradeCost[currentCuttingBoardLevel - 1].ToString();
