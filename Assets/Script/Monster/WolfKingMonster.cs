@@ -138,7 +138,7 @@ public class WolfKingMonster : MonsterBase
         yield return new WaitForSeconds(0.7f); // 0.5초 대기
         isThrowWarning = true;
         // 1) 경고 오브젝트 생성
-        GameObject warning = Instantiate(warningPrefab, new Vector3(pos.position.x, 0.01f, pos.position.z), pos.rotation);
+        GameObject warning = Instantiate(warningPrefab, new Vector3(pos.position.x, transform.position.y + 0.01, pos.position.z), pos.rotation);
         // 2) X축 회전값을 90도로 조정
         Vector3 warnRot = warning.transform.rotation.eulerAngles;
         warnRot.x = 90;
