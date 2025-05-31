@@ -269,7 +269,7 @@ public class BearKingMonster : MonsterBase
         nav.gameObject.GetComponent<NavMeshAgent>().enabled = false; // NavMeshAgent 비활성화
         if (jumpGroundEffectPrefab != null)
         {
-            currentGroundEffect = Instantiate(jumpGroundEffectPrefab, new Vector3(transform.position.x, transform.position.y+0.01, transform.position.z), Quaternion.identity);
+            currentGroundEffect = Instantiate(jumpGroundEffectPrefab, new Vector3(transform.position.x, transform.position.y+0.01f, transform.position.z), Quaternion.identity);
             currentGroundEffect.transform.localScale = Vector3.zero;
 
             float duration = 2.0f;
@@ -301,7 +301,7 @@ public class BearKingMonster : MonsterBase
         if (chargeGoundEffectPrefab != null)
         {
             Vector3 middlePosition =  transform.position + ((targetPosition - transform.position)/2);
-            currentGroundEffect = Instantiate(chargeGoundEffectPrefab, new Vector3(middlePosition.x, transform.position.y + 0.01, middlePosition.z), Quaternion.identity);
+            currentGroundEffect = Instantiate(chargeGoundEffectPrefab, new Vector3(middlePosition.x, transform.position.y + 0.01f, middlePosition.z), Quaternion.identity);
 
             // 방향 벡터의 y값을 0으로 설정하여 y축 회전만 적용
             Vector3 direction = (targetPosition - transform.position).normalized;
