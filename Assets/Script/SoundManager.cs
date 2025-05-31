@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class SoundManager : MonoBehaviour
     {
         BGM_TITLE,
         BGM_GAME,
+        BGM_RESTAURANT,
+        BGM_STORE,
+        BGM_REDPOREST,
+        BGM
     }
 
     //SFX 종류들
@@ -70,7 +75,7 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Source")]
     [SerializeField] AudioSource audioBgm;
     [SerializeField] AudioSource audioSfx;
-
+    [SerializeField] AudioSource audioInteract;
 
     [Header("사운드 조절")]
     public AudioMixer masterMixer;
@@ -111,7 +116,7 @@ public class SoundManager : MonoBehaviour
         audioBgm.Stop();
     }
 
-    // ESfx 열거형을 매개변수로 받아 해당하는 효과음 클립을 재생
+    // ESfx 열거형을 매개변수로 받아 해당하는 효과음 클립을 aaa재생
     public void PlaySFX(ESfx esfx)
     {
         audioSfx.PlayOneShot(sfxs[(int)esfx]);
@@ -129,7 +134,7 @@ public class SoundManager : MonoBehaviour
     
     public void PlaySound(Interact interact)
     {
-        audioSfx.PlayOneShot(interacts[(int)interact]);
+        audioSfx.PlayOneShot(interacts[(int)interact], 0.7f);
     }
     public void PlaySound(Store store)
     {

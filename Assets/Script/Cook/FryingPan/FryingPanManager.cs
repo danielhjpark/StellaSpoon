@@ -229,8 +229,9 @@ public class FryingPanManager : CookManagerBase
         }
         else
         {
-            if (currentMenu.tossingSetting.sauceType == SauceType.None)
+            if (currentMenu.fryingSetting.sauceType == SauceType.None)
             {
+                //fryingSauceSystem.Initialize(currentMenu.fryingSetting);
                 yield break;
             }
             else

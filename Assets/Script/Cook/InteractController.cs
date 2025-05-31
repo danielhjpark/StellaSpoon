@@ -31,7 +31,7 @@ public class InteractController : MonoBehaviour
         playerTransfom = GameObject.FindGameObjectWithTag("Player").transform;
         this.transform.SetParent(playerTransfom);
         playerFollowCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
-        goldBase = GameObject.Find("GoldBase")?.gameObject;
+        goldBase = GameObject.Find("Canvas").transform.Find("GoldBase").gameObject;
     }
 
     private void OnEnable()

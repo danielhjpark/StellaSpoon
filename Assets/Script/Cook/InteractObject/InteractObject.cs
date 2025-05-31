@@ -10,6 +10,12 @@ public class InteractObject : MonoBehaviour
     {
         InteractUIManger.instance.interactAudioSource.clip = interactAudio;
         InteractUIManger.instance.interactAudioSource.Play();
+
+    }
+    public void PlayAudio(float volume)
+    {
+        InteractUIManger.instance.interactAudioSource.clip = interactAudio;
+        InteractUIManger.instance.interactAudioSource.PlayOneShot(interactAudio, volume);
     }
 
     public void StopAudio()

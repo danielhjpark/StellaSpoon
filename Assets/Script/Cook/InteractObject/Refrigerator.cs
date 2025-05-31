@@ -37,7 +37,7 @@ public class Refrigerator : InteractObject
         isOpenedRefrigerator = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        PlayAudio();
+        PlayAudio(0.8f);
 
         refrigeratorUI.SetActive(true);
         refrigeratorBG.SetActive(true);
