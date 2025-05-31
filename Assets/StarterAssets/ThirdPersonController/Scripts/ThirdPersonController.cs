@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using static SoundManager;
+
 
 
 #if ENABLE_INPUT_SYSTEM
@@ -139,19 +141,6 @@ namespace StarterAssets
         float minDodgeDistance = 7f; // 최소 이동 거리
 
         private PlayerManager playerManager;
-
-        [SerializeField]
-        private AudioClip Restaurant_Footstep_SFX; // 레스토랑 발소리
-        [SerializeField]
-        private AudioClip Planet_Footstep_SFX; // 일반 발소리
-        [SerializeField]
-        private AudioClip Glass_Footstep_SFX; // 풀에 있을 때 나는 발소리
-        [SerializeField]
-        private AudioClip Jump_SFX; // 점프 소리
-        [SerializeField]
-        private AudioClip Rolling_SFX; // 구르기 소리
-        [SerializeField]
-        private AudioClip Hit_SFX; // 피격 소리
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -318,7 +307,7 @@ namespace StarterAssets
             float elapsedTime = 0f;
             float verticalVelocity = 0f;
 
-            AudioSource.PlayClipAtPoint(Rolling_SFX, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            SoundManager.instance.PlayPlayerSound(SoundManager.Player.roll);
 
             Vector3 startPosition = transform.position;
             Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
@@ -517,7 +506,8 @@ namespace StarterAssets
 
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
-                    AudioSource.PlayClipAtPoint(Jump_SFX, transform.position + Vector3.up * 0.1f, FootstepAudioVolume);
+                    //AudioSource.PlayClipAtPoint(Jump_SFX, transform.position + Vector3.up * 0.1f, FootstepAudioVolume);
+                    SoundManager.instance.PlayPlayerSound(SoundManager.Player.jump);
 
                     if (_hasAnimator)
                     {
@@ -580,22 +570,20 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                Vector3 footstepPosition = transform.TransformPoint(_controller.center);
-
                 if (playerManager.isRestaurant)
                 {
                     // 식당에서는 식당 발소리만 재생
-                    AudioSource.PlayClipAtPoint(Restaurant_Footstep_SFX, footstepPosition, FootstepAudioVolume);
+                    SoundManager.instance.PlayPlayerSound(SoundManager.Player.restfoot);
                 }
                 else
                 {
-                    // 항상 Planet 발소리 재생
-                    AudioSource.PlayClipAtPoint(Planet_Footstep_SFX, footstepPosition, FootstepAudioVolume);
+                    // 일반 행성 발소리
+                    SoundManager.instance.PlayPlayerSound(SoundManager.Player.foot);
 
-                    // 70% 확률로 유리 발소리 추가 재생
+                    // 70% 확률로 유리 소리 재생 (SoundManager에 추가했다면 여기도 해당 enum 사용)
                     if (Random.value <= 0.7f)
                     {
-                        AudioSource.PlayClipAtPoint(Glass_Footstep_SFX, footstepPosition, FootstepAudioVolume);
+                        SoundManager.instance.PlayPlayerSFX(EPlayerSfx.GlassFootstep);
                     }
                 }
             }
@@ -606,7 +594,8 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.1f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                //AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                SoundManager.instance.PlayPlayerSound(SoundManager.Player.land);
             }
         }
 
@@ -639,7 +628,7 @@ namespace StarterAssets
             isInvincible = true; // 무적 상태 활성화
             _animator.SetTrigger("Hit");
 
-            AudioSource.PlayClipAtPoint(Hit_SFX, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            SoundManager.instance.PlayPlayerSound(SoundManager.Player.hit);
 
             Debug.Log("Player HP: " + curHP);
             _hpBar.value = curHP;

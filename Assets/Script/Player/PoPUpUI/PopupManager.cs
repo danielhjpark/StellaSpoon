@@ -10,16 +10,11 @@ public class PopupManager : MonoBehaviour
     public Transform popupContainer;
 
     public AudioClip popupSFX;
-    private AudioSource audioSource;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void ShowPopup(string message, float duration = 2f)
@@ -38,9 +33,6 @@ public class PopupManager : MonoBehaviour
         PopupUI popup = popupGO.GetComponent<PopupUI>();
         popup.Setup(message, duration);
 
-        if (popupSFX != null)
-            audioSource.PlayOneShot(popupSFX, 0.6f);
-        else
-            Debug.LogWarning("PopupManager: popupSFX가 할당되지 않았습니다.");
+        SoundManager.instance.PlayPlayerSFX(SoundManager.EPlayerSfx.Error);
     }
 }

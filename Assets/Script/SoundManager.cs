@@ -25,7 +25,11 @@ public class SoundManager : MonoBehaviour
         SFX_OPENBOX,
         SFX_GUNSHOT,
     }
-
+    public enum EPlayerSfx
+    {
+        GlassFootstep,
+        Error,
+    }
     public enum Interact
     {
         TurnOnMovePlanet,
@@ -57,7 +61,19 @@ public class SoundManager : MonoBehaviour
 
     public enum Gun
     {
-        Button
+        Button,
+        Shot
+    }
+
+    public enum Player
+    {
+        restfoot,
+        foot,
+        jump,
+        hit,
+        land,
+        roll,
+        reload,
     }
 
     //audio clip 담을 수 있는 배열
@@ -68,6 +84,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] stores;
     [SerializeField] AudioClip[] interacts;
     [SerializeField] AudioClip[] guns;
+    [SerializeField] AudioClip[] player;
+    [SerializeField] private AudioClip[] playerSfxs;
 
     //플레이하는 AudioSource
     [Header("Audio Source")]
@@ -170,6 +188,26 @@ public class SoundManager : MonoBehaviour
     public void Play_GunChangeSound(Gun gun)
     {
         audioSfx.PlayOneShot(guns[(int)gun], 0.6f);
+    }
+    public void PlayPlayerSound(Player playerType)
+    {
+        audioSfx.PlayOneShot(player[(int)playerType], 0.3f);
+    }
+    public void PlayPlayerSFX(EPlayerSfx sfx)
+    {
+        int index = (int)sfx;
+        if (index >= 0 && index < playerSfxs.Length && playerSfxs[index] != null)
+        {
+            audioSfx.PlayOneShot(playerSfxs[index], 0.3f);
+        }
+        else
+        {
+            Debug.LogWarning($"PlayerSFX [{sfx}] is missing or not assigned.");
+        }
+    }
+    public void PlayGunSound(AudioClip clip)
+    {
+        audioSfx.PlayOneShot(clip, 0.3f);
     }
 
     //사용예시
