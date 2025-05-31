@@ -39,7 +39,7 @@ public class PopupManager : MonoBehaviour
         popup.Setup(message, duration);
 
         if (popupSFX != null)
-            audioSource.PlayOneShot(popupSFX);
+            audioSource.PlayOneShot(popupSFX, 0.6f);
         else
             Debug.LogWarning("PopupManager: popupSFX가 할당되지 않았습니다.");
     }

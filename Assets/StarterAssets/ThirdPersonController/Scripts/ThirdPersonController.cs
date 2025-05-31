@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
-
+using UnityEngine.SceneManagement;
 
 
 #if ENABLE_INPUT_SYSTEM
@@ -264,6 +264,19 @@ namespace StarterAssets
         {
             if (!DeviceManager.isDeactived || TreasureChest.openingChest || StoreNPCManager.openingStoreUI ||Inventory.inventoryActivated || InteractUIManger.isUseInteractObject) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
             CameraRotation();
+        }
+        void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            SetMaxHealth(MaxHP); // currentHealth는 따로 저장해둬야 함
         }
 
         private void AssignAnimationIDs()
