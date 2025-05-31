@@ -12,12 +12,10 @@ public class SoundManager : MonoBehaviour
     //BGM 종류들
     public enum EBgm
     {
-        BGM_TITLE,
-        BGM_GAME,
         BGM_RESTAURANT,
-        BGM_STORE,
-        BGM_REDPOREST,
-        BGM
+        BGM_SHOP,
+        BGM_SCALIA,
+        BGM_SERENOXIA,
     }
 
     //SFX 종류들
@@ -99,6 +97,35 @@ public class SoundManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+        }
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(PlanetManager.selectedPlanet);
+        Debug.Log((int)EBgm.BGM_RESTAURANT);
+        switch (PlanetManager.selectedPlanet)
+        {
+            case PlanetManager.PlanetType.Restaurant:
+                PlayBGM(EBgm.BGM_RESTAURANT);
+
+                break;
+            case PlanetManager.PlanetType.Shop:
+                PlayBGM(EBgm.BGM_SHOP);
+                break;
+            case PlanetManager.PlanetType.aRedForest:
+                PlayBGM(EBgm.BGM_SCALIA);
+                break;
+            case PlanetManager.PlanetType.Serenoxia:
+                PlayBGM(EBgm.BGM_SERENOXIA);
+                break;
+            default:
+                
+                return;
         }
     }
 

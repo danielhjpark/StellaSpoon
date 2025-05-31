@@ -55,6 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2427601303184606270}
   - component: {fileID: 254808030473941572}
+  - component: {fileID: 3542876085242771395}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -105,6 +106,27 @@ MonoBehaviour:
   GoldBase: {fileID: 0}
   GoldText: {fileID: 0}
   InvenGoldText: {fileID: 0}
+--- !u!114 &3542876085242771395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928233092353660124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aad7000d1de75e40aa44c460f8111e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadePanel: {fileID: 0}
+  TitleText: {fileID: 0}
+  GameDayText: {fileID: 0}
+  KillMonsterCountText: {fileID: 0}
+  FirstCreateRecipeText: {fileID: 0}
+  EndRecipeText: {fileID: 0}
+  NPCSpawnCountText: {fileID: 0}
+  PressAnyButtonText: {fileID: 0}
+  typingSpeed: 0.05
 --- !u!1 &6079395042701829298
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +297,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 5c220b96cf6543a428eadcf2f7516f06, type: 2}
     - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: BasicRecipes.Array.size
-      value: 12
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: BasicRecipes.Array.data[3]
@@ -288,19 +310,19 @@ PrefabInstance:
     - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: BasicRecipes.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 1be4c90e2004a394288dcbdff65cbbaa, type: 2}
+      objectReference: {fileID: 11400000, guid: 2387cadb1266e094bbf5c0f40f24c71d, type: 2}
     - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: BasicRecipes.Array.data[6]
       value: 
-      objectReference: {fileID: 11400000, guid: 2387cadb1266e094bbf5c0f40f24c71d, type: 2}
+      objectReference: {fileID: 11400000, guid: 295eb37c488343942bdd28cf8c05e7c4, type: 2}
     - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: BasicRecipes.Array.data[7]
       value: 
-      objectReference: {fileID: 11400000, guid: 3061fae72a7556041a50ae1d5f9947ce, type: 2}
+      objectReference: {fileID: 11400000, guid: 4606389f5ea7ace4d8b2495cf987fbf0, type: 2}
     - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: BasicRecipes.Array.data[8]
       value: 
-      objectReference: {fileID: 11400000, guid: 295eb37c488343942bdd28cf8c05e7c4, type: 2}
+      objectReference: {fileID: 11400000, guid: 42ac946217855f5459f06dd469947090, type: 2}
     - target: {fileID: 348873131333234696, guid: d759d436b38e1c848b3afdad90cff24b, type: 3}
       propertyPath: BasicRecipes.Array.data[9]
       value: 
@@ -489,26 +511,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2427601303184606270}
     m_Modifications:
-    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
-      propertyPath: guns.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
-      propertyPath: guns.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 84ac9938c7ff83943b01d4a09892db43, type: 3}
-    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
-      propertyPath: interacts.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
-      propertyPath: interacts.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: c23c9c9ac1b97854ea59ff9a468a1320, type: 3}
-    - target: {fileID: 3364841696806986459, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
-      propertyPath: interacts.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 607bf9d8d7b87cd49820abb73d4b582b, type: 3}
     - target: {fileID: 4439271136906260240, guid: ec7c780e52b9a7b44981a45e21bff510, type: 3}
       propertyPath: m_Name
       value: SoundManager
