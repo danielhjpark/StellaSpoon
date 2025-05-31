@@ -68,11 +68,11 @@ public class RecipeManager : MonoBehaviour
     void CheckHiddenRecipeUnlock()
     {
         int count = 0;
+        if (RecipeUnlockCheck[HiddenRecipe]) return;
         foreach (bool isUnlock in RecipeUnlockCheck.Values)
         {
             if (isUnlock) count++;
         }
-        Debug.Log(count);
         if (count >= 12) RecipeUnlockCheck[HiddenRecipe] = true;
     }
 

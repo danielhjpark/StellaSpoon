@@ -17,7 +17,7 @@ public class TreasureChest : MonoBehaviour
     private GameObject inventoryPanel; //인벤토리 UI
     private GameObject inventoryBackGround; //인벤토리 배경
     private GameObject slotsSetting; //슬롯 셋팅
-
+    private InteractUI interactUI;
     [SerializeField]
     private GameObject lightObject; //보물상자에 있는 빛 오브젝트
 
@@ -73,7 +73,7 @@ public class TreasureChest : MonoBehaviour
         inventoryPanel = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBase");
         inventoryBackGround = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBackGround");
         slotsSetting = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBackGround/TreasureChestBase/Slot Setting");
-
+        interactUI = GameObject.Find("InteractPanel")?.GetComponent<InteractUI>();
         if (slotsSetting != null)
         {
             chestSlots = slotsSetting.GetComponentsInChildren<Slot>();
@@ -94,6 +94,8 @@ public class TreasureChest : MonoBehaviour
         {
             CloseChestUI();
         }
+        if (!treasureChestPanel.activeSelf && isPlayerNearby) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
+        else interactUI.DisableInteractUI(this.gameObject);
     }
 
     private void ResetChest()
