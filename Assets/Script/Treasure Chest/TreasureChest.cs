@@ -73,7 +73,7 @@ public class TreasureChest : MonoBehaviour
         inventoryPanel = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBase");
         inventoryBackGround = GameObject.Find("Canvas/PARENT_InventoryBase(DeactivateThis)/InventoryBackGround");
         slotsSetting = GameObject.Find("Canvas/PARENT_TreasureChestBase(DeactivateThis)/TreasureChestBackGround/TreasureChestBase/Slot Setting");
-        interactUI = GameObject.Find("InteractPanel")?.GetComponent<InteractUI>();
+        interactUI = GameObject.Find("Canvas/InteractPanel").GetComponent<InteractUI>();
         if (slotsSetting != null)
         {
             chestSlots = slotsSetting.GetComponentsInChildren<Slot>();

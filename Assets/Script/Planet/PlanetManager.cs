@@ -7,8 +7,8 @@ public class PlanetManager : MonoBehaviour
     public static PlanetManager Instance { get; private set; }
     public enum PlanetType
     {
-        Shop,
         Restaurant,
+        Shop,
         aRedForest, //1青己
         Serenoxia
         //货肺款 青己 眠啊

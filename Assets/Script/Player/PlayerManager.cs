@@ -164,7 +164,7 @@ public class PlayerManager : MonoBehaviour
             anim.SetLayerWeight(2, 1);
             anim.SetTrigger("Reload");
             // 재장전 소리
-            AudioSource.PlayClipAtPoint(Reload_SFX, transform.position, controller.FootstepAudioVolume);
+            SoundManager.instance.PlayPlayerSound(SoundManager.Player.reload);
             controller.isReload = true;
         }
 

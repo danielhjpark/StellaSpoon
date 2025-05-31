@@ -69,7 +69,9 @@ public class BulletManager : MonoBehaviour
         if (hitSFXClips != null && hitSFXClips.Length > 0)
         {
             int index = Random.Range(0, hitSFXClips.Length);
-            AudioSource.PlayClipAtPoint(hitSFXClips[index], transform.position, 1f);
+            AudioClip clipToPlay = hitSFXClips[index];
+            SoundManager.instance.PlayGunSound(clipToPlay); // SoundManager 통해 재생
+            //AudioSource.PlayClipAtPoint(hitSFXClips[index], transform.position, 1f);
         }
 
         DestroyBullet();

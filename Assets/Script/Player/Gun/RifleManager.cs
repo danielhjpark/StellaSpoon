@@ -91,7 +91,7 @@ public class RifleManager : MonoBehaviour
 
         if (CurrentWeapon.bulletShotAudio != null)
         {
-            AudioSource.PlayClipAtPoint(CurrentWeapon.bulletShotAudio, CurrentWeapon.bulletPoint.position, 0.5f);
+            SoundManager.instance.PlayGunSound(CurrentWeapon.bulletShotAudio);
         }
 
         // ÃÑ±¸ È­¿°
