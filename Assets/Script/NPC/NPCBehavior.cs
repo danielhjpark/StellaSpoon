@@ -96,7 +96,7 @@ public class NPCBehavior : MonoBehaviour
 
     IEnumerator ReceiveMenu() {
         float waitTime = 0f;
-        float stayDuration = 30f;
+        float stayDuration = 40f;
         // float npcWaitTime = 40f;
 
         while(true) {

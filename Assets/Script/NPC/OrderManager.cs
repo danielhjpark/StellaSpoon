@@ -17,7 +17,7 @@ public class OrderManager : MonoBehaviour
     public Coroutine restaurantCoroutine;
     public Coroutine restaurantStopCoroutine;
     private float startInterval = 0f;
-    private const float minSpwanInterval = 5f, maxSpwanInterval = 10f; //NPC 积己矫埃 弥家
+    private const float minSpwanInterval = 7f, maxSpwanInterval = 13f; //NPC 积己矫埃 弥家
 
     public bool isMenuSoldOut;
 
