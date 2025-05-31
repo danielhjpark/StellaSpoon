@@ -14,8 +14,15 @@ public class BulletPoolManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // 씬 이동 시 파괴되지 않게 설정
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public GameObject GetObject(int weaponLevel, string type, GameObject prefab)
@@ -33,8 +40,15 @@ public class BulletPoolManager : MonoBehaviour
         var pool = poolDict[weaponLevel][type];
 
         // 비활성화된 오브젝트 재사용
-        foreach (var obj in pool)
+        for (int i = pool.Count - 1; i >= 0; i--)
         {
+            GameObject obj = pool[i];
+            if (obj == null)
+            {
+                pool.RemoveAt(i);
+                continue;
+            }
+
             if (!obj.activeInHierarchy)
             {
                 obj.SetActive(true);
