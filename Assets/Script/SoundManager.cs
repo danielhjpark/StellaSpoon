@@ -137,7 +137,7 @@ public class SoundManager : MonoBehaviour
     }
     public void Play_GunChangeSound(Gun gun)
     {
-        audioSfx.PlayOneShot(guns[(int)gun]);
+        audioSfx.PlayOneShot(guns[(int)gun], 0.6f);
     }
 
     //사용예시
