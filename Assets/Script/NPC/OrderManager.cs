@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine.Analytics;
 
 public class OrderManager : MonoBehaviour
 {
@@ -63,7 +64,8 @@ public class OrderManager : MonoBehaviour
             
             if (npcManager.IsCanFindSeat() && menuStack.Count > 0)
             {
-                if (menuStack.TryPop(out Recipe recipe))
+                Recipe recipe = GetRecipe();
+                if (recipe != null)
                 {
                     Debug.Log(recipe.menuName);
                     npcManager.SpwanNPCs(recipe);
@@ -110,19 +112,48 @@ public class OrderManager : MonoBehaviour
         return true;
     }
 
-    public void FailMenu(Recipe recipe) {
+    public void MakeMenu(Recipe recipe)
+    {
         failMenu.Add(recipe);
     }
+    public void FailMenu(Recipe recipe)
+    {
+        failMenu.Add(recipe);
+        //DailyMenuManager.instance.DailyMenuRemove(recipe);
 
-    public void RetuenMenu(Recipe recipe) {
+    }
+
+    public Recipe GetRecipe()
+    {
+        while (menuStack.Count > 0)
+        {
+            if (menuStack.TryPop(out Recipe recipe))
+            {
+                Recipe makeMenuCheck = failMenu.FirstOrDefault(r => r == recipe);
+                if (makeMenuCheck == null)
+                {
+                    return recipe;
+                }
+                else failMenu.Remove(recipe);
+            }
+        }
+        return null;
+    }
+
+    public void RetuenMenu(Recipe recipe)
+    {
+        menuStack.Push(recipe);
+        return;
         Recipe failMenuCheck = failMenu.FirstOrDefault(r => r == recipe);
-        if(failMenuCheck != null) {
+        if (failMenuCheck != null)
+        {
             failMenu.Remove(failMenuCheck);
         }
-        else {
-            menuStack.Push(recipe);
+        else
+        {
+            
         }
-        
+
     }
 
     public Stack<Recipe> CreateRandomMenu(Dictionary<Recipe, int> dailyMenuList)

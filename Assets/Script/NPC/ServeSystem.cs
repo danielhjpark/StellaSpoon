@@ -81,9 +81,9 @@ public class ServeSystem : MonoBehaviour
         if (hitInfo.transform.gameObject.TryGetComponent<NPCBehavior>(out NPCBehavior behavior))
         {
             if(!behavior.IsCanReceivedMenu()) return;
+            if(!behavior.ReceiveNPC(serveObject)) return;
             AudioSource.PlayClipAtPoint(putDishAudio, playerHand.position);
             playerAnimator.SetBool(pickupAnimationName, false);
-            behavior.ReceiveNPC(serveObject);
             CookManager.instance.isPickUpMenu = false;
         }
     }

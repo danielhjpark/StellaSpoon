@@ -110,8 +110,7 @@ public class NPCBehavior : MonoBehaviour
             }
             else if (!hasReceivedMenu) //음식을 받지 못하였을 때
             {
-                isCanReceivedMenu = false;
-                OrderManager.instance.RetuenMenu(currentMenu); //메뉴 회수
+                isCanReceivedMenu = false; //메뉴 회수
                 yield return Exit();
                 yield break;
             }
@@ -127,6 +126,7 @@ public class NPCBehavior : MonoBehaviour
     public IEnumerator Exit()
     {
         // 퇴장 절차
+        OrderManager.instance.RetuenMenu(currentMenu);
         npcAnimator.SetBool("isSitting", false);
         npcNav.enabled = true; // 이동 재개
         menuImage.enabled = false;
@@ -196,7 +196,7 @@ public class NPCBehavior : MonoBehaviour
     }
 
     //------------------ Serve to player ---------------------//
-    public void ReceiveNPC(GameObject serveObject)
+    public bool ReceiveNPC(GameObject serveObject)
     {
         this.serveObject = serveObject;
         bool isSameMenu = currentMenu == serveObject.GetComponent<MenuData>().menu ? true : false;
@@ -205,18 +205,19 @@ public class NPCBehavior : MonoBehaviour
         if (!isSameMenu)
         {
             StartCoroutine(DifferentMenu());
-            return;
+            return false;
         }
         else
         {
             StartCoroutine(SameMenu());
             payPrice = serveObject.GetComponent<MenuData>().menu.menuPrice;
-            DailyMenuManager.instance.DailyMenuRemove(currentMenu);
+            //DailyMenuManager.instance.DailyMenuRemove(currentMenu);
             serveObject.transform.SetParent(NpcManager.instance.foodpoint[currentSeatIndex]);
             serveObject.transform.localPosition = Vector3.zero;
         }
         //Receive Menu Behavior
-        if (!hasReceivedMenu) {
+        if (!hasReceivedMenu)
+        {
             Debug.Log("NPC Recive Menu.");
             hasReceivedMenu = true;
 
@@ -232,6 +233,7 @@ public class NPCBehavior : MonoBehaviour
             // 음식 섭취 시작
             eatCoroutine = StartCoroutine(EatAndExit());
         }
+        return true;
     }
     
     IEnumerator EatAndExit()

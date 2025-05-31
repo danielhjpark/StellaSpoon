@@ -87,7 +87,7 @@ public class NpcManager : MonoBehaviour
         // Transform sitPoint = sitpositions[seatIndex];
         Transform sitPoint = sitpoint[seatIndex];
         npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
-
+        npc.GetComponent<NavMeshAgent>().avoidancePriority = Manager.NPCSpawnCount % 100;
         // Move enterance
         yield return StartCoroutine(MoveNPC(npc, doorPoint.transform));
         yield return StartCoroutine(MoveNPC(npc, centerPoint.transform));

@@ -116,7 +116,7 @@ public class FryingPanManager : CookManagerBase
             else
             {
                 CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
-                OrderManager.instance.FailMenu(currentMenu);
+                //OrderManager.instance.FailMenu(currentMenu);
                 return;
             }
         }

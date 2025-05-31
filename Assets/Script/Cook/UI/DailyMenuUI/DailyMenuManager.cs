@@ -112,8 +112,15 @@ public class DailyMenuManager : MonoBehaviour
 
     public void DailyMenuReset()
     {
-        foreach (Recipe recipe in dailyMenuList.Keys)
-            dailyMenuList[recipe] = 0;
+        if (dailyMenuList.Count > 0)
+        {
+            foreach (Recipe recipe in dailyMenuList.Keys)dailyMenuList[recipe] = 0;
+        }
+        DailyMenuUI[] dailyMenuUIs = dailyMenuPanel.GetComponentsInChildren<DailyMenuUI>();
+        foreach (DailyMenuUI dailyMenu in dailyMenuUIs)
+        {
+            dailyMenu.RemoveMenu();
+        }
     }
 
     //---------------MenuList Create -----------------//

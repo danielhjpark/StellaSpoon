@@ -129,7 +129,6 @@ public class RecipeManager : MonoBehaviour
             Ingredient currentIngdeient = currentIngredient.ingredient;
             int requireIngredientAmount = currentIngredient.amount * amount;
             int currentIngredientAmount = IngredientManager.IngredientAmount[currentIngdeient];
-            Debug.Log(currentIngredientAmount + " " + requireIngredientAmount);
             if (currentIngredientAmount < requireIngredientAmount)
             {
                 return false;

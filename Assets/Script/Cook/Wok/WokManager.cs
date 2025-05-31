@@ -123,7 +123,7 @@ public class WokManager : CookManagerBase
             else
             {
                 CookSceneManager.instance.UnloadScene("WokMergeTest", CookManager.instance.failMenu);
-                OrderManager.instance.FailMenu(currentMenu);
+                //OrderManager.instance.FailMenu(currentMenu);
             }
             return;
         }

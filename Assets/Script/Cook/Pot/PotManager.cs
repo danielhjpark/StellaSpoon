@@ -169,7 +169,7 @@ public class PotManager : CookManagerBase
             if (currentMenu.boilingSetting.rotatePower != potBoilingSystem.rotatePower)
             {
                 CookSceneManager.instance.UnloadScene("PotMergeTest", CookManager.instance.failMenu);
-                OrderManager.instance.FailMenu(currentMenu);
+                //OrderManager.instance.FailMenu(currentMenu);
             }
             else
             {
