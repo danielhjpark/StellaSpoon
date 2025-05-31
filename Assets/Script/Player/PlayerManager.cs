@@ -2,6 +2,7 @@ using Cinemachine;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.SceneManagement; // 씬 변경 감지를 위해 추가
@@ -139,6 +140,10 @@ public class PlayerManager : MonoBehaviour
         }
 
         CheckJumpOrDodge();
+        if(controller.isDie)
+        {
+            return;
+        }
         AimCheck();
     }
 
