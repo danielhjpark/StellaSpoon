@@ -37,10 +37,11 @@ public class SelectRecipeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 //Hide Panel
                 OnSelectRecipe?.Invoke();
                 this.transform.parent.gameObject.SetActive(false);
-                
+
 
                 //DailyMenu Count decrease
-                //DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
+                DailyMenuManager.instance.DailyMenuRemove(currentRecipe);
+                OrderManager.instance.MakeMenu(currentRecipe);
             }
         }
     }
