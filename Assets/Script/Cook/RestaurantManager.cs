@@ -5,38 +5,34 @@ using UnityEngine;
 public class RestaurantManager : MonoBehaviour
 {
     public static RestaurantManager instance;
-
-    [SerializeField] public int currentPanLevel;
-    [SerializeField] public int currentWorLevel;
-    [SerializeField] public int currentCuttingBoardLevel;
-    [SerializeField] public int currentPotLevel;
+    public Item[] items;
+    public Inventory chest1Inventory;
+    public Inventory chest2Inventory;
+    public Inventory refrigeratorInventory;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        
     }
 
-
-    void Upgrade()
+    private void Start()
     {
-
+        RefrigeratorAddIngredient();
+        
     }
 
-    void StoreInitialize()
+    void RefrigeratorAddIngredient()
     {
-
+        foreach (var item in items)
+        {
+            chest1Inventory.AcquireItem(item, 10);
+            chest2Inventory.AcquireItem(item, 10);
+            RefrigeratorManager.instance.AddItem(item, 10);
+        }
     }
 
-    void Update()
-    {
-        currentPanLevel = StoreUIManager.currentPanLevel;
-        currentWorLevel = StoreUIManager.currentWorLevel;
-        currentCuttingBoardLevel = StoreUIManager.currentCuttingBoardLevel;
-        currentPotLevel = StoreUIManager.currentPotLevel;
-    }
 }

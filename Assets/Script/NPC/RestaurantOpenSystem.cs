@@ -27,6 +27,7 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     [Header("Door")]
     [SerializeField] Animator doorAnimator;
+    [SerializeField] AudioClip doorAudio;
     private string doorOpenName = "character_nearby";
 
     private enum signState { Open = 0, Close = 1 }
@@ -172,7 +173,7 @@ public class RestaurantOpenSystem : MonoBehaviour
             CloseUI.SetActive(true);
             pressGagueImage.fillAmount = 0f;
             signRenderer.material = signMaterial[(int)signState.Open];
-
+            SoundManager.instance.PlaySound(SoundManager.Interact.Door);
             OrderManager.instance.OpenRestaurant();
         }
         else

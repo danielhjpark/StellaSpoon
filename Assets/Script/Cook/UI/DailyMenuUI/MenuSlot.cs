@@ -41,6 +41,11 @@ public class MenuSlot : MonoBehaviour, IPointerClickHandler
     //?¬ë£? ë¶?ì¡? ?‹œ, ?–´?‘?š´ ?´ë¯¸ì?? ?š¨ê³? ë°? ë¹„í™œ?„±?™”
     void CreateMenu()
     {
+        if (IngredientManager.IngredientAmount[currentRecipe.mainIngredient] <= 0)
+        {
+            recipeImage.color = disableColor;
+            return;
+        }
         foreach (IngredientAmount currentIngredient in currentRecipe.ingredients)
         {
             Ingredient currentIngdeient = currentIngredient.ingredient;

@@ -36,6 +36,8 @@ public class ServeSystem : MonoBehaviour
     public void PickUpMenu(GameObject menuObject)
     {
         if(EndingCheck(menuObject)) {
+            EndingUI endingUI = FindObjectOfType<EndingUI>();
+            endingUI.StartEndingScene();
             return;
         }
         //PickUp Animate

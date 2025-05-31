@@ -34,6 +34,7 @@ public class SoundManager : MonoBehaviour
     {
         TurnOnMovePlanet,
         MovePlanet,
+        Door,
     }
 
     public enum Display
@@ -126,6 +127,8 @@ public class SoundManager : MonoBehaviour
     {
         Debug.Log(PlanetManager.selectedPlanet);
         Debug.Log((int)EBgm.BGM_RESTAURANT);
+        string[] sceneNames = { "WokMergeTest", "FryingPanMergeTest", "PotMergeTest", "CuttingBoardMergeTest" };
+        foreach (string sceneName in sceneNames) if (scene.name == sceneName) return;
         switch (PlanetManager.selectedPlanet)
         {
             case PlanetManager.PlanetType.Restaurant:
@@ -142,7 +145,7 @@ public class SoundManager : MonoBehaviour
                 PlayBGM(EBgm.BGM_SERENOXIA);
                 break;
             default:
-                
+
                 return;
         }
     }
@@ -176,10 +179,11 @@ public class SoundManager : MonoBehaviour
     {
         audioSfx.PlayOneShot(dailyMenus[(int)dailyMenu]);
     }
-    
+
     public void PlaySound(Interact interact)
     {
-        audioSfx.PlayOneShot(interacts[(int)interact], 0.7f);
+        if ((int)interact <= 1) audioSfx.PlayOneShot(interacts[(int)interact], 0.7f);
+        audioSfx.PlayOneShot(interacts[(int)interact]);
     }
     public void PlaySound(Store store)
     {

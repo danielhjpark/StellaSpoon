@@ -18,8 +18,11 @@ public class BedroomDoor : InteractObject
         
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other)
+    {
         doorAnimator.SetBool(doorOpenName, true);
+        PlayAudio();
+        
     }
 
     private void OnTriggerExit(Collider other)
