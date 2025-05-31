@@ -33,6 +33,8 @@ public class WolfKingMonster : MonsterBase
     [SerializeField]
     private GameObject pillarPrefab; //기둥 프리팹
     private int pillarCount = 0; //기둥 세우기 횟수
+    [SerializeField]
+    private float pillarTime = 7.0f; //기둥 나오는 시간
 
     [Header("Spawn")]
     [SerializeField]
@@ -196,7 +198,7 @@ public class WolfKingMonster : MonsterBase
             Debug.Log(pillarCount);
             Vector3 randomPos = new Vector3(Random.Range(-pillarRange, pillarRange), 0, Random.Range(-pillarRange, pillarRange));
             GameObject pillar = Instantiate(pillarPrefab, transform.position + randomPos, Quaternion.identity);
-            Destroy(pillar, 5.0f); //5초 후 기둥 삭제
+            Destroy(pillar, pillarTime); //5초 후 기둥 삭제
         }
         yield return new WaitForSeconds(5.0f); //5초 대기
         nextPattern = SPAWN;
