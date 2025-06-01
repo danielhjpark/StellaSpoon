@@ -112,7 +112,10 @@ public class IngredientInventory : MonoBehaviour
     public void IngredientSlotInit() {
         foreach (Transform ingredientSlot in ingredientSlotParent.transform)
         {
-            checkCreateIngredient[ingredientSlot.GetComponent<IngredientSlot>().currentIngredient] = false;
+            if (ingredientSlot.GetComponent<IngredientSlot>().currentIngredient != null)
+            {
+                checkCreateIngredient[ingredientSlot.GetComponent<IngredientSlot>().currentIngredient] = false;
+            }         
             Destroy(ingredientSlot.gameObject);
             
         }

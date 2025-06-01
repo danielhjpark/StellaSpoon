@@ -20,7 +20,7 @@ public class InteractUIManger : MonoBehaviour
 
     public AudioSource interactAudioSource;
 
-    public enum TextType { Open, Open2, Open3, Close, Close2, Ingredient, UnlockRecipe, Sleep, FailMenu, ClearMenu }
+    public enum TextType { Open, Open2, Open3, Close, Close2, Ingredient, UnlockRecipe, Sleep, FailMenu, ClearMenu, FailAddMenu}
     private Dictionary<TextType, bool> checkUseText;
     private string[] textList = {
         "오후 6시부터 식당을 열 수 있습니다.",
@@ -33,6 +33,7 @@ public class InteractUIManger : MonoBehaviour
         "5시간이 지났습니다.",
         "조리에 실패하여 먹을 수 없는\n 무언가를 만들었습니다.",
         "옆의 접시를 치워야 합니다.",
+        "재료가 부족합니다."
     };
 
     public static bool isUseInteractObject;
@@ -47,7 +48,7 @@ public class InteractUIManger : MonoBehaviour
 
     void Start()
     {
-
+        interactAudioSource = SoundManager.instance.audioSfx;
         isPlayerNearby = false;
         isUseInteractObject = false;
         checkUseText = new Dictionary<TextType, bool>();
@@ -84,8 +85,10 @@ public class InteractUIManger : MonoBehaviour
         {
             StartCoroutine(CheckUseText(textType));
             GameObject popupText;
-            if (textType == TextType.Open || textType == TextType.Open2 || textType == TextType.Open3 || textType == TextType.Close || textType == TextType.ClearMenu)
+            if (textType == TextType.Open || textType == TextType.Open2 || textType == TextType.Open3 ||
+                textType == TextType.Close || textType == TextType.ClearMenu || textType == TextType.FailAddMenu)
             {
+                SoundManager.instance.PlayPlayerSFX(SoundManager.EPlayerSfx.Error);
                 popupText = Instantiate(warningTextPrefab, popupContainer);
             }
             else

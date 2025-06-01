@@ -67,6 +67,10 @@ public class DailyMenuManager : MonoBehaviour
             this.DailyMenuAdd(currentRecipe, currentAmount);
             detailMenuUI.DetailUIClear();
         }
+        else
+        {
+            InteractUIManger.instance.UsingText(InteractUIManger.TextType.FailAddMenu);
+        }
     }
 
     //--------------Daily Menu Fuc -------------------//

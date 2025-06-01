@@ -77,12 +77,8 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
     void SlotUpdate()
     {
         int useCount = ingredientSlot.currentIngredient.ingredientUseCount;
+
         ingredientSlot.itemCount -= useCount;
-        if (ingredientSlot.itemCount < useCount)
-        {
-            ingredientSlot.SlotClear();
-            ingredientSlot.gameObject.SetActive(false);
-        }
 
         if (CookManager.instance.cookMode == CookManager.CookMode.Make)
         {
@@ -96,6 +92,12 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
                 IngredientManager.IngredientAmount[ingredientSlot.currentIngredient]--;
                 ingredientSlot.refrigeratorInventory.UseIngredient(ingredientSlot.currentIngredient, 1);
             }
+        }
+        if (ingredientSlot.itemCount < useCount)
+        {
+            ingredientSlot.SlotClear();
+            ingredientSlot.gameObject.SetActive(false);
+            return;
         }
     }
 

@@ -27,7 +27,6 @@ public class RestaurantManager : MonoBehaviour
     private void Start()
     {
         AddIngredient();
-        
     }
 
     void AddIngredient()

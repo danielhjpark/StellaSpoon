@@ -92,7 +92,7 @@ public class SoundManager : MonoBehaviour
     //플레이하는 AudioSource
     [Header("Audio Source")]
     [SerializeField] AudioSource audioBgm;
-    [SerializeField] AudioSource audioSfx;
+    [SerializeField] public AudioSource audioSfx;
     [SerializeField] AudioSource audioInteract;
 
     [Header("사운드 조절")]
