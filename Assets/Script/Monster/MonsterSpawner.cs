@@ -58,7 +58,7 @@ public class MonsterSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitUntil(() => !monster.activeSelf);
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(20);
             Vector3 spawnPosition;
             bool validPosition = false;
 
