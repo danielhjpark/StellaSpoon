@@ -63,6 +63,7 @@ public class WokManager : CookManagerBase
         if (firstTossingCount > 0) yield return StartCoroutine(InherentMotion(firstTossingCount));
         yield return StartCoroutine(AddSubIngredient());//Sub ingredient add
         yield return StartCoroutine(AddSauce());//Sauce motion
+        wokSauceSystem.ForceEndSauceControll();
         yield return StartCoroutine(InherentMotion(secondTossingCount));
 
         CookCompleteCheck();
@@ -295,6 +296,7 @@ public class WokManager : CookManagerBase
         {
             if (currentMenu.tossingSetting.sauceType == SauceType.None)
             {
+                
                 yield break;
             }
             else

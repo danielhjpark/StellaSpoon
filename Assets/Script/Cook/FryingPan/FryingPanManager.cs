@@ -97,6 +97,7 @@ public class FryingPanManager : CookManagerBase
         yield return StartCoroutine(InherentMotion(firstFryingCount));
         yield return StartCoroutine(AddSubIngredient());
         yield return StartCoroutine(AddSauce());
+        fryingSauceSystem.ForceEndSauceControll();
         yield return StartCoroutine(InherentMotion(secondFryingCount));
         CookCompleteCheck();
     }

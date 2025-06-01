@@ -77,5 +77,9 @@ public class WokSauceSystem : SauceSystem
         yield return base.StartLiquidLevel();
         wokAudioSystem.StopAudioSource(WokAudioSystem.AudioType.PouringSauce);
     }
-
+    
+    public void ForceEndSauceControll()
+    {
+        sauceController.OffObject();
+    }
 }

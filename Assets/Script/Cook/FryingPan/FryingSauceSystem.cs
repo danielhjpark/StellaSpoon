@@ -88,4 +88,8 @@ public class FryingSauceSystem : SauceSystem
             yield return sauceDelay;
         }
     }
+    public void ForceEndSauceControll()
+    {
+        sauceController.OffObject();
+    }
 }
