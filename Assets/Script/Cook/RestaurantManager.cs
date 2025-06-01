@@ -37,7 +37,7 @@ public class RestaurantManager : MonoBehaviour
         {
             chest1Inventory.AcquireItem(item, 1);
             chest2Inventory.AcquireItem(item, 1);
-            RefrigeratorManager.instance.AddItem(item, 1);
+            RefrigeratorManager.instance.AddItem(item, 3);
         }
         foreach (var item in subIngredients)
         {

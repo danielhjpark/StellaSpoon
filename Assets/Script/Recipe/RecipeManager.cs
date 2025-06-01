@@ -8,6 +8,7 @@ public class RecipeManager : MonoBehaviour
     static public RecipeManager instance = null;
 
     [SerializeField] Recipe[] BasicRecipes;
+    [SerializeField] Recipe[] LockRecipes;
     [SerializeField] public Recipe HiddenRecipe;
     public Dictionary<string, Recipe> RecipeList; //?ûÑ?ãú ?ç∞?ù¥?Ñ∞ Î≤†Ïù¥?ä§
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
@@ -33,6 +34,10 @@ public class RecipeManager : MonoBehaviour
     void Update()
     {
         if (!RecipeUnlockCheck[HiddenRecipe]) CheckHiddenRecipeUnlock();
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            foreach(Recipe LockRecipe in LockRecipes) RecipeUnLock(LockRecipe);
+        }
     }
 
     void RecipeUnLockInit()
