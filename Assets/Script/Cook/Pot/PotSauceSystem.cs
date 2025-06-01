@@ -88,6 +88,9 @@ public class PotSauceSystem : SauceSystem
         }
         potAudioSystem.StopAudioSource(PotAudioSystem.AudioType.PouringSauce);
     }
-    
 
+    public void ForceEndSauceControll()
+    {
+        sauceController.OffObject();
+    }
 }

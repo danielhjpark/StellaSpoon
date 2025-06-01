@@ -18,6 +18,7 @@ public class SauceController : MonoBehaviour
     private Vector3 initPos;
     private bool isControll;
     private SauceType sauceType;
+    private Vector3[] sauceInitPos = new Vector3[3];
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class SauceController : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             sauceContainers[i].GetComponent<Collider>().enabled = false;
+            sauceInitPos[i] = sauceContainers[i].transform.position;
         }
     }
 
@@ -88,6 +90,18 @@ public class SauceController : MonoBehaviour
             controllObject.transform.position = Input.mousePosition;
         }
     }
+
+    public void OffObject()
+    {
+        outlineEffect.enabled = false;
+        isControll = false;
+        for (int i = 0; i < 3; i++)
+        {
+            sauceContainers[i].GetComponent<Collider>().enabled = false;
+            sauceContainers[i].transform.position = sauceInitPos[i];
+        }
+    }
+
 
     public void ObjectDrop()
     {
