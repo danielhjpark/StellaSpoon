@@ -28,8 +28,8 @@ public class PlanetManager : MonoBehaviour
         {
             { PlanetType.aRedForest, planetInfos[0] },
             { PlanetType.Serenoxia, planetInfos[1] },
-            { PlanetType.Restaurant, planetInfos[2] },
-            { PlanetType.Shop, planetInfos[3] }
+            { PlanetType.Shop, planetInfos[2] },
+            { PlanetType.Restaurant, planetInfos[3] },
             //货肺款 青己 眠啊
         };
     }
