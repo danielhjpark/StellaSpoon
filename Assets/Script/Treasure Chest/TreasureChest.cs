@@ -94,7 +94,7 @@ public class TreasureChest : MonoBehaviour
         {
             CloseChestUI();
         }
-        if (!treasureChestPanel.activeSelf && isPlayerNearby) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
+        if (!treasureChestPanel.activeSelf && isPlayerNearby && !DeviceManager.isDeactived) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
         else interactUI.DisableInteractUI(this.gameObject);
     }
 

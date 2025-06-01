@@ -72,7 +72,7 @@ public class StoreNPCManager : MonoBehaviour
     {
         if (iscollPlayer)
         {
-            if (!openingStoreUI)
+            if (!openingStoreUI && DeviceManager.isDeactived)
             {
                 interactUI.UseInteractUI(this.gameObject, Vector2.down * 0.5f);
                 if (Input.GetKeyDown(KeyCode.F)) //FÅ° ´­·¶À» ¶§ 

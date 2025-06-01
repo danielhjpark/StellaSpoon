@@ -67,7 +67,7 @@ public class Mobility : MonoBehaviour
         {
             CloseMapUI();
         }
-        if (!mapUI.activeSelf && collPlayer) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
+        if (!mapUI.activeSelf && collPlayer && DeviceManager.isDeactived) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
         else interactUI.DisableInteractUI(this.gameObject);
         
     }
