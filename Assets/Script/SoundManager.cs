@@ -44,6 +44,7 @@ public class SoundManager : MonoBehaviour
         Drop_Item,
         Move_Item,
         Receipe_Select,
+        Item_Pick_Up,
     }
 
     public enum DailyMenu

@@ -161,7 +161,7 @@ public class ActionController : MonoBehaviour
             {
                 Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
                 theInventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
-                AudioSource.PlayClipAtPoint(Item_PickUp_SFX, characterTransform.position, 0.5f);
+                SoundManager.instance.PlaySound(SoundManager.Display.Item_Pick_Up);
                 Destroy(hitInfo.transform.gameObject);
                 ItemInfoDisappear();
             }
