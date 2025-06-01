@@ -173,6 +173,11 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(Display display)
     {
+        if(display == Display.Item_Pick_Up)
+        {
+            audioSfx.PlayOneShot(displays[(int)display], 0.4f);
+            return;
+        }
         audioSfx.PlayOneShot(displays[(int)display]);
     }
 
