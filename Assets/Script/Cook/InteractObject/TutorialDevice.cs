@@ -42,8 +42,9 @@ public class TutorialDevice : MonoBehaviour
 
     public void CloseTutorialUI() //UI ´Ý±â
     {
+        Debug.Log("Æ©Åä¸®¾ó");
         isOpenedDevice = false;
-        Cursor.lockState -= CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         tutorialUI.SetActive(false);

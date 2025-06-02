@@ -154,7 +154,8 @@ namespace UnityNote
         {
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(name);
             asyncOperation.allowSceneActivation = false;
-
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             while (asyncOperation.progress < 0.9f)
             {
                 float progress = Mathf.Clamp01(asyncOperation.progress / 0.9f);

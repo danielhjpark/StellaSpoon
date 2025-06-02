@@ -20,8 +20,6 @@ public class TutorialManger : MonoBehaviour
     {
         OpenPage();
         ButtonView();
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     void ButtonView()

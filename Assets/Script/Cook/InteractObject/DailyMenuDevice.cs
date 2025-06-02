@@ -38,7 +38,7 @@ public class DailyMenuDevice : InteractObject
     public void CloseDailyMenuUI() //UI ´Ý±â
     {
         isOpenedDevice = false;
-        Cursor.lockState -= CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         SoundManager.instance.PlaySound(SoundManager.DailyMenu.Daily_Menu_Complete_Button);
         DailyMenuUI.SetActive(false);

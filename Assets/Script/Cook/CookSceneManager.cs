@@ -25,6 +25,12 @@ public class CookSceneManager : MonoBehaviour
         mainCamera = Camera.main;
     }
 
+    void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;
+    }
+
     void Update()
     {
         if (SpawnPoint[0].transform.childCount > 0)

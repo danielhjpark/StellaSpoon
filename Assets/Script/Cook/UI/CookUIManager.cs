@@ -49,7 +49,7 @@ public class CookUIManager : MonoBehaviour
     private void Update()
     {
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Cursor.visible = true;
     }
 
     //-------------------Button-------------------

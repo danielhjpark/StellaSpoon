@@ -33,14 +33,6 @@ public class DailyMenuManager : MonoBehaviour
         recipeUnLockSystem.RecipeListUpdate();
     }
 
-    void Update()
-    {
-        if (this.gameObject.activeSelf)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-    }
 
     //-------------------Button----------------------//
     public void AddAmount()

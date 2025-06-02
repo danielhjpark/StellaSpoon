@@ -40,7 +40,10 @@ public class PlayerSpawn : MonoBehaviour
             {
                 player.transform.position = transform.position;
             }
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
+
     }
 }
 

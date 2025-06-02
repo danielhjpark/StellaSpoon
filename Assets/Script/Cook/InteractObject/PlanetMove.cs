@@ -35,7 +35,7 @@ public class PlanetMove : MonoBehaviour
     private void CloseUI()
     {
         isOpened = false;
-        Cursor.lockState -= CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         InteractUIManger.isUseInteractObject = false;
     }

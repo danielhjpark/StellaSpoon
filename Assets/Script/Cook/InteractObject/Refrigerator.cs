@@ -50,7 +50,7 @@ public class Refrigerator : InteractObject
     private void CloseRefrigeratorUI() //보물상자 UI 닫기
     {
         isOpenedRefrigerator = false;
-        Cursor.lockState -= CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         refrigeratorUI.SetActive(false);
