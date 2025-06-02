@@ -252,9 +252,12 @@ public class WolfKingMonster : MonsterBase
     }
     protected void nextPatternPlay()
     {
+        if (isDead) return;
+
         if (currentPatternCoroutine != null)
         {
             StopCoroutine(currentPatternCoroutine);
+            currentPatternCoroutine = null;
         }
 
         switch (nextPattern)

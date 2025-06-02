@@ -269,6 +269,13 @@ public class BearKingMonster : MonsterBase
     private void nextPatternPlay()
     {
         if (isDead) return;
+
+        if (currentPatternCoroutine != null)
+        {
+            StopCoroutine(currentPatternCoroutine);
+            currentPatternCoroutine = null;
+        }
+
         switch (nextPattern)
         {
             case 0:
