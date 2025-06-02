@@ -125,7 +125,6 @@ public class WolfKingMonster : MonsterBase
         if (isDead) yield break; //죽었으면 코루틴 종료
         animator.SetBool("Walk", false);
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
-        //animator.SetTrigger("Attack8");
 
         foreach (Transform pos in throwPosition)
         {
