@@ -80,7 +80,7 @@ public class IngredientsController : MonoBehaviour, IPointerDownHandler
 
         ingredientSlot.itemCount -= useCount;
 
-        if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+        if (CookManager.instance.cookMode == CookManager.CookMode.Make || CookManager.instance.currentCookType == CookType.Cutting)
         {
             if (ingredientSlot.currentIngredient.ingredientType == IngredientType.Sub)
             {

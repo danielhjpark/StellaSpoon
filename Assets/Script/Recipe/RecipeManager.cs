@@ -64,7 +64,7 @@ public class RecipeManager : MonoBehaviour
         if (getRecipe != null && !RecipeUnlockCheck[getRecipe])
         {
             RecipeUnlockCheck[getRecipe] = true;
-            if (Manager.FirstCreateRecipe == "") Manager.FirstCreateRecipe = getRecipe.name;
+            if (Manager.FirstCreateRecipe == "") Manager.FirstCreateRecipe = getRecipe.menuName;
             Debug.Log("RecipeUnLock : " + getRecipe.name);
             RecipeUnLockUI();
         }
@@ -128,7 +128,7 @@ public class RecipeManager : MonoBehaviour
     public bool IsCanMakeMenu(Recipe recipe, int amount)
     {
         if (recipe == null) return false;
-        if (IngredientManager.IngredientAmount[recipe.mainIngredient]  <= amount) return false;
+        if (IngredientManager.IngredientAmount[recipe.mainIngredient]  < amount) return false;
         foreach (IngredientAmount currentIngredient in recipe.ingredients)
         {
             Ingredient currentIngdeient = currentIngredient.ingredient;

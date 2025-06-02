@@ -23,8 +23,10 @@ public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             if (isEnter)
             {
+                SoundManager.instance.PlaySound(SoundManager.Display.Receipe_Select);
                 ingredientInventory.IngredientAdd(ingredient);
                 CookManager.instance.SelectRecipe(currentRecipe);
+
                 // GameObject ingredientObject = Instantiate(ingredient.ingredientPrefab, Input.mousePosition, ingredient.ingredientPrefab.transform.rotation);
                 // ingredientObject.transform.SetParent(CookManager.instance.spawnPoint, false);
                 // CookManager.instance.DropObject(ingredientObject, ingredient);
