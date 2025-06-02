@@ -111,7 +111,7 @@ public class BearKingMonster : MonsterBase
         if (!inAttackRange || isDead) yield break;
 
         animator.SetTrigger("Attack8");
-        attackRange = 15f;
+        attackRange = 31f;
 
         float elapsed = 0f;
         while (elapsed < 5.0f)
@@ -135,6 +135,7 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange || isDead) yield break;
 
+        attackRange = 20f;
         isJumping = true;
         yield return StartCoroutine(ShowJumpGroundEffect());
 
