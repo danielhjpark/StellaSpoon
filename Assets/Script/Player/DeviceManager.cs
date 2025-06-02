@@ -90,7 +90,7 @@ public class DeviceManager : MonoBehaviour
         isDeactived = false;
     }
 
-    private void CloseUI()
+    public void CloseUI()
     {
         uiPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
