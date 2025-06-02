@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class BearKingMonster : MonsterBase
 {
+    private Coroutine currentPatternCoroutine;
+
     private int nextPattern = 0;
 
     private static readonly int ATTACK = 0;
@@ -78,16 +80,29 @@ public class BearKingMonster : MonsterBase
                 bossHealthUI.SetActive(false);
             }
         }
+        // 공격 범위 감지
+        if (inAttackRange && !isAttack)
+        {
+            HandleAttack(); // 플레이어가 범위 안으로 다시 들어오면 공격
+        }
+        else if (!inAttackRange && isAttack)
+        {
+            // 범위 벗어나면 현재 패턴 중지 및 상태 초기화
+            if (currentPatternCoroutine != null)
+            {
+                StopCoroutine(currentPatternCoroutine);
+                currentPatternCoroutine = null;
+            }
+            isAttack = false;
+        }
     }
 
     protected override void HandleAttack()
     {
+        if (isAttack || currentPatternCoroutine != null) return; // 이미 공격 중이면 리턴
         animator.SetBool("Walk", false);
-        if (!isAttack && !isDead)
-        {
-            isAttack = true;
-            StartCoroutine(Attack());
-        }
+        isAttack = true;
+        StartCoroutine(Attack());
     }
 
 
@@ -111,6 +126,7 @@ public class BearKingMonster : MonsterBase
         }
 
         nextPattern = JUMP;
+        currentPatternCoroutine = null;
         nextPatternPlay();
     }
 
@@ -144,6 +160,7 @@ public class BearKingMonster : MonsterBase
         yield return new WaitForSeconds(6.0f);
         isJumping = false;
         nextPattern = CHARGE;
+        currentPatternCoroutine = null;
         nextPatternPlay();
     }
 
@@ -227,6 +244,7 @@ public class BearKingMonster : MonsterBase
         if (distanceToPlayer <= attackRange)
         {
             nextPattern = ATTACK;
+            currentPatternCoroutine = null;
             nextPatternPlay();
         }
         else
@@ -253,13 +271,13 @@ public class BearKingMonster : MonsterBase
         switch (nextPattern)
         {
             case 0:
-                StartCoroutine(Attack());
+                currentPatternCoroutine = StartCoroutine(Attack());
                 break;
             case 1:
-                StartCoroutine(Jump());
+                currentPatternCoroutine = StartCoroutine(Jump());
                 break;
             case 2:
-                StartCoroutine(Charge());
+                currentPatternCoroutine = StartCoroutine(Charge());
                 break;
         }
     }

@@ -6,15 +6,18 @@ using UnityEngine.UI;
 
 public class WolfKingMonster : MonsterBase
 {
+    private Coroutine currentPatternCoroutine;
+
     private int nextPattern = 0;
 
     private static readonly int THROW = 0; //던지기
     private static readonly int PILLAR = 1; //기둥세우기
     private static readonly int SPAWN = 2; //스폰
 
-    private Coroutine currentPatternCoroutine = null;
-
     public static bool isThrowWarning = false; //던지기 경고 여부
+
+    [SerializeField]
+    private float PatternRange = 15.0f;
 
     [Header("Throw")]
     [SerializeField]
@@ -90,20 +93,36 @@ public class WolfKingMonster : MonsterBase
                 bossHealthUI.SetActive(false);
             }
         }
+        // 공격 범위 감지
+        if (inAttackRange && !isAttack)
+        {
+            HandleAttack(); // 플레이어가 범위 안으로 다시 들어오면 공격
+        }
+        else if (!inAttackRange && isAttack)
+        {
+            // 범위 벗어나면 현재 패턴 중지 및 상태 초기화
+            if (currentPatternCoroutine != null)
+            {
+                StopCoroutine(currentPatternCoroutine);
+                currentPatternCoroutine = null;
+            }
+            isAttack = false;
+        }
     }
 
     protected override void HandleAttack()
     {
+        if (isAttack || currentPatternCoroutine != null) return; // 이미 공격 중이면 리턴
+
         animator.SetBool("Walk", false);
-        if (!isAttack)
-        {
-            isAttack = true;
-            StartCoroutine(Throw());
-        }
+
+        isAttack = true;
+        currentPatternCoroutine = StartCoroutine(Throw());
+
     }
     private IEnumerator Throw()
     {
-        if(isDead) yield break; //죽었으면 코루틴 종료
+        if (isDead) yield break; //죽었으면 코루틴 종료
         animator.SetBool("Walk", false);
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         //animator.SetTrigger("Attack8");
@@ -119,6 +138,7 @@ public class WolfKingMonster : MonsterBase
         {
             yield return new WaitForSeconds(6.0f); //3초 대기
             nextPattern = THROW;
+            currentPatternCoroutine = null;
             nextPatternPlay();
         }
         else
@@ -126,6 +146,7 @@ public class WolfKingMonster : MonsterBase
             throwcount = 0;
             yield return new WaitForSeconds(4.0f); //4초 대기
             nextPattern = PILLAR;
+            currentPatternCoroutine = null; // 코루틴 상태 초기화
             nextPatternPlay();
         }
     }
@@ -187,11 +208,12 @@ public class WolfKingMonster : MonsterBase
     private IEnumerator Pillar()
     {
         if (isDead) yield break; //죽었으면 코루틴 종료
+        animator.SetBool("Walk", false);
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         pillarCount = Random.Range(4, 6); //기둥 세우기 횟수
 
         yield return new WaitForSeconds(2.0f); //2초 대기
-        //애니메이션 재생
+        animator.SetTrigger("Attack4");//애니메이션 재생
 
         for (int i = 0; i < pillarCount; i++)
         {
@@ -202,15 +224,18 @@ public class WolfKingMonster : MonsterBase
         }
         yield return new WaitForSeconds(5.0f); //5초 대기
         nextPattern = SPAWN;
+        currentPatternCoroutine = null; // 코루틴 상태 초기화
         nextPatternPlay();
     }
 
     private IEnumerator Spawn()
     {
         if (isDead) yield break; //죽었으면 코루틴 종료
+        animator.SetBool("Walk", false);
         if (!inAttackRange) yield break; //공격 범위 안에 플레이어가 없으면 공격하지 않음
         yield return new WaitForSeconds(2.0f); //2초 대기
-        //애니메이션 재생
+        animator.SetTrigger("Buff");//애니메이션 재생
+        yield return new WaitForSeconds(1.0f); //1초 대기
         for (int i = 0; i < silverSpawnCount; i++)
         {
             Vector3 randomPos = new Vector3(Random.Range(-spawnRange, spawnRange), 0, Random.Range(-spawnRange, spawnRange));
@@ -223,25 +248,28 @@ public class WolfKingMonster : MonsterBase
         }
         yield return new WaitForSeconds(3.0f); //3초 대기
         nextPattern = THROW;
+        currentPatternCoroutine = null; // 코루틴 상태 초기화
         nextPatternPlay();
     }
     protected void nextPatternPlay()
     {
         if (currentPatternCoroutine != null)
-            return; // 이미 실행 중이면 중복 실행 방지
+        {
+            StopCoroutine(currentPatternCoroutine);
+        }
 
         switch (nextPattern)
         {
             case 0:
-                StartCoroutine(Throw());
+                currentPatternCoroutine = StartCoroutine(Throw());
                 Debug.Log("던지기 패턴 실행");
                 break;
             case 1:
-                StartCoroutine(Pillar());
+                currentPatternCoroutine = StartCoroutine(Pillar());
                 Debug.Log("기둥 세우기 패턴 실행");
                 break;
             case 2:
-                StartCoroutine(Spawn());
+                currentPatternCoroutine = StartCoroutine(Spawn());
                 Debug.Log("스폰 패턴 실행");
                 break;
         }
