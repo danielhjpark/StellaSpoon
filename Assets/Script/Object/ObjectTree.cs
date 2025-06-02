@@ -13,7 +13,7 @@ public class ObjectTree : MonoBehaviour
     [SerializeField]
     private int objectRespawnTime;
 
-    public static bool canshake = true;
+    public bool canshake = true;
 
     private void Start()
     {

@@ -91,7 +91,8 @@ public class ActionController : MonoBehaviour
             }
             else if (hitInfo.transform.CompareTag("ObjectTree"))
             {
-                if (ObjectTree.canshake)
+                ObjectTree tree = hitInfo.transform.GetComponent<ObjectTree>(); // 충돌한 ObjectTree 인스턴스 가져오기
+                if (tree != null && tree.canshake)
                     TreeObjectAppear();
             }
         }
@@ -143,7 +144,7 @@ public class ActionController : MonoBehaviour
 
     private void TryShakeTree()
     {
-        if (TreeActivated && selectTree != null && ObjectTree.canshake)
+        if (TreeActivated && selectTree != null && selectTree.canshake) // 수정: ObjectTree.canshake를 selectTree.canshake로 변경
         {
             selectTree.DropAliverry();
             selectTree = null;
