@@ -61,6 +61,6 @@ public class PlanetUIManager : MonoBehaviour
             + $"위치: {planetInfo.location} \n"
             + $"설명: {planetInfo.description} \n\n"
             + $"<size=40>서식 생물\n</size>-{string.Join("\n- ", planetInfo.monsters)}\n"
-            + $"자생 식물{string.Join("\n-",planetInfo.plant)}";
+            + $"- {string.Join("\n- ",planetInfo.plant)}";
     }
 }
