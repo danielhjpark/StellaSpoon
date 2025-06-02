@@ -207,13 +207,19 @@ namespace StarterAssets
         private void Update()
         {
             CheckSlope();
+            if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                playerRespawn = FindObjectOfType<PlayerRespawn>();
+                _characterController.enabled = false;
+                transform.position = playerRespawn.BossPoint.position;
+                _characterController.enabled = true;
+            }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 playerRespawn = FindObjectOfType<PlayerRespawn>();
                 _characterController.enabled = false;
                 transform.position = playerRespawn.ReSpawnPoint.position;
                 _characterController.enabled = true;
-                Debug.Log("3535435535335");
             }
             if (Input.GetKeyDown(KeyCode.Alpha5)) // 5 체력 치트
             {

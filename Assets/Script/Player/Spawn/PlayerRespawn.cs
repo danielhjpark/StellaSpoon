@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerRespawn : MonoBehaviour
 {
     public Transform ReSpawnPoint;
+    public Transform BossPoint;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class PlayerRespawn : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         FindRespawnPoint(); // 씬이 바뀌면 새로운 RespawnPoint 찾기
+        FindBossPoint();
     }
 
     private void FindRespawnPoint()
@@ -35,6 +37,19 @@ public class PlayerRespawn : MonoBehaviour
         {
             Debug.LogWarning("RespawnPoint 태그를 가진 오브젝트가 없습니다!");
             ReSpawnPoint = null; // 씬에 RespawnPoint가 없을 경우 null 처리
+        }
+    }
+
+    private void FindBossPoint()
+    {
+        GameObject bossObj = GameObject.FindGameObjectWithTag("BossPoint");
+        if(bossObj != null)
+        {
+            BossPoint = bossObj.transform;
+        }
+        else
+        {
+            BossPoint = null;
         }
     }
 }
