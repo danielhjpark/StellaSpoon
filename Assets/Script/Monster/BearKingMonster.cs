@@ -19,7 +19,9 @@ public class BearKingMonster : MonsterBase
     public float chargeSpeed = 10.0f;
     private float chargeDuration = 2f;
 
-    private int JumpDamage = 50; //내려찍기 데미지
+    [SerializeField]
+    private int JumpDamage = 40; //내려찍기 데미지
+    [SerializeField]
     private int chargeDamage = 60; //돌진 데미지
 
     public Transform playerTf;
@@ -85,15 +87,14 @@ public class BearKingMonster : MonsterBase
         {
             HandleAttack(); // 플레이어가 범위 안으로 다시 들어오면 공격
         }
-        else if (!inAttackRange && isAttack)
+        else if(!inAttackRange && isAttack)
         {
             // 범위 벗어나면 현재 패턴 중지 및 상태 초기화
             if (currentPatternCoroutine != null)
             {
-                StopCoroutine(currentPatternCoroutine);
-                currentPatternCoroutine = null;
+                StopCoroutine(currentPatternCoroutine); currentPatternCoroutine = null;
             }
-            isAttack = false;
+            attackRadius = 3f;
         }
     }
 
@@ -135,7 +136,7 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange || isDead) yield break;
 
-        attackRange = 20f;
+        attackRange = 31f;
         isJumping = true;
         yield return StartCoroutine(ShowJumpGroundEffect());
 
@@ -156,10 +157,13 @@ public class BearKingMonster : MonsterBase
             }
         }
 
-        nav.gameObject.GetComponent<NavMeshAgent>().enabled = true;
-
         yield return new WaitForSeconds(6.0f);
+
+        // 상태 복구
         isJumping = false;
+        nav.enabled = true;
+        animator.SetBool("Walk", false); // 걷기 애니메이션 강제 해제
+
         nextPattern = CHARGE;
         currentPatternCoroutine = null;
         nextPatternPlay();
@@ -168,7 +172,7 @@ public class BearKingMonster : MonsterBase
 
     private void JumpEffectOn()
     {
-        if(isDead) return;
+        if (isDead) return;
         currentEffect = Instantiate(jumpEffectprefab, transform.position, Quaternion.identity);
         Destroy(currentEffect, 1f);  // 이펙트가 2초 후 사라지도록
     }
@@ -178,6 +182,7 @@ public class BearKingMonster : MonsterBase
         if (!inAttackRange || isDead) yield break;
 
         isChargeSetting = true;
+        attackRange = 3f;
         animator.SetBool("Run Forward", true);
 
         Vector3 targetPosition = player.transform.position;
@@ -232,7 +237,6 @@ public class BearKingMonster : MonsterBase
         isCharging = false;
         isChargeSetting = false;
 
-        attackRange = 3f;
         yield return new WaitForSeconds(5.0f);
 
         if (isDead)
@@ -288,7 +292,7 @@ public class BearKingMonster : MonsterBase
         nav.gameObject.GetComponent<NavMeshAgent>().enabled = false; // NavMeshAgent 비활성화
         if (jumpGroundEffectPrefab != null)
         {
-            currentGroundEffect = Instantiate(jumpGroundEffectPrefab, new Vector3(transform.position.x, transform.position.y+0.01f, transform.position.z), Quaternion.identity);
+            currentGroundEffect = Instantiate(jumpGroundEffectPrefab, new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z), Quaternion.identity);
             currentGroundEffect.transform.localScale = Vector3.zero;
 
             float duration = 2.0f;
@@ -297,7 +301,7 @@ public class BearKingMonster : MonsterBase
             //Debug.Log("바닥 경고 효과가 점차 커집니다.");
             while (elapsedTime < duration)
             {
-                if(isDead)
+                if (isDead)
                 {
                     Destroy(currentGroundEffect);
                     currentGroundEffect = null;
@@ -309,7 +313,7 @@ public class BearKingMonster : MonsterBase
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            
+
             currentGroundEffect.transform.localScale = new Vector3(shockwaveRadius * 2, 0.01f, shockwaveRadius * 2);
         }
         yield return new WaitForSeconds(2.0f); // 2초간 멈춤
@@ -319,7 +323,7 @@ public class BearKingMonster : MonsterBase
     {
         if (chargeGoundEffectPrefab != null)
         {
-            Vector3 middlePosition =  transform.position + ((targetPosition - transform.position)/2);
+            Vector3 middlePosition = transform.position + ((targetPosition - transform.position) / 2);
             currentGroundEffect = Instantiate(chargeGoundEffectPrefab, new Vector3(middlePosition.x, transform.position.y + 0.01f, middlePosition.z), Quaternion.identity);
 
             // 방향 벡터의 y값을 0으로 설정하여 y축 회전만 적용
@@ -336,7 +340,7 @@ public class BearKingMonster : MonsterBase
     protected override void HandleDeath()
     {
         base.HandleDeath();
-        if(!Manager.stage_01_clear)
+        if (!Manager.stage_01_clear)
         {
             Manager.stage_01_clear = true;
             Debug.Log("스테이지 1 클리어");
