@@ -27,6 +27,15 @@ public class DailyMenuManager : MonoBehaviour
         recipeUnLockSystem = GetComponent<RecipeUnLockSystem>();
     }
 
+    void Update()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+    
     private void OnEnable()
     {
         //MakeRecipeList();

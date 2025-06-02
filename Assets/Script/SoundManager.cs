@@ -188,8 +188,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(Interact interact)
     {
-        if ((int)interact <= 1) audioSfx.PlayOneShot(interacts[(int)interact], 0.7f);
-        audioSfx.PlayOneShot(interacts[(int)interact]);
+        if (interact == Interact.MovePlanet) audioSfx.PlayOneShot(interacts[(int)interact], 0.6f);
+        else audioSfx.PlayOneShot(interacts[(int)interact]);
     }
     public void PlaySound(Store store)
     {
