@@ -55,7 +55,6 @@ public class WolfKingFadeParticle : MonoBehaviour
             c.a = (byte)(alpha * 255);
             particles[i].startColor = c;
 
-            Debug.Log($"Particle {i} Alpha: {alpha}");
         }
 
         ps.SetParticles(particles, count);
