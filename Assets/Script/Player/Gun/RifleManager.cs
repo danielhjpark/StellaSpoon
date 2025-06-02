@@ -67,10 +67,10 @@ public class RifleManager : MonoBehaviour
         {
             tempestFang = true;
             infernoLance = true;
-            SwitchWeapon(0);
+            //SwitchWeapon(0);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
+        //else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
+        //else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             damageCheat = true;
