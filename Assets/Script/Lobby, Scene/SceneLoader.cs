@@ -59,7 +59,6 @@ namespace UnityNote
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log($"¾À ·ÎµùµÊ: {scene.name}");
-
             if (isNewGame)
             {
                 GameTimeManager timeManager = FindObjectOfType<GameTimeManager>();
@@ -77,6 +76,11 @@ namespace UnityNote
                 loadingScreen.SetActive(false);
 
             StartCoroutine(DelayedAssignButtonEvents());
+            if (scene.name == "Lobby")
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
         }
 
         private IEnumerator DelayedAssignButtonEvents()
