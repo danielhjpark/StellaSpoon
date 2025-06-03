@@ -39,18 +39,18 @@ public class PlayerSpawn : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player)
         {
-            CharacterController controller = player.GetComponent<CharacterController>();
-            if (controller)
-            {
-                controller.enabled = false;
-                player.transform.position = transform.position;
-                controller.enabled = true;
-            }
-            else
-            {
-                player.transform.position = transform.position;
-            }
-
+            //CharacterController controller = player.GetComponent<CharacterController>();
+            //if (controller)
+            //{
+            //    controller.enabled = false;
+            //    player.transform.position = transform.position;
+            //    controller.enabled = true;
+            //}
+            //else
+            //{
+            //    player.transform.position = transform.position;
+            //}
+            player.transform.position = transform.position;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
