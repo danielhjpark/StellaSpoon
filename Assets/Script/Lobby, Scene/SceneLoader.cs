@@ -13,8 +13,8 @@ namespace UnityNote
     public class SceneLoader : MonoBehaviour
     {
         public static SceneLoader Instance { get; private set; }
-        public static SaveNLoad instance { get; private set; }
-
+        //public static SaveNLoad instance { get; private set; }
+        public static bool isContinueGame = false;
         [SerializeField]
         private GameObject loadingScreen;
         [SerializeField]
@@ -35,19 +35,17 @@ namespace UnityNote
         private bool isNewGame = false;
         private void Awake()
         {
-
-            if (Instance != null && Instance != this && instance != null && instance != this)
+            if (Instance != null && Instance != this)
             {
-                Destroy(gameObject);
+                Destroy(gameObject); // 중복 제거
+                return;
             }
-            else
-            {
-                Instance = this;
-                waitChangeDelay = new WaitForSeconds(0.5f);
 
-                DontDestroyOnLoad(gameObject);
-                SceneManager.sceneLoaded += OnSceneLoaded;
-            }
+            Instance = this;
+            waitChangeDelay = new WaitForSeconds(0.5f);
+
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDestroy()
@@ -69,17 +67,6 @@ namespace UnityNote
                     Debug.Log("GameTime 초기화 완료 (NewGame)");
                 }
                 isNewGame = false;
-            }
-            // 저장 데이터 로딩은 여기서 확실하게 처리
-            if (loadSaveFile)
-            {
-                theSaveNLoad = FindObjectOfType<SaveNLoad>();
-                if (theSaveNLoad != null)
-                {
-                    theSaveNLoad.LoadData();
-                    Debug.Log("씬 로드 후 저장 데이터 불러오기 완료 (OnSceneLoaded)");
-                }
-                loadSaveFile = false; // 반드시 초기화
             }
 
             // 로딩 화면 종료
@@ -196,17 +183,11 @@ namespace UnityNote
             asyncOperation.allowSceneActivation = true;
 
             yield return new WaitForSeconds(0.1f);
-
-            theSaveNLoad = FindObjectOfType<SaveNLoad>();
-
-            if (loadSaveFile && theSaveNLoad != null)
-            {
-                theSaveNLoad.LoadData();
-                Debug.Log("씬 로더에 있는 로드 데이터 완료");
-            }
         }
         public void OnClick_ContinueGame()
         {
+            isContinueGame = true;
+            PlayerSpawn.useSavedPosition = true;
             StartCoroutine(ContinueGameRoutine());
         }
 
@@ -254,7 +235,6 @@ namespace UnityNote
 
                 loadSaveFile = true;
 
-                PlayerSpawn.useSavedPosition = true;
                 yield return StartCoroutine(LoadSceneAsync(targetScene));
 
                 isInChainedLoad = false;
@@ -305,19 +285,13 @@ namespace UnityNote
 
             yield return new WaitForSeconds(0.1f);
 
-            theSaveNLoad = FindObjectOfType<SaveNLoad>();
-            if (theSaveNLoad != null)
-            {
-                theSaveNLoad.LoadData();
-                Debug.Log("ContinueGame: 저장 데이터 불러오기 완료");
-            }
-
             isInChainedLoad = false;
             loadingScreen.SetActive(false);
         }
 
         public void OnClick_NewGame()
         {
+            isContinueGame = false;
             PlayerSpawn.useSavedPosition = false;
             isNewGame = true;
             // 여기서 변수들 초기화
