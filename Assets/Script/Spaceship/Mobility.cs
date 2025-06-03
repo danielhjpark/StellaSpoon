@@ -67,8 +67,11 @@ public class Mobility : MonoBehaviour
         {
             CloseMapUI();
         }
-        if (!mapUI.activeSelf && collPlayer && DeviceManager.isDeactived) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
-        else interactUI.DisableInteractUI(this.gameObject);
+        if (interactUI != null)
+        {
+            if (DeviceManager.isDeactived && collPlayer && !mapUI.activeSelf) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
+            else interactUI.DisableInteractUI(this.gameObject);
+        }
         
     }
     private void OnTriggerStay(Collider other)
