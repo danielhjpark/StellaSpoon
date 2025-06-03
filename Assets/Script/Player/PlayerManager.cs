@@ -139,7 +139,14 @@ public class PlayerManager : MonoBehaviour
             EquipRifleCheck();
         }
 
+        // 재장전 도중 죽었는지 체크하여 상태 초기화
+        if (controller.isReload && controller.isDie)
+        {
+            Reload(); // 강제 초기화
+        }
+
         CheckJumpOrDodge();
+
         if(controller.isDie)
         {
             return;
@@ -240,8 +247,22 @@ public class PlayerManager : MonoBehaviour
     public void Reload()
     {
         controller.isReload = false;
-        SetRigWeight(1);
-        anim.SetLayerWeight(2, 0);
+
+        if (!controller.isDie)
+        {
+            SetRigWeight(1);
+            anim.SetLayerWeight(2, 0);
+        }
+        else
+        {
+            // 죽은 상태라면 리그와 애니메이션 상태 초기화
+            SetRigWeight(0);
+            anim.SetLayerWeight(2, 0);
+            anim.ResetTrigger("Reload");
+            Debug.Log("dd");
+        }
+
+        noAim = true; // 조준 가능하게 되돌림
     }
 
     private void EquipRifleCheck()
