@@ -273,20 +273,22 @@ public class SaveNLoad : MonoBehaviour
             thePlayer = FindObjectOfType<ThirdPersonController>();
             rifleManager = FindObjectOfType<RifleManager>();
             GameTimeManager timeManager = FindObjectOfType<GameTimeManager>();
+            StoreUIManager storeUIManager = FindObjectOfType<StoreUIManager>(); // Add this line to get a reference to StoreUIManager  
+
             if (thePlayer != null)
             {
-                // 플레이어
+                // 플레이어  
                 thePlayer.transform.position = saveData.playerPos;
                 thePlayer.transform.eulerAngles = saveData.playerRot;
-                // HP
+                // HP  
                 thePlayer.curHP = saveData.playerHp;
                 thePlayer._hpBar.value = thePlayer.curHP;
-                // 총 변수 로드
+                // 총 변수 로드  
                 rifleManager.tempestFang = saveData.gunTempest;
                 rifleManager.infernoLance = saveData.gunInferno;
                 rifleManager.SwitchWeapon(saveData.equippedWeaponIndex);
 
-                // 일반 변수 로드
+                // 일반 변수 로드  
                 Manager.stage_01_clear = saveData.stage1Clear;
                 Manager.stage_02_clear = saveData.stage2Clear;
                 Manager.gold = saveData.gold;
@@ -294,7 +296,7 @@ public class SaveNLoad : MonoBehaviour
                 Manager.NPCSpawnCount = saveData.npcCount;
                 Manager.FirstCreateRecipe = saveData.firstRecipe;
 
-                // 인벤토리 로드
+                // 인벤토리 로드  
                 for (int i = 0; i < saveData.invenItemName.Count; i++)
                 {
                     theInventory.LoadToInven(saveData.invenArrayNumber[i], saveData.invenItemName[i], saveData.invenItemNumber[i]);
@@ -302,28 +304,28 @@ public class SaveNLoad : MonoBehaviour
                 }
                 Debug.Log("로드 완료");
 
-                // 냉장고 로드
+                // 냉장고 로드  
                 for (int i = 0; i < saveData.refriItemName.Count; i++)
                 {
                     theRefrigeratorInventory.LoadToInven(saveData.refriArrayNumber[i], saveData.refriItemName[i], saveData.refriItemNumber[i]);
                 }
                 Debug.Log("냉장고 로드 완료");
 
-                // 상자1 로드
+                // 상자1 로드  
                 for (int i = 0; i < saveData.chest1ItemName.Count; i++)
                 {
                     chest1Inventory.LoadToInven(saveData.chest1ArrayNumber[i], saveData.chest1ItemName[i], saveData.chest1ItemNumber[i]);
                 }
                 Debug.Log("상자1 로드 완료");
 
-                // 상자2 로드
+                // 상자2 로드  
                 for (int i = 0; i < saveData.chest2ItemName.Count; i++)
                 {
                     chest2Inventory.LoadToInven(saveData.chest2ArrayNumber[i], saveData.chest2ItemName[i], saveData.chest2ItemNumber[i]);
                 }
                 Debug.Log("상자2 로드 완료");
 
-                // 레시피 로드
+                // 레시피 로드  
                 foreach (var key in RecipeManager.instance.RecipeUnlockCheck.Keys.ToList())
                 {
                     RecipeManager.instance.RecipeUnlockCheck[key] = false;
@@ -335,13 +337,26 @@ public class SaveNLoad : MonoBehaviour
                         RecipeManager.instance.RecipeUnlockCheck[recipe] = true;
                 }
 
-                // 조리도구 레벨 로드
+                // 조리도구 레벨 로드  
                 StoreUIManager.currentPanLevel = saveData.currentPanLevel;
                 StoreUIManager.currentWorLevel = saveData.currentWorLevel;
                 StoreUIManager.currentCuttingBoardLevel = saveData.currentCuttingBoardLevel;
                 StoreUIManager.currentPotLevel = saveData.currentPotLevel;
 
-                // 게임 시간
+                if (storeUIManager != null)
+                {
+                    storeUIManager.LevelCostSetting(); // Use the instance reference to call the method 
+                    storeUIManager.UpgradeCookDetail("Pan");
+                    storeUIManager.UpgradeCookDetail("Wor");
+                    storeUIManager.UpgradeCookDetail("CuttingBoard");
+                    storeUIManager.UpgradeCookDetail("Pot");
+                }
+                else
+                {
+                    Debug.LogWarning("StoreUIManager를 찾을 수 없습니다.");
+                }
+
+                // 게임 시간  
                 timeManager.gameHours = saveData.gameHour;
                 timeManager.gameMinutes = saveData.gameMinute;
                 timeManager.gameDays = saveData.gameDay;
