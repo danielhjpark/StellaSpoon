@@ -374,8 +374,8 @@ public class SaveNLoad : MonoBehaviour
     }
     private IEnumerator LoadDataDelayed()
     {
-        yield return new WaitForSeconds(0.3f);
-
+        yield return new WaitForSeconds(0.1f);
         LoadData();
+        PlayerSpawn.useSavedPosition = false;
     }
 }
