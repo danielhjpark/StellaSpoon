@@ -5,6 +5,7 @@ using System.IO;
 using StarterAssets;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityNote;
 
 [System.Serializable]
 public class SaveData
@@ -120,11 +121,22 @@ public class SaveNLoad : MonoBehaviour
         {
             Debug.LogWarning("Inventory 오브젝트를 찾지 못했습니다");
         }
+        if (inventoryObject != null)
+            theInventory = inventoryObject.GetComponent<Inventory>();
+        if (refriInventoryObject != null)
+            theRefrigeratorInventory = refriInventoryObject.GetComponent<RefrigeratorInventory>();
         if (chest1InventoryObject != null)
             chest1Inventory = chest1InventoryObject.GetComponent<Inventory>();
 
         if (chest2InventoryObject != null)
             chest2Inventory = chest2InventoryObject.GetComponent<Inventory>();
+
+        if (SceneLoader.isContinueGame)
+        {
+            SceneLoader.isContinueGame = false;
+            StartCoroutine(LoadDataDelayed());
+            //LoadData();
+        }
     }
 
     public void SaveData()
@@ -374,5 +386,11 @@ public class SaveNLoad : MonoBehaviour
         {
             Debug.Log("세이브 파일이 없습니다.");
         }
+    }
+    private IEnumerator LoadDataDelayed()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        LoadData();
     }
 }

@@ -22,11 +22,11 @@ public class PlayerSpawn : MonoBehaviour
         foreach (string s in ignoreScenes)
             if (scene.name == s) return;
 
-        if (!useSavedPosition)
+        if (useSavedPosition == false)
         {
             StartCoroutine(SetPlayerPosition());
         }
-        else
+        else if(useSavedPosition == true)
         {
             Debug.Log("저장된 위치로 이동 예정이므로 기본 위치로 스폰 생략");
         }
@@ -57,10 +57,13 @@ public class PlayerSpawn : MonoBehaviour
             }
             else
             {
+                yield return null;
                 player.transform.position = transform.position;
             }
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            useSavedPosition = false;
         }
         else
         {
