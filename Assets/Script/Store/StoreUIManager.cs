@@ -388,7 +388,7 @@ public class StoreUIManager : MonoBehaviour
     }
     //cook
 
-    private void LevelCostSetting()
+    public void LevelCostSetting()
     {
         panLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentPanLevel.ToString();
         worLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentWorLevel.ToString();
@@ -498,7 +498,7 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
-    private void UpgradeCookDetail(string name)
+    public void UpgradeCookDetail(string name)
     {
         switch (name)
         {
