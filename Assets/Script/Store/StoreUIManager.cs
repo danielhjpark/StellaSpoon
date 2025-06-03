@@ -75,9 +75,13 @@ public class StoreUIManager : MonoBehaviour
     private GameObject potLevelText;
 
     //현재 조리기구 레벨
+    [SerializeField]
     static public int currentPanLevel = 1;
+    [SerializeField]
     static public int currentWorLevel = 1;
+    [SerializeField]
     static public int currentCuttingBoardLevel = 1;
+    [SerializeField]
     static public int currentPotLevel = 1;
 
     //최대 조리기구 레벨
@@ -384,27 +388,17 @@ public class StoreUIManager : MonoBehaviour
     }
     //cook
 
-    public void LevelCostSetting()
+    private void LevelCostSetting()
     {
         panLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentPanLevel.ToString();
         worLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentWorLevel.ToString();
         cuttingBoardLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentCuttingBoardLevel.ToString();
         potLevelText.GetComponent<TextMeshProUGUI>().text = "Lv: " + currentPotLevel.ToString();
-
-        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text =
-            (currentPanLevel >= maxPanLevel) ? "Max" : panUpgradeCost[Mathf.Clamp(currentPanLevel - 1, 0, panUpgradeCost.Length - 1)].ToString();
-
-        worUpgradeCostText.GetComponent<TextMeshProUGUI>().text =
-            (currentWorLevel >= maxWorLevel) ? "Max" : worUpgradeCost[Mathf.Clamp(currentWorLevel - 1, 0, worUpgradeCost.Length - 1)].ToString();
-
-        cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text =
-            (currentCuttingBoardLevel >= maxCuttingBoardLevel) ? "Max" : cuttingBoardUpgradeCost[Mathf.Clamp(currentCuttingBoardLevel - 1, 0, cuttingBoardUpgradeCost.Length - 1)].ToString();
-
-        potUpgradeCostText.GetComponent<TextMeshProUGUI>().text =
-            (currentPotLevel >= maxPotLevel) ? "Max" : potUpgradeCost[Mathf.Clamp(currentPotLevel - 1, 0, potUpgradeCost.Length - 1)].ToString();
+        panUpgradeCostText.GetComponent<TextMeshProUGUI>().text = panUpgradeCost[currentPanLevel - 1].ToString();
+        worUpgradeCostText.GetComponent<TextMeshProUGUI>().text = worUpgradeCost[currentWorLevel - 1].ToString();
+        cuttingBoardUpgradeCostText.GetComponent<TextMeshProUGUI>().text = cuttingBoardUpgradeCost[currentCuttingBoardLevel - 1].ToString();
+        potUpgradeCostText.GetComponent<TextMeshProUGUI>().text = potUpgradeCost[currentPotLevel - 1].ToString();
     }
-
-
     public void Upgrade(string tools)
     {
         int[] upgradeCost;
@@ -504,7 +498,7 @@ public class StoreUIManager : MonoBehaviour
         }
     }
 
-    public void UpgradeCookDetail(string name)
+    private void UpgradeCookDetail(string name)
     {
         switch (name)
         {
