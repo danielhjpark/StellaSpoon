@@ -26,7 +26,7 @@ public class SleepBed : InteractObject
 
     IEnumerator UseSleepBed()
     {
-        gameTimeManager.AddTime(300);
+        gameTimeManager.AddTime(240);
         InteractUIManger.isUseInteractObject = true;
         fadePanel.SetActive(true);
         fadePanel.GetComponent<CanvasRenderer>().SetAlpha(0f);
