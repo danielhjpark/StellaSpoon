@@ -36,18 +36,17 @@ namespace UnityNote
         private void Awake()
         {
 
-            if (Instance != null && Instance != this && instance != null && instance != this)
+            if (Instance != null && Instance != this || instance != null && instance != this)
             {
                 Destroy(gameObject);
+                return;
             }
-            else
-            {
-                Instance = this;
-                waitChangeDelay = new WaitForSeconds(0.5f);
 
-                DontDestroyOnLoad(gameObject);
-                SceneManager.sceneLoaded += OnSceneLoaded;
-            }
+            Instance = this;
+            waitChangeDelay = new WaitForSeconds(0.5f);
+
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDestroy()
@@ -136,6 +135,27 @@ namespace UnityNote
             else
             {
                 Debug.LogWarning("YesButton을 찾을 수 없음. 태그 설정 또는 비활성화 상태 확인 필요.");
+            }
+            GameObject newGameObj = GameObject.Find("StartButton");
+            if (newGameObj != null)
+            {
+                Button newGameButton = newGameObj.GetComponent<Button>();
+                if (newGameButton != null)
+                {
+                    newGameButton.onClick.RemoveAllListeners();
+                    newGameButton.onClick.AddListener(OnClick_NewGame);
+                }
+            }
+
+            GameObject continueObj = GameObject.Find("LoadButton");
+            if (continueObj != null)
+            {
+                Button continueButton = continueObj.GetComponent<Button>();
+                if (continueButton != null)
+                {
+                    continueButton.onClick.RemoveAllListeners();
+                    continueButton.onClick.AddListener(OnClick_ContinueGame);
+                }
             }
         }
 
