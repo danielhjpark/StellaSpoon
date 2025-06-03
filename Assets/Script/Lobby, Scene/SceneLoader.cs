@@ -314,6 +314,14 @@ namespace UnityNote
         {
             PlayerSpawn.useSavedPosition = false;
             isNewGame = true;
+            // 여기서 변수들 초기화
+            Manager.stage_01_clear = false;
+            Manager.stage_02_clear = false;
+            Manager.gold = 0;
+            StoreUIManager.currentPanLevel = 1;
+            StoreUIManager.currentPotLevel = 1;
+            StoreUIManager.currentWorLevel = 1;
+            StoreUIManager.currentCuttingBoardLevel = 1;
             LoadScene(SceneNames.Restaurant, false);
         }
     }
