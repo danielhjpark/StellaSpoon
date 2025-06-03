@@ -193,6 +193,10 @@ public class StoreUIManager : MonoBehaviour
         ResetIngredientPurchase();
         SelectGun(0);
         LevelCostSetting(); //조리도구상점 업그레이드 비용 설정
+        UpgradeCookDetail("Pan"); //팬 업그레이드 디테일 초기화
+        UpgradeCookDetail("Wor"); //웍 업그레이드 디테일 초기화
+        UpgradeCookDetail("CuttingBoard"); //도마 업그레이드 디테일 초기화
+        UpgradeCookDetail("Pot"); //냄비 업그레이드 디테일 초기화
         UpdateAllSellButtons();
     }
 

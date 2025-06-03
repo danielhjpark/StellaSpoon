@@ -286,7 +286,6 @@ public class SaveNLoad : MonoBehaviour
             CharacterController controller = thePlayer.GetComponent<CharacterController>();
             rifleManager = FindObjectOfType<RifleManager>();
             GameTimeManager timeManager = FindObjectOfType<GameTimeManager>();
-            StoreUIManager storeUIManager = FindObjectOfType<StoreUIManager>(); // Add this line to get a reference to StoreUIManager
 
             if (thePlayer != null)
             {
@@ -357,19 +356,6 @@ public class SaveNLoad : MonoBehaviour
                 StoreUIManager.currentWorLevel = saveData.currentWorLevel;
                 StoreUIManager.currentCuttingBoardLevel = saveData.currentCuttingBoardLevel;
                 StoreUIManager.currentPotLevel = saveData.currentPotLevel;
-
-                if (storeUIManager != null)
-                {
-                    storeUIManager.LevelCostSetting(); // Use the instance reference to call the method 
-                    storeUIManager.UpgradeCookDetail("Pan");
-                    storeUIManager.UpgradeCookDetail("Wor");
-                    storeUIManager.UpgradeCookDetail("CuttingBoard");
-                    storeUIManager.UpgradeCookDetail("Pot");
-                }
-                else
-                {
-                    Debug.LogWarning("StoreUIManager를 찾을 수 없습니다.");
-                }
 
                 // 게임 시간
                 timeManager.gameHours = saveData.gameHour;
