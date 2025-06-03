@@ -34,9 +34,17 @@ public class PlayerSpawn : MonoBehaviour
 
     private IEnumerator SetPlayerPosition()
     {
-        yield return null;
+        GameObject player = null;
+        float timeout = 3f;
+        float elapsed = 0f;
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        while (player == null && elapsed < timeout)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         if (player)
         {
             CharacterController controller = player.GetComponent<CharacterController>();
@@ -50,9 +58,12 @@ public class PlayerSpawn : MonoBehaviour
             {
                 player.transform.position = transform.position;
             }
-
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+        else
+        {
+            Debug.LogWarning("SetPlayerPosition: 시간 초과로 플레이어를 찾지 못함.");
         }
     }
 }

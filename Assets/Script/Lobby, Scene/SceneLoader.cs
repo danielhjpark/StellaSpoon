@@ -167,10 +167,15 @@ namespace UnityNote
 
         private IEnumerator LoadSceneAsync(string name)
         {
+            float minLoadingTime = 2.0f; // 최소 로딩 시간 (예: 2초)
+            float startTime = Time.time;
+
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(name);
             asyncOperation.allowSceneActivation = false;
+
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
             while (asyncOperation.progress < 0.9f)
             {
                 float progress = Mathf.Clamp01(asyncOperation.progress / 0.9f);
@@ -179,12 +184,13 @@ namespace UnityNote
                 yield return null;
             }
 
-            // 로딩 완료 후 100%로 표시
             loadingProgress.value = 1f;
             textProgress.text = "100%";
 
-            // 잠깐의 대기 시간 (선택 사항)
-            yield return waitChangeDelay;
+            // 최소 로딩 시간 대기
+            float remainingTime = minLoadingTime - (Time.time - startTime);
+            if (remainingTime > 0f)
+                yield return new WaitForSeconds(remainingTime);
 
             // 씬 전환
             asyncOperation.allowSceneActivation = true;
