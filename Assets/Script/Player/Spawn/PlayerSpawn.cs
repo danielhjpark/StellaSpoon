@@ -51,6 +51,7 @@ public class PlayerSpawn : MonoBehaviour
             if (controller)
             {
                 controller.enabled = false;
+                yield return null;
                 player.transform.position = transform.position;
                 controller.enabled = true;
             }
