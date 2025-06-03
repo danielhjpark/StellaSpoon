@@ -42,6 +42,7 @@ public class TrimIngredientUI : MonoBehaviour
             {
                 GameObject slotObject = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity);
                 slotObject.transform.SetParent(trimIngredientUIParent.transform);
+                slotObject.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
                 Destroy(slotObject.GetComponent<SelectRecipeSlot>());
                 slotObject.AddComponent<TrimIngredientSlot>();
                 slotObject.GetComponent<TrimIngredientSlot>().SlotUISetup(recipe, ingredientInventory);

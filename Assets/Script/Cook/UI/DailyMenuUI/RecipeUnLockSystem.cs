@@ -15,7 +15,7 @@ public class RecipeUnLockSystem : MonoBehaviour {
             if(menuSlots.FirstOrDefault(menu => menu.currentRecipe == recipe)) continue;
             GameObject menu = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             menu.transform.SetParent(recipePanel.transform);
-
+            menu.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             MenuSlot menuSlot = menu.GetComponent<MenuSlot>();
             menuSlot.MenuUISetup(recipe);
             menuSlots.Add(menuSlot);

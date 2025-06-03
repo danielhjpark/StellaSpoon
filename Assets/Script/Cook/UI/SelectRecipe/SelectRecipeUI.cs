@@ -44,7 +44,7 @@ public class SelectRecipeUI : MonoBehaviour
             else if (DailyMenuManager.dailyMenuList[recipe] <= 0) continue;
             GameObject recipeObject = Instantiate(recipePrefab, Vector3.zero, Quaternion.identity);
             recipeObject.transform.SetParent(recipeParent.transform);
-
+            recipeObject.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             SelectRecipeSlot selectRecipe = recipeObject.GetComponent<SelectRecipeSlot>();
             selectRecipe.OnSelectRecipe += RecipeUpdate;
             selectRecipe.RecipeUISetup(recipe, ingredientInventory);

@@ -35,7 +35,7 @@ public class IngredientInventory : MonoBehaviour
 
         GameObject ingredientslot = Instantiate(ingredientSlotPrefab);
         ingredientslot.transform.SetParent(ingredientSlotParent.transform);
-
+        ingredientslot.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         ingredientslot.GetComponent<IngredientSlot>().refrigeratorInventory = refrigeratorInventory;
         ingredientslot.GetComponent<IngredientSlot>().slotToolTip = slotToolTip;
         ingredientslot.GetComponent<IngredientSlot>().BindingIngredient(ingredient);
