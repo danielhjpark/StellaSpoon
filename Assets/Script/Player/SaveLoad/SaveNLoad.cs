@@ -271,13 +271,16 @@ public class SaveNLoad : MonoBehaviour
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
             thePlayer = FindObjectOfType<ThirdPersonController>();
+            CharacterController controller = thePlayer.GetComponent<CharacterController>();
             rifleManager = FindObjectOfType<RifleManager>();
             GameTimeManager timeManager = FindObjectOfType<GameTimeManager>();
             if (thePlayer != null)
             {
                 // 플레이어
+                controller.enabled = false;
                 thePlayer.transform.position = saveData.playerPos;
                 thePlayer.transform.eulerAngles = saveData.playerRot;
+                controller.enabled = true;
                 // HP
                 thePlayer.curHP = saveData.playerHp;
                 thePlayer._hpBar.value = thePlayer.curHP;

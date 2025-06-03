@@ -70,6 +70,17 @@ namespace UnityNote
                 }
                 isNewGame = false;
             }
+            // 저장 데이터 로딩은 여기서 확실하게 처리
+            if (loadSaveFile)
+            {
+                theSaveNLoad = FindObjectOfType<SaveNLoad>();
+                if (theSaveNLoad != null)
+                {
+                    theSaveNLoad.LoadData();
+                    Debug.Log("씬 로드 후 저장 데이터 불러오기 완료 (OnSceneLoaded)");
+                }
+                loadSaveFile = false; // 반드시 초기화
+            }
 
             // 로딩 화면 종료
             if (!isInChainedLoad && loadingScreen != null)
@@ -234,14 +245,11 @@ namespace UnityNote
             if (targetScene == "Restaurant")
             {
                 Debug.Log("저장된 씬이 Restaurant면 바로 로드");
-                yield return StartCoroutine(LoadSceneAsync(targetScene));
 
-                theSaveNLoad = FindObjectOfType<SaveNLoad>();
-                if (theSaveNLoad != null)
-                {
-                    theSaveNLoad.LoadData();
-                    Debug.Log("ContinueGame: 저장 데이터 불러오기 완료");
-                }
+                loadSaveFile = true;
+
+                PlayerSpawn.useSavedPosition = true;
+                yield return StartCoroutine(LoadSceneAsync(targetScene));
 
                 isInChainedLoad = false;
                 loadingScreen.SetActive(false);
@@ -304,6 +312,7 @@ namespace UnityNote
 
         public void OnClick_NewGame()
         {
+            PlayerSpawn.useSavedPosition = false;
             isNewGame = true;
             LoadScene(SceneNames.Restaurant, false);
         }
