@@ -39,9 +39,18 @@ public class EndingUI : MonoBehaviour
         NPCSpawnCountText.text += Manager.NPCSpawnCount + "명";
     }
 
+    void SetConstText()
+    {
+        GameDayText.text += "35일";
+        KillMonsterCountText.text += "230마리"; //처치한 몬스터 수
+        FirstCreateRecipeText.text += "붉은 호르나비아 구이";
+        NPCSpawnCountText.text += "327명";
+    }
+
     public IEnumerator EndingScene()
     {
-        SetText();
+        SetConstText();
+        //SetText();
         //yield return StartCoroutine(FadeOut());
         yield return StartCoroutine(fadePanel.GetComponent<FadeEffect>().Fade(0, 1f));
         yield return StartCoroutine(StartTyping(TitleText));
