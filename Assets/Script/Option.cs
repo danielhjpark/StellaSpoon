@@ -34,6 +34,7 @@ public class Option : MonoBehaviour
         foreach (UIButton uiButton in uiButtons)
         {
             uiButton.button.onClick.AddListener(() => OnButtonClicked(uiButton));
+            uiButton.button.onClick.AddListener(() => SoundManager.instance.PlaySound(SoundManager.Display.Button));
         }
     }
     private void Update()
@@ -47,7 +48,7 @@ public class Option : MonoBehaviour
     public void OpenOption()
     {
         if (OptionActivated) return;
-
+        SoundManager.instance.PlaySound(SoundManager.Display.Display_Menu_Button);
         go_Option.SetActive(true);
         soundBase.SetActive(true);
         keyBase.SetActive(false);

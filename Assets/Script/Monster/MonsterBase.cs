@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Rendering.ShadowCascadeGUI;
-
+using UnityEngine.UI;
 
 public enum MonsterStates //몬스터 상태
 {
@@ -12,7 +11,7 @@ public enum MonsterStates //몬스터 상태
     Attack, //공격 상태
     Chasing, //쫒기 상태
     RandomMove, //랜덤 이동 상태
-    Death //죽음 상태
+    Death, //죽음 상태
 }
 public abstract class MonsterBase : MonoBehaviour
 {
@@ -46,23 +45,34 @@ public abstract class MonsterBase : MonoBehaviour
     public int[] maxDropItems; //아이템 별 최대 드랍 갯수
 
     protected MonsterStates currentState;
+    protected MonsterStates previousState; // 이전 상태 저장용
     protected NavMeshAgent nav;
     protected Animator animator;
     protected GameObject player;
     protected Collider coll;
+    protected Rigidbody rb; //몬스터의 리지드바디
+    [SerializeField]
     protected ThirdPersonController thirdPersonController;
 
-    private bool canDamage; //플레이어 공격 인지 범위 내에 있는지 체크 변수
-    private bool isDamage; //데미지를 입었는지 체크 변수
+    protected bool canDamage; //플레이어 공격 인지 범위 내에 있는지 체크 변수
+    [SerializeField]
+    protected bool isDamage; //데미지를 입었는지 체크 변수
     private bool RandomPositionDecide = false; //랜덤 경로가 정해졌는지 체크 변수
 
-    private float distanceToPlayer; //플레이어와의 거리
+    protected float distanceToPlayer; //플레이어와의 거리
 
-    protected void Start()
+    [Header("Health UI")]
+    [SerializeField]
+    protected Slider HealthSlider;
+    [SerializeField]
+    protected GameObject sliderFill;
+
+    protected virtual void Start()
     {
         nav = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        rb = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
         thirdPersonController = player.GetComponent<ThirdPersonController>();
 
@@ -71,13 +81,43 @@ public abstract class MonsterBase : MonoBehaviour
 
         currentState = MonsterStates.Idle; //시작시 Idle상태
 
+        //초기값 설정
+        isAttack = false; //공격중이 아님
+        isDamage = false; //피격중이 아님
+        isMove = false; //움직임이 아님
+        canDamage = false; //플레이어 공격 인지 범위 내에 없음
+        inAttackRange = false; //공격 범위 내에 없음
+        isDead = false; //죽음이 아님
+
         lastAttackTime = -damageDelayTime; //공격 딜레이 초기화
 
         nav.avoidancePriority = Random.Range(30, 60); // 회피 우선순위를 랜덤으로 설정
+
+        if (HealthSlider != null)
+        {
+            HealthSlider.maxValue = maxHealth;
+            HealthSlider.value = currentHealth;
+        }
     }
 
     protected void Update()
     {
+        // 체력 슬라이더 업데이트
+        if (HealthSlider != null)
+        {
+            HealthSlider.value = currentHealth;
+
+            sliderFill.SetActive(currentHealth > 0);
+            if (currentHealth <= 0)
+            {
+                sliderFill.SetActive(false); //체력이 0 이하일 때 슬라이더 비활성화
+            }
+        }
+
+        if (isDamage)
+        {
+            return;
+        }
         if (!isDead)
         {
             if (currentHealth <= 0)
@@ -102,7 +142,14 @@ public abstract class MonsterBase : MonoBehaviour
 
                     if (distanceToPlayer <= attackRange)
                     {
-                        nav.ResetPath();
+                        if (this is BearKingMonster && !BearKingMonster.isJumping)
+                        {
+                            nav.ResetPath();
+                        }
+                        else
+                        {
+                            nav.ResetPath();
+                        }
                         inAttackRange = true;
                         currentState = MonsterStates.Attack;
                     }
@@ -119,9 +166,16 @@ public abstract class MonsterBase : MonoBehaviour
                 }
                 if (!(this is EscapeMonster))
                 {
-                    if((this is BearKingMonster))
+                    if ((this is BearKingMonster))
                     {
-                        if(!BearKingMonster.isChargeSetting)
+                        if (!BearKingMonster.isChargeSetting)
+                        {
+                            LookPlayer();
+                        }
+                    }
+                    else if ((this is WolfKingMonster))
+                    {
+                        if (!WolfKingMonster.isThrowWarning)
                         {
                             LookPlayer();
                         }
@@ -140,25 +194,25 @@ public abstract class MonsterBase : MonoBehaviour
         {
             case MonsterStates.Idle:
                 HandleIdle();
-                Debug.Log("일반 상태");
+                //Debug.Log("일반 상태");
                 break;
 
             case MonsterStates.Attack:
-                Debug.Log("공격 상태");
+                //Debug.Log("공격 상태");
                 HandleAttack();
                 break;
 
             case MonsterStates.Chasing:
-                Debug.Log("쫒기 상태");
+                //Debug.Log("쫒기 상태");
                 HandleChasing();
                 break;
 
             case MonsterStates.RandomMove:
-                Debug.Log("랜덤 이동 상태");
+                //Debug.Log("랜덤 이동 상태");
                 HandleRandomMove();
                 break;
             case MonsterStates.Death:
-                Debug.Log("죽음 상태");
+                //Debug.Log("죽음 상태");
                 HandleDeath();
                 break;
 
@@ -198,7 +252,7 @@ public abstract class MonsterBase : MonoBehaviour
             return;
         }
         animator.SetBool("Walk", true);
-        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 1f);
+        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 1.5f);
         if (canDamage && isDamage)
         {
             //5초 뒤에 idle 상태로 변환
@@ -216,6 +270,10 @@ public abstract class MonsterBase : MonoBehaviour
     }
     protected virtual void HandleRandomMove()
     {
+        if (!animator.GetBool("Walk"))
+        {
+            animator.SetBool("Walk", true);
+        }
         wanderTimer += Time.deltaTime; //시간 체크
         if (!nav.pathPending && nav.remainingDistance <= 0.2f) //도착지에서 0.1 내에 있는지
         {
@@ -229,7 +287,7 @@ public abstract class MonsterBase : MonoBehaviour
         {
             if (!RandomPositionDecide) // 랜덤 경로가 설정되었을 때
             {
-                Debug.Log("랜덤 위치 생성");
+                //Debug.Log("랜덤 위치 생성");
                 Vector3 newDestination = GetRandomPoint(initialPosition, randomMoveRange);
                 nav.SetDestination(newDestination);
                 RandomPositionDecide = true;
@@ -244,19 +302,31 @@ public abstract class MonsterBase : MonoBehaviour
     }
     protected virtual void HandleDeath()
     {
-        animator.SetBool("Walk", false);
-
-        Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(param.name, false);
+            }
+        }
+        //Debug.Log($"{gameObject.name}이(가) 사망했습니다.");
         currentHealth = 0;
         //애니메이션 죽음 실행
         animator.SetTrigger("Die");
+        //중력 제거
+        rb.useGravity = false; //중력 사용 안함
+        rb.isKinematic = true; //물리엔진에서 제외
         //충돌 제거
         coll.enabled = false;
         //네비매쉬끄기
         nav.ResetPath();
+        nav.isStopped = true;
+        nav.enabled = false;
         StartCoroutine(DeathDelay());
         //아이템 드랍
         DropItems();
+        isDead = true; //죽음 상태로 변경
+        Manager.KillMonsterCount++;
     }
 
     //
@@ -272,35 +342,35 @@ public abstract class MonsterBase : MonoBehaviour
         return center;
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(int damage)
     {
+        if (currentState == MonsterStates.Death) return; // 이미 죽었으면 무시
+
         //todo뒤로 넉백하는 코드 필요
         currentHealth -= damage;
-        Debug.Log(damage + " 데미지 입음! " + currentHealth + " 체력 남음");
+        //Debug.Log(damage + " 데미지 입음! " + currentHealth + " 체력 남음");
         nav.isStopped = true;
-        animator.SetBool("Walk", false);
+
         if (currentHealth <= 0)
         {
-            isDead = true;
             currentState = MonsterStates.Death;
             HandleState();
+            return;
+        }
+
+        animator.SetBool("Walk", false);
+        animator.SetTrigger("Hit");
+
+        previousState = currentState; //이전 상태 저장
+
+        if (!isDamage) //첫 피격일 때
+        {
+            isDamage = true;
+            //animator.SetBool("Hit", true);
         }
         else
         {
-            if (!isDamage) //첫 피격일 때
-            {
-                isDamage = true;
-                animator.SetBool("Hit", true);
-                currentState = MonsterStates.Idle;
-                HandleState();
-            }
-            else
-            {
-                animator.Play("GetHit", 0, 0f);
-                currentState = MonsterStates.Idle;
-                HandleState();
-            }
-
+            animator.Play("GetHit", 0, 0f); //애니메이션의 이름이 GetHit 이여야 함.
         }
         if (canDamage)
         {
@@ -323,7 +393,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         if (distanceToPlayer <= attackRange)
         {
-            Debug.Log("공격범위 들어옴");
+            //Debug.Log("공격범위 들어옴");
             return true;
         }
         return false;
@@ -332,7 +402,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         if (distanceToPlayer <= playerDetectionRange)
         {
-            Debug.Log("인지 범위 들어옴");
+            //Debug.Log("인지 범위 들어옴");
             return true;
         }
         return false;
@@ -341,7 +411,7 @@ public abstract class MonsterBase : MonoBehaviour
     {
         if (distanceToPlayer <= damageRange)
         {
-            Debug.Log("데미지 범위 들어옴");
+            //Debug.Log("데미지 범위 들어옴");
             return true;
         }
         return false;
@@ -391,7 +461,7 @@ public abstract class MonsterBase : MonoBehaviour
                 }
                 if (itemToDrop != null)
                 {
-                    Vector3 dropPosition = transform.position + new Vector3(0f, 1f, 0f);
+                    Vector3 dropPosition = transform.position + new Vector3(0f, 2f, 0f);
                     GameObject droppedItem = Instantiate(itemToDrop, dropPosition, Quaternion.identity);
                     droppedItems.Add(droppedItem);
                     // 현재 드랍된 아이템과 이전에 드랍된 아이템들 사이의 충돌 무시
@@ -434,12 +504,15 @@ public abstract class MonsterBase : MonoBehaviour
         animator.SetBool("Hit", false);
         nav.isStopped = false;
         isDamage = false;
+
+        currentState = previousState; //이전 상태로 복귀
+        HandleState();
     }
 
     IEnumerator EndAttack()
     {
         yield return new WaitForSeconds(damageDelayTime);
-        Debug.Log("공격 대기 끝남");
+        //Debug.Log("공격 대기 끝남");
         isAttack = false;
         currentState = MonsterStates.Idle;
     }
@@ -460,7 +533,7 @@ public abstract class MonsterBase : MonoBehaviour
     }
 
     // 감지 및 공격 범위 시각화
-    protected virtual void OnDrawGizmos()//항상 보이게 //선택시 보이게 OnDrawGizmosSelected
+    protected virtual void OnDrawGizmosSelected()//선택시 보이게 //항상 보이게 OnDrawGizmos
     {
         Gizmos.color = Color.red; //감지 범위
         Gizmos.DrawWireSphere(transform.position, playerDetectionRange);

@@ -14,6 +14,7 @@ public class Recipe : ScriptableObject
     public GameObject menuPrefab;
 
     [Header("Ingrdient Setting")]
+    public Ingredient mainIngredient;
     public List<IngredientAmount> ingredients;
 
     [Header("CookType Setting ")]
@@ -23,7 +24,6 @@ public class Recipe : ScriptableObject
     public TossingSetting tossingSetting;
     public CuttingSetting cuttingSetting;
     public FryingSetting fryingSetting;
-
 }
 
 public enum CookType
@@ -38,34 +38,38 @@ public enum CookType
 [System.Serializable]
 public class BoilingSetting
 {
-    public BoilType boilType;
-}
-
-public enum BoilType
-{
-    Boil,
-    Steam,
+    public int cookTime;
+    public int rotatePower;
+    public SauceType sauceType;
 }
 
 [System.Serializable]
 public class TossingSetting
 {
-    public int tossingCount;
+    public int firstTossingCount;
+    public int secondTossingCount;
+    public SauceType sauceType;
+    public int firePower;
 }
 
 [System.Serializable]
 public class FryingSetting
 {
-    public int fryingCount;
-    [Header("Total Value = 750")]
-    public int[] sectionRange = new int[3];
+    public FryingStep fryingStep;
+    public int firstFryingCount;
+    public int secondFryingCount;
+    public SauceType sauceType;
+    public int firePower;
 }
 
 [System.Serializable]
 public class CuttingSetting
 {
+    public Item trimItem;
+    public int trimItemCount;
     public int cuttingCount;
-    public int successRange;
+    public CuttingType cuttingType;
+    public Material surfaceMaterial;
 }
 
 [System.Serializable]
@@ -73,4 +77,17 @@ public class IngredientAmount
 {
     public Ingredient ingredient;
     public int amount;
+
+    public IngredientAmount(Ingredient ingredient, int amount)
+    {
+        this.ingredient = ingredient;
+        this.amount = amount;
+    }
 }
+
+public enum CuttingType { Horizontal, Quater };
+public enum SauceType { Brown, Red, White, None };
+public enum BoilType { Boil, Steam }
+public enum FryingStep { Rare, Medium, WellDone };
+
+

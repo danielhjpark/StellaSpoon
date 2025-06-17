@@ -13,18 +13,30 @@ MonoBehaviour:
   m_Name: Trim_Aliverry
   m_EditorClassIdentifier: 
   menuName: "\uC190\uC9C8\uB41C \uC54C\uB9AC\uBCA0\uB9AC"
-  menuImage: {fileID: 0}
+  menuImage: {fileID: 21300000, guid: ab0fc255d440c8149917c1cfeea3d5ee, type: 3}
   menuPrice: 0
   menuPrefab: {fileID: 0}
+  mainIngredient: {fileID: 11400000, guid: 127a63fdcbd34a444b07bff606b29fa3, type: 2}
   ingredients: []
-  cookType: 0
+  cookType: 1
   boilingSetting:
-    boilType: 0
+    cookTime: 0
+    rotatePower: 0
+    sauceType: 0
   tossingSetting:
-    tossingCount: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
+    sauceType: 0
+    firePower: 0
   cuttingSetting:
-    cuttingCount: 0
-    successRange: 0
+    trimItem: {fileID: 11400000, guid: 49d7f661889c8c14bbab27288afa5f4a, type: 2}
+    trimItemCount: 4
+    cuttingCount: 2
+    cuttingType: 1
+    surfaceMaterial: {fileID: 2100000, guid: fe3cbd048943a37469237292716a67ac, type: 2}
   fryingSetting:
-    fryingCount: 0
-    sectionRange: 000000000000000000000000
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
+    sauceType: 0
+    firePower: 0

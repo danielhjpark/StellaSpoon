@@ -1,0 +1,155 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System;
+
+public class RefrigeratorSlot : Slot
+{
+    public Ingredient currentIngredient;
+    public Item previousItem;
+    public event Action OnSlotUpdate;
+
+    override public void AddItem(Item _item, int _count = 1)
+    {
+        if (!IsTypeIngredient(_item))
+        {
+            return;
+        }
+        //base.AddItem(_item, _count);
+                // 슬롯에 추가할 아이템 정보 저장
+        item = _item;
+        itemCount = _count;
+
+        // 아이템 이미지를 슬롯에 표시
+        itemImage.sprite = item.itemImage;
+
+        // 아이템이 장비 타입이 아닌 경우, 아이템 개수를 텍스트로 표시
+        if (item.itemType != Item.ItemType.Equipment)
+        {
+            text_count.text = itemCount.ToString();
+            text_count.gameObject.SetActive(true);
+        }
+        else
+        {
+            // 장비 타입인 경우, 갯수를 알려주는 텍스트를 비활성화
+            text_count.gameObject.SetActive(false);
+        }
+
+        // 슬롯의 색상 불투명도로 활성화 표시
+        SetColor(1);
+        previousItem = _item;
+        currentIngredient = IngredientManager.instance.FindIngredient(_item.itemName);
+        OnSlotUpdate?.Invoke();
+    }
+
+    public void AddIngredient(Ingredient ingredient, int _count = 1)
+    {
+        currentIngredient = ingredient;
+    }
+
+    override public void ChangeSlot()
+    {
+        if (!IsTypeIngredient(DragSlot.instance.dragSlot.item)) { return; }
+
+        Item _tempItem = item;
+        int _tempItemCount = itemCount;
+
+        if (_tempItem != null)
+        {
+            int addItemCount;
+            if (_tempItem.itemName == DragSlot.instance.dragSlot.item.itemName)
+            {
+                addItemCount = itemCount + DragSlot.instance.dragSlot.itemCount;
+                AddItem(DragSlot.instance.dragSlot.item, addItemCount);
+                DragSlot.instance.dragSlot.ClearSlot();
+            }
+            else
+            {
+                addItemCount = DragSlot.instance.dragSlot.itemCount;
+                AddItem(DragSlot.instance.dragSlot.item, addItemCount);
+                DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
+            }
+        }
+        else
+        {
+            AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+            DragSlot.instance.dragSlot.ClearSlot();
+        }
+
+    }
+
+    private bool IsTypeIngredient(Item _item)
+    {
+        if (_item.itemType.ToString() == "Ingredient" || _item.itemType.ToString() == "contaminatedIngredient")
+        {
+            return true;
+
+        }
+        return false;
+    }
+
+    public override void OnDrop(PointerEventData eventData)
+    {
+        if (DragSlot.instance.dragSlot != null && DragSlot.instance.dragSlot != this) ChangeSlot();
+        OnSlotUpdate?.Invoke();
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
+    }
+
+    override public void ClearSlot()
+    {
+        // 아이템 데이터 초기화
+        previousItem = item;
+        currentIngredient = null;
+        item = null;
+        itemCount = 0;
+        // 슬롯의 이미지와 텍스트를 초기화
+        itemImage.sprite = null;
+        text_count.gameObject.SetActive(false);
+        // 슬롯을 비활성화 색상으로 표시
+        SetColor(0);
+        OnSlotUpdate?.Invoke();
+    }
+
+    public void UseItem(int count)
+    {
+        SetSlotCount(-count);
+    }
+
+    public void RecallItem(int count)
+    {
+        if (item == null)
+        {
+            AddItem(previousItem, count);
+            return;
+        }
+        else SetSlotCount(count);
+    }
+
+    public void SetSlotCount(int _count)
+    {
+        // 현재 아이템 개수를 업데이트
+        itemCount += _count;
+        text_count.text = itemCount.ToString();
+        text_count.gameObject.SetActive(true);
+
+        // 아이템 개수가 0 이하일 경우 슬롯을 초기화
+        if (itemCount <= 0)
+        {
+            ClearSlot();
+        }
+        OnSlotUpdate?.Invoke();
+    }
+
+}

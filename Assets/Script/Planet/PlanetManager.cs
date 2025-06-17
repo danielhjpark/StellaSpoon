@@ -7,20 +7,18 @@ public class PlanetManager : MonoBehaviour
     public static PlanetManager Instance { get; private set; }
     public enum PlanetType
     {
-        Moon, //달
-        Earth, //지구
-        Mars, //화성
-        aRedForest, // 민근이가 만든거
-        Store,           //새로운 행성 추가
-        NPCTest, // 레스토랑 테스트
-        BossMonsterTest // 보스 몬스터 테스트
+        Restaurant,
+        Shop,
+        aRedForest, //1행성
+        Serenoxia
+        //새로운 행성 추가
     }
 
     [SerializeField]
     private List<PlanetInfo> planetInfos; //행성 정보 저장 리스트
 
     private Dictionary<PlanetType, PlanetInfo> planetInfoMap;
-    private static PlanetType selectedPlanet; //현재 행성
+    public static PlanetType selectedPlanet; //현재 행성
 
     private void Awake()
     {
@@ -28,9 +26,10 @@ public class PlanetManager : MonoBehaviour
 
         planetInfoMap = new Dictionary<PlanetType, PlanetInfo>
         {
-            { PlanetType.Earth, planetInfos[0] },
-            { PlanetType.Moon, planetInfos[1] },
-            { PlanetType.Mars, planetInfos[2] }
+            { PlanetType.aRedForest, planetInfos[0] },
+            { PlanetType.Serenoxia, planetInfos[1] },
+            { PlanetType.Shop, planetInfos[2] },
+            { PlanetType.Restaurant, planetInfos[3] },
             //새로운 행성 추가
         };
     }

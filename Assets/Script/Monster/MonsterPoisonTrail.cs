@@ -30,10 +30,13 @@ public class MonsterPoisonTrail : MonoBehaviour
                     ClearPoisonClouds();
                     yield break; // 코루틴 즉시 종료
                 }
-                GameObject poison = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
-                poisonClouds.Add(poison);
+                if(escapeMonster.isEscaping) //몬스터가 도망가는 중이면 독구름 생성
+                {
+                    GameObject poison = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
+                    poisonClouds.Add(poison);
 
-                StartCoroutine(FadeAndDestroyPoison(poison, poisonDuration, fadeDuration));
+                    StartCoroutine(FadeAndDestroyPoison(poison, poisonDuration, fadeDuration));
+                }
                 yield return new WaitForSeconds(spawnInterval);
             }
             else

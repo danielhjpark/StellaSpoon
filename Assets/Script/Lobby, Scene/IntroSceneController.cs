@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class IntroSceneController : MonoBehaviour
 {
-
     [SerializeField]
     private GameObject lobbyUI;
-
     public void GameStartEvent()
     {
-        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.Playground);
+        UnityNote.SceneLoader.Instance.LoadScene(SceneNames.Restaurant);
         lobbyUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

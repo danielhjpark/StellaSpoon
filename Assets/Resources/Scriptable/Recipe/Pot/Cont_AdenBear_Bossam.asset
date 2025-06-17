@@ -13,25 +13,34 @@ MonoBehaviour:
   m_Name: Cont_AdenBear_Bossam
   m_EditorClassIdentifier: 
   menuName: "\uC624\uC5FC\uB41C \uC544\uB374\uBCA0\uC5B4 \uBCF4\uC308"
-  menuImage: {fileID: 0}
-  menuPrice: 0
-  menuPrefab: {fileID: 0}
+  menuImage: {fileID: 21300000, guid: a7dc569e63d515841806a2425578ae31, type: 3}
+  menuPrice: 650
+  menuPrefab: {fileID: 466187095634371224, guid: 677185ee5c50ec54883812a28b831562, type: 3}
+  mainIngredient: {fileID: 11400000, guid: 4475f29d51447874dbff1a704654c3a9, type: 2}
   ingredients:
-  - ingredient: {fileID: 11400000, guid: 4475f29d51447874dbff1a704654c3a9, type: 2}
-    amount: 1
   - ingredient: {fileID: 11400000, guid: 7bff2a23d7c39d74e835866c9287a3be, type: 2}
-    amount: 5
+    amount: 6
   - ingredient: {fileID: 11400000, guid: ae3a5f3076cca914cb6ee36ae9fd5156, type: 2}
-    amount: 5
+    amount: 4
   cookType: 4
   boilingSetting:
-    boilType: 1
+    cookTime: 22
+    rotatePower: 3
+    sauceType: 3
   tossingSetting:
-    tossingCount: 0
-    successRange: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
+    sauceType: 0
+    firePower: 0
   cuttingSetting:
+    trimItem: {fileID: 0}
+    trimItemCount: 0
     cuttingCount: 0
-    successRange: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 0
-    successRange: 0
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
+    sauceType: 0
+    firePower: 0

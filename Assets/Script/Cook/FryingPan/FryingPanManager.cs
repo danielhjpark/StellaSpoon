@@ -2,38 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using System.Linq;
 
 public class FryingPanManager : CookManagerBase
 {
-    [Header("TimeLine")]
-    [SerializeField] PlayableDirector timeline;
+    //------------"FryingPan System"---------------//
+    private FryingSystem fryingSystem;
+    private FryingSauceSystem fryingSauceSystem;
+    private FryingIngredientSystem fryingIngredientSystem;
+    private FryingPanAudioSystem fryingPanAudioSystem;
 
     [Header("UI Object")]
     [SerializeField] FryingPanUI fryingPanUI;
+    [SerializeField] CookUIManager cookUIManager;
+    [SerializeField] IngredientInventory ingredientInventory;
 
     [Header("Set Objects")]
-    [SerializeField] private GameObject tongs;
     [SerializeField] private Transform dropPos;
-    [SerializeField] private GameObject ingredientParent;
-   
-    //---------------------------------------//
-    private GameObject currentIngredient;
-    private bool isHalf;
-    public int fryingCount = 3;
+    [SerializeField] private GameObject dropIngredient;
 
-    void Awake() {
+    //-------------Frying Setting------------------//
+    private FryingStep fryingStep;
+    private int firstFryingCount, secondFryingCount;
+    private int totalSuccessCount;
+    private int successCount;
+    private int successFireStep;
+
+    void Awake()
+    {
+        fryingSystem = GetComponent<FryingSystem>();
+        fryingSauceSystem = GetComponent<FryingSauceSystem>();
+        fryingIngredientSystem = GetComponent<FryingIngredientSystem>();
+        fryingPanAudioSystem = GetComponent<FryingPanAudioSystem>();
+
         CookManager.instance.BindingManager(this);
+        CookManager.instance.spawnPoint = dropPos;
+        CookSceneManager.instance.mainCamera.transform.gameObject.SetActive(false);
+        cookUIManager.Initialize(this);
+
+        isCanEscape = true;
+
     }
 
-    void Start() {
-        tongs.SetActive(false);
-    }
-
-    void Update() {
-        //Before Select UI => Can cancel use utensil
-        if(Input.GetKeyDown(KeyCode.Escape)) {
-            if(currentMenu == null)
-                CookSceneManager.instance.UnloadScene();
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && isCanEscape)
+        {
+            CookSceneManager.instance.UnloadScene();
         }
     }
 
@@ -41,83 +56,258 @@ public class FryingPanManager : CookManagerBase
     public override void SelectRecipe(Recipe menu)
     {
         base.SelectRecipe(menu);
-        //fryingCount = menu.fryingSetting.fryingCount; fix
-        fryingCount = menu.fryingSetting.fryingCount;
-        fryingPanUI.Initialize(menu.fryingSetting);
+        //±Á±â ´Ü°è
+        fryingStep = menu.fryingSetting.fryingStep;
+        //±Á±â È½¼ö
+        firstFryingCount = menu.fryingSetting.firstFryingCount;
+        secondFryingCount = menu.fryingSetting.secondFryingCount;
+        totalSuccessCount = firstFryingCount + secondFryingCount - 1;
+        //±Á±â ¿Âµµ
+        successFireStep = menu.fryingSetting.firePower;
+        StartCoroutine(UseCookingStep());
     }
 
-    public override void CookCompleteCheck() {
-        if(fryingCount > 0) StartCoroutine(StartFryingIngredient());
-        else {
-            CookSceneManager.instance.UnloadScene("FryingPanMergeTest", currentMenu);
+    public void RecipeSetting(Recipe menu)
+    {
+        base.SelectRecipe(menu);
+
+        if (menu == null || menu.cookType != CookType.Frying)
+        {
+            fryingStep = FryingStep.Medium;
+            firstFryingCount = 2;
+            secondFryingCount = 2;
+            totalSuccessCount = firstFryingCount + secondFryingCount - 1;
+            successFireStep = 2;
         }
-    }
-
-    public override void AddIngredient(GameObject obj, Ingredient ingredient) {
-        currentIngredient = obj;
-        obj.transform.position = dropPos.position;
-        obj.transform.SetParent(ingredientParent.transform);
-        StartCoroutine(DropIngredient());      
-    }
-    //-----------------------------------------------------------//
-
-
-    IEnumerator DropIngredient() {
-        fryingPanUI.OnFryingPanUI();
-        float time = 0;
-        while(true) {
-            time += Time.deltaTime * 5;
-            currentIngredient.transform.localPosition = Vector3.Lerp(dropPos.localPosition, Vector3.zero, time);
-            if(currentIngredient.transform.localPosition.y <= 0) break;
-            yield return null;
+        else
+        {
+            fryingStep = menu.fryingSetting.fryingStep;
+            firstFryingCount = menu.fryingSetting.firstFryingCount;
+            secondFryingCount = menu.fryingSetting.secondFryingCount;
+            totalSuccessCount = firstFryingCount + secondFryingCount - 1;
+            successFireStep = menu.fryingSetting.firePower;
         }
-        isHalf = false;
-        StartCoroutine(StartFryingIngredient());
+        //fryingPanUI.Initialize(true);
     }
 
-    IEnumerator StartFryingIngredient() {
-        Coroutine fryingPanUIMark = StartCoroutine(fryingPanUI.MoveMark());
-        while(true) {
-            SetActiveTongs();
-            if(timeline.time >= timeline.duration && isHalf) {
-                isHalf = false;
-                break;
-            }
-            else if (!isHalf && timeline.time >= timeline.duration/2) {
-                timeline.Pause();
-                isHalf = true;
-                break;
-            }     
-
-            if(Input.GetKeyDown(KeyCode.V)) {
-                timeline.Play();  
-                StopCoroutine(fryingPanUIMark);
-            }   
-            else if(fryingPanUI.IsCheckEnd()) {
-                StopCoroutine(fryingPanUIMark);
-                break;
-            }
-
-            yield return null;
-        }
-        fryingPanUI.GetCurrentSection();
-        yield return new WaitForSeconds(0.5f);
-        fryingCount--;
-
+    public override IEnumerator UseCookingStep()
+    {
+        yield return StartCoroutine(AddMainIngredient());
+        yield return StartCoroutine(FireControl());
+        yield return StartCoroutine(InherentMotion(firstFryingCount));
+        yield return StartCoroutine(AddSubIngredient());
+        yield return StartCoroutine(AddSauce());
+        fryingSauceSystem.ForceEndSauceControll();
+        yield return StartCoroutine(InherentMotion(secondFryingCount));
         CookCompleteCheck();
     }
 
-    void SetActiveTongs() {
-        float invisibleTime = 0.1f;
+    public override void CookCompleteCheck()
+    {
+        string currentSceneName = "FryingPanMergeTest";
 
-        if(!isHalf) {
-            if(timeline.time >= timeline.duration/2 - invisibleTime) tongs.SetActive(false);
-            else if(timeline.time >= invisibleTime) tongs.SetActive(true);
+        if (CookManager.instance.cookMode == CookManager.CookMode.Select)
+        {
+            if (totalSuccessCount <= successCount && fryingPanUI.CheckFireStep(successFireStep))
+            {
+                CookSceneManager.instance.UnloadScene(currentSceneName, currentMenu);
+                return;
+            }
+            //fail Á¶°Ç
+            else
+            {
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                //OrderManager.instance.FailMenu(currentMenu);
+                return;
+            }
         }
-        else {
-            if(timeline.time >= timeline.duration - invisibleTime) tongs.SetActive(false);
-            else if(timeline.time >= timeline.duration/2 + invisibleTime) tongs.SetActive(true);
+        else
+        {
+            Debug.Log(targetRecipe.menuName);
+            if (targetRecipe.cookType != CookType.Frying)
+            {
+                Debug.Log("Wrong cook type");
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                return;
+            }
+
+            if (!RecipeManager.instance.CompareRecipe(currentMenu, fryingIngredientSystem.checkIngredients))
+            {
+                Debug.Log("Ingredient mismatch");
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                return;
+            }
+
+            if (successCount < totalSuccessCount)
+            {
+                Debug.Log("Not enough tossing" + successCount + ":" + totalSuccessCount);
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                return;
+            }
+
+            if (fryingSauceSystem.sauceType != targetRecipe.fryingSetting.sauceType)
+            {
+                Debug.Log("Wrong sauce type" + fryingSauceSystem.sauceType + "" + targetRecipe.fryingSetting.sauceType);
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                return;
+            }
+
+            if (!fryingPanUI.CheckFireStep(successFireStep))
+            {
+                Debug.Log("Wrong Fire Step");
+                CookSceneManager.instance.UnloadScene(currentSceneName, CookManager.instance.failMenu);
+                return;
+            }
+
+            //UnLock New Recipe;
+            RecipeManager.instance.RecipeUnLock(targetRecipe);
+            CookSceneManager.instance.UnloadScene(currentSceneName, targetRecipe);
+            Debug.Log("Success");
+            return;
+
         }
+    }
+    //----------------------- Ingredient System ----------------------------------//
+
+
+    public override void AddIngredient(GameObject ingredientObject, Ingredient ingredient)
+    {
+        Debug.Log(ingredient.ingredientType);
+        if (ingredient.ingredientType == IngredientType.Main)
+        {
+            fryingIngredientSystem.AddMainIngredient(ingredientObject, ingredient);
+        }
+        else
+        {
+            currentSubIngredient++;
+            StartCoroutine(cookUIManager.VisiblePanel());
+            fryingIngredientSystem.AddSubIngredient(ingredientObject, ingredient);
+        }
+    }
+
+    //--------------FryingPan System Method------------------//
+
+    IEnumerator FireControl()
+    {
+        
+        fryingPanUI.Initialize(successFireStep);
+        if (StoreUIManager.currentPanLevel >=2) yield break;
+        StartCoroutine(cookUIManager.TimerStart(3f));
+        fryingPanUI.OnFireControlUI();
+
+        while (true)
+        {
+            if (cookUIManager.TimerEnd())
+            {
+                cookUIManager.TimerStop();
+                fryingPanUI.OffFireControlUI();
+                break;
+            }
+            yield return null;
+        }
+
+    }
+
+    IEnumerator InherentMotion(int fryingCount)
+    {
+        fryingPanUI.OnFryingPanUI();
+        fryingSystem.InitializeInherentMotion();
+        fryingPanAudioSystem.StartAudioSource(FryingPanAudioSystem.AudioType.Frying);
+        yield return StartCoroutine(fryingSystem.InherentMotion(fryingCount, (callbackValue) =>
+        {
+            successCount += callbackValue;
+        }
+        ));
+        //fryingPanAudioSystem.StopAudioSource(FryingPanAudioSystem.AudioType.Frying);
+    }
+
+    IEnumerator AddSauce()
+    {
+        if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+        {
+            fryingSauceSystem.InitializeMakeMode(secondFryingCount);
+            StartCoroutine(cookUIManager.TimerStart(5f));
+        }
+        else
+        {
+            if (currentMenu.fryingSetting.sauceType == SauceType.None)
+            {
+                //fryingSauceSystem.Initialize(currentMenu.fryingSetting);
+                yield break;
+            }
+            else
+            {
+                fryingSauceSystem.Initialize(currentMenu.fryingSetting);
+                yield return new WaitUntil(() => fryingSauceSystem.IsLiquidFilled());
+                yield break;
+            }
+        }
+        
+        while (true)
+        {
+            if ((cookUIManager.TimerEnd() && !fryingSauceSystem.startLiquidFilled) || fryingSauceSystem.IsLiquidFilled())
+            {
+                cookUIManager.TimerStop();
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator AddMainIngredient()
+    {
+        if (CookManager.instance.cookMode == CookManager.CookMode.Select)
+        {
+            isCanEscape = false;
+            GameObject mainIngredient = Instantiate(currentMenu.mainIngredient.ingredientPrefab, Vector3.zero, Quaternion.identity);
+            AddIngredient(mainIngredient, currentMenu.mainIngredient);
+            yield return new WaitForSeconds(0.5f);
+
+        }
+        else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+        {
+            ingredientInventory.AddMainIngredients();
+            yield return new WaitUntil(() => fryingIngredientSystem.fryingMainIngredient != null);
+            isCanEscape = false;
+            targetRecipe = RecipeManager.instance.FindRecipe(fryingIngredientSystem.checkIngredients[0].ingredient);
+            RecipeSetting(targetRecipe);
+            yield return new WaitForSeconds(0.5f);
+
+        }
+
+        fryingIngredientSystem.checkIngredients.Clear();
+        fryingSystem.Initialize(fryingIngredientSystem.fryingMainIngredient, fryingStep, totalSuccessCount);
+    }
+
+    IEnumerator AddSubIngredient()
+    {
+        fryingPanUI.OnIngredientUI();
+
+        if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+        {
+            StartCoroutine(cookUIManager.TimerStart(10f));
+            ingredientInventory.AddSubIngredients();
+            StartCoroutine(cookUIManager.VisiblePanel());
+        }
+
+        while (true)
+        {
+            if (CookManager.instance.cookMode == CookManager.CookMode.Select)
+            {
+                if (RecipeManager.instance.CompareRecipe(currentMenu, fryingIngredientSystem.checkIngredients)) { break; }
+            }
+            else if (CookManager.instance.cookMode == CookManager.CookMode.Make)
+            {
+                if (cookUIManager.TimerEnd() || currentSubIngredient >= maxSubIngredient)
+                {
+                    cookUIManager.TimerStop();
+                    break;
+                }
+            }
+            yield return null;
+        }
+        CookManager.instance.isCanIngredientControll = false;
+        yield return StartCoroutine(cookUIManager.HidePanel());
     }
 
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
+using static SoundManager;
 
 
 
@@ -32,7 +34,7 @@ namespace StarterAssets
         public float SpeedChangeRate = 10.0f;
 
         public AudioClip LandingAudioClip;
-        public AudioClip[] FootstepAudioClips;
+        //public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
         [Space(10)]
@@ -109,7 +111,7 @@ namespace StarterAssets
         // 캐릭터 기본 스테이터스
         [Header("Player Status")]
         public float MaxHP = 100f;
-        private float curHP;
+        public float curHP;
         public float Def = 20;
 
         // Hit, Die
@@ -121,8 +123,7 @@ namespace StarterAssets
         private PlayerRespawn playerRespawn;
 
         // HPBar
-        [SerializeField]
-        private Slider _hpBar;
+        public Slider _hpBar;
 
         // DamageText
         [SerializeField]
@@ -141,7 +142,7 @@ namespace StarterAssets
 
         private PlayerManager playerManager;
 
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
 #endif
         private Animator _animator;
@@ -174,7 +175,6 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-
             }
 
             curHP = MaxHP;
@@ -207,6 +207,24 @@ namespace StarterAssets
         private void Update()
         {
             CheckSlope();
+            if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                playerRespawn = FindObjectOfType<PlayerRespawn>();
+                _characterController.enabled = false;
+                transform.position = playerRespawn.BossPoint.position;
+                _characterController.enabled = true;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                playerRespawn = FindObjectOfType<PlayerRespawn>();
+                _characterController.enabled = false;
+                transform.position = playerRespawn.ReSpawnPoint.position;
+                _characterController.enabled = true;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha5)) // 5 체력 치트
+            {
+                SetMaxHealth(MaxHP);
+            }
 
             if (isSliding)
             {
@@ -223,7 +241,7 @@ namespace StarterAssets
                 _hpBar.gameObject.SetActive(true);
             }
 
-            if (!DeviceManager.isDeactived || TreasureChest.openingChest)
+            if (!DeviceManager.isDeactived || TreasureChest.openingChest || !WeaponChanger.isDeactived || StoreNPCManager.openingStoreUI||Inventory.inventoryActivated || InteractUIManger.isUseInteractObject)
             {
                 if (_hasAnimator)
                 {
@@ -246,8 +264,21 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!DeviceManager.isDeactived || TreasureChest.openingChest) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
+            if (!DeviceManager.isDeactived || TreasureChest.openingChest || StoreNPCManager.openingStoreUI ||Inventory.inventoryActivated || InteractUIManger.isUseInteractObject) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
             CameraRotation();
+        }
+        void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            SetMaxHealth(MaxHP); // currentHealth는 따로 저장해둬야 함
         }
 
         private void AssignAnimationIDs()
@@ -288,6 +319,8 @@ namespace StarterAssets
             float dodgeDuration = 0.5f;
             float elapsedTime = 0f;
             float verticalVelocity = 0f;
+
+            SoundManager.instance.PlayPlayerSound(SoundManager.Player.roll);
 
             Vector3 startPosition = transform.position;
             Vector3 targetPosition = startPosition + dodgeDirection * dodgeDistance;
@@ -379,6 +412,15 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (_mainCamera == null)
+            {
+                GameObject camObj = GameObject.FindGameObjectWithTag("MainCamera");
+                if (camObj != null)
+                    _mainCamera = camObj;
+                else
+                    return;
+            }
+
             if (isDodge || isHit) return;
 
             float targetSpeed = MoveSpeed;
@@ -473,7 +515,12 @@ namespace StarterAssets
 
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
+                    if (playerManager.isRestaurant) return;
+
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    //AudioSource.PlayClipAtPoint(Jump_SFX, transform.position + Vector3.up * 0.1f, FootstepAudioVolume);
+                    SoundManager.instance.PlayPlayerSound(SoundManager.Player.jump);
 
                     if (_hasAnimator)
                     {
@@ -536,19 +583,32 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                if (FootstepAudioClips.Length > 0)
+                if (playerManager.isRestaurant)
                 {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    // 식당에서는 식당 발소리만 재생
+                    SoundManager.instance.PlayPlayerSound(SoundManager.Player.restfoot);
+                }
+                else
+                {
+                    // 일반 행성 발소리
+                    SoundManager.instance.PlayPlayerSound(SoundManager.Player.foot);
+
+                    // 70% 확률로 유리 소리 재생 (SoundManager에 추가했다면 여기도 해당 enum 사용)
+                    if (Random.value <= 0.7f)
+                    {
+                        SoundManager.instance.PlayPlayerSFX(EPlayerSfx.GlassFootstep);
+                    }
                 }
             }
         }
 
+
         private void OnLand(AnimationEvent animationEvent)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            if (animationEvent.animatorClipInfo.weight > 0.1f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                //AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                SoundManager.instance.PlayPlayerSound(SoundManager.Player.land);
             }
         }
 
@@ -566,7 +626,7 @@ namespace StarterAssets
 
             if (monsterDam <= 0)
             {
-                monsterDam = 10;
+                monsterDam = 1;
             }
 
             curHP -= monsterDam;
@@ -580,6 +640,8 @@ namespace StarterAssets
             isHit = true; // 피격 상태 활성화
             isInvincible = true; // 무적 상태 활성화
             _animator.SetTrigger("Hit");
+
+            SoundManager.instance.PlayPlayerSound(SoundManager.Player.hit);
 
             Debug.Log("Player HP: " + curHP);
             _hpBar.value = curHP;
@@ -651,14 +713,27 @@ namespace StarterAssets
 
             // 인벤토리 정리 및 리스폰 처리
             InventoryManager.instance.ClearAllSlots();
-            StartCoroutine(Respawn());
+            StartCoroutine(RespawnWithFade());
         }
+        private IEnumerator RespawnWithFade()
+        {
+            yield return new WaitForSeconds(1f);
 
+            // 페이드 아웃 (0 -> 1)
+            if (FadeEffect.Instance != null)
+                yield return StartCoroutine(FadeEffect.Instance.Fade(0, 1));
 
+            // 리스폰 진행
+            yield return StartCoroutine(Respawn());
+
+            // 페이드 인 (1 -> 0)
+            if (FadeEffect.Instance != null)
+                yield return StartCoroutine(FadeEffect.Instance.Fade(1, 0));
+        }
 
         private IEnumerator Respawn()
         {
-            yield return new WaitForSeconds(5f); // 5초 대기
+            yield return new WaitForSeconds(1.5f); // 1.5초 대기
 
             // playerRespawn이 null이면 찾아서 할당
             if (playerRespawn == null)
@@ -680,7 +755,7 @@ namespace StarterAssets
             isInvincible = false; // 무적 상태 해제
             _animator.SetTrigger("ReSpawn");
             _characterController.enabled = false;
-            transform.position = playerRespawn.ReSpawnPoint.position; // 🔥 이제 Null 오류 발생 안 함!
+            transform.position = playerRespawn.ReSpawnPoint.position; // 이제 Null 오류 발생 안 함!
             _characterController.enabled = true;
 
             Debug.Log("Player Respawned at: " + playerRespawn.ReSpawnPoint.position);
@@ -773,6 +848,20 @@ namespace StarterAssets
                 return hit.normal;
             }
             return Vector3.up;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.CompareTag("Water"))
+            {
+                StartCoroutine(DieAfterDelay(0.5f));
+            }
+        }
+        private IEnumerator DieAfterDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            _hpBar.value = 0;
+            Die();
         }
     }
 }

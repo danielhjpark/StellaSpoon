@@ -9,25 +9,41 @@ using UnityEngine.SceneManagement;
 public class CookManager : MonoBehaviour
 {
     static public CookManager instance;
+    static public StoreUIManager storeUIManager;
     //---------------- Cook Managers Setting--------------------//
     private CuttingManager cuttingManager;
     private WokManager wokManager;
     private FryingPanManager fryingPanManager;
     private PotManager potManager;
+
     //--------------- Shared Variable ---------------------//
     [NonSerialized] public CookType currentCookType;
     [NonSerialized] public Transform spawnPoint;
     [NonSerialized] public Recipe currentMenu;
     [SerializeField] public Recipe failMenu;
+    [SerializeField] public GameObject TimerObject;
+    [SerializeField][Range(1f, 100f)] public float tiltSauceContainerAcceleration;
+    [SerializeField][Range(1f, 100f)] public float SauceAcceleration;
+    [SerializeField][Range(1f, 100f)] public float SlideAcceleration;
+
+    //Use Global
+    public enum CookMode { Select, Make };
+    [NonSerialized] public CookMode cookMode;
+    [NonSerialized] public bool isCanIngredientControll;
+    [NonSerialized] public bool isCanUseMiddleTable = true;
+    [NonSerialized] public bool isCanUseSideTable = true;
+    [NonSerialized] public bool isPickUpMenu = false;
 
     void Awake()
     {
         instance = this;
+        storeUIManager = FindObjectOfType<StoreUIManager>();
     }
 
     public void BindingManager<T>(T manager) where T : CookManagerBase
     {
         spawnPoint = GameObject.FindWithTag("SpawnPoint")?.transform;
+        isCanIngredientControll = true;
         if (manager is CuttingManager)
         {
             cuttingManager = manager as CuttingManager;
@@ -54,18 +70,37 @@ public class CookManager : MonoBehaviour
     {
         if (!CookSceneManager.instance.isSceneLoaded)
         {
+            if (isPickUpMenu) return;
+            if (RestaurantOpenSystem.isRestaurantOpened) cookMode = CookMode.Select;
+            else cookMode = CookMode.Make;
+
             switch (objName)
             {
                 case "CuttingBoard":
                     InteractOtherObject(objName);
                     break;
                 case "Pot":
+                    if (!isCanUseSideTable)
+                    {
+                        InteractUIManger.instance.UsingText(InteractUIManger.TextType.ClearMenu);
+                        return;
+                    }
                     InteractPotObject();
                     break;
                 case "Pan":
+                    if (!isCanUseMiddleTable)
+                    {
+                        InteractUIManger.instance.UsingText(InteractUIManger.TextType.ClearMenu);
+                        return;
+                    }
                     InteractOtherObject(objName);
                     break;
                 case "Wok":
+                    if (!isCanUseMiddleTable)
+                    {
+                        InteractUIManger.instance.UsingText(InteractUIManger.TextType.ClearMenu);
+                        return;
+                    }
                     InteractOtherObject(objName);
                     break;
                 default:
@@ -82,7 +117,6 @@ public class CookManager : MonoBehaviour
     public void InteractPotObject()
     {
         const string potSceneName = "PotMergeTest";
-
         if (CookSceneManager.instance.IsSceneLoaded(potSceneName))
         {
             potManager.OpenSceneView();
@@ -118,18 +152,18 @@ public class CookManager : MonoBehaviour
 
     public void DropObject(GameObject ingredientObject, Ingredient ingredient)
     {
-        switch (ingredient.ingredientCookType)
+        switch (currentCookType)
         {
-            case IngredientCookType.Cutting:
+            case CookType.Cutting:
                 cuttingManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Frying:
+            case CookType.Frying:
                 fryingPanManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Tossing:
+            case CookType.Tossing:
                 wokManager.AddIngredient(ingredientObject, ingredient);
                 break;
-            case IngredientCookType.Boiling:
+            case CookType.Boiling:
                 potManager.AddIngredient(ingredientObject, ingredient);
                 break;
 

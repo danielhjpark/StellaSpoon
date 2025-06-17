@@ -13,18 +13,30 @@ MonoBehaviour:
   m_Name: Trim_Ruby_Root
   m_EditorClassIdentifier: 
   menuName: "\uC190\uC9C8\uB41C \uB8E8\uBE44\uB8E8\uD2B8"
-  menuImage: {fileID: 0}
+  menuImage: {fileID: 21300000, guid: ac076de3a5fe1db43b764a375e6037fd, type: 3}
   menuPrice: 0
   menuPrefab: {fileID: 0}
+  mainIngredient: {fileID: 11400000, guid: 277d777957dd3e346a23524c581fc74c, type: 2}
   ingredients: []
-  cookType: 0
+  cookType: 1
   boilingSetting:
-    boilType: 0
+    cookTime: 0
+    rotatePower: 0
+    sauceType: 0
   tossingSetting:
-    tossingCount: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
+    sauceType: 0
+    firePower: 0
   cuttingSetting:
-    cuttingCount: 0
-    successRange: 0
+    trimItem: {fileID: 11400000, guid: 12a8c22f10d48174281a119e839bcc32, type: 2}
+    trimItemCount: 5
+    cuttingCount: 5
+    cuttingType: 0
+    surfaceMaterial: {fileID: 2100000, guid: cbcafe2a80c91304893e4725f5e67e6d, type: 2}
   fryingSetting:
-    fryingCount: 0
-    sectionRange: 000000000000000000000000
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
+    sauceType: 0
+    firePower: 0

@@ -62,7 +62,7 @@ public class InventoryManager : MonoBehaviour
             // 무기가 장착된 경우 추가 무게 반영
             if (isWeaponRifle)
             {
-                totalWeight += extraWeaponWeight;
+                totalWeight += GetEquippedWeaponWeight();
             }
 
             totalWeightText.text = totalWeight.ToString();
@@ -74,9 +74,9 @@ public class InventoryManager : MonoBehaviour
     public void RecalculateTotalWeight()
     {
         totalWeight = 0;
-        foreach (var slot in FindObjectsOfType<Slot>())
+        foreach (var slot in FindObjectsOfType<Slot>(true))
         {
-            if (slot is TreasureChestSlot)
+            if (slot is TreasureChestSlot || slot is RefrigeratorSlot)
             {
                 continue;
             }
@@ -89,11 +89,18 @@ public class InventoryManager : MonoBehaviour
         // 무기가 장착되었을 경우 추가 무게 적용
         if (isWeaponRifle)
         {
-            totalWeight += extraWeaponWeight;
+            totalWeight += GetEquippedWeaponWeight();
         }
 
         totalWeightText.text = totalWeight.ToString();
-        Debug.Log($"Recalculated Total Weight: {totalWeight}");
+        //Debug.Log($"Recalculated Total Weight: {totalWeight}");
+    }
+    private int GetEquippedWeaponWeight()
+    {
+        if (RifleManager.instance == null) return 0;
+
+        var weaponData = RifleManager.instance.GetCurrentWeaponData();
+        return weaponData != null ? Mathf.RoundToInt(weaponData.weight) : 0;
     }
 
     public void ClearAllSlots()

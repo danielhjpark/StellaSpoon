@@ -1,19 +1,77 @@
 using System.Collections;
 using System.Collections.Generic;
+using cakeslice;
 using UnityEngine;
 
 public class PotUI : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] cakeslice.OutlineEffect outlineEffect;
+    [SerializeField] cakeslice.OutlineAnimation outlineAnimation;
+    [SerializeField] GameObject lidButton;
+    [SerializeField] GameObject potTimer;
+    GameObject mainTimer;
+    TimerSystem mainTimerSystem;
+    TimerSystem potTimerSystem;
+
+    PotViewportSystem potViewportSystem;
+
     void Start()
     {
-        
+        mainTimer = GameObject.Find("PotTimer");
+        potTimerSystem = potTimer.GetComponent<TimerSystem>();
+        mainTimerSystem = mainTimer.GetComponent<TimerSystem>();
+        potViewportSystem = GetComponent<PotViewportSystem>();
+
+        lidButton.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public IEnumerator LinkTimerStart(float second) {
+        //Enable
+        potTimer.SetActive(true);
+        mainTimer.SetActive(true);
+        mainTimer.GetComponent<CanvasGroup>().alpha = 1.0f;
         
+        //anti
+        potTimerSystem.antiClockwise = true;
+        mainTimerSystem.antiClockwise = true;
+
+        //Timer Start
+        StartCoroutine(potTimerSystem.TimerStart(second));
+        yield return StartCoroutine(mainTimerSystem.TimerStart(second));
+
+        //Timer Complete
+        mainTimerSystem.TimerCompleteAudio();
+        mainTimer.GetComponent<CanvasGroup>().alpha = 0f;
+        potTimer.SetActive(false);
     }
-    
+
+    public void TimerReset()
+    {
+        potTimerSystem.TimerStop();
+    }
+
+    public bool TimerEnd()
+    {
+        return potTimerSystem.TimerEnd();
+    }
+
+    //---------------------ViewPort-----------------------------//
+
+    public void SetActiveBottomButton() {
+        potViewportSystem.bottomButton.SetActive(true);
+    }
+
+    public void SetActiveFrontButton() {
+        potViewportSystem.frontButton.SetActive(true);
+    }
+
+    public void VisibleLidButton() {
+        lidButton.SetActive(true);
+    }
+
+    public void HideLidButton() {
+        lidButton.SetActive(false);
+        Destroy(outlineEffect);
+        Destroy(outlineAnimation);
+    }
 }

@@ -8,106 +8,120 @@ public class RifleManager : MonoBehaviour
 {
     public static RifleManager instance;
 
-    private GunRecoil recoilScript;
+    [Header("Weapons")]
+    [SerializeField] private List<WeaponData> weaponLevels;
+    private int currentWeaponIndex = 0;
+    private WeaponData CurrentWeapon => weaponLevels[currentWeaponIndex];
 
-    [Header("Bullet")]
-    [SerializeField]
-    private Transform bulletPoint;
-    [SerializeField]
-    private GameObject bulletObj;
-    [SerializeField]
-    private float maxShootDelay = 0.2f;
-    [SerializeField]
-    private float currentShootDelay = 0.2f;
-
-    // 무기 총알 UI
-    public GameObject WeaponUI;
-    // 무기 Sprite UI
-    public GameObject SpriteUI;
-
-    [SerializeField]
-    public Text bulletText;
-    [SerializeField]
-    private Text maxBulletText;
-    private int maxBullet = 10;
-    public int currentBullet = 0;
-
-    [Header("Weapon FX")]
-    [SerializeField]
-    private GameObject weaponFlashFX;
-    [SerializeField]
-    private Transform bulletCasePoint;
-    [SerializeField]
-    private GameObject bulletCaseFX;
-    [SerializeField]
-    private Transform weaponClipPoint;
-    [SerializeField]
-    private GameObject weaponClipFX;
-
-    // RifleDamage
     [Header("Weapon State")]
-    public int attackDamage = 20;
+    private float currentShootDelay;
+    private float maxShootDelay;
+
+    public int currentBullet;
+    private int maxBullet;
+    public int attackDamage;
+
+    public int CurrentWeaponLevel => currentWeaponIndex;
+
+    [Header("UI")]
+    public GameObject WeaponUI;
+    public GameObject SpriteUI;
+    [SerializeField] private Text bulletText;
+    [SerializeField] private Text maxBulletText;
+
+    public bool tempestFang = false;
+    public bool infernoLance = false;
+    public bool damageCheat = false;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
-        instance = this;
-
-        currentShootDelay = 0;
-
-        InitBullet();
-
-        recoilScript = GetComponent<GunRecoil>();
+        currentShootDelay = 0f;
+        SwitchWeapon(0); // 초기 무기 설정
     }
 
     void Update()
     {
-        bulletText.text = currentBullet + "";
+        bulletText.text = currentBullet.ToString();
         maxBulletText.text = "/ " + maxBullet;
+
         if (currentShootDelay < maxShootDelay)
         {
             currentShootDelay += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            tempestFang = true;
+            infernoLance = true;
+            //SwitchWeapon(0);
+        }
+        //else if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
+        //else if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            damageCheat = true;
         }
     }
 
     public void Shooting(Vector3 targetPosition)
     {
-        currentShootDelay += Time.deltaTime;
+        if (currentShootDelay < maxShootDelay || currentBullet <= 0) return;
 
-        if (currentShootDelay < maxShootDelay) return;
-
-        if (currentBullet <= 0) return;
-
-        currentBullet -= 1;
         currentShootDelay = 0;
+        currentBullet--;
 
-        Vector3 aim = (targetPosition - bulletPoint.position).normalized;
+        var aim = (targetPosition - CurrentWeapon.bulletPoint.position).normalized;
 
-        GameObject flashFX = BulletPoolManager.instance.ActivateObj(1);
-        SetObjPosition(flashFX, bulletPoint);
+        // 무기 레벨
+        int weaponLevel = CurrentWeaponLevel;
+
+        if (CurrentWeapon.bulletShotAudio != null)
+        {
+            SoundManager.instance.PlayGunSound(CurrentWeapon.bulletShotAudio);
+        }
+
+        // 총구 화염
+        var flashFX = BulletPoolManager.instance.GetObject(weaponLevel, "muzzle", CurrentWeapon.muzzleFlashPrefab);
+        SetObjPosition(flashFX, CurrentWeapon.bulletPoint);
         flashFX.transform.rotation = Quaternion.LookRotation(aim, Vector3.up);
 
-        GameObject caseFX = BulletPoolManager.instance.ActivateObj(2);
-        SetObjPosition(caseFX, bulletCasePoint);
+        // 탄피
+        var caseFX = BulletPoolManager.instance.GetObject(weaponLevel, "case", CurrentWeapon.bulletCasePrefab);
+        SetObjPosition(caseFX, CurrentWeapon.bulletCasePoint);
 
-        GameObject prefabToSpawn = BulletPoolManager.instance.ActivateObj(0);
-        
-        SetObjPosition(prefabToSpawn, bulletPoint);
-        prefabToSpawn.transform.rotation = Quaternion.LookRotation(aim, Vector3.up);
+        // 총알
+        var bulletObj = BulletPoolManager.instance.GetObject(weaponLevel, "bullet", CurrentWeapon.bulletPrefab);
+        SetObjPosition(bulletObj, CurrentWeapon.bulletPoint);
+        bulletObj.transform.rotation = Quaternion.LookRotation(aim, Vector3.up);
 
-        BulletManager bullet = prefabToSpawn.GetComponent<BulletManager>();
-
+        var bullet = bulletObj.GetComponent<BulletManager>();
         if (bullet != null)
         {
-            bullet.SetDamage(attackDamage); // RifleManager의 공격력 전달
+            bullet.SetDamageFromWeapon(CurrentWeapon);
         }
-        //// 반동 적용
-        //recoilScript.ApplyRecoil();
+
     }
 
     public void ReloadClip()
     {
-        GameObject clipFX = BulletPoolManager.instance.ActivateObj(3);
-        SetObjPosition(clipFX, weaponClipPoint);
+        int weaponLevel = CurrentWeaponLevel;
+        var clipFX = BulletPoolManager.instance.GetObject(weaponLevel, "clip", CurrentWeapon.weaponClipPrefab);
+        SetObjPosition(clipFX, CurrentWeapon.weaponClipPoint);
+        InitBullet();
     }
 
     public void InitBullet()
@@ -115,8 +129,42 @@ public class RifleManager : MonoBehaviour
         currentBullet = maxBullet;
     }
 
-    private void SetObjPosition(GameObject obj, Transform targerTransform)
+    private void SetObjPosition(GameObject obj, Transform targetTransform)
     {
-        obj.transform.position = targerTransform.position;
+        obj.transform.position = targetTransform.position;
+    }
+
+    public void SwitchWeapon(int levelIndex)
+    {
+        if (levelIndex < 0 || levelIndex >= weaponLevels.Count) return;
+
+        // 무기 잠금 조건 확인
+        if (levelIndex == 1 && !tempestFang)
+        {
+            PopupManager.Instance.ShowPopup("해금이 되지 않았습니다");
+            return; // tempestFang 무기 해금 안 됨
+        }
+        if (levelIndex == 2 && !infernoLance)
+        {
+            PopupManager.Instance.ShowPopup("해금이 되지 않았습니다");
+            return; // infernoLance 무기 해금 안 됨
+        }
+
+        for (int i = 0; i < weaponLevels.Count; i++)
+        {
+            weaponLevels[i].weaponObject.SetActive(i == levelIndex);
+        }
+
+        currentWeaponIndex = levelIndex;
+
+        attackDamage = CurrentWeapon.damage;
+        maxBullet = CurrentWeapon.maxBullet;
+        maxShootDelay = CurrentWeapon.fireRate;
+
+        InitBullet();
+    }
+    public WeaponData GetCurrentWeaponData()
+    {
+        return CurrentWeapon;
     }
 }

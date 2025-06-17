@@ -8,33 +8,40 @@ public class IngredientManager : MonoBehaviour
 {
     static public IngredientManager instance = null;
     static public Dictionary<string, Ingredient> IngredientList;
-    static public Dictionary<Ingredient, int> IngredientAmount; 
-    
+    static public Dictionary<Ingredient, int> IngredientAmount;
+
     void Awake()
     {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
+            IngredientList = new Dictionary<string, Ingredient>();
+            IngredientAmount = new Dictionary<Ingredient, int>();
+            IngredientAmountInit();
             DontDestroyOnLoad(gameObject);
         }
-        else {
+        else
+        {
             if (instance != this) Destroy(this.gameObject);
         }
-        IngredientList = new Dictionary<string, Ingredient>();
-        IngredientAmount = new Dictionary<Ingredient, int>();
-        IngredientAmountInit();
+
     }
 
-    void IngredientAmountInit() {
+    void IngredientAmountInit()
+    {
         Ingredient[] IngredientScriptable = Resources.LoadAll<Ingredient>("Scriptable/Ingredient");
-        foreach (Ingredient ingredient in IngredientScriptable) {
-            if(!IngredientList.ContainsKey(ingredient.name)) {
+        foreach (Ingredient ingredient in IngredientScriptable)
+        {
+            if (!IngredientList.ContainsKey(ingredient.name))
+            {
                 IngredientList.Add(ingredient.name, ingredient);
                 IngredientAmount.Add(ingredient, 0);
             }
         }
     }
 
-    public Ingredient FindIngredient(string IngredientName) {
+    public Ingredient FindIngredient(string IngredientName)
+    {
         return IngredientList[IngredientName];
     }
 

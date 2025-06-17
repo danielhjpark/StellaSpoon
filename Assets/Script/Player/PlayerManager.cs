@@ -2,6 +2,7 @@ using Cinemachine;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.SceneManagement; // 씬 변경 감지를 위해 추가
@@ -29,7 +30,7 @@ public class PlayerManager : MonoBehaviour
     private float aimObjDis = 10f;
 
     [SerializeField]
-    private GameObject rifle; // 보여질 총
+    private GameObject[] rifleObjects;
 
     [Header("IK")]
     [SerializeField]
@@ -60,16 +61,25 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Material specialMaterial;
 
-    private string specialSceneName = "NPCTest"; // 아바타가 변경될 씬 이름
+
+    [SerializeField]
+    private AudioClip Reload_SFX; // 재장전 소리
+
     public bool isRestaurant;
+
+    private bool rigTemporarilyDisabled = false;
+    [SerializeField] private TwoBoneIKConstraint leftHandConstraint; // 왼손 IK
 
     void Start()
     {
         _input = GetComponent<StarterAssetsInputs>();
         controller = GetComponent<ThirdPersonController>();
         anim = GetComponent<Animator>();
-
+        RifleManager.instance.SwitchWeapon(0);
         SceneManager.sceneLoaded += OnSceneLoaded; // 씬 변경 이벤트 등록
+
+        // 씬이 이미 로드된 뒤 생성된 경우를 위해 수동 호출
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     void OnDestroy()
@@ -79,9 +89,21 @@ public class PlayerManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == specialSceneName)
+        string[] restaurantScenes = { "Restaurant", "RestaurantTest2", "WokMergeTest", "FryingPanMergeTest", "CuttingBoardMergeTest", "PotMergeTest", "Store", "Shop" };
+        foreach (string restaurantScene in restaurantScenes)
+        {
+            if (scene.name == restaurantScene)
+            {
+                isRestaurant = true;
+                break;
+            }
+            else isRestaurant = false;
+        }
+
+        if (isRestaurant)
         {
             isRestaurant = true;
+            SetRigWeight(0);
             ChangeAvatar(specialAvatar, specialMesh, specialAnimator, specialMaterial); // 특정 씬일 경우 변경
         }
         else
@@ -99,6 +121,8 @@ public class PlayerManager : MonoBehaviour
         anim.runtimeAnimatorController = newAnimator;
         anim.Rebind();
         anim.Update(0);
+
+        if (!isRestaurant) handRig.weight = 1;
     }
 
     void Update()
@@ -114,8 +138,20 @@ public class PlayerManager : MonoBehaviour
             InventoryManager.instance.isWeaponRifle = true;
             EquipRifleCheck();
         }
-        AimCheck();
+
+        // 재장전 도중 죽었는지 체크하여 상태 초기화
+        if (controller.isReload && controller.isDie)
+        {
+            Reload(); // 강제 초기화
+        }
+
         CheckJumpOrDodge();
+
+        if(controller.isDie)
+        {
+            return;
+        }
+        AimCheck();
     }
 
     private void AimCheck()
@@ -131,8 +167,11 @@ public class PlayerManager : MonoBehaviour
 
             AimControll(false);
             SetRigWeight(0);
+
             anim.SetLayerWeight(2, 1);
             anim.SetTrigger("Reload");
+            // 재장전 소리
+            SoundManager.instance.PlayPlayerSound(SoundManager.Player.reload);
             controller.isReload = true;
         }
 
@@ -208,39 +247,68 @@ public class PlayerManager : MonoBehaviour
     public void Reload()
     {
         controller.isReload = false;
-        SetRigWeight(1);
-        anim.SetLayerWeight(2, 0);
+
+        if (!controller.isDie)
+        {
+            SetRigWeight(1);
+            anim.SetLayerWeight(2, 0);
+        }
+        else
+        {
+            // 죽은 상태라면 리그와 애니메이션 상태 초기화
+            SetRigWeight(0);
+            anim.SetLayerWeight(2, 0);
+            anim.ResetTrigger("Reload");
+            Debug.Log("dd");
+        }
+
+        noAim = true; // 조준 가능하게 되돌림
     }
 
     private void EquipRifleCheck()
     {
         if (controller.isDie) return;
 
-        if (InventoryManager.instance.isWeaponRifle == true)
+        bool hasWeapon = InventoryManager.instance.isWeaponRifle;
+
+        // 모두 비활성화 (초기화)
+        foreach (var rifle in rifleObjects)
         {
-            rifle.gameObject.SetActive(true);
+            rifle.SetActive(false);
+        }
+
+        if (hasWeapon)
+        {
+            int level = RifleManager.instance.CurrentWeaponLevel; // currentWeaponIndex 기반
+
+            // 예외 방지
+            if (level >= 0 && level < rifleObjects.Length)
+            {
+                rifleObjects[level].SetActive(true); // 해당 레벨의 총만 보이게
+            }
+
             anim.SetLayerWeight(1, 1);
-            handRig.weight = 1;
+            StartCoroutine(EnableRigDelayed());
             RifleManager.instance.WeaponUI.SetActive(true);
             RifleManager.instance.SpriteUI.SetActive(true);
         }
         else
         {
-            rifle.gameObject.SetActive(false);
-            anim.SetLayerWeight(1, 0);
+            if (!isRestaurant) anim.SetLayerWeight(1, 0);
             handRig.weight = 0;
-            RifleManager.instance.WeaponUI.SetActive(false);
-            RifleManager.instance.SpriteUI.SetActive (false);
+            if (isRestaurant)
+            {
+                if (RifleManager.instance.WeaponUI)
+                    RifleManager.instance.WeaponUI.SetActive(false);
+                if (RifleManager.instance.SpriteUI)
+                    RifleManager.instance.SpriteUI.SetActive(false);
+            }
         }
     }
 
+
     private void SetRigWeight(float weight)
     {
-        if(isRestaurant)
-        {
-            aimRig.weight = 0;
-            handRig.weight = 0;
-        }
         aimRig.weight = weight;
         handRig.weight = weight;
     }
@@ -254,7 +322,19 @@ public class PlayerManager : MonoBehaviour
 
         if (isJumping || isDodging || isReloading || isHitting)
         {
-            SetRigWeight(0);
+            if (!rigTemporarilyDisabled)
+            {
+                DisableHandIK();
+                rigTemporarilyDisabled = true;
+            }
+        }
+        else
+        {
+            if (rigTemporarilyDisabled && InventoryManager.instance.isWeaponRifle && !isRestaurant)
+            {
+                EnableHandIK();
+                rigTemporarilyDisabled = false;
+            }
         }
     }
 
@@ -280,5 +360,21 @@ public class PlayerManager : MonoBehaviour
     public void FalseAim()
     {
         noAim = false;
+    }
+
+    IEnumerator EnableRigDelayed()
+    {
+        yield return null; // 한 프레임 쉬고
+        handRig.weight = 1;
+        //Debug.Log("딜레이 후 handRig.weight: " + handRig.weight);
+    }
+    private void DisableHandIK()
+    {
+        leftHandConstraint.weight = 0;
+    }
+
+    private void EnableHandIK()
+    {
+        leftHandConstraint.weight = 1;
     }
 }

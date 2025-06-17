@@ -13,6 +13,8 @@ public class DeviceManager : MonoBehaviour
     [SerializeField] private GameObject equipmentPanel;
     [SerializeField] private GameObject optionPanel;
     [SerializeField] private GameObject planetPanel;
+    [SerializeField] private GameObject recipePanel;
+    [SerializeField] private GameObject recipeInfoPanel;
     [SerializeField] private GameObject showText;
     private bool wasShowTextActive;
 
@@ -25,17 +27,25 @@ public class DeviceManager : MonoBehaviour
     private ThirdPersonController playerController;
     private StarterAssetsInputs _input;
 
+    private ItemNameData itemNameData;
+
     private void Awake()
     {
         playerController = FindObjectOfType<ThirdPersonController>();
         _input = FindObjectOfType<StarterAssetsInputs>();
     }
 
+    private void Start()
+    {
+        itemNameData = FindObjectOfType<ItemNameData>();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false)
+            if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false && WeaponChanger.isDeactived
+                && !StoreNPCManager.openingStoreUI && !InteractUIManger.isUseInteractObject)
             {
                 ToggleUI();
             }
@@ -72,6 +82,7 @@ public class DeviceManager : MonoBehaviour
         Cursor.visible = true;
 
         inventoryPanel.SetActive(true);
+        Inventory.inventoryActivated = true;
         equipmentPanel.SetActive(true);
 
         inventoryButtonImage.sprite = selectedSprite;
@@ -79,16 +90,19 @@ public class DeviceManager : MonoBehaviour
         isDeactived = false;
     }
 
-    private void CloseUI()
+    public void CloseUI()
     {
         uiPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         inventoryPanel.SetActive(false);
+        Inventory.inventoryActivated = false;
         equipmentPanel.SetActive(false);
         optionPanel.SetActive(false);
         planetPanel.SetActive(false);
+        recipePanel.SetActive(false);
+        recipeInfoPanel.SetActive(false);
 
         inventoryButtonImage.sprite = defaultSprite;
 
@@ -96,10 +110,12 @@ public class DeviceManager : MonoBehaviour
 
         Option.OptionActivated = false;
         Planet.planetActivated = false;
+        DeviceRecipeUI.recipeActivated = false;
 
         if (wasShowTextActive)
         {
             showText.SetActive(true);
         }
+        itemNameData.HideToolTip();
     }
 }

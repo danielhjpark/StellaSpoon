@@ -15,12 +15,55 @@ public class Inventory : MonoBehaviour
 
     private Slot[] slots; // 슬롯들 배열
 
-    [SerializeField]
-    private DeviceManager deviceManager;
+    private ItemNameData itemNameData;
 
+    public virtual Slot[] GetSlots()
+    {
+        if (slots == null || slots.Length == 0)
+        {
+            slots = go_SlotsParent.GetComponentsInChildren<Slot>(true);
+        }
+        return slots;
+    }
+
+    [SerializeField]
+    private Item[] Inventoryitems;
+
+    public virtual void LoadToInven(int _arrNum, string _itemName, int _itemCount)
+    {
+        for (int i = 0; i < Inventoryitems.Length; i++)
+        {
+            if (Inventoryitems[i].itemName == _itemName)
+            {
+                if (_arrNum >= 0 && _arrNum < slots.Length && slots[_arrNum] != null)
+                {
+                    slots[_arrNum].AddItem(Inventoryitems[i], _itemCount);
+                    return;
+                }
+                else
+                {
+                    Debug.LogError($"Invalid slot index {_arrNum} or slot is null.");
+                    return;
+                }
+            }
+        }
+        Debug.LogWarning($"아이템 '{_itemName}' 을 Inventoryitems에서 찾을 수 없습니다.");
+    }
+    private void Awake()
+    {
+        if (go_SlotsParent == null)
+        {
+            Debug.LogError("[Inventory] go_SlotsParent가 할당되지 않았습니다.");
+        }
+        else
+        {
+            slots = go_SlotsParent.GetComponentsInChildren<Slot>(true);
+            Debug.Log($"[Inventory] 슬롯 {slots.Length}개 초기화 완료");
+        }
+    }
     void Start()
     {
-        slots = go_SlotsParent.GetComponentsInChildren<Slot>();
+        itemNameData = FindObjectOfType<ItemNameData>();
     }
 
     public void OpenInventory()
@@ -30,6 +73,7 @@ public class Inventory : MonoBehaviour
         go_InventoryBase.SetActive(true);
         go_EquipmentBase.SetActive(true);
         inventoryActivated = true;
+        SoundManager.instance.PlaySound(SoundManager.Display.Display_Menu_Button);
     }
 
     public void CloseInventory()
@@ -37,6 +81,7 @@ public class Inventory : MonoBehaviour
         go_InventoryBase.SetActive(false);
         go_EquipmentBase.SetActive(false);
         inventoryActivated = false;
+        itemNameData.HideToolTip();
     }
 
     // 아이템을 획득하고 인벤토리 슬롯에 추가하는 함수
@@ -102,5 +147,41 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning("Not enough inventory space for all items.");
         }
     }
+    public int GetItemCount(string itemName)
+    {
+        int totalCount = 0;
 
+        foreach (Slot slot in slots)
+        {
+            if (slot.item != null && slot.item.itemName == itemName)
+            {
+                totalCount += slot.itemCount;
+            }
+        }
+
+        return totalCount;
+    }
+    public bool DecreaseItemCount(string itemName, int count)
+    {
+        int remainingToRemove = count;
+
+        // 인벤토리에서 뒤에서부터 (최근 추가된 슬롯부터) 제거
+        for (int i = slots.Length - 1; i >= 0 && remainingToRemove > 0; i--)
+        {
+            if (slots[i].item != null && slots[i].item.itemName == itemName)
+            {
+                int removeCount = Mathf.Min(remainingToRemove, slots[i].itemCount);
+                slots[i].SetSlotCount(-removeCount);
+                remainingToRemove -= removeCount;
+            }
+        }
+
+        if (remainingToRemove > 0)
+        {
+            Debug.LogWarning($"[Inventory] {itemName} 아이템을 {count}개 제거하려 했지만 {remainingToRemove}개 부족합니다.");
+            return false;
+        }
+
+        return true;
+    }
 }

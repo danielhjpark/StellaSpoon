@@ -6,16 +6,13 @@ public class BulletManager : MonoBehaviour
 {
     private Rigidbody bulletRigidbody;
 
-    [SerializeField]
-    private float moveSpeed = 10f;
+    [SerializeField] private float moveSpeed = 10f;
+    private float destroyTime = 3f;
 
-    private float destoryTime = 3f;
-
-    [SerializeField]
     private int bulletDamage = 20;
 
-    [SerializeField]
-    private GameObject hitEffectPrefab; // 충돌 시 생성할 파티클 프리팹
+    [SerializeField] private GameObject hitEffectPrefab;
+    [SerializeField] private AudioClip[] hitSFXClips;
 
     void Start()
     {
@@ -24,9 +21,8 @@ public class BulletManager : MonoBehaviour
 
     void Update()
     {
-        destoryTime -= Time.deltaTime;
-
-        if (destoryTime <= 0)
+        destroyTime -= Time.deltaTime;
+        if (destroyTime <= 0)
         {
             DestroyBullet();
         }
@@ -42,12 +38,19 @@ public class BulletManager : MonoBehaviour
     private void DestroyBullet()
     {
         gameObject.SetActive(false);
-        destoryTime = 3f;
+        destroyTime = 3f;
     }
 
-    public void SetDamage(int damage)
+    public void SetDamageFromWeapon(WeaponData data)
     {
-        bulletDamage = damage;
+        if (RifleManager.instance != null && RifleManager.instance.damageCheat)
+        {
+            bulletDamage = 999;
+        }
+        else
+        {
+            bulletDamage = data.damage;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,16 +58,23 @@ public class BulletManager : MonoBehaviour
         MonsterBase monster = other.GetComponent<MonsterBase>();
         if (monster != null)
         {
-            Debug.Log("충돌");
             monster.Damage(bulletDamage);
         }
 
-        // 파티클 이펙트를 해당 위치에 생성
         if (hitEffectPrefab != null)
         {
             Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
         }
 
+        if (hitSFXClips != null && hitSFXClips.Length > 0)
+        {
+            int index = Random.Range(0, hitSFXClips.Length);
+            AudioClip clipToPlay = hitSFXClips[index];
+            SoundManager.instance.PlayGunSound(clipToPlay); // SoundManager 통해 재생
+            //AudioSource.PlayClipAtPoint(hitSFXClips[index], transform.position, 1f);
+        }
+
         DestroyBullet();
     }
 }
+

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -7,55 +8,90 @@ using UnityEngine.UI;
 public class TimerSystem : MonoBehaviour
 {
     [SerializeField] Image timerGague;
-    [SerializeField] RectTransform clickHand;
-    [SerializeField] Image clickHandImage;
-    Color32 DangerColor = new Color32(255, 0, 0, 255);
-    Color32 CautionColor = new Color32(255, 255, 0, 255);
-    Color32 SafeColor = new Color32(0, 255, 0, 255);
+    [SerializeField] bool onBillboard;
+    [NonSerialized] public bool antiClockwise;
+    [SerializeField] AudioClip timerAudio;
+
+    bool isTimerEnd = false;
+    Coroutine timerCoroutine;
 
     void Start()
     {
-        StartCoroutine(TimerStart());
+        antiClockwise = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(timerGague.fillAmount <= 0.2f) {
-            clickHandImage.color = DangerColor;
-            timerGague.color = DangerColor;
-        }
-        else if(timerGague.fillAmount <= 0.4f) {
-            clickHandImage.color = CautionColor;
-            timerGague.color = CautionColor;
-        }
-        else {
-            clickHandImage.color = SafeColor;
-            timerGague.color = SafeColor;
-        }
-        ClickHandUpdate();
+        TimerBillboard();
     }
 
-    void ClickHandUpdate() {
-        float rotationValue = (1 - timerGague.fillAmount) * 360;
 
-        clickHand.localRotation = Quaternion.Euler(0, 0, rotationValue);
+
+    private void TimerBillboard()
+    {
+        if (onBillboard && Camera.main != null)
+        {
+            Vector3 targetPosition = Camera.main.transform.position; // 바라볼 대상
+            Vector3 direction = targetPosition - transform.position;
+            direction.y = 0;
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = targetRotation;
+
+        }
     }
 
-    IEnumerator TimerStart() {
+    public IEnumerator TimerStart(float second)
+    {
+        timerCoroutine = StartCoroutine(TimerOperate(second));
+        yield return timerCoroutine;
+    }
+
+    public IEnumerator TimerOperate(float second)
+    {
+        float secondValue;
+        float targetValue;
+        isTimerEnd = false;
+
+        if (antiClockwise)
+        {
+            timerGague.fillAmount = 0;
+            targetValue = 1;
+            secondValue = 1 / (second * 20) * -1;
+        }
+        else
+        {
+            timerGague.fillAmount = 1;
+            targetValue = 0;
+            secondValue = 1 / (second * 20);
+        }
+
+        while (true)
+        {
+            if (Mathf.Abs(timerGague.fillAmount - targetValue) <= 0.01f)
+            {
+                break;
+            }
+            timerGague.fillAmount -= secondValue;
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        isTimerEnd = true;
+    }
+
+    public void TimerStop()
+    {
+        StopCoroutine(timerCoroutine);
         timerGague.fillAmount = 1;
-        while(timerGague.fillAmount >= 0.01f) {
-            timerGague.fillAmount -= Time.deltaTime / 10;
-            yield return null;
-        }
-        StartCoroutine(TimerReset());
     }
 
-    IEnumerator TimerReset() {
-        while(timerGague.fillAmount <= 0.99f) {
-            timerGague.fillAmount += Time.deltaTime / 2;
-            yield return null;
-        }
-        StartCoroutine(TimerStart());
+    public bool TimerEnd()
+    {
+        return isTimerEnd;
+    }
+
+    public void TimerCompleteAudio()
+    {
+        AudioSource.PlayClipAtPoint(timerAudio, this.transform.position);
     }
 }

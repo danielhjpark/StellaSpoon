@@ -4,19 +4,23 @@ using UnityEngine;
 
 [CreateAssetMenu]
 public class Ingredient : ScriptableObject {
+
+    
     public string ingredientName;
+    public string ingredientText;
     public Sprite ingredientImage;
     public GameObject ingredientPrefab;
-    public bool isPublicIngredient;
-    public IngredientCookType ingredientCookType;
-    public IngredientCookType[] ingredientCookTypes;
+    public IngredientType ingredientType;
+    public int ingredientUseCount;
 }
 
-public enum IngredientCookType {
-    None,
-    Cutting,
-    Frying,
-    Tossing,
-    Boiling
+public enum IngredientType
+{
+    Main,
+    Sub,
+    Trim,
+    End
 }
+
+
 

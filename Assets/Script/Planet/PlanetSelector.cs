@@ -9,7 +9,7 @@ public class PlanetSelector : MonoBehaviour
 
     [SerializeField]
     private GameObject mapPanel;
-    public void SelectPlanet(string planetName)
+    public void SelectPlanet(string planetName) // 해당 함수를 이용해서 씬 이동
     {
         // enum 값으로 변환
         if (System.Enum.TryParse(planetName, out PlanetManager.PlanetType selectedPlanet))
@@ -25,9 +25,12 @@ public class PlanetSelector : MonoBehaviour
 
     private void StartGame(string sceneName)
     {
+        Inventory.inventoryActivated = false;
         UnityNote.SceneLoader.Instance.LoadScene(sceneName);
         mapPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        InteractUIManger.isUseInteractObject = false;
+        SoundManager.instance.PlaySound(SoundManager.Interact.MovePlanet);
     }
 }

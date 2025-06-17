@@ -13,18 +13,34 @@ MonoBehaviour:
   m_Name: Barcrose_Stake
   m_EditorClassIdentifier: 
   menuName: "\uBC14\uD06C\uB85C\uC2A4 \uC2A4\uD14C\uC774\uD06C"
-  menuImage: {fileID: 0}
-  menuPrice: 0
-  menuPrefab: {fileID: 0}
-  ingredients: []
+  menuImage: {fileID: 21300000, guid: 3fa4b004c25a55244b5ecf7bdc5ed6ba, type: 3}
+  menuPrice: 300
+  menuPrefab: {fileID: 3045353508352440698, guid: 505eb68147536df4bb3db84a227fa2b5, type: 3}
+  mainIngredient: {fileID: 11400000, guid: 1090dbaadecf09740879274831f00712, type: 2}
+  ingredients:
+  - ingredient: {fileID: 11400000, guid: 7bff2a23d7c39d74e835866c9287a3be, type: 2}
+    amount: 3
+  - ingredient: {fileID: 11400000, guid: c64a53c075b7b1f41b88d9c4a621dfda, type: 2}
+    amount: 5
   cookType: 2
   boilingSetting:
-    boilType: 0
+    cookTime: 0
+    rotatePower: 0
+    sauceType: 0
   tossingSetting:
-    tossingCount: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
+    sauceType: 0
+    firePower: 0
   cuttingSetting:
+    trimItem: {fileID: 0}
+    trimItemCount: 0
     cuttingCount: 0
-    successRange: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 3
-    sectionRange: c80000002c010000fa000000
+    fryingStep: 1
+    firstFryingCount: 1
+    secondFryingCount: 2
+    sauceType: 2
+    firePower: 2

@@ -13,27 +13,34 @@ MonoBehaviour:
   m_Name: Red_Barcrose_Boiled
   m_EditorClassIdentifier: 
   menuName: "\uBD89\uC740 \uBC14\uD06C\uB85C\uC2A4 \uC870\uB9BC"
-  menuImage: {fileID: 0}
-  menuPrice: 0
-  menuPrefab: {fileID: 0}
+  menuImage: {fileID: 21300000, guid: 29d939c313188bd40897eb752287c9da, type: 3}
+  menuPrice: 400
+  menuPrefab: {fileID: 466187095634371224, guid: a14a159238af3094999f8f09befd2b1b, type: 3}
+  mainIngredient: {fileID: 11400000, guid: f35bea8733abc184a938c47869a5e13f, type: 2}
   ingredients:
-  - ingredient: {fileID: 11400000, guid: f35bea8733abc184a938c47869a5e13f, type: 2}
-    amount: 0
   - ingredient: {fileID: 11400000, guid: 7bff2a23d7c39d74e835866c9287a3be, type: 2}
-    amount: 0
+    amount: 3
   - ingredient: {fileID: 11400000, guid: ae3a5f3076cca914cb6ee36ae9fd5156, type: 2}
-    amount: 0
-  - ingredient: {fileID: 11400000, guid: 0063ba70dfaa1d6469509900ccd045d5, type: 2}
-    amount: 0
+    amount: 8
   cookType: 4
   boilingSetting:
-    boilType: 0
+    cookTime: 20
+    rotatePower: 2
+    sauceType: 0
   tossingSetting:
-    tossingCount: 0
-    successRange: 0
+    firstTossingCount: 0
+    secondTossingCount: 0
+    sauceType: 0
+    firePower: 0
   cuttingSetting:
+    trimItem: {fileID: 0}
+    trimItemCount: 0
     cuttingCount: 0
-    successRange: 0
+    cuttingType: 0
+    surfaceMaterial: {fileID: 0}
   fryingSetting:
-    fryingCount: 0
-    successRange: 0
+    fryingStep: 0
+    firstFryingCount: 0
+    secondFryingCount: 0
+    sauceType: 0
+    firePower: 0

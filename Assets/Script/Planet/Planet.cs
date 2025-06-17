@@ -10,10 +10,9 @@ public class Planet : MonoBehaviour
 
     public void OpenPlanet()
     {
-        if (planetActivated) return;
-
         go_Planet.SetActive(true);
         planetActivated = true;
+        SoundManager.instance.PlaySound(SoundManager.Display.Display_Menu_Button);
     }
 
     public void ClosePlanet()

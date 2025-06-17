@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1735660098794839610}
   - component: {fileID: 3839074383882744103}
   m_Layer: 5
-  m_Name: RecipeBackground
+  m_Name: RecipeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 180, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1735660098794839610
 CanvasRenderer:
@@ -65,9 +65,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c4224d87729dba140acb86a369e8379b, type: 3}
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -86,8 +86,8 @@ GameObject:
   - component: {fileID: 1961870618089893795}
   - component: {fileID: 3575095525867891983}
   - component: {fileID: 4407801693042340728}
-  - component: {fileID: 1239191963447566458}
   - component: {fileID: 5321087711549952598}
+  - component: {fileID: 7860665751893096516}
   m_Layer: 5
   m_Name: RecipeSlot
   m_TagString: Untagged
@@ -143,9 +143,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: e5cf31c25e9aae943ad8ce512cd0dbaa, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -153,19 +153,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1239191963447566458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8637905815033650457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ab4957fdf8bf2944b3d654fd99d2e74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 4407801693042340728}
 --- !u!114 &5321087711549952598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,3 +173,16 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7860665751893096516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8637905815033650457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ab4957fdf8bf2944b3d654fd99d2e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectAudio: {fileID: 8300000, guid: c6408bca8f5a7bf418ad776a6b30bf7c, type: 3}

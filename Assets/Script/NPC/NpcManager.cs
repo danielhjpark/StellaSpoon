@@ -5,143 +5,101 @@ using System.Linq;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class NpcManager : MonoBehaviour
 {
     public static NpcManager instance;
-    public int totalGold;
-    [SerializeField] TextMeshProUGUI totalGoldText;
+    //-------------- SpawnNpc Setting --------------------//
+    [Header("NPC Move Path")]
+    [SerializeField] public Transform spawnPoint;
+    [SerializeField] public Transform doorPoint;
+    [SerializeField] public Transform centerPoint;
+    [SerializeField] GameObject[] npcPrefab;
 
-    //----------------Seat variable ---------------------//
+    [Header("Seat Point")]
     public Transform[] sitpositions = new Transform[4]; //의자 좌표
-    private bool[] sitOccupied = new bool[24]; //의자 상태 표시
+    public Transform[] sitpoint = new Transform[4]; //의자 옆 좌표
+    private bool[] sitOccupied = new bool[4]; //의자 상태 표시
+    public Transform[] foodpoint = new Transform[4];//음식 테이블 포인트
 
-    //---------------SpawnNpc Setting----------------------//
-    public GameObject npcPrefab;
-    private Vector3 npcSpawnpoint = new Vector3(10f, 1f, 0f);
+    //OrderManger use this list
+    [NonSerialized] public List<GameObject> npcList = new List<GameObject>();
 
-
-    private void Awake() {
+    private void Awake()
+    {
         instance = this;
     }
-    
-    private void Update() {
-        totalGoldText.text = totalGold.ToString();
-    }
+
 
     public void SpwanNPCs(Recipe recipe)
     {
-        GameObject npc = Instantiate(npcPrefab, npcSpawnpoint, Quaternion.identity);// 위치 npc생성위치로 바꿀것
+        int seatIndex = FindRandomSeat();
+        if (seatIndex == -1) return; // 모든 좌석이 차 있을 때
+
+        GameObject npc = Instantiate(npcPrefab[UnityEngine.Random.Range(0, npcPrefab.Length)], spawnPoint.position, Quaternion.identity);// 위치 npc생성위치로 바꿀것
+        npcList.Add(npc);
+        Manager.NPCSpawnCount++;
         StartCoroutine(ManageNPC(npc, recipe));
     }
-    
-    IEnumerator ManageNPC(GameObject npc, Recipe menu)
+
+    IEnumerator MoveNPC(GameObject npc, Transform targetPosition)
     {
         NavMeshAgent nav = npc.GetComponent<NavMeshAgent>();
-        Vector3 nowPosition = npc.transform.position;
-        // 좌석을 찾음
-        int seatIndex = FindRandomSeat();
-        if (seatIndex == -1) // 모든 좌석이 차 있을 때
-        {
-            Destroy(npc);
-            yield break;
-        }
-
-        Transform targetPosition = sitpositions[seatIndex];
-        sitOccupied[seatIndex] = true; // 좌석을 점유 상태로 변경
-        npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
-        // 목표 위치로 이동
+        NPCBehavior npcBehavior = nav.GetComponent<NPCBehavior>();
+        nav.enabled = true;
         nav.SetDestination(targetPosition.position);
-
         // NPC가 목표 위치에 도달할 때까지 대기
         while (nav.pathPending || nav.remainingDistance > nav.stoppingDistance)
         {
-            // NPC가 목표 지점에 근접했는지 확인
-            if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 2 &&
-                Mathf.Abs(npc.transform.position.y - targetPosition.position.y) <= 2)
+            if (npcBehavior.npcState == NPCBehavior.NPCState.Exiting)
             {
-                nowPosition = npc.transform.position;
-                nav.enabled = false;
-                npc.transform.position = targetPosition.position; // NPC를 목표 위치로 순간이동
-                NpcRotation(npc, seatIndex); //npc 책상방향에따라 회전
+                nav.ResetPath();
+                break;
+            }
+            // NPC가 목표 지점에 근접했는지 확인
+            if (Mathf.Abs(npc.transform.position.x - targetPosition.position.x) <= 0.3 &&
+                Mathf.Abs(npc.transform.position.z - targetPosition.position.z) <= 0.3)
+            {
+                //npc.transform.position = targetPosition.position; // NPC를 목표 위치로 순간이동
+                //NpcRotation(npc, seatIndex); //npc 책상방향에따라 회전
                 break;
             }
 
             yield return null;
         }
 
-        yield return new WaitForSeconds(2f);// 기다린 후 주문
-
-        npc.GetComponent<NPCBehavior>().OrderMenu(menu);
-
     }
 
-    private void NpcRotation(GameObject npc, int seatIndex)
+    IEnumerator ManageNPC(GameObject npc, Recipe menu)
     {
-        switch (seatIndex)
+        int seatIndex = FindRandomSeat();
+        if (seatIndex == -1) // 모든 좌석이 차 있을 때
         {
-            case 0:
-            case 1:
-            case 6:
-            case 7:
-            case 12:
-            case 13:
-            case 18:
-            case 19:
-                // 오른쪽 바라보게 (Y축 기준으로 90도 회전)
-                npc.transform.rotation = Quaternion.Euler(0, 90, 0);
-                break;
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-                // 왼쪽 바라보게 (Y축 기준으로 -90도 회전)
-                npc.transform.rotation = Quaternion.Euler(0, -90, 0);
-                break;
-            case 8:
-            case 9:
-                // 위쪽 바라보게 (Y축 기준으로 180도 회전)
-                npc.transform.rotation = Quaternion.Euler(0, 0, 0);
-                break;
-            case 10:
-            case 11:
-                // 아래쪽 바라보게 (Y축 기준으로 0도 회전)
-                npc.transform.rotation = Quaternion.Euler(0, 180, 0);
-                break;
-            case 20:
-            case 21:
-                // 왼쪽 위를 바라보게 (Y축 기준으로 -135도 회전)
-                npc.transform.rotation = Quaternion.Euler(0, -45, 0);
-                break;
-            case 22:
-            case 23:
-                // 오른쪽 아래를 바라보게 (Y축 기준으로 45도 회전)
-                npc.transform.rotation = Quaternion.Euler(0, 135, 0);
-                break;
+            Destroy(npc);
+            yield break;
         }
-    }
-    
+        else
+        {
+            sitOccupied[seatIndex] = true;
+        }
+        // Set npc sitting
+        // Transform sitPoint = sitpositions[seatIndex];
+        Transform sitPoint = sitpoint[seatIndex];
+        npc.GetComponent<NPCBehavior>().Initialize(menu, seatIndex);
+        npc.GetComponent<NavMeshAgent>().avoidancePriority = Manager.NPCSpawnCount % 100;
+        // Move enterance
+        yield return StartCoroutine(MoveNPC(npc, doorPoint.transform));
+        yield return StartCoroutine(MoveNPC(npc, centerPoint.transform));
+        yield return StartCoroutine(MoveNPC(npc, sitPoint));
+        //yield return StartCoroutine(MoveNPC(npc, sitPoint2));
+        if (npc.GetComponent<NPCBehavior>().npcState == NPCBehavior.NPCState.Exiting) yield break;
 
-    private Vector3 GetTablePositionInFront(Vector3 npcPosition, Quaternion npcRotation)
+        StartCoroutine(npc.GetComponent<NPCBehavior>().OrderMenu(menu));
+    }
+
+    public bool IsCanFindSeat()
     {
-        // NPC의 회전값에 따른 앞쪽 위치 계산
-        Vector3 forwardDirection = npcRotation * Vector3.forward; // NPC가 바라보는 방향
-        float distanceInFront = 2.0f; // NPC 앞의 거리 (조절 가능)
-                                      // NPC 앞쪽 위치를 계산
-        Vector3 tablePosition = npcPosition + forwardDirection * distanceInFront;
-
-        // Y 값 조정 (예: Y 값을 -0.5로 설정)
-        tablePosition.y = npcPosition.y - 0.55f; // 원하는 Y 값으로 조정
-
-        return tablePosition;
-    }
-
-
-    public bool IsCanFindSeat() {
         for (int i = 0; i < sitOccupied.Length; i++)
         {
             if (!sitOccupied[i])
@@ -165,7 +123,8 @@ public class NpcManager : MonoBehaviour
         return -1;
     }
 
-    public void SeatEmpty(int seatIndex) {
+    public void SeatEmpty(int seatIndex)
+    {
         sitOccupied[seatIndex] = false;
     }
 
@@ -173,7 +132,7 @@ public class NpcManager : MonoBehaviour
     {
         for (int i = array.Length - 1; i > 0; i--)
         {
-            int randomIndex = Random.Range(0, i + 1);
+            int randomIndex = UnityEngine.Random.Range(0, i + 1);
             int temp = array[i];
             array[i] = array[randomIndex];
             array[randomIndex] = temp;

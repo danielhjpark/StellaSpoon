@@ -8,24 +8,32 @@ using UnityEngine.UI;
 public class GameTimeManager : MonoBehaviour
 {
     public TextMeshProUGUI gameTimeText; // 게임 시간을 표시할 UI 텍스트
+    public TextMeshProUGUI gameDaysText; // 게임 일수를 표시할 UI 텍스트
 
-    private float gameTime = 0f; // 게임 내 시간 (단위: 초)
+    public float gameTime = 0f; // 게임 내 시간 (단위: 초)
     private const string lastSavedTimeKey = "LastSavedTime"; // PlayerPrefs 키
     private const string gameTimeKey = "GameTime"; // PlayerPrefs 키
+    private const string gameDaysKey = "GameDays"; // PlayerPrefs 키
 
     public int startHour = 0; // 초기 게임 시각 (예: 0시)
     public int startMinute = 0;
+    public int startDays = 0;
 
     public int gameHours; //게임 시간
     public int gameMinutes; //게임 분
+    public int gameDays = 0; //게임 일
 
-    
+    private bool shouldLoadSavedTime = true; // 기본은 저장된 시간 불러오기
+
     private void Start()
     {
         //저장된 시간 가져오기
-        LoadGameTime();
+        if (shouldLoadSavedTime)
+        {
+            LoadGameTime();
+        }
 
-        if(gameTimeText == null)
+        if (gameTimeText == null)
         {
             gameTimeText = GameObject.Find("Canvas/Time").GetComponent<TextMeshProUGUI>();
         }
@@ -39,6 +47,7 @@ public class GameTimeManager : MonoBehaviour
         if (gameTime >= 86400f) //24시간 = 86400초
         {
             gameTime -= 86400f;
+            gameDays++; //게임 일 증가
             //해당 부분에서 날짜 계산 가능
         }
 
@@ -50,6 +59,10 @@ public class GameTimeManager : MonoBehaviour
         if (gameTimeText != null)
         {
             gameTimeText.text = $"Time\n{gameHours:D2}:{gameMinutes:D2}";
+        }
+        if (gameDaysText != null)
+        {
+            gameDaysText.text = $"{gameDays}일";
         }
     }
     private void OnApplicationQuit()
@@ -63,6 +76,7 @@ public class GameTimeManager : MonoBehaviour
         // 현재 시간 기록
         PlayerPrefs.SetString(lastSavedTimeKey, DateTime.Now.ToString());
         PlayerPrefs.SetFloat(gameTimeKey, gameTime);
+        PlayerPrefs.SetInt(gameDaysKey, gameDays); // 게임 일수 저장
         PlayerPrefs.Save();
     }
 
@@ -91,11 +105,40 @@ public class GameTimeManager : MonoBehaviour
 
             // 24시간을 초과하면 초기화
             gameTime %= 86400f;
+
+            if (PlayerPrefs.HasKey(gameDaysKey))
+            {
+                gameDays = PlayerPrefs.GetInt(gameDaysKey); // 게임 일수 복구
+            }
+            else
+            {
+                gameDays = 0; // 게임 일수 초기화
+            }
         }
         else
         {
             // 저장된 데이터가 없으면 초기화
             gameTime = (startHour * 3600) + (startMinute * 60);
         }
+    }
+
+    public void AddTime(int minutes)
+    {
+        gameTime += minutes * 60f;
+    }
+    public void InitializeNewGameTime()
+    {
+        // 1일차 오전 8시 00분 (총 초 계산)
+        gameTime = (8 * 3600); // 8시간 = 8 * 3600초
+        gameDays = 1;
+
+        gameHours = 8;
+        gameMinutes = 0;
+
+        Debug.Log("New Game 시간 초기화: 1일 08:00");
+    }
+    public void DisableAutoLoad()
+    {
+        shouldLoadSavedTime = false;
     }
 }

@@ -9,10 +9,33 @@ public class InventorySlot : Slot
 
     public override void OnDrop(PointerEventData eventData)
     {
-
+        Debug.Log("123");
         if (DragSlot.instance.dragSlot != null)
         {
             Slot draggedSlot = DragSlot.instance.dragSlot;
+
+            // 드롭된 아이템이 레시피일 경우
+            if (draggedSlot.item != null && draggedSlot.item.itemType == Item.ItemType.Recipe)
+            {
+                string recipeName = draggedSlot.item.itemName;
+
+                // 레시피 찾기 시도
+                Recipe targetRecipe = RecipeManager.instance.FindRecipe(recipeName);
+                if (targetRecipe != null)
+                {
+                    // 레시피 등록
+                    RecipeManager.instance.RecipeUnLock(targetRecipe);
+                    Debug.Log($"[InventorySlot] '{recipeName}' 레시피 등록 완료");
+                }
+                else
+                {
+                    Debug.LogWarning($"[InventorySlot] 레시피 '{recipeName}' 찾을 수 없음");
+                }
+
+                // 아이템 제거
+                draggedSlot.ClearSlot();
+                return;
+            }
 
             if (draggedSlot is TreasureChestSlot || draggedSlot is InventorySlot)
             {
@@ -23,6 +46,10 @@ public class InventorySlot : Slot
                 ChangeSlot(); // 기본 슬롯 변경 처리
             }
         }
+    }
+    public override void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
+    {
+        base.OnEndDrag(eventData); // 부모의 드래그 종료 처리 실행
     }
 
     public override void ClearSlot()
@@ -43,6 +70,15 @@ public class InventorySlot : Slot
 
         // 슬롯을 비활성화 색상으로 표시
         SetColor(0);
+    }
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
     }
 
     private void HandleMerge(Slot draggedSlot)

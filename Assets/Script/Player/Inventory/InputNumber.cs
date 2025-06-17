@@ -20,6 +20,9 @@ public class InputNumber : MonoBehaviour
     [SerializeField]
     private GameObject thePlayer;
 
+    [SerializeField]
+    private GameObject showTextObj;
+
     void Update()
     {
         if (activated)
@@ -74,12 +77,14 @@ public class InputNumber : MonoBehaviour
                 thePlayer.transform.position + thePlayer.transform.forward,
                 Quaternion.identity);
             DragSlot.instance.dragSlot.SetSlotCount(-1);
+            SoundManager.instance.PlaySound(SoundManager.Display.Drop_Item);
             yield return new WaitForSeconds(0.05f);
         }
 
         DragSlot.instance.dragSlot = null;
         go_Base.SetActive(false);
         activated = false;
+        showTextObj.SetActive(true);
     }
 
     private bool CheckNumber(string _argString)

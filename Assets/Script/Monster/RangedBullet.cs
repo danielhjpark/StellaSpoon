@@ -40,7 +40,7 @@ public class RangedBullet : RangedMonster
         if (other.CompareTag("Player"))
         {
             //플레이어에게 데미지입히기
-            Debug.Log("플레이어 데미지 입히기!");
+            ///Debug.Log("플레이어 데미지 입히기!");
 
             Destroy(gameObject); //투척물 제거
 
