@@ -1,18 +1,24 @@
-# StellaSpoon
-2025년도 졸업작품 Team StellaSpoon
+# 👾 StellaSpoon 👾
+호서대학교 2025년도 졸업작품 Team StellaSpoon
 
-## 프로젝트 정보
 
-### 1. 제작기간
+## 📃프로젝트 정보
 
-### 2. 팀원
-|Name | Position |
-|-----|----------|
-|박형준|Programmer|
-|장현세|Programmer|
-|이한별|Programmer|
-|오민근|Designer|
-|서동성|Designer|
+### 🗓️ 1. 제작기간
+> 2024.12.23 ~ 2025.06.10
+### 🧑🏻‍💻‍ 2. 팀원
+> |__Name__ | __Position__ |
+> |-----|----------|
+> |박형준|Programmer|
+> |장현세|Programmer|
+> |이한별|Programmer|
+> |오민근|Designer|
+> |서동성|Designer|
+
+
+### 3. 수상내역
+> 🏅호서대학교 게임소프트웨어학과 금상 수상
+
 
 
 ## 개발
