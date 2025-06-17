@@ -1,6 +1,20 @@
 # StellaSpoon
 2025년도 졸업작품 Team StellaSpoon
 
+## 프로젝트 정보
+
+### 1. 제작기간
+
+### 2. 팀원
+|Name | Position |
+|-----|----------|
+|박형준|Programmer|
+|장현세|Programmer|
+|이한별|Programmer|
+|오민근|Designer|
+|서동성|Designer|
+
+
 ## 개발
 기본적인 개발 브랜치 전략은 [gitflow](http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/) 관례를 따릅니다.
 
