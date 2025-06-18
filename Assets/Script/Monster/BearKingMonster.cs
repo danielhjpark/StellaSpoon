@@ -181,6 +181,9 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange || isDead) yield break;
 
+        nav.isStopped = true;
+        isCharging = true;
+
         isChargeSetting = true;
         attackRange = 3f;
         animator.SetBool("Run Forward", true);
@@ -198,9 +201,6 @@ public class BearKingMonster : MonsterBase
         {
             Destroy(currentGroundEffect);
         }
-
-        isCharging = true;
-        nav.isStopped = true;
 
         float startTime = Time.time;
         while (Time.time < startTime + chargeDuration)
