@@ -5,25 +5,29 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : Slot
 {
-    //private int inventoryItemWeightTotal = 0;
-
     public override void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("123");
         if (DragSlot.instance.dragSlot != null)
         {
             Slot draggedSlot = DragSlot.instance.dragSlot;
 
-            // 드롭된 아이템이 레시피일 경우
+            // 자기 자신에게 드롭한 경우 아무 동작하지 않음
+            if (draggedSlot == this)
+            {
+                DragSlot.instance.SetColor(0);
+                DragSlot.instance.gameObject.SetActive(false);
+                DragSlot.instance.dragSlot = null;
+                return;
+            }
+
+            // 레시피 아이템인 경우
             if (draggedSlot.item != null && draggedSlot.item.itemType == Item.ItemType.Recipe)
             {
                 string recipeName = draggedSlot.item.itemName;
 
-                // 레시피 찾기 시도
                 Recipe targetRecipe = RecipeManager.instance.FindRecipe(recipeName);
                 if (targetRecipe != null)
                 {
-                    // 레시피 등록
                     RecipeManager.instance.RecipeUnLock(targetRecipe);
                     Debug.Log($"[InventorySlot] '{recipeName}' 레시피 등록 완료");
                 }
@@ -37,40 +41,37 @@ public class InventorySlot : Slot
                 return;
             }
 
+            // 병합 또는 슬롯 변경
             if (draggedSlot is TreasureChestSlot || draggedSlot is InventorySlot)
             {
-                HandleMerge(draggedSlot); // 병합 로직 호출
+                HandleMerge(draggedSlot);
             }
             else
             {
-                ChangeSlot(); // 기본 슬롯 변경 처리
+                ChangeSlot();
             }
         }
     }
-    public override void OnEndDrag(PointerEventData eventData) // 드래그 슬롯 다시 초기화
+
+    public override void OnEndDrag(PointerEventData eventData)
     {
-        base.OnEndDrag(eventData); // 부모의 드래그 종료 처리 실행
+        base.OnEndDrag(eventData);
     }
 
     public override void ClearSlot()
     {
         if (item != null)
         {
-            // 무게 업데이트 (현재 아이템 무게 * 아이템 개수)
             InventoryManager.instance.UpdateTotalWeight(-item.itemWeight * itemCount);
         }
 
-        // 아이템 데이터 초기화
         item = null;
         itemCount = 0;
-
-        // 슬롯의 이미지와 텍스트를 초기화
         itemImage.sprite = null;
         text_count.gameObject.SetActive(false);
-
-        // 슬롯을 비활성화 색상으로 표시
         SetColor(0);
     }
+
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
@@ -83,43 +84,40 @@ public class InventorySlot : Slot
 
     private void HandleMerge(Slot draggedSlot)
     {
-        // 같은 아이템인지 확인
+        // 자기 자신에게 병합 시도한 경우 무시
+        if (draggedSlot == this)
+        {
+            DragSlot.instance.SetColor(0);
+            DragSlot.instance.gameObject.SetActive(false);
+            DragSlot.instance.dragSlot = null;
+            return;
+        }
+
+        // 병합 가능: 같은 아이템 + 20 미만
         if (draggedSlot.item != null && this.item != null && draggedSlot.item.itemName == this.item.itemName)
         {
-            // 병합 조건: 현재 슬롯이 20개 미만일 때만 병합
             if (this.itemCount < 20 && draggedSlot.itemCount < 20)
             {
-                // 병합 전 슬롯 무게 계산
                 int originalWeight = this.itemCount * this.item.itemWeight;
 
                 // 병합: 아이템 수량 합치기
                 this.SetSlotCount(draggedSlot.itemCount);
 
-                if (draggedSlot is InventorySlot == false)
+                if (!(draggedSlot is InventorySlot)) // 외부 슬롯에서 왔을 경우에만 무게 추가
                 {
-                    // 병합 후 슬롯 무게 계산
                     int newWeight = this.itemCount * this.item.itemWeight;
-
-                    // 추가된 무게만큼 업데이트
                     int addedWeight = newWeight - originalWeight;
                     InventoryManager.instance.UpdateTotalWeight(addedWeight);
                 }
 
-                // 드래그된 슬롯의 아이템 초기화
+                // 병합 대상 슬롯 초기화
                 draggedSlot.ClearSlot();
-            }
-            else
-            {
-                // 병합 조건에 해당하지 않으면 단순 교환
-                ChangeSlot();
+                return;
             }
         }
-        else
-        {
-            // 기본적으로 슬롯 변경 처리
-            ChangeSlot();
-        }
+
+        // 병합 조건 미충족 → 기본 슬롯 교환
+        ChangeSlot();
     }
-
-
 }
+
