@@ -36,6 +36,7 @@ public class TrimIngredientSlot : MonoBehaviour, IPointerEnterHandler, IPointerE
             }
         }
     }
+    
     public void SlotUISetup(Recipe recipe, IngredientInventory ingredientInventory)
     {
         initColor = Color.white;

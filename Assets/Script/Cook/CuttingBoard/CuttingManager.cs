@@ -10,7 +10,9 @@ public class CuttingManager : CookManagerBase
     private CuttingAudioSystem cuttingAudioSystem;
     private CuttingBoardUI cuttingBoardUI;
 
+    [Header("Setting")]
     [SerializeField] CookUIManager cookUIManager;
+    [SerializeField] IngredientInventory ingredientInventory;
 
     [Header("Objects Setting ")]
     [SerializeField] Transform dropPos;
@@ -39,7 +41,7 @@ public class CuttingManager : CookManagerBase
         cuttingBoardUI = GetComponent<CuttingBoardUI>();
 
         cookUIManager.SelectRecipeMode();
-
+        
     }
 
     void Update()
@@ -78,8 +80,13 @@ public class CuttingManager : CookManagerBase
 
         IngredientManager.IngredientAmount[trimIngredient] += trimItemCount;
         RefrigeratorManager.instance.AddItem(trimItem, trimItemCount);
+        //Scene End
+        //CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest");
 
-        CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest");
+        //Next Cutting Ingredient
+        TrimIngredientUI trim = FindObjectOfType<TrimIngredientUI>().GetComponent<TrimIngredientUI>();
+        trim.TrimRecipeList();
+        
     }
 
     public override void AddIngredient(GameObject obj, Ingredient ingredient)
@@ -89,7 +96,7 @@ public class CuttingManager : CookManagerBase
         // obj.GetComponent<Collider>().enabled = true;
         obj.transform.position = dropPos.position;
         //obj.transform.SetParent(parentPos);
-
+        
         StartCoroutine(UseCookingStep());
     }
 
