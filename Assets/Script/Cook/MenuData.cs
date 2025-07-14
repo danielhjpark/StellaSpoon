@@ -18,6 +18,7 @@ public class MenuData : MonoBehaviour
             GameObject failMenuObject = Instantiate(menu.menuPrefab, Vector3.zero, Quaternion.identity);
             Destroy(this.gameObject.transform.GetChild(0).gameObject);
             failMenuObject.transform.SetParent(this.gameObject.transform);
+            failMenuObject.transform.localPosition = Vector3.zero;
         }
     }
 }
