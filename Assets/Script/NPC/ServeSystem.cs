@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using System;
+using UnityEditor;
 
 public class ServeSystem : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class ServeSystem : MonoBehaviour
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private AudioClip putDishAudio;
     [SerializeField] private AudioClip trashAudio;
+    [SerializeField] private WaitingTableSystem waitingTableSystem;
     private string pickupAnimationName = "BringDish";
     private GameObject serveObject;
     public void Start()
@@ -44,7 +46,8 @@ public class ServeSystem : MonoBehaviour
         playerAnimator.SetBool(pickupAnimationName, true);
 
         //PickUp lock
-        Destroy(menuObject.GetComponent<Collider>());
+        //Destroy(menuObject.GetComponent<Collider>());
+        menuObject.GetComponent<Collider>().enabled = false;
 
         //PickUp Menu transform position setting
         serveObject = menuObject;
@@ -57,7 +60,14 @@ public class ServeSystem : MonoBehaviour
 
         //PickUp Check && Interact Setting 
         CookManager.instance.isPickUpMenu = true;
-        CookType cooktype = menuObject.GetComponent<MenuData>().menu.cookType;
+        //case 1 use table
+        MenuData menuData = menuObject.GetComponent<MenuData>();
+        if (menuData.useTable)
+        {
+            waitingTableSystem.CheckUseTable();
+            return;
+        }
+        CookType cooktype = menuData.menu.cookType;
         if (cooktype == CookType.Frying || cooktype == CookType.Tossing) CookManager.instance.isCanUseMiddleTable = true;
         else if (cooktype == CookType.Tossing) CookManager.instance.isCanUseSideTable = true;
         else
@@ -80,14 +90,28 @@ public class ServeSystem : MonoBehaviour
 
     public void ServeMenu(GameObject hitInfo)
     {
-        if (hitInfo.transform.gameObject.TryGetComponent<NPCBehavior>(out NPCBehavior behavior))
+        if (serveObject != null)
         {
-            if(!behavior.IsCanReceivedMenu()) return;
-            if(!behavior.ReceiveNPC(serveObject)) return;
-            AudioSource.PlayClipAtPoint(putDishAudio, playerHand.position);
-            playerAnimator.SetBool(pickupAnimationName, false);
-            CookManager.instance.isPickUpMenu = false;
+            if (hitInfo.transform.gameObject.TryGetComponent<NPCBehavior>(out NPCBehavior behavior))
+            {
+                if (!behavior.IsCanReceivedMenu()) return;
+                if (!behavior.ReceiveNPC(serveObject)) return;
+                AudioSource.PlayClipAtPoint(putDishAudio, playerHand.position);
+                playerAnimator.SetBool(pickupAnimationName, false);
+                CookManager.instance.isPickUpMenu = false;
+            }
+            else if (hitInfo.transform.gameObject.TryGetComponent<WaitingTableSystem>(out WaitingTableSystem tableSystem))
+            {
+                if (!tableSystem.IsCanUseTable()) return;
+                tableSystem.UseWaitingTable(serveObject);
+                playerAnimator.SetBool(pickupAnimationName, false);
+                CookManager.instance.isPickUpMenu = false;
+                serveObject.GetComponent<Collider>().enabled = true;
+                serveObject.GetComponent<MenuData>().useTable = true;
+                serveObject = null;
+            }
         }
+
     }
 
 

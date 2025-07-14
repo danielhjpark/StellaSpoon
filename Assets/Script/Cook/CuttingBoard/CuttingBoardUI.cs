@@ -32,6 +32,7 @@ public class CuttingBoardUI : MonoBehaviour
         cuttingBoardUI.SetActive(false);
         rotateUI.SetActive(false);
         sliceUI.SetActive(false);
+        sliceClickUI.SetActive(false);
     }
 
     //Slice Click

@@ -4,6 +4,7 @@ using UnityEngine;
 using EzySlice;
 using UnityEditor;
 using Unity.VisualScripting;
+using UnityEngine.Rendering;
 
 public class CuttingObjectSystem : MonoBehaviour
 {
@@ -27,9 +28,12 @@ public class CuttingObjectSystem : MonoBehaviour
             Vector3 slicePosition = Vector3.Lerp(min, max, t);
 
             SlicedHull hull = sliceTarget.Slice(slicePosition, sliceDirection, sliceMaterial);
+  
             if (hull == null) continue;
             GameObject LowerHull = hull.CreateLowerHull(obj, sliceMaterial);
             GameObject upperHull = hull.CreateUpperHull(obj, sliceMaterial);
+            SetupHull(LowerHull);
+            SetupHull(upperHull);
 
             Destroy(LowerHull.GetComponent<Collider>());
             LowerHull.AddComponent<BoxCollider>();
@@ -75,6 +79,8 @@ public class CuttingObjectSystem : MonoBehaviour
             if (hull == null) continue;
             GameObject LowerHull = hull.CreateLowerHull(obj, sliceMaterial);
             GameObject upperHull = hull.CreateUpperHull(obj, sliceMaterial);
+            SetupHull(LowerHull);
+            SetupHull(upperHull);
 
             sliceObjects.Add(LowerHull);
             if (i == sliceCount - 1)
@@ -123,5 +129,14 @@ public class CuttingObjectSystem : MonoBehaviour
 
         return sliceObjects;
     }
-
+    
+    void SetupHull(GameObject obj)
+    {
+        // 그림자 캐스트 끄기
+        MeshRenderer renderer = obj.GetComponent<MeshRenderer>();
+        if (renderer != null)
+        {
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+        }
+    }
 }

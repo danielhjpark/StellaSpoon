@@ -73,7 +73,9 @@ public class CuttingMotionSystem : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.5f);
+        cuttingBoardUI.HideCuttingBoardUI();
         ObjectReset(sliceAllObjects);
+        KnifeReset();
     }
 
 
@@ -244,6 +246,7 @@ public class CuttingMotionSystem : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         ObjectReset(sliceAllObjects2);
+        KnifeReset();
         cuttingBoardUI.HideCuttingBoardUI();
         cuttingLineSystem.ScanReset();
     }
@@ -341,6 +344,7 @@ public class CuttingMotionSystem : MonoBehaviour
             Destroy(sliceObject);
         }
         Destroy(targetObject);
+        rotateObject.transform.rotation = Quaternion.identity;
     }
 
     private void KnifeSetup()

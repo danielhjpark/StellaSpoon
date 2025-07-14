@@ -1932,6 +1932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotToolTip
       objectReference: {fileID: 0}
+    - target: {fileID: 5860545567676187835, guid: a55f1d9d349b1814d8248ad80d0e29cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8271748462402404415, guid: a55f1d9d349b1814d8248ad80d0e29cf, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2312,7 +2316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &797448843
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2643,11 +2647,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.2
-  far clip plane: 500
-  field of view: 40
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
   orthographic: 0
-  orthographic size: 10
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2671,8 +2675,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.488998, y: 11.5, z: -8.743}
+  m_LocalRotation: {x: 0.49049065, y: -0.000000014994441, z: 0.00000000843957, w: 0.8714465}
+  m_LocalPosition: {x: 100, y: 3, z: 98.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

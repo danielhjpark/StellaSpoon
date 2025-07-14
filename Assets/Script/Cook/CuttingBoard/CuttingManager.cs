@@ -39,9 +39,17 @@ public class CuttingManager : CookManagerBase
         cuttingMotionSystem = GetComponent<CuttingMotionSystem>();
         cuttingAudioSystem = GetComponent<CuttingAudioSystem>();
         cuttingBoardUI = GetComponent<CuttingBoardUI>();
+        cookUIManager.Initialize(this);
 
-        cookUIManager.SelectRecipeMode();
-        
+        InitTrim();
+    }
+
+    void InitTrim()
+    {
+        isCanEscape = true;
+        CookManager.instance.cookMode = CookManager.CookMode.Make;
+        ingredientInventory.AddTrimIngredients();
+        StartCoroutine(cookUIManager.VisiblePanel());
     }
 
     void Update()
@@ -51,7 +59,8 @@ public class CuttingManager : CookManagerBase
             CookSceneManager.instance.UnloadScene();
         }
     }
-    /// --------------Virtual Method --------------------------//
+    /// --------------------Virtual Method --------------------------//
+
 
     public override void SelectRecipe(Recipe menu)
     {
@@ -84,19 +93,20 @@ public class CuttingManager : CookManagerBase
         //CookSceneManager.instance.UnloadScene("CuttingBoardMergeTest");
 
         //Next Cutting Ingredient
-        TrimIngredientUI trim = FindObjectOfType<TrimIngredientUI>().GetComponent<TrimIngredientUI>();
-        trim.TrimRecipeList();
-        
+        //TrimIngredientUI trim = FindObjectOfType<TrimIngredientUI>().GetComponent<TrimIngredientUI>();
+        //trim.TrimRecipeList();
+        InitTrim();
     }
 
     public override void AddIngredient(GameObject obj, Ingredient ingredient)
     {
+        isCanEscape = false;
         targetObject = obj;
-        // obj.GetComponent<Rigidbody>().useGravity = true;
-        // obj.GetComponent<Collider>().enabled = true;
         obj.transform.position = dropPos.position;
-        //obj.transform.SetParent(parentPos);
-        
+        currentMenu = RecipeManager.instance.FindRecipe(ingredient);
+        horizontalCount = currentMenu.cuttingSetting.cuttingCount;
+        verticalCount = currentMenu.cuttingSetting.cuttingCount;
+
         StartCoroutine(UseCookingStep());
     }
 
@@ -163,7 +173,7 @@ public class CuttingManager : CookManagerBase
         yield return StartCoroutine(cuttingMotionSystem.CuttingHorizontal());
 
         cuttingBoardUI.HideCuttingBoardUI();
-        cuttingBoardUI.VisibleSliceUI();
+        //cuttingBoardUI.VisibleSliceUI();
     }
 
     IEnumerator CuttingCubeSystem()
@@ -174,7 +184,7 @@ public class CuttingManager : CookManagerBase
         yield return StartCoroutine(cuttingMotionSystem.CuttingCube2());
 
         cuttingBoardUI.HideCuttingBoardUI();
-        cuttingBoardUI.VisibleSliceUI();
+        //cuttingBoardUI.VisibleSliceUI();
     }
 
 

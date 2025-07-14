@@ -31,9 +31,13 @@ public class CookUIManager : MonoBehaviour
 
     void Start()
     {
-        if (CookManager.instance.cookMode == CookManager.CookMode.Select || CookManager.instance.currentCookType == CookType.Cutting)
+        if (CookManager.instance.cookMode == CookManager.CookMode.Select)
         {
             SelectRecipeMode();
+        }
+        else if (CookManager.instance.currentCookType == CookType.Cutting)
+        {
+            //Nothing action
         }
         else
         {

@@ -20,7 +20,7 @@ public class InteractUIManger : MonoBehaviour
 
     public AudioSource interactAudioSource;
 
-    public enum TextType { Open, Open2, Open3, Close, Close2, Ingredient, UnlockRecipe, Sleep, FailMenu, ClearMenu, FailAddMenu}
+    public enum TextType { Open, Open2, Open3, Close, Close2, Ingredient, UnlockRecipe, Sleep, FailMenu, ClearMenu, FailAddMenu }
     private Dictionary<TextType, bool> checkUseText;
     private string[] textList = {
         "오후 6시부터 식당을 열 수 있습니다.",
@@ -39,6 +39,8 @@ public class InteractUIManger : MonoBehaviour
     public static bool isUseInteractObject;
     public static bool isPlayerNearby;
     public static GameObject currentInteractObject;
+
+    private Coroutine useTextCoroutine;
 
     void Awake()
     {
@@ -77,13 +79,13 @@ public class InteractUIManger : MonoBehaviour
 
     public void UsingText(TextType textType)
     {
-        if (checkUseText[textType])
+        if (useTextCoroutine != null)
         {
             return;
         }
         else
         {
-            StartCoroutine(CheckUseText(textType));
+            useTextCoroutine = StartCoroutine(CheckUseText(textType));
             GameObject popupText;
             if (textType == TextType.Open || textType == TextType.Open2 || textType == TextType.Open3 ||
                 textType == TextType.Close || textType == TextType.ClearMenu || textType == TextType.FailAddMenu)
@@ -101,11 +103,43 @@ public class InteractUIManger : MonoBehaviour
         }
     }
 
+    public void UsingText(string text, bool isWarning)
+    {
+        if (useTextCoroutine != null)
+        {
+            return;
+        }
+        else
+        {
+            useTextCoroutine = StartCoroutine(CheckUseText());
+            GameObject popupText;
+            if (isWarning)
+            {
+                SoundManager.instance.PlayPlayerSFX(SoundManager.EPlayerSfx.Error);
+                popupText = Instantiate(warningTextPrefab, popupContainer);
+            }
+            else
+            {
+                popupText = Instantiate(noticeTextPrefab, popupContainer);
+            }
+            popupText.transform.SetAsLastSibling(); // 밑에 쌓이게
+            PopupUI popup = popupText.GetComponent<PopupUI>();
+            popup.Setup(text, 2.5f);
+        }
+    }
+
     IEnumerator CheckUseText(TextType textType)
     {
         checkUseText[textType] = true;
         yield return new WaitForSeconds(3f);
         checkUseText[textType] = false;
+        useTextCoroutine = null;
+    }
+
+    IEnumerator CheckUseText()
+    {
+        yield return new WaitForSeconds(3f);
+        useTextCoroutine = null;
     }
 
     public void VisibleInteractUI()

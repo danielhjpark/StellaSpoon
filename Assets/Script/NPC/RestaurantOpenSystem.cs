@@ -13,6 +13,7 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     [Header("GameTime")]
     [SerializeField] GameTimeManager gameTimeManager;
+    [SerializeField] bool useRestaurantOpenTime;
 
     [Header("Sign")]
     [SerializeField] private Renderer signRenderer;
@@ -43,6 +44,7 @@ public class RestaurantOpenSystem : MonoBehaviour
 
     void Start()
     {
+        if (useRestaurantOpenTime) gameTimeManager.RestaurantOpenTime();
         playerTransform = GameObject.FindWithTag("Player").transform;
         isRestaurantOpened = false;
         signRenderer.material = signMaterial[(int)signState.Close];
