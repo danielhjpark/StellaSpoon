@@ -19,10 +19,7 @@ public class RangedMonster : MonsterBase
             isAttack = true;
             animator.SetBool("Walk", false);
             animator.SetBool("Attack", true); //Attack 애니메이션 실행
-
-            //함수로 애니메이션 이벤트를 이용해 Bullet 생성
         }
-        //공격 구현
     }
 
 
