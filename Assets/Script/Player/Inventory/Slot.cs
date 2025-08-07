@@ -172,7 +172,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     virtual public void OnPointerEnter(PointerEventData eventData)
     {
-        if(item != null)
+        if(item != null && DragSlot.instance.dragSlot == null)
         {
             itemNameData.showToolTip(item, transform.position);
         }
