@@ -6,34 +6,34 @@ using UnityEngine.AI;
 
 public class EscapeMonster : MonsterBase
 {
-    //?„ë§? ëª¬ìŠ¤?„°?Š” ê³µê²© ë²”ìœ„ ?—†ê³?
-    //?¸ì§? ë²”ìœ„?— ?“¤?–´?™”?„ ?•Œ ë°˜ë??ìª? ê²½ë¡œ ?„¤? •
+    //µµ¸Á ¸ó½ºÅÍ´Â °ø°İ ¹üÀ§ ¾ø°í
+    //ÀÎÁö ¹üÀ§¿¡ µé¾î¿ÔÀ» ¶§ ¹İ´ëÂÊ °æ·Î ¼³Á¤
     [Header("?„ë§? ëª¬ìŠ¤?„° information")]
-    public bool isEscaping = false; //?„ë§ê???Š”ì¤? ë³??ˆ˜ 
-    private Vector3 escapeTarget; //?„ë§ê???Š” ?œ„ì¹?
+    public bool isEscaping = false; //µµ¸Á°¡´Â Áß º¯¼ö
+    private Vector3 escapeTarget; //µµ¸Á°¡´Â À§Ä¡
     [SerializeField]
-    private float moveSpeed = 3f; //?´?™ ?†?„
+    private float moveSpeed = 3f; //ÀÌµ¿ ¼Óµµ
     [SerializeField]
-    private float escapeSpeed = 5f; //?„ë§ì†?„
+    private float escapeSpeed = 5f; //µµ¸Á ¼Óµµ
     [SerializeField]
-    private float escapeDistance = 10f; //?„ë§ê???Š” ê±°ë¦¬
+    private float escapeDistance = 10f; //µµ¸Á°¡´Â °Å¸®
     [SerializeField]
-    private float viewAngle = 0f; //ê°ì?? ë²”ìœ„ ê°ë„
+    private float viewAngle = 0f; //°¨Áö ¹üÀ§ °¢µµ
 
     [Header("Layer")]
     [SerializeField]
     LayerMask targetMask;
     [SerializeField]
     LayerMask obstacleMask;
-    private bool isPlayerDetected = false; //?”Œ? ˆ?´?–´ ê°ì?? ?ƒ?ƒœ
+    private bool isPlayerDetected = false; //ÇÃ·¹ÀÌ¾î °¨Áö »óÅÂ
 
-    private bool isDie; //ì£½ìŒ ì²´í¬ ë³??ˆ˜
+    private bool isDie; //Á×À½ Ã¼Å© º¯¼ö
 
 
-    //?„ë§? ëª¬ìŠ¤?„°?Š” ì«’ëŠ” ê²ƒì´ ?•„?‹Œ ?„ë§ê???Š” ê²ƒìœ¼ë¡? ?ˆ˜? •
+    //µµ¸Á ¸ó½ºÅÍ´Â ¦i´Â °ÍÀÌ ¾Æ´Ñ µµ¸Á°¡´Â °ÍÀ¸·Î ¼öÁ¤
     protected override void HandleChasing()
     {
-        //ë²”ìœ„ ?‚´?— ?“¤?–´?™”?„ ?•Œ ?„ë§? ?‹¤?–‰
+        //¹üÀ§ ³»¿¡ µé¾î¿ÔÀ» ¶§ µµ¸Á ½ÇÇà
         if (!isEscaping)
         {
             CheckFieldOfView();
@@ -48,20 +48,20 @@ public class EscapeMonster : MonsterBase
             if (!nav.pathPending && nav.remainingDistance <= nav.stoppingDistance)
             {
                 animator.SetBool("Run", false);
-                isEscaping = false; //?„ë§? ì¢…ë£Œ
+                isEscaping = false; //µµ¸Á Á¾·á
                 isPlayerDetected = false;
-                nav.speed = moveSpeed; //???ì§ì„ ?†?„ ì´ˆê¸°?™”
-                nav.ResetPath(); //ê²½ë¡œ ì´ˆê¸°?™”
+                nav.speed = moveSpeed; //¿òÁ÷ÀÓ ¼Óµµ ÃÊ±âÈ­
+                nav.ResetPath(); //°æ·Î ÃÊ±âÈ­
             }
         }
     }
 
     private void CheckFieldOfView()
     {
-        Vector3 myPos = transform.position + Vector3.up * 0.5f; //ëª¬ìŠ¤?„°?˜ ?˜„?¬ ?œ„ì¹?
-        Vector3 lookDir = AngleToDir(transform.eulerAngles.y); //ëª¬ìŠ¤?„°?˜ ?˜„?¬ ë°©í–¥
+        Vector3 myPos = transform.position + Vector3.up * 0.5f; //¸ó½ºÅÍÀÇ ÇöÀç À§Ä¡
+        Vector3 lookDir = AngleToDir(transform.eulerAngles.y); //¸ó½ºÅÍÀÇ ÇöÀç ¹æÇâ
 
-        //?‹œ?•¼ ë²”ìœ„ ?‚´ ???ê²? ê°ì??
+        //½Ã¾ß ¹üÀ§ ³» Å¸°Ù °¨Áö
         Collider[] targets = Physics.OverlapSphere(myPos, playerDetectionRange, targetMask);
         if (targets.Length == 0) return;
 
@@ -71,7 +71,7 @@ public class EscapeMonster : MonsterBase
             Vector3 targetDir = (targetPos - myPos).normalized;
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
 
-            //???ê²Ÿì´ ?‹œ?•¼ ?‚´?— ?ˆê³? ?¥?• ë¬¼ì´ ?—†?œ¼ë©? ?„ë§? ?‹œ?‘
+            //Å¸°ÙÀÌ ½Ã¾ß ³»¿¡ ÀÖ°í Àå¾Ö¹°ÀÌ ¾øÀ¸¸é µµ¸Á ½ÃÀÛ
             if (targetAngle <= viewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, playerDetectionRange, obstacleMask))
             {
                 Debug.DrawLine(myPos, targetPos, Color.red);
@@ -86,43 +86,43 @@ public class EscapeMonster : MonsterBase
         isEscaping = true;
         isPlayerDetected = true;
 
-        nav.speed = escapeSpeed; //?„ë§ì†?„ë¡? ë³?ê²?
+        nav.speed = escapeSpeed; //µµ¸Á ¼Óµµ·Î º¯°æ
 
         animator.SetBool("Walk", false);
         animator.SetBool("Run", true);
 
-        //?„ë§ê???Š” ë°©í–¥ ?„¤? •
+        //µµ¸Á°¡´Â ¹æÇâ ¼³Á¤
         Vector3 myPos = transform.position;
         Vector3 direction = (myPos - targetPosition).normalized;
-        direction.y = 0f; // y ê°? ê³ ì •
+        direction.y = 0f; // y°ª °íÁ¤
 
         escapeTarget = myPos + direction * escapeDistance;
 
-        //NavMesh ?ƒ?—?„œ ?„ë§ê°ˆ ?œ„ì¹˜ê?? ?œ ?š¨?•œì§? ?™•?¸
+        //NavMesh »ó¿¡¼­ µµ¸Á°¥ À§Ä¡°¡ À¯È¿ÇÑÁö È®ÀÎ
         if (NavMesh.SamplePosition(escapeTarget, out NavMeshHit hit, escapeDistance, NavMesh.AllAreas))
         {
             escapeTarget = hit.position;
-            nav.SetDestination(escapeTarget); //?„ë§? ?‹¤?–‰
+            nav.SetDestination(escapeTarget); //µµ¸Á ½ÇÇà
         }
         else
         {
-            //NavMesh?— ?œ ?š¨?•˜ì§? ?•Š??? ê²½ìš°, ?„ë§? ê±°ë¦¬ë¥? ì¤„ì—¬?„œ ?œ ?š¨?•œ ?œ„ì¹˜ë?? ì°¾ìŒ
+            //NavMesh¿¡ À¯È¿ÇÏÁö ¾ÊÀº °æ¿ì, µµ¸Á°Å¸®¸¦ ÁÙ¿©¼­ À¯È¿ÇÑ À§Ä¡¸¦ Ã£À½
             float reducedDistance = escapeDistance;
-            while (reducedDistance > 1f) //ìµœì†Œ ê±°ë¦¬ê¹Œì?? ê°ì†Œ
+            while (reducedDistance > 1f) //ÃÖ¼Ò °Å¸®±îÁö °¨¼Ò
             {
                 reducedDistance -= 1f;
                 Vector3 closerEscapeTarget = myPos + direction * reducedDistance;
 
                 if (NavMesh.SamplePosition(closerEscapeTarget, out hit, reducedDistance, NavMesh.AllAreas))
                 {
-                    escapeTarget = hit.position; //?œ ?š¨?•œ ?œ„ì¹˜ë¡œ ?„¤? •
-                    nav.SetDestination(escapeTarget); //?„ë§? ?‹¤?–‰
+                    escapeTarget = hit.position; //À¯È¿ÇÑ À§Ä¡·Î ¼³Á¤
+                    nav.SetDestination(escapeTarget); //µµ¸Á ½ÇÇà
                     break;
                 }
             }
         }
 
-        //?„ë§ê???Š” ë°©í–¥?œ¼ë¡? ?šŒ? „
+        //µµ¸Á°¡´Â ¹æÇâÀ¸·Î È¸Àü
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
     }
@@ -134,11 +134,11 @@ public class EscapeMonster : MonsterBase
 
     protected override void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red; //ê°ì?? ë²”ìœ„
+        Gizmos.color = Color.red; //°¨Áö ¹üÀ§
         Vector3 myPos = transform.position + Vector3.up * 0.5f;
         Gizmos.DrawWireSphere(myPos, playerDetectionRange);
 
-        //?‹œ?•¼ ê°ë„ ë²”ìœ„ ?‘œ?‹œ
+        //½Ã¾ß °¢µµ ¹üÀ§ Ç¥½Ã
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + viewAngle * 0.5f);
         Vector3 leftDir = AngleToDir(transform.eulerAngles.y - viewAngle * 0.5f);
         Vector3 lookDir = AngleToDir(transform.eulerAngles.y);
@@ -147,10 +147,10 @@ public class EscapeMonster : MonsterBase
         Debug.DrawRay(myPos, leftDir * playerDetectionRange, Color.blue);
         Debug.DrawRay(myPos, lookDir * playerDetectionRange, Color.cyan);
 
-        Gizmos.color = Color.green; //???ì§ì„ ë²”ìœ„
+        Gizmos.color = Color.green; //¿òÁ÷ÀÓ ¹üÀ§
         Gizmos.DrawWireSphere(initialPosition, randomMoveRange);
 
-        Gizmos.color = Color.magenta; //?”Œ? ˆ?´?–´ ê³µê²© ?¸ì§? ë²”ìœ„ 
+        Gizmos.color = Color.magenta; //ÇÃ·¹ÀÌ¾î °ø°İ ÀÎÁö ¹üÀ§
         Gizmos.DrawWireSphere(transform.position, damageRange);
     }
 }
