@@ -269,6 +269,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    //얘는 사용하는 코드가 아님
     public void ToggleAudioVolume()
     {
         AudioListener.volume = AudioListener.volume == 0 ? 1 : 0;

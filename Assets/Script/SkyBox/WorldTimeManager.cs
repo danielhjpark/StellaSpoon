@@ -16,7 +16,7 @@ public class WorldTimeManager : MonoBehaviour
     public Material SerenoxiaNightSkybox;
 
     [SerializeField]
-    private Light sunLight; // Sun Light
+    private Light sunLight; //Sun Light
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class WorldTimeManager : MonoBehaviour
         float currentHour = gameTimeManager.gameHours + gameTimeManager.gameMinutes / 60f;
         float t = 0f;
 
-        // 현재 선택된 행성에 따라 스카이박스 선택
+        //현재 선택된 행성에 따라 스카이박스 선택
         Material daySkybox = null;
         Material nightSkybox = null;
 
@@ -70,38 +70,38 @@ public class WorldTimeManager : MonoBehaviour
                 return;
         }
 
-        // 1. 밤→낮 전환 (6~8시)
+        //밤→낮 전환 (6~8시)
         if (currentHour >= 6f && currentHour < 8f)
         {
             t = (currentHour - 6f) / 2f;
             ApplyLerpSkybox(nightSkybox, daySkybox, t);
         }
-        // 2. 낮→밤 전환 (18~20시)
+        //낮→밤 전환 (18~20시)
         else if (currentHour >= 18f && currentHour < 20f)
         {
             t = 1f - (currentHour - 18f) / 2f;
             ApplyLerpSkybox(nightSkybox, daySkybox, t);
         }
-        // 3. 완전 낮 (8~18시)
+        //완전 낮 (8~18시)
         else if (currentHour >= 8f && currentHour < 18f)
         {
             if (RenderSettings.skybox != daySkybox)
             { 
                 RenderSettings.skybox = daySkybox;
             }
-            lerpSkybox = null; // Lerp 머티리얼 해제
+            lerpSkybox = null; //Lerp 머티리얼 해제
         }
-        // 4. 완전 밤 (20~6시)
+        //완전 밤 (20~6시)
         else
         {
             if (RenderSettings.skybox != nightSkybox)
             {
                 RenderSettings.skybox = nightSkybox;
             }
-            lerpSkybox = null; // Lerp 머티리얼 해제
+            lerpSkybox = null; //Lerp 머티리얼 해제
         }
 
-        // --- Sun Light 밝기/색상 조절 (기존 코드 유지) ---
+        //Sun Light 밝기/색상 조절
         float intensity = 0f;
         Color sunColor = Color.white;
 
@@ -141,13 +141,13 @@ public class WorldTimeManager : MonoBehaviour
         }
     }
 
-    // 전환 구간에서만 호출
+    //전환 구간에서만 호출
     private void ApplyLerpSkybox(Material nightSkybox, Material daySkybox, float t)
     {
         if (lerpSkybox == null || lerpSkybox.shader != daySkybox.shader)
             lerpSkybox = new Material(daySkybox);
 
-        // Skybox/Procedural 기준
+        //Skybox/Procedural 기준
         if (daySkybox.HasProperty("_SkyTint") && nightSkybox.HasProperty("_SkyTint"))
         {
             Color dayTint = daySkybox.GetColor("_SkyTint");
@@ -166,7 +166,7 @@ public class WorldTimeManager : MonoBehaviour
             float nightExp = nightSkybox.GetFloat("_Exposure");
             lerpSkybox.SetFloat("_Exposure", Mathf.Lerp(nightExp, dayExp, t));
         }
-        // 필요한 속성 추가로 Lerp
+        //필요한 속성 추가로 Lerp
 
         RenderSettings.skybox = lerpSkybox;
     }

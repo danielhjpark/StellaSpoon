@@ -94,8 +94,14 @@ public class TreasureChest : MonoBehaviour
         {
             CloseChestUI();
         }
-        if (!treasureChestPanel.activeSelf && isPlayerNearby && DeviceManager.isDeactived) interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
-        else interactUI.DisableInteractUI(this.gameObject);
+        if (!treasureChestPanel.activeSelf && isPlayerNearby && DeviceManager.isDeactived)
+        {
+            interactUI.UseInteractUI(this.gameObject, Vector2.up * 0.5f);
+        }
+        else
+        {
+            interactUI.DisableInteractUI(this.gameObject);
+        }
     }
 
     private void ResetChest()
@@ -183,7 +189,7 @@ public class TreasureChest : MonoBehaviour
                     break;
                 }
             }
-            // 4. 기존 슬롯에 없으면 새로운 슬롯에 추가
+            //기존 슬롯에 없으면 새로운 슬롯에 추가
             if (!addedToExistingSlot)
             {
                 for (int k = 0; k < totalSlotCount; k++)

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class GoldManger : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI goldText;
+    [SerializeField]
+    TextMeshProUGUI goldText;
     void Update()
     {
         goldText.text = Manager.gold.ToString();

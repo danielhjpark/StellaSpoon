@@ -144,9 +144,9 @@ public class ActionController : MonoBehaviour
 
     private void TryShakeTree()
     {
-        if (TreeActivated && selectTree != null && selectTree.canshake) // 수정: ObjectTree.canshake를 selectTree.canshake로 변경
+        if (TreeActivated && selectTree != null && selectTree.canshake)
         {
-            selectTree.DropAliverry();
+            selectTree.DropAliverry(); //해당 오브젝트의 DropAliverry 메서드 호출
             selectTree = null;
             TreeObjectDIsappear();
         }
