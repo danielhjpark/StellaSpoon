@@ -153,25 +153,20 @@ public class WolfKingMonster : MonsterBase
     private IEnumerator ShowThrowGroundEffect(Transform pos)
     {
         if (isDead) yield break; //죽었으면 코루틴 종료
-        // 준비 시 플레이어의 현재 위치 저장
-        Vector3 targetPosition = player.transform.position;
-        //플레이어와 중간지점 계산
-        Vector3 middlePosition = transform.position + ((targetPosition - pos.position) / 2);
-        yield return new WaitForSeconds(0.7f); // 0.5초 대기
+        Vector3 targetPosition = player.transform.position;//준비 시 플레이어의 현재 위치 저장
+        Vector3 middlePosition = transform.position + ((targetPosition - pos.position) / 2);//플레이어와 중간지점 계산
+        yield return new WaitForSeconds(0.7f);
         isThrowWarning = true;
-        // 1) 경고 오브젝트 생성
-        GameObject warning = Instantiate(warningPrefab, new Vector3(pos.position.x, transform.position.y + 0.01f, pos.position.z), pos.rotation);
-        // 2) X축 회전값을 90도로 조정
+
+        GameObject warning = Instantiate(warningPrefab, new Vector3(pos.position.x, transform.position.y + 0.01f, pos.position.z), pos.rotation);//경고 오브젝트 생성
         Vector3 warnRot = warning.transform.rotation.eulerAngles;
-        warnRot.x = 90;
+        warnRot.x = 90; //X축 회전값을 90도로 조정
         warning.transform.rotation = Quaternion.Euler(warnRot);
-        // 3) 길이 5, 폭 1로 스케일 조정
-        warning.transform.localScale = new Vector3(1.5f, 10, 1);
+        warning.transform.localScale = new Vector3(1.5f, 10, 1);//길이 조정
 
         yield return new WaitForSeconds(waitThrowTime);
 
-        ThrowObjectSpawn(pos); // 투척물 생성
-        // 4) 3초 후 삭제
+        ThrowObjectSpawn(pos);//투척물 생성
         Destroy(warning);
 
         StartCoroutine(StartAttack01());

@@ -164,7 +164,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
 
     // 해당 슬롯에 무언가가 마우스 드롭 됐을 때 발생하는 이벤트
-    virtual public void OnDrop(PointerEventData eventData)
+    virtual public void OnDrop(PointerEventData eventData) // 이걸 바꿔야 하나
     {
         if (DragSlot.instance.dragSlot != null)
             ChangeSlot();
@@ -172,7 +172,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     virtual public void OnPointerEnter(PointerEventData eventData)
     {
-        if(item != null)
+        if(item != null && DragSlot.instance.dragSlot == null)
         {
             itemNameData.showToolTip(item, transform.position);
         }
@@ -186,24 +186,34 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     // A 슬롯을 드래그 하여 B 슬롯에 드롭하여, A 슬롯 B 슬롯 서로 자리를 바꾸기
     virtual public void ChangeSlot()
     {
+        // 자기 자신에게 드롭한 경우 아무 처리도 하지 않음 (무게 처리도 X)
+        if (DragSlot.instance.dragSlot == this)
+        {
+            // 드래그 UI만 초기화
+            DragSlot.instance.SetColor(0);
+            DragSlot.instance.gameObject.SetActive(false);
+            DragSlot.instance.dragSlot = null;
+            return;
+        }
+
         bool isWeaponSlot = this is WeaponSlot;
         bool isDraggedFromWeaponSlot = DragSlot.instance.dragSlot is WeaponSlot;
 
-        // 빈 슬롯으로 이동할 경우 허용
+        // 빈 슬롯으로 이동하는 경우
         if (item == null || DragSlot.instance.dragSlot.item == null)
         {
             SwapItems();
             return;
         }
 
-        // 슬롯끼리의 교환은 타입 제한 없이 허용
+        // 일반 슬롯들 간 이동
         if (!isWeaponSlot && !isDraggedFromWeaponSlot)
         {
             SwapItems();
             return;
         }
 
-        // WeaponSlot과 InventorySlot 간의 Weapon 아이템 교환을 허용
+        // 무기 슬롯 간 또는 무기 <-> 인벤토리 간 이동 (장비 아이템일 경우에만)
         if ((isWeaponSlot || isDraggedFromWeaponSlot) &&
             item.itemType == Item.ItemType.Equipment &&
             DragSlot.instance.dragSlot.item.itemType == Item.ItemType.Equipment)
@@ -212,7 +222,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             return;
         }
 
-        // 제한 조건에 부합하지 않는 경우
+        // 조건에 맞지 않는 경우
         Debug.LogWarning("아이템 타입이 호환되지 않아 슬롯을 교환할 수 없습니다.");
 
         // 드래그 이미지 초기화
@@ -227,19 +237,26 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private void SwapItems()
     {
-        // 무게 변경을 일시적으로 비활성화
+        // 자기 자신에게 드롭한 경우 아무 처리도 하지 않음 (보호 코드, 중복 방지)
+        if (DragSlot.instance.dragSlot == this)
+            return;
+
+        // 무게 업데이트 일시 정지
         InventoryManager.instance.PauseWeightUpdate();
 
         Item _tempItem = item;
         int _tempItemCount = itemCount;
 
+        // 현재 슬롯에 드래그된 아이템 넣기
         AddItemWithoutWeight(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
 
+        // 드래그 슬롯에 기존 아이템 넣기 (없으면 Clear)
         if (_tempItem != null)
             DragSlot.instance.dragSlot.AddItemWithoutWeight(_tempItem, _tempItemCount);
         else
             DragSlot.instance.dragSlot.ClearSlot();
 
+        // 무게 업데이트 재개
         InventoryManager.instance.ResumeWeightUpdate();
     }
 

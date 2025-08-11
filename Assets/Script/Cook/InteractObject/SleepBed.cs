@@ -11,15 +11,26 @@ public class SleepBed : InteractObject
     bool isPlayerNearby;
     Coroutine sleepCoroutine;
     int sleepTime = 5;
-
+    float delayTime = 1800;
 
     // Update is called once per frame
     void Update()
     {
+        delayTime += Time.deltaTime * 60f;
         if (gameTimeManager == null) gameTimeManager = FindObjectOfType<GameTimeManager>();
         if (isPlayerNearby && !InteractUIManger.isUseInteractObject && Input.GetKeyDown(KeyCode.F)
-            && sleepCoroutine == null && !RestaurantOpenSystem.isRestaurantOpened && DeviceManager.isDeactived) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
+            && sleepCoroutine == null && DeviceManager.isDeactived) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
+            if (RestaurantOpenSystem.isRestaurantOpened)
+            {
+                InteractUIManger.instance.UsingText("식당이 오픈 중입니다.", true);
+                return;
+            }
+            else if (delayTime <= 1800)
+            {
+                InteractUIManger.instance.UsingText("아직 졸립지 않습니다.", true);
+                return;
+            }
             sleepCoroutine = StartCoroutine(UseSleepBed());
         }
     }
@@ -40,6 +51,7 @@ public class SleepBed : InteractObject
         fadePanel.SetActive(false);
         sleepCoroutine = null;
         StopAudio();
+        delayTime = 0;
     }
 
     IEnumerator FadeOut()

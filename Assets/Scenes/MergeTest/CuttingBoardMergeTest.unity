@@ -1225,7 +1225,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330273764}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.49049067, y: 0.00000001499444, z: -0.000000008439569, w: 0.8714465}
+  m_LocalRotation: {x: 0.49049065, y: -0.000000014994441, z: 0.00000000843957, w: 0.8714465}
   m_LocalPosition: {x: 0, y: 3, z: -1.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1425,6 +1425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cookUIManager: {fileID: 1521232537}
+  ingredientInventory: {fileID: 1213530960}
   dropPos: {fileID: 1893273725}
   parentPos: {fileID: 866649171}
   horizontalCount: 4
@@ -1931,6 +1932,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotToolTip
       objectReference: {fileID: 0}
+    - target: {fileID: 5860545567676187835, guid: a55f1d9d349b1814d8248ad80d0e29cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8271748462402404415, guid: a55f1d9d349b1814d8248ad80d0e29cf, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2311,7 +2316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &797448843
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2670,7 +2675,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.49049067, y: 0.00000001499444, z: -0.000000008439569, w: 0.8714465}
+  m_LocalRotation: {x: 0.49049065, y: -0.000000014994441, z: 0.00000000843957, w: 0.8714465}
   m_LocalPosition: {x: 100, y: 3, z: 98.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -287,9 +287,9 @@ public class FryingPanManager : CookManagerBase
         {
             StartCoroutine(cookUIManager.TimerStart(10f));
             ingredientInventory.AddSubIngredients();
-            StartCoroutine(cookUIManager.VisiblePanel());
+            
         }
-
+        StartCoroutine(cookUIManager.VisiblePanel());
         while (true)
         {
             if (CookManager.instance.cookMode == CookManager.CookMode.Select)

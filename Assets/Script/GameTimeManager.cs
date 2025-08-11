@@ -126,6 +126,18 @@ public class GameTimeManager : MonoBehaviour
     {
         gameTime += minutes * 60f;
     }
+    
+    public void RestaurantOpenTime()
+    {
+        gameTime = (18 * 3600); // 18시간 = 8 * 3600초
+        gameDays = 1;
+
+        gameHours = 18;
+        gameMinutes = 0;
+
+        Debug.Log("식당 오픈시간 18시 설정");
+    }
+
     public void InitializeNewGameTime()
     {
         // 1일차 오전 8시 00분 (총 초 계산)

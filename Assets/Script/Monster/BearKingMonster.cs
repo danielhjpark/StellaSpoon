@@ -112,7 +112,7 @@ public class BearKingMonster : MonsterBase
         if (!inAttackRange || isDead) yield break;
 
         animator.SetTrigger("Attack8");
-        attackRange = 31f;
+        attackRange = 31f; //다음 공격 범위 설정
 
         float elapsed = 0f;
         while (elapsed < 5.0f)
@@ -181,6 +181,9 @@ public class BearKingMonster : MonsterBase
     {
         if (!inAttackRange || isDead) yield break;
 
+        nav.isStopped = true;
+        isCharging = true;
+
         isChargeSetting = true;
         attackRange = 3f;
         animator.SetBool("Run Forward", true);
@@ -198,9 +201,6 @@ public class BearKingMonster : MonsterBase
         {
             Destroy(currentGroundEffect);
         }
-
-        isCharging = true;
-        nav.isStopped = true;
 
         float startTime = Time.time;
         while (Time.time < startTime + chargeDuration)
@@ -303,7 +303,7 @@ public class BearKingMonster : MonsterBase
             currentGroundEffect.transform.localScale = Vector3.zero;
 
             float duration = 2.0f;
-            float elapsedTime = 0f;
+            float elapsedTime = 0f; 
 
             //Debug.Log("바닥 경고 효과가 점차 커집니다.");
             while (elapsedTime < duration)

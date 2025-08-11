@@ -89,6 +89,18 @@ public class IngredientInventory : MonoBehaviour
         }
         IngredientSlotEmpty();
     }
+    
+    public void AddTrimIngredients()
+    {
+        IngredientSlotInit();
+        foreach (RefrigeratorSlot refrigeratorSlot in refrigeratorSlots)
+        {
+            if (refrigeratorSlot.item == null) continue;
+            else if (refrigeratorSlot.currentIngredient.ingredientType != IngredientType.Trim) continue;
+            CreateIngredientSlot(refrigeratorSlot.currentIngredient, refrigeratorSlot.itemCount);
+        }
+        IngredientSlotEmpty();
+    }
 
     //--------------------------------------------------//
 
