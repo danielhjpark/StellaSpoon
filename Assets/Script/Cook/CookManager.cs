@@ -125,7 +125,7 @@ public class CookManager : MonoBehaviour
         {
             SceneManager.LoadScene(potSceneName, LoadSceneMode.Additive);
             CookSceneManager.instance.currentSceneName = potSceneName;
-            CookSceneManager.instance.isSceneLoaded = false;
+            CookSceneManager.instance.isSceneLoaded = true;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }

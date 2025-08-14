@@ -350,6 +350,7 @@ public class PotManager : CookManagerBase
     //---------------SceneView Controll--------------//
     public void OpenSceneView()
     {
+        CookSceneManager.instance.isSceneLoaded = true;
         potAudioSystem.UnPauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(true);
         mainCamera.GetComponent<AudioListener>().enabled = true;
@@ -369,6 +370,7 @@ public class PotManager : CookManagerBase
     //Change to MainCamera
     public void CloseSceneView()
     {
+        CookSceneManager.instance.isSceneLoaded = false;
         potAudioSystem.PauseAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         mainCamera.SetActive(false);
         mainCamera.GetComponent<AudioListener>().enabled = false;

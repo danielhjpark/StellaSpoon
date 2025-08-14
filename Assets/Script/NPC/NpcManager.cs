@@ -31,7 +31,6 @@ public class NpcManager : MonoBehaviour
         instance = this;
     }
 
-
     public void SpwanNPCs(Recipe recipe)
     {
         int seatIndex = FindRandomSeat();
@@ -41,6 +40,14 @@ public class NpcManager : MonoBehaviour
         npcList.Add(npc);
         Manager.NPCSpawnCount++;
         StartCoroutine(ManageNPC(npc, recipe));
+    }
+
+    public void DestroyNPC(int seatIndex, GameObject npc)
+    {
+        SeatEmpty(seatIndex);
+        npcList.Remove(npc);
+        Destroy(npc); // NPC Á¦°Å
+        //NPCUIManger.Update();
     }
 
     IEnumerator MoveNPC(GameObject npc, Transform targetPosition)
