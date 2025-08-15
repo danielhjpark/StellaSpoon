@@ -28,7 +28,7 @@ public class SleepBed : InteractObject
             }
             else if (delayTime <= 1800)
             {
-                InteractUIManger.instance.UsingText("아직 졸립지 않습니다.", true);
+                InteractUIManger.instance.UsingText("아직 졸리지 않습니다.", true);
                 return;
             }
             sleepCoroutine = StartCoroutine(UseSleepBed());

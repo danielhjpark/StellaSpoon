@@ -45,7 +45,7 @@ public class DeviceManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (!TreasureChest.openingChest && playerController != null && playerController.Grounded && playerController.isDodge == false && _input.aiming == false && WeaponChanger.isDeactived
-                && !StoreNPCManager.openingStoreUI && !InteractUIManger.isUseInteractObject)
+                && !StoreNPCManager.openingStoreUI && !InteractUIManger.isUseInteractObject && CookSceneManager.instance != null && !CookSceneManager.instance.isSceneLoaded)
             {
                 ToggleUI();
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class NPCUIManger : MonoBehaviour
 {
@@ -11,10 +12,25 @@ public class NPCUIManger : MonoBehaviour
     [SerializeField] GameObject menuPanel;
     [Header("Sub UI")]
     [SerializeField] GameObject[] menuList;
-    [SerializeField] Image[] menuImage;
+
+    private Image[] menuImage;
+    private TextMeshProUGUI[] menuText;
+
     private List<NPCBehavior> NPCBehaviors;
     private bool useCookScene;
     private bool[] useMenu = new bool[4];
+
+    void Start()
+    {
+        menuImage = new Image[menuList.Length];
+        menuText = new TextMeshProUGUI[menuList.Length];
+
+        for (int i = 0; i < menuList.Length; i++)
+        {
+            menuImage[i] = menuList[i].GetComponentsInChildren<Image>().FirstOrDefault(img => img.gameObject != menuList[i]);
+            menuText[i] = menuList[i].GetComponentInChildren<TextMeshProUGUI>();
+        }
+    }
 
     void Update()
     {
@@ -63,6 +79,7 @@ public class NPCUIManger : MonoBehaviour
                 Recipe currentRecipe = NPCBehavior.GetRecipe();
                 int seatIndex = NPCBehavior.GetSeatIndex();
                 menuImage[seatIndex].sprite = currentRecipe.menuImage;
+                menuText[seatIndex].text = currentRecipe.menuName;
                 useMenu[seatIndex] = true;
             }
         }

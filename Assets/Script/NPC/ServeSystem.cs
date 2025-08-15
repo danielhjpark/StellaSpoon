@@ -42,6 +42,7 @@ public class ServeSystem : MonoBehaviour
             endingUI.StartEndingScene();
             return;
         }
+        if (CookManager.instance.isPickUpMenu) return;
         //PickUp Animate
         playerAnimator.SetBool(pickupAnimationName, true);
 

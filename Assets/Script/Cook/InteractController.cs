@@ -81,11 +81,10 @@ public class InteractController : MonoBehaviour
         Vector3 rayOrigin = playerTransfom.position + Vector3.up; // 캐릭터 중심에서 약간 위로
         Vector3 rayDirection = playerTransfom.forward; // 캐릭터의 forward 방향
         RaycastHit hitInfo;
-
         if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, utensilLayer))
         {
             interactUI.UseInteractUI(hitInfo.transform.gameObject);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F) && DeviceManager.isDeactived)
             {
                 CookManager.instance.InteractObject(hitInfo.transform.name);
             }
@@ -93,7 +92,7 @@ public class InteractController : MonoBehaviour
         else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, menuLayer))
         {
             interactUI.UseInteractUI(hitInfo.transform.gameObject);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F)&& DeviceManager.isDeactived)
             {
                 serveSystem.PickUpMenu(hitInfo.transform.gameObject);
             }
@@ -102,7 +101,7 @@ public class InteractController : MonoBehaviour
         else if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, range, NPCLayerMask))
         {
             interactUI.UseInteractUI(hitInfo.transform.gameObject);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F) && DeviceManager.isDeactived)
             {
                 serveSystem.ServeMenu(hitInfo.transform.gameObject);
             }
