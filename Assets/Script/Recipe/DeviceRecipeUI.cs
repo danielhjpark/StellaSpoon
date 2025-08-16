@@ -11,7 +11,8 @@ public class DeviceRecipeUI : MonoBehaviour
     [SerializeField] private GameObject recipeInfoBase;
     [SerializeField] private List<GameObject> recipeInfos = new List<GameObject>();
     [SerializeField] private List<GameObject> recipeSlots = new List<GameObject>();
-
+    [SerializeField] private GameObject endRecipeSlot;
+    private string endRecipeName = "Luna_Wolf_Stew";
     public static bool recipeActivated;
 
     private void Start()
@@ -22,6 +23,11 @@ public class DeviceRecipeUI : MonoBehaviour
         int count = 0;
         foreach (KeyValuePair<string, Recipe> Recipe in RecipeManager.instance.RecipeList)
         {
+            // if (endRecipeName == Recipe.Key)
+            // {
+                
+            // }
+
             DeviceRecipeSlot currentRecipeSlot = recipeSlots[count].gameObject.GetComponent<DeviceRecipeSlot>();
             GameObject recipeInfo = recipeInfos.FirstOrDefault(objects => objects.gameObject.name == Recipe.Key);
             if (recipeInfo == null || currentRecipeSlot == null) continue;

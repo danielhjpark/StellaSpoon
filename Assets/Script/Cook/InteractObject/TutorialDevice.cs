@@ -24,7 +24,7 @@ public class TutorialDevice : MonoBehaviour
         {
             OpenTutorialUI();
         }
-        else if (tutorialUI.activeSelf && Input.GetKeyDown(KeyCode.Escape) && tutorialManger.currentTutorial == null) //UI가 열려있고 esc 눌렀을 때
+        else if (tutorialUI.activeSelf && Input.GetKeyDown(KeyCode.Escape)) //UI가 열려있고 esc 눌렀을 때
         {
             CloseTutorialUI();
         }

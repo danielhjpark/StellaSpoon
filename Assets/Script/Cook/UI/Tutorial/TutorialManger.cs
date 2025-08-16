@@ -16,6 +16,11 @@ public class TutorialManger : MonoBehaviour
     private int currentPage;
     private int maxPage;
 
+    void OnEnable()
+    {
+        ReturnTutorial();
+    }
+
     private void Update()
     {
         OpenPage();
@@ -59,9 +64,11 @@ public class TutorialManger : MonoBehaviour
     // Back Button use this
     public void ReturnTutorial()
     {
-        currentTutorial.SetActive(false);
-        currentTutorial = null;
-
+        if (currentTutorial != null)
+        {
+            currentTutorial.SetActive(false);
+            currentTutorial = null;
+        }
         buttonUI.SetActive(false);
         selectUI.SetActive(true);
     }
