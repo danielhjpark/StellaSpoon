@@ -25,6 +25,8 @@ namespace UnityNote
         private Slider loadingProgress;
         [SerializeField]
         private TextMeshProUGUI textProgress;
+        [SerializeField] 
+        private GameObject cutSceneScreen;
 
         private WaitForSeconds waitChangeDelay;
 
@@ -74,10 +76,23 @@ namespace UnityNote
                 loadingScreen.SetActive(false);
 
             StartCoroutine(DelayedAssignButtonEvents());
+
             if (scene.name == "Lobby")
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+            }
+
+            // Restaurant ¾À¿¡¼­ ÄÆ½Å ½ÇÇà
+            if (scene.name == "Restaurant" && !isContinueGame)
+            {
+                if (cutSceneScreen != null)
+                {
+                    cutSceneScreen.SetActive(true);
+                    CutSceneManager manager = cutSceneScreen.GetComponent<CutSceneManager>();
+                    if (manager != null)
+                        manager.StartCutScene();
+                }
             }
         }
 
