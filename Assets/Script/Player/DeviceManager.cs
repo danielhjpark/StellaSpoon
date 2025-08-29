@@ -28,7 +28,6 @@ public class DeviceManager : MonoBehaviour
     private StarterAssetsInputs _input;
 
     private ItemNameData itemNameData;
-
     private void Awake()
     {
         playerController = FindObjectOfType<ThirdPersonController>();
@@ -62,6 +61,10 @@ public class DeviceManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) && !isDeactived)
         {
+            if (Manager.isbackToLobby)
+            {
+                return;
+            }
             CloseUI();
         }
     }

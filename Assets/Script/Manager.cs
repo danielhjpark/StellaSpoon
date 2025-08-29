@@ -21,16 +21,29 @@ public class Manager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI InvenGoldText;
-
+    
+    [SerializeField] 
+    private GameObject backToLobbyBase; // esc 막기용
+    
     private const string lastSavedTimeKey = "LastSavedTime"; // PlayerPrefs 키
     private const string KillCountKey = "KillTime"; // PlayerPrefs 키
 
     public static int KillMonsterCount = 0; //처치한 몬스터 수
     public static int NPCSpawnCount = 0;
     public static string FirstCreateRecipe = "";
+    public static bool isbackToLobby;
 
     private void Update()
     {
+        if(backToLobbyBase.activeSelf)
+        {
+            isbackToLobby = true;
+        }
+        else
+        {
+            isbackToLobby = false;
+        }
+
         InvenGoldText.text = gold.ToString();
 
         if (GoldBase.activeSelf)
