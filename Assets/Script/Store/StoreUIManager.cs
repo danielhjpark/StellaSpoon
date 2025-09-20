@@ -56,6 +56,8 @@ public class StoreUIManager : MonoBehaviour
     private int currentPurchaseCount = 0; //현재 구매 갯수
     private int currentSelectedIngredientIndex = -1; //현재 선택된 재료 인덱스
 
+    public bool SelectIngredient = false;
+
     public enum CurrentState
     {
         Buy,
@@ -240,41 +242,48 @@ public class StoreUIManager : MonoBehaviour
     //ingredient
     public void PlusButton()
     {
-        if (currentState == CurrentState.Sell)
+        if(SelectIngredient == true)
         {
-            //가지고 있는 갯수보다 많이 선택 불가능
-            if (currentPurchaseCount < inventory.GetItemCount(items[currentSelectedIngredientIndex].name))
+            if (currentState == CurrentState.Sell)
             {
-                currentPurchaseCount++;
-                countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
-                UpdateIngredientTotalCost();
+                //가지고 있는 갯수보다 많이 선택 불가능
+                if (currentPurchaseCount < inventory.GetItemCount(items[currentSelectedIngredientIndex].name))
+                {
+                    currentPurchaseCount++;
+                    countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+                    UpdateIngredientTotalCost();
+                }
             }
-        }
-        else if (currentState == CurrentState.Buy)
-        {
-            //구매 갯수 99개까지 가능
-            if (currentPurchaseCount < 99)
+            else if (currentState == CurrentState.Buy)
             {
-                currentPurchaseCount++;
-                countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
-                UpdateIngredientTotalCost();
+                //구매 갯수 99개까지 가능
+                if (currentPurchaseCount < 99)
+                {
+                    currentPurchaseCount++;
+                    countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+                    UpdateIngredientTotalCost();
+                }
             }
         }
         SoundManager.instance.PlaySound(SoundManager.Store.Button);
     }
     public void MinusButton()
     {
-        if (currentPurchaseCount > 0)
+        if (SelectIngredient == true)
         {
-            currentPurchaseCount--;
-            countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
-            UpdateIngredientTotalCost();
+            if (currentPurchaseCount > 0)
+            {
+                currentPurchaseCount--;
+                countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+                UpdateIngredientTotalCost();
+            }
         }
         SoundManager.instance.PlaySound(SoundManager.Store.Button);
     }
 
     public void ResetButtonCount()
     {
+        SelectIngredient = false;
         currentPurchaseCount = 0;
         countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
         UpdateIngredientTotalCost();
@@ -292,6 +301,7 @@ public class StoreUIManager : MonoBehaviour
         currentSelectedIngredientIndex = index;
         Item selectedItem = items[index];
         Debug.Log(selectedItem.itemName + " 선택됨");
+        SelectIngredient = true;
 
         ResetIngredientPurchase();
     }

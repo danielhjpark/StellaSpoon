@@ -32,6 +32,7 @@ public class IngredientStore : MonoBehaviour
 
         storeUIManager.countText.text = "0";
         storeUIManager.ingredientNeedGold.text = "0";
+        storeUIManager.SelectIngredient = false;
         storeUIManager.currentState = StoreUIManager.CurrentState.Buy;
         SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
 
@@ -48,6 +49,7 @@ public class IngredientStore : MonoBehaviour
         storeUIManager.ingredientNeedGold.text = "0";
 
         storeUIManager.currentState = StoreUIManager.CurrentState.Sell;
+        storeUIManager.SelectIngredient = false;
         SoundManager.instance.PlaySound(SoundManager.Store.Daily_Menu_Button);
     }
 }
