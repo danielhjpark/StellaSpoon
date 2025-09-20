@@ -23,7 +23,7 @@ public class RestaurantManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            isInitialize = true;
+            //isInitialize = true;
         }
 
     }
@@ -40,14 +40,14 @@ public class RestaurantManager : MonoBehaviour
 
         foreach (var item in mainIngredients)
         {
-            chest1Inventory.AcquireItem(item, 10);
-            chest2Inventory.AcquireItem(item, 10);
-            RefrigeratorManager.instance.AddItem(item, 2);
+            chest1Inventory.AcquireItem(item, 5);
+            chest2Inventory.AcquireItem(item, 5);
+            RefrigeratorManager.instance.AddItem(item, 3);
         }
         foreach (var item in subIngredients)
         {
-            chest1Inventory.AcquireItem(item, 10);
-            chest2Inventory.AcquireItem(item, 10);
+            chest1Inventory.AcquireItem(item, 5);
+            chest2Inventory.AcquireItem(item, 5);
         }
 
         foreach (var item in trimIngredients)

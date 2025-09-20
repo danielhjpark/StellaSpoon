@@ -10,7 +10,7 @@ public class SlotToolTip : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI txt_ItemName;
-
+    
     public void ShowToolTip(Item _item, Vector3 _pos)
     {
         go_Base.SetActive(true);

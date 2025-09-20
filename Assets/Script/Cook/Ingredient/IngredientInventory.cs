@@ -14,6 +14,7 @@ public class IngredientInventory : MonoBehaviour
 
     void Awake()
     {
+        slotToolTip.HideToolTip();
         refrigeratorInventory = RefrigeratorManager.instance.BindInventory();
         refrigeratorSlots = refrigeratorInventory.refrigeratorSlots;
         ingredientSlots = GetComponentsInChildren<IngredientSlot>();

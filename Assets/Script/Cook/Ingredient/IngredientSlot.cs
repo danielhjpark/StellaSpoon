@@ -17,6 +17,7 @@ public class IngredientSlot : Slot
     void Start()
     {
         isEmpty = true;
+        
     }
 
     public void AddIngredient(Ingredient ingredient)
