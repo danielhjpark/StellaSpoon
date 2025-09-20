@@ -126,6 +126,7 @@ public class StoreNPCManager : MonoBehaviour
                             GunBase.SetActive(false);//무기상점 UI 끄기
                             break;
                     }
+                    storeUIManager.ResetButtonCount(); //재료 버튼값 초기화
                     storeUIManager.CloseChatUI(); //대화창 UI 닫기
                     openingStoreUI = false;
                 }

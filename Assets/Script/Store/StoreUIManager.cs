@@ -273,6 +273,14 @@ public class StoreUIManager : MonoBehaviour
         SoundManager.instance.PlaySound(SoundManager.Store.Button);
     }
 
+    public void ResetButtonCount()
+    {
+        currentPurchaseCount = 0;
+        countText.GetComponent<TextMeshProUGUI>().text = currentPurchaseCount.ToString();
+        UpdateIngredientTotalCost();
+        SoundManager.instance.PlaySound(SoundManager.Store.Button);
+    }
+
     public void SelectedIngredient(int index)
     {
         if (index < 0 || index >= items.Count)
