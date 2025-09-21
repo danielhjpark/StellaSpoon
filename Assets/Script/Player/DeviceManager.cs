@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static PlanetManager;
 
 public class DeviceManager : MonoBehaviour
 {
@@ -51,11 +52,20 @@ public class DeviceManager : MonoBehaviour
                 WeaponChanger.isDeactived && 
                 !StoreNPCManager.openingStoreUI && 
                 !InteractUIManger.isUseInteractObject && 
-                CookSceneManager.instance != null && 
-                !CookSceneManager.instance.isSceneLoaded &&
                 !CutSceneManager.isStory)
             {
-                ToggleUI();
+                if(PlanetManager.selectedPlanet == PlanetType.Restaurant)
+                {
+                    if(CookSceneManager.instance != null &&
+                !CookSceneManager.instance.isSceneLoaded)
+                    {
+                        ToggleUI();
+                    }
+                }
+                else
+                {
+                    ToggleUI();
+                }
             }
         }
 
