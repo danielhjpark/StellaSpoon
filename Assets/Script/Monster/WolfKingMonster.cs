@@ -71,6 +71,7 @@ public class WolfKingMonster : MonsterBase
             bossHealthSlider.maxValue = maxHealth;
             bossHealthSlider.value = currentHealth;
         }
+        chasenum = 5f;
     }
 
     private void Update()

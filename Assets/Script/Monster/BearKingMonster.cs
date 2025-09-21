@@ -14,7 +14,7 @@ public class BearKingMonster : MonsterBase
     private static readonly int JUMP = 1;
     private static readonly int CHARGE = 2;
 
-    public float attackRadius = 1.5f;
+    public float attackRadius = 3f;
     public float shockwaveRadius = 5.0f; // 충격파 범위
     public float chargeSpeed = 10.0f;
     private float chargeDuration = 2f;
@@ -54,7 +54,8 @@ public class BearKingMonster : MonsterBase
         base.Start();
         leftHandCollider.enabled = false;
         rightHandCollider.enabled = false;
-        attackRange = 3f;
+        attackRange = 6f;
+        chasenum = 5f;
 
         if (bossHealthUI != null)
         {
@@ -94,7 +95,7 @@ public class BearKingMonster : MonsterBase
             {
                 StopCoroutine(currentPatternCoroutine); currentPatternCoroutine = null;
             }
-            attackRadius = 3f;
+            attackRadius = 6f;
         }
     }
 
@@ -185,7 +186,7 @@ public class BearKingMonster : MonsterBase
         isCharging = true;
 
         isChargeSetting = true;
-        attackRange = 3f;
+        attackRange = 6f;
         animator.SetBool("Run Forward", true);
 
         Vector3 targetPosition = player.transform.position;

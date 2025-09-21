@@ -39,6 +39,8 @@ public abstract class MonsterBase : MonoBehaviour
     public float randomMoveRange; //랜덤 이동 범위
     public float damageRange; //플레이어 공격 인지 범위
 
+    public float chasenum = 1.5f;
+
     [Header("드랍 아이템")]
     public GameObject[] dropItems; //드랍 아이템 리스트
     public float[] dropProbability; //아이템 별 드랍 확률
@@ -252,7 +254,7 @@ public abstract class MonsterBase : MonoBehaviour
             return;
         }
         animator.SetBool("Walk", true);
-        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * 1.5f);
+        nav.SetDestination((player.transform.position) - (player.transform.position - transform.position).normalized * chasenum);
         if (canDamage && isDamage)
         {
             //5초 뒤에 idle 상태로 변환
