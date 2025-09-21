@@ -30,8 +30,17 @@ public class TreasureChestSlot : Slot
 
         if (DragSlot.instance.dragSlot != null)
         {
+
             Slot draggedSlot = DragSlot.instance.dragSlot;
 
+            // 자기 자신에게 드롭한 경우 아무 동작하지 않음
+            if (draggedSlot == this)
+            {
+                DragSlot.instance.SetColor(0);
+                DragSlot.instance.gameObject.SetActive(false);
+                DragSlot.instance.dragSlot = null;
+                return;
+            }
             if (draggedSlot is InventorySlot || draggedSlot is TreasureChestSlot)
             {
                 HandleMerge(draggedSlot); // 병합 로직 호출
