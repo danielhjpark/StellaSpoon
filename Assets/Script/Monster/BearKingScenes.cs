@@ -15,9 +15,11 @@ public class BearKingScenes : MonoBehaviour
     private CinemachineVirtualCamera virtualCamera;
     [SerializeField]
     private Camera BossCamara;
+
+    [SerializeField]
+    private GameObject fadeCanvas;
     [SerializeField]
     private Image fadeImage;
-
     [SerializeField]
     private GameObject NameText;
 
@@ -29,6 +31,8 @@ public class BearKingScenes : MonoBehaviour
     private GameObject BossCameraPosition;
     private void Awake()
     {
+        fadeCanvas = GameObject.Find("BossCanvas");
+        fadeCanvas.SetActive(false);
         PlayerGroup = GameObject.FindGameObjectWithTag("PlayerGroup");
         // 모든 콜라이더를 트리거로 설정
         foreach (var col in bearKingScenesCollider)
@@ -49,6 +53,7 @@ public class BearKingScenes : MonoBehaviour
         if (isTriggered) return;
         isTriggered = true;
         Time.timeScale = 0f;
+        fadeCanvas.SetActive(true);
         StartCoroutine(PlayCinemachineScene());
     }
 
@@ -85,6 +90,7 @@ public class BearKingScenes : MonoBehaviour
         // 5. 5초 대기
         yield return new WaitForSecondsRealtime(5f);
 
+        fadeCanvas.SetActive(false);
         PlayerGroup.SetActive(true);
         NameText.SetActive(false);
         // 6. Priority를 0으로
