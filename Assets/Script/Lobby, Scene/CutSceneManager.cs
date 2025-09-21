@@ -14,6 +14,9 @@ public class CutSceneManager : MonoBehaviour
 
     private bool isSkipping = false;
     public static bool isStory = false;
+
+    public static System.Action OnCutSceneStart;
+    public static System.Action OnCutSceneEnd;
     /// <summary>
     /// SceneLoader에서 호출
     /// </summary>
@@ -23,6 +26,7 @@ public class CutSceneManager : MonoBehaviour
         isSkipping = false;
         isStory = true;
         StartCoroutine(PlayCutScene());
+        OnCutSceneStart?.Invoke();
     }
 
     private void Update()
@@ -66,6 +70,7 @@ public class CutSceneManager : MonoBehaviour
             yield return null;
         }
         isStory = false;
+        OnCutSceneEnd?.Invoke();
         // 잠시 검은 화면 유지
         yield return new WaitForSeconds(0.5f);
 

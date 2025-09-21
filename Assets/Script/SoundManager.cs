@@ -100,7 +100,8 @@ public class SoundManager : MonoBehaviour
     public Slider bgmAudioSlider;
     public Slider sfxAudioSlider;
     public Slider masterAudioSlider;
-
+    //컷씬 끝 체크
+    bool isCutScenePlaying = false;
 
     private void Start()
     {
@@ -119,11 +120,26 @@ public class SoundManager : MonoBehaviour
             instance = this;
         }
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        CutSceneManager.OnCutSceneStart += OnCutSceneStart;
+        CutSceneManager.OnCutSceneEnd += OnCutSceneEnd;
     }
+    
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    private void OnCutSceneStart()
+    {
+        isCutScenePlaying = true;
+    }
+
+    private void OnCutSceneEnd()
+    {
+        isCutScenePlaying = false;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log(PlanetManager.selectedPlanet);
@@ -146,7 +162,6 @@ public class SoundManager : MonoBehaviour
                 PlayBGM(EBgm.BGM_SERENOXIA);
                 break;
             default:
-
                 return;
         }
     }
@@ -154,7 +169,23 @@ public class SoundManager : MonoBehaviour
     // EBgm 열거형을 매개변수로 받아 해당하는 배경 음악 클립을 재생
     public void PlayBGM(EBgm bgmIdx)
     {
-        //enum int형으로 형변환 가능
+        if (isCutScenePlaying)
+        {
+            StartCoroutine(PendBGM(bgmIdx));
+            return;
+        }
+            //enum int형으로 형변환 가능
+        audioBgm.clip = bgms[(int)bgmIdx];
+        audioBgm.Play();
+    }
+
+    IEnumerator PendBGM(EBgm bgmIdx)
+    {
+        while (true)
+        {
+            if (!isCutScenePlaying) break;
+            yield return null;
+        }
         audioBgm.clip = bgms[(int)bgmIdx];
         audioBgm.Play();
     }
