@@ -16121,6 +16121,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4301333872304726, guid: ae33cdbea5544a145aec990f5d8c344e, type: 3}
   m_PrefabInstance: {fileID: 493420913}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &494364456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 494364457}
+  m_Layer: 0
+  m_Name: BossSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &494364457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494364456}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.9252679, z: -0, w: 0.37931418}
+  m_LocalPosition: {x: 153.94, y: 10, z: 638.6}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -135.418, z: 0}
 --- !u!1001 &494795108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55523,6 +55554,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Luna Wolf king
       objectReference: {fileID: 0}
+    - target: {fileID: 928003928173796293, guid: 808573fcd325601439dec29f874c9794, type: 3}
+      propertyPath: m_Name
+      value: BossCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
       propertyPath: m_LocalPosition.x
       value: 153.94
@@ -55596,6 +55631,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1819806315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 478791863707027834, guid: 808573fcd325601439dec29f874c9794, type: 3}
+  m_PrefabInstance: {fileID: 1819806311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1820170656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65516,14 +65556,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477a71334aff3ae48ae1f4ad85ab63ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInTime: 2
+  fadeOutTime: 2
   bearKingScenesCollider:
   - {fileID: 1694684625}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  BossMonster: {fileID: 1819806315}
+  BossMonsterSpawnPoint: {fileID: 494364457}
   cinemaStartPoint: {fileID: 0}
   virtualCamera: {fileID: 500413141}
   BossCamara: {fileID: 255779577}
+  fadeCanvas: {fileID: 0}
   fadeImage: {fileID: 1819806313}
   NameText: {fileID: 1819806312}
   BossCameraPosition: {fileID: 470227365}
@@ -66232,3 +66274,4 @@ SceneRoots:
   - {fileID: 2134682318}
   - {fileID: 255779578}
   - {fileID: 470227366}
+  - {fileID: 494364457}

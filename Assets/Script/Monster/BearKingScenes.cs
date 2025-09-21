@@ -14,6 +14,11 @@ public class BearKingScenes : MonoBehaviour
     private BoxCollider[] bearKingScenesCollider;
 
     [SerializeField]
+    private GameObject BossMonster; //보스는 따로 인스펙터에서 넣어주세요
+    [SerializeField]
+    private Transform BossMonsterSpawnPoint; //보스 시네마틱 시작위치
+
+    [SerializeField]
     private Transform cinemaStartPoint;
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
@@ -75,6 +80,8 @@ public class BearKingScenes : MonoBehaviour
         PlayerGroup.SetActive(false);
         NameText.SetActive(true);
 
+        BossMonster.transform.position = BossMonsterSpawnPoint.position;
+        BossMonster.transform.rotation = BossMonsterSpawnPoint.rotation;
         // 2. virtualCamera Priority를 20으로
         virtualCamera.Priority = 20;
 
