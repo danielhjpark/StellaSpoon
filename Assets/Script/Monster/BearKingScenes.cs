@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class BearKingScenes : MonoBehaviour
 {
     [SerializeField]
+    private float fadeInTime = 2f;
+    [SerializeField]
+    private float fadeOutTime = 2f;
+    [SerializeField]
     private BoxCollider[] bearKingScenesCollider;
 
     [SerializeField]
@@ -65,7 +69,7 @@ public class BearKingScenes : MonoBehaviour
         if (fadeImage != null)
         {
             fadeImage.enabled = true;
-            yield return StartCoroutine(Fade(0f, 1f, 4f));
+            yield return StartCoroutine(Fade(0f, 1f, fadeInTime));
         }
         BossCamara.enabled = true;
         PlayerGroup.SetActive(false);
@@ -77,7 +81,7 @@ public class BearKingScenes : MonoBehaviour
         // 3. 4초간 점점 밝아짐 (페이드 인)
         if (fadeImage != null)
         {
-            yield return StartCoroutine(Fade(1f, 0f, 4f));
+            yield return StartCoroutine(Fade(1f, 0f, fadeOutTime));
             fadeImage.enabled = false;
         }
 
