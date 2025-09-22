@@ -84,7 +84,7 @@ namespace UnityNote
             }
 
             // Restaurant ¾À¿¡¼­ ÄÆ½Å ½ÇÇà
-            if (scene.name == "Restaurant" && !isContinueGame)
+            if (scene.name == "Restaurant" && isNewGame)
             {
                 if (cutSceneScreen != null)
                 {
@@ -92,6 +92,7 @@ namespace UnityNote
                     CutSceneManager manager = cutSceneScreen.GetComponent<CutSceneManager>();
                     if (manager != null)
                         manager.StartCutScene();
+                    isNewGame = false;
                 }
             }
         }
