@@ -15,6 +15,8 @@ public class Mobility : MonoBehaviour
     public PlanetManager planetManager;
     public PlanetUIManager planetUIManager;
 
+    public static bool isMobilityUI = false; // UI가 켜져 있는지 체크
+
     private void OnEnable()
     {
         // 씬이 로드된 후 콜백 함수 설정
@@ -95,6 +97,7 @@ public class Mobility : MonoBehaviour
         mapUI.SetActive(!mapUI.activeSelf);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        isMobilityUI = true;
     }
 
     private void CloseMapUI()
@@ -102,5 +105,6 @@ public class Mobility : MonoBehaviour
         mapUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        isMobilityUI = false;
     }
 }

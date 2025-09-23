@@ -32,5 +32,6 @@ public class PlanetSelector : MonoBehaviour
         Cursor.visible = false;
         InteractUIManger.isUseInteractObject = false;
         SoundManager.instance.PlaySound(SoundManager.Interact.MovePlanet);
+        Mobility.isMobilityUI = false;
     }
 }

@@ -76,7 +76,7 @@ public class WeaponChanger : MonoBehaviour
         weaponChanger.SetActive(!weaponChanger.activeSelf);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        isDeactived = false;
+        isDeactived = false; // UI 활성화
     }
 
     private void CloseMapUI()
@@ -84,6 +84,6 @@ public class WeaponChanger : MonoBehaviour
         weaponChanger.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        isDeactived = true;
+        isDeactived = true; // UI 비활성화
     }
 }

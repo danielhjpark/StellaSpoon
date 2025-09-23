@@ -247,7 +247,8 @@ namespace StarterAssets
                 || StoreNPCManager.openingStoreUI
                 ||Inventory.inventoryActivated 
                 || InteractUIManger.isUseInteractObject
-                || CutSceneManager.isStory)
+                || CutSceneManager.isStory
+                || !WeaponChanger.isDeactived)
             {
                 if (_hasAnimator)
                 {
@@ -275,7 +276,10 @@ namespace StarterAssets
                 || StoreNPCManager.openingStoreUI 
                 ||Inventory.inventoryActivated 
                 || InteractUIManger.isUseInteractObject
-                || CutSceneManager.isStory) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
+                || CutSceneManager.isStory
+                || !WeaponChanger.isDeactived
+                || TreasureChest.openingChest
+                || Mobility.isMobilityUI) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
             CameraRotation();
         }
         void OnEnable()

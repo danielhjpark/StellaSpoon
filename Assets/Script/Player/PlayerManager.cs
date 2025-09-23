@@ -160,7 +160,10 @@ public class PlayerManager : MonoBehaviour
         {
             _input.reload = false;
 
-            if (controller.isReload || InventoryManager.instance.isWeaponRifle == false || anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload"))
+            if (controller.isReload 
+                || InventoryManager.instance.isWeaponRifle == false 
+                || anim.GetCurrentAnimatorStateInfo(2).IsTag("Reload")
+                || !WeaponChanger.isDeactived)
             {
                 return;
             }
@@ -182,7 +185,10 @@ public class PlayerManager : MonoBehaviour
 
         if (_input.aiming && InventoryManager.instance.isWeaponRifle == true)
         {
-            if (!noAim)
+            if (!noAim 
+                || !WeaponChanger.isDeactived 
+                || TreasureChest.openingChest
+                || Mobility.isMobilityUI)
             {
                 return;
             }
