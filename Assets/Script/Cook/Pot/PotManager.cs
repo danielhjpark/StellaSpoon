@@ -207,7 +207,7 @@ public class PotManager : CookManagerBase
         }
 
         //UnLock New Recipe;
-        RecipeManager.instance.RecipeUnLock(targetRecipe);
+        //RecipeManager.instance.RecipeUnLock(targetRecipe);
         CookSceneManager.instance.UnloadScene("PotMergeTest", targetRecipe);
         Debug.Log("Success");
         return;

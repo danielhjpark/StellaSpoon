@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class RecipeManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class RecipeManager : MonoBehaviour
     public Dictionary<string, Recipe> RecipeList; //?ûÑ?ãú ?ç∞?ù¥?Ñ∞ Î≤†Ïù¥?ä§
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     private GameObject NewRecipeUI;
+    [SerializeField] private GameObject NewRecipePreviewObject;
 
     void Awake()
     {
@@ -36,7 +38,7 @@ public class RecipeManager : MonoBehaviour
         if (!RecipeUnlockCheck[HiddenRecipe]) CheckHiddenRecipeUnlock();
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            foreach(Recipe LockRecipe in LockRecipes) RecipeUnLock(LockRecipe);
+            //foreach(Recipe LockRecipe in LockRecipes) RecipeUnLock(LockRecipe);
         }
     }
 
@@ -61,12 +63,14 @@ public class RecipeManager : MonoBehaviour
     //--------------- RecipeUnLock System -----------------//
     public void RecipeUnLock(Recipe getRecipe)
     {
+        if (getRecipe.name == "FailMenu") return;
         if (getRecipe != null && !RecipeUnlockCheck[getRecipe])
         {
             RecipeUnlockCheck[getRecipe] = true;
             if (Manager.FirstCreateRecipe == "") Manager.FirstCreateRecipe = getRecipe.menuName;
             Debug.Log("RecipeUnLock : " + getRecipe.name);
-            RecipeUnLockUI();
+            RecipeUnLockUI(getRecipe.name);
+            //RecipeUnLock
         }
     }
 
@@ -81,10 +85,31 @@ public class RecipeManager : MonoBehaviour
         if (count >= 12) RecipeUnlockCheck[HiddenRecipe] = true;
     }
 
-    public void RecipeUnLockUI()
+    public void RecipeUnLockUI(string unlockRecipeName)
     {
         NewRecipeUI.SetActive(true);
-        StartCoroutine(RecipeUnLockFade());
+        StartCoroutine(RecipePreview(unlockRecipeName));
+        //StartCoroutine(RecipeUnLockFade());
+    }
+
+    IEnumerator RecipePreview(string unlockRecipeName)
+    {
+        Camera mainCam = CookSceneManager.instance.mainCamera;
+        mainCam.transform.gameObject.SetActive(false);
+        NewRecipePreviewObject.SetActive(true);
+        NewRecipePreviewObject.GetComponentInChildren<MenuPreviewSelector>().SelectMenu(unlockRecipeName);
+        NewRecipeUI.SetActive(true);
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                NewRecipePreviewObject.SetActive(false);
+                mainCam.transform.gameObject.SetActive(true);
+                break;
+            }
+            yield return null;
+        }
+        NewRecipeUI.SetActive(false);
     }
 
     IEnumerator RecipeUnLockFade()

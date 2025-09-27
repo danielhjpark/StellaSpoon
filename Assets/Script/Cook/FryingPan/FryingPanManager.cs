@@ -160,7 +160,7 @@ public class FryingPanManager : CookManagerBase
             }
 
             //UnLock New Recipe;
-            RecipeManager.instance.RecipeUnLock(targetRecipe);
+            //RecipeManager.instance.RecipeUnLock(targetRecipe);
             CookSceneManager.instance.UnloadScene(currentSceneName, targetRecipe);
             Debug.Log("Success");
             return;

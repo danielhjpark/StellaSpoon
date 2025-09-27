@@ -49,8 +49,8 @@ public class EndingUI : MonoBehaviour
 
     public IEnumerator EndingScene()
     {
-        SetConstText();
-        //SetText();
+        //SetConstText();
+        SetText();
         //yield return StartCoroutine(FadeOut());
         yield return StartCoroutine(fadePanel.GetComponent<FadeEffect>().Fade(0, 1f));
         yield return StartCoroutine(StartTyping(TitleText));

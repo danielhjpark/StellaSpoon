@@ -60,7 +60,7 @@ public class RefrigeratorSlot : Slot
         if (_tempItem != null)
         {
             int addItemCount;
-            if (_tempItem.itemName == DragSlot.instance.dragSlot.item.itemName)
+            if (_tempItem.itemName == DragSlot.instance.dragSlot.item.itemName &&  DragSlot.instance.dragSlot.itemCount +_tempItemCount <= 20)
             {
                 addItemCount = itemCount + DragSlot.instance.dragSlot.itemCount;
                 AddItem(DragSlot.instance.dragSlot.item, addItemCount);

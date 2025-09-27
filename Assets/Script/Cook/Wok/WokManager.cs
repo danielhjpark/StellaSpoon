@@ -165,7 +165,7 @@ public class WokManager : CookManagerBase
                 return;
             }
 
-            RecipeManager.instance.RecipeUnLock(targetRecipe);
+            //RecipeManager.instance.RecipeUnLock(targetRecipe);
             CookSceneManager.instance.UnloadScene("WokMergeTest", targetRecipe);
             Debug.Log("Success");
             return;

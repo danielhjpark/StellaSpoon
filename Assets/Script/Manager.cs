@@ -55,7 +55,7 @@ public class Manager : MonoBehaviour
         //테스트용 골드 추가
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            gold += 30000;
+            //gold += 30000;
         }
         //치트
 
@@ -63,7 +63,7 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-        LoadGameKillCount();
+        //LoadGameKillCount();
     }
     private void Awake()
     {
@@ -116,7 +116,7 @@ public class Manager : MonoBehaviour
     private void OnApplicationQuit()
     {
         // 게임 종료 시 시간 저장
-        SaveKillCount();
+        //SaveKillCount();
     }
     private void SaveKillCount()
     {

@@ -26,7 +26,6 @@ public class TimerSystem : MonoBehaviour
     }
 
 
-
     private void TimerBillboard()
     {
         if (onBillboard && Camera.main != null)
@@ -56,6 +55,7 @@ public class TimerSystem : MonoBehaviour
         if (antiClockwise)
         {
             timerGague.fillAmount = 0;
+            timerGague.fillClockwise = true;
             targetValue = 1;
             secondValue = 1 / (second * 20) * -1;
         }

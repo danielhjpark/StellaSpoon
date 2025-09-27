@@ -126,6 +126,7 @@ public class CookSceneManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         SpawnMenu(sceneName, menu);
+        RecipeManager.instance.RecipeUnLock(menu);
     }
 
     public void UnloadScene(string sceneName)

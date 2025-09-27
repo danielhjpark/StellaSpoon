@@ -137,7 +137,7 @@ public class PotViewportSystem : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         buttonUI.SetActive(true);
         buttonViewObject.SetActive(false);
-
+        
     }
 
 }

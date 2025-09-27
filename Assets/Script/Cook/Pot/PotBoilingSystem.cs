@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Diagnostics;
+using System;
 
 public class PotBoilingSystem : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class PotBoilingSystem : MonoBehaviour
     [SerializeField] GameObject gravityLimitLine;
 
 
-    public int rotatePower = 0;
+    [NonSerialized] public int rotatePower = 0;
     private float completeTime;
     private float currentTime = 0;
 
@@ -28,10 +29,10 @@ public class PotBoilingSystem : MonoBehaviour
     void Awake()
     {
         gravityLimitLine.SetActive(false);
-
         potViewportSystem = this.GetComponent<PotViewportSystem>();
         potAudioSystem = this.GetComponent<PotAudioSystem>();
         potUI = this.GetComponent<PotUI>();
+
     }
 
     public void Initialize(int completeTime, List<GameObject> potIngredients)
@@ -46,6 +47,7 @@ public class PotBoilingSystem : MonoBehaviour
     {
         potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.PowerButton);
         if (rotatePower < 3) rotatePower++;
+        else return;
         powerText.text = rotatePower.ToString();
         if (rotateCoroutine == null)
         {
@@ -56,7 +58,8 @@ public class PotBoilingSystem : MonoBehaviour
     public void OnDecreasePower()
     {
         potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.PowerButton);
-        if (rotatePower > 0) rotatePower--;
+        if (rotatePower > 1) rotatePower--;
+        else return;
         powerText.text = rotatePower.ToString();
         if (rotateCoroutine == null)
         {

@@ -52,7 +52,7 @@ public class RestaurantManager : MonoBehaviour
 
         foreach (var item in trimIngredients)
         {
-            RefrigeratorManager.instance.AddItem(item, 10);
+            RefrigeratorManager.instance.AddItem(item, 20);
         }
     }
 
