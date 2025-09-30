@@ -32,8 +32,8 @@ public class PotUI : MonoBehaviour
         mainTimer.GetComponent<CanvasGroup>().alpha = 1.0f;
         
         //anti
-        potTimerSystem.antiClockwise = true;
-        mainTimerSystem.antiClockwise = true;
+        //potTimerSystem.antiClockwise = true;
+        //mainTimerSystem.antiClockwise = true;
 
         //Timer Start
         StartCoroutine(potTimerSystem.TimerStart(second));

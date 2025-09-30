@@ -238,8 +238,9 @@ public class PotManager : CookManagerBase
             isCanEscape = false;
 
             // Find recipe
-            yield return new WaitUntil(() => mainIngredient != null);
-            targetRecipe = RecipeManager.instance.FindRecipe(mainIngredient);
+            //yield return new WaitUntil(() => mainIngredient != null);
+            if (mainIngredient == null) targetRecipe = null;
+            else targetRecipe = RecipeManager.instance.FindRecipe(mainIngredient);
             MakeRecipe(targetRecipe);
 
             yield return new WaitForSeconds(0.5f);

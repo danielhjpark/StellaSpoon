@@ -55,7 +55,6 @@ public class TimerSystem : MonoBehaviour
         if (antiClockwise)
         {
             timerGague.fillAmount = 0;
-            timerGague.fillClockwise = true;
             targetValue = 1;
             secondValue = 1 / (second * 20) * -1;
         }

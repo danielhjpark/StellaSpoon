@@ -23,6 +23,7 @@ public class PotBoilingSystem : MonoBehaviour
     private float currentTime = 0;
 
     private bool isRotate;
+    private bool isReadyBoiling;
     private List<GameObject> potIngredients;
     private Coroutine rotateCoroutine;
 
@@ -39,8 +40,14 @@ public class PotBoilingSystem : MonoBehaviour
     {
         int decreaseTime = 0;
         isRotate = false;
+        isReadyBoiling = false;
         this.completeTime = completeTime - decreaseTime;
         this.potIngredients = potIngredients;
+    }
+
+    public void ReadyToBoilingSystem()
+    {
+        isReadyBoiling = true;
     }
 
     public void OnIncreasePower()
@@ -69,7 +76,7 @@ public class PotBoilingSystem : MonoBehaviour
 
     public IEnumerator StartBoilingSystem()
     {
-        yield return new WaitUntil(() => isRotate);
+        yield return new WaitUntil(() => isRotate && isReadyBoiling);
         potAudioSystem.StartAudioSource(PotAudioSystem.AudioType.RotaitionPot);
         while (true)
         {
