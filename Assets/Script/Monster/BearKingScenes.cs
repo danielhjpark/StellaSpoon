@@ -70,6 +70,7 @@ public class BearKingScenes : MonoBehaviour
         fadeCanvas.SetActive(true);
         playerController.isDodge = false;
         playerController.dodgeCooldownActive = false;
+        playerController.LockCameraPosition = false;
         _bossScene = true;
         StartCoroutine(PlayCinemachineScene());
     }
@@ -85,7 +86,6 @@ public class BearKingScenes : MonoBehaviour
             yield return StartCoroutine(Fade(0f, 1f, fadeInTime));
         }
         BossCamara.enabled = true;
-        PlayerGroup.SetActive(false);
         NameText.SetActive(true);
 
         BossMonster.transform.position = BossMonsterSpawnPoint.position;
@@ -110,12 +110,11 @@ public class BearKingScenes : MonoBehaviour
         yield return new WaitForSecondsRealtime(5f);
 
         fadeCanvas.SetActive(false);
-        PlayerGroup.SetActive(true);
+        _bossScene = false;
         NameText.SetActive(false);
         // 6. Priority¸¦ 0À¸·Î
         virtualCamera.Priority = 0;
         BossCamara.enabled = false;
-        _bossScene = false;
         Time.timeScale = 1f;
     }
     private IEnumerator MoveCameraTo(Transform cameraTransform, Vector3 targetPosition, float duration)
