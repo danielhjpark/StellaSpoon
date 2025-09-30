@@ -1,4 +1,5 @@
 using Cinemachine;
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,8 +39,12 @@ public class BearKingScenes : MonoBehaviour
 
     [SerializeField]
     private GameObject BossCameraPosition;
+
+    private ThirdPersonController playerController;
+    public static bool _bossScene = false;
     private void Awake()
     {
+        playerController = FindObjectOfType<ThirdPersonController>();
         fadeCanvas = GameObject.Find("BossCanvas");
         fadeCanvas.SetActive(false);
         PlayerGroup = GameObject.FindGameObjectWithTag("PlayerGroup");
@@ -63,6 +68,9 @@ public class BearKingScenes : MonoBehaviour
         isTriggered = true;
         Time.timeScale = 0f;
         fadeCanvas.SetActive(true);
+        playerController.isDodge = false;
+        playerController.dodgeCooldownActive = false;
+        _bossScene = true;
         StartCoroutine(PlayCinemachineScene());
     }
 
@@ -107,6 +115,7 @@ public class BearKingScenes : MonoBehaviour
         // 6. Priority¸¦ 0À¸·Î
         virtualCamera.Priority = 0;
         BossCamara.enabled = false;
+        _bossScene = false;
         Time.timeScale = 1f;
     }
     private IEnumerator MoveCameraTo(Transform cameraTransform, Vector3 targetPosition, float duration)

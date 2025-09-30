@@ -106,7 +106,7 @@ namespace StarterAssets
 
         // Dodge
         public bool isDodge = false;
-        private bool dodgeCooldownActive;
+        public bool dodgeCooldownActive;
 
         // 캐릭터 기본 스테이터스
         [Header("Player Status")]
@@ -248,7 +248,8 @@ namespace StarterAssets
                 ||Inventory.inventoryActivated 
                 || InteractUIManger.isUseInteractObject
                 || CutSceneManager.isStory
-                || !WeaponChanger.isDeactived)
+                || !WeaponChanger.isDeactived
+                || BearKingScenes._bossScene)
             {
                 if (_hasAnimator)
                 {
@@ -279,7 +280,8 @@ namespace StarterAssets
                 || CutSceneManager.isStory
                 || !WeaponChanger.isDeactived
                 || TreasureChest.openingChest
-                || Mobility.isMobilityUI) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
+                || Mobility.isMobilityUI
+                || BearKingScenes._bossScene) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
             CameraRotation();
         }
         void OnEnable()
