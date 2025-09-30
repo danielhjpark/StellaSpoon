@@ -280,8 +280,8 @@ namespace StarterAssets
                 || CutSceneManager.isStory
                 || !WeaponChanger.isDeactived
                 || TreasureChest.openingChest
-                || Mobility.isMobilityUI
-                || BearKingScenes._bossScene) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
+                || Mobility.isMobilityUI) return; // 비활성화 상태면 카메라 회전 막기 , 보물상자 오픈시 카메라 회전 막기
+
             CameraRotation();
         }
         void OnEnable()
