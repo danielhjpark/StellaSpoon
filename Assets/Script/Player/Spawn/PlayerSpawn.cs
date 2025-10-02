@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cinemachine;
+using StarterAssets;
+using System.Runtime.InteropServices;
 public class PlayerSpawn : MonoBehaviour
 {
     public static bool useSavedPosition = false;  // 저장된 위치를 사용할 경우 true
@@ -25,11 +28,26 @@ public class PlayerSpawn : MonoBehaviour
         if (useSavedPosition == false)
         {
             StartCoroutine(SetPlayerPosition());
+            StartCoroutine(SetPlayerRotation(scene.name));
         }
-        else if(useSavedPosition == true)
+        else if (useSavedPosition == true)
         {
             Debug.Log("저장된 위치로 이동 예정이므로 기본 위치로 스폰 생략");
         }
+    }
+
+    private IEnumerator SetPlayerRotation(string sceneName)
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject cameraRoot = GameObject.Find("CameraRoot");
+        if (sceneName == "Restaurant")
+        {
+            player.transform.localRotation = Quaternion.Euler(0, 250, 0);
+            cameraRoot.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            player.GetComponent<ThirdPersonController>().CameraAngleOverride = 10;
+
+        }
+        yield return null;
     }
 
     private IEnumerator SetPlayerPosition()
