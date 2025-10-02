@@ -68,7 +68,6 @@ namespace UnityNote
                     timeManager.InitializeNewGameTime();
                     Debug.Log("GameTime 초기화 완료 (NewGame)");
                 }
-                isNewGame = false;
             }
 
             // 로딩 화면 종료
@@ -91,7 +90,9 @@ namespace UnityNote
                     cutSceneScreen.SetActive(true);
                     CutSceneManager manager = cutSceneScreen.GetComponent<CutSceneManager>();
                     if (manager != null)
+                    {
                         manager.StartCutScene();
+                    }
                     isNewGame = false;
                 }
             }
