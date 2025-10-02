@@ -295,7 +295,14 @@ public class PlayerManager : MonoBehaviour
 
             anim.SetLayerWeight(1, 1);
             StartCoroutine(EnableRigDelayed());
-            RifleManager.instance.WeaponUI.SetActive(true);
+            if(BearKingScenes.inBossScene)
+            {
+                RifleManager.instance.WeaponUI.SetActive(false);
+            }
+            else
+            {
+                RifleManager.instance.WeaponUI.SetActive(true);
+            }
             RifleManager.instance.SpriteUI.SetActive(true);
         }
         else

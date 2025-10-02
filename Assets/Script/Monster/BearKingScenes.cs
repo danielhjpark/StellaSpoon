@@ -15,16 +15,16 @@ public class BearKingScenes : MonoBehaviour
     private BoxCollider[] bearKingScenesCollider;
 
     [SerializeField]
-    private GameObject BossMonster; //보스는 따로 인스펙터에서 넣어주세요
+    private GameObject bossMonster; //보스는 따로 인스펙터에서 넣어주세요
     [SerializeField]
-    private Transform BossMonsterSpawnPoint; //보스 시네마틱 시작위치
+    private Transform bossMonsterSpawnPoint; //보스 시네마틱 시작위치
 
     [SerializeField]
     private Transform cinemaStartPoint;
     [SerializeField]
     private CinemachineVirtualCamera virtualCamera;
     [SerializeField]
-    private Camera BossCamara;
+    private Camera bossCamara;
 
     [SerializeField]
     private GameObject fadeCanvas;
@@ -35,30 +35,34 @@ public class BearKingScenes : MonoBehaviour
 
     private bool isTriggered = false;
 
-    private GameObject PlayerGroup;
+    private GameObject playerGroup;
 
     [SerializeField]
-    private GameObject BossCameraPosition;
+    private GameObject bossCameraPosition;
 
     private ThirdPersonController playerController;
     public static bool _bossScene = false;
+
+    static public bool inBossScene = false;
+
     private void Awake()
     {
         playerController = FindObjectOfType<ThirdPersonController>();
         fadeCanvas = GameObject.Find("BossCanvas");
         fadeCanvas.SetActive(false);
-        PlayerGroup = GameObject.FindGameObjectWithTag("PlayerGroup");
-        // 모든 콜라이더를 트리거로 설정
-        foreach (var col in bearKingScenesCollider)
-        {
-            col.isTrigger = true;
-            // 각 콜라이더에 TriggerProxy 추가
-            if (col.GetComponent<BearKingTriggerProxy>() == null)
+        playerGroup = GameObject.FindGameObjectWithTag("PlayerGroup");
+
+            // 모든 콜라이더를 트리거로 설정
+            foreach (var col in bearKingScenesCollider)
             {
-                var proxy = col.gameObject.AddComponent<BearKingTriggerProxy>();
-                proxy.parent = this;
+                col.isTrigger = true;
+                // 각 콜라이더에 TriggerProxy 추가
+                if (col.GetComponent<BearKingTriggerProxy>() == null)
+                {
+                    var proxy = col.gameObject.AddComponent<BearKingTriggerProxy>();
+                    proxy.parent = this;
+                }
             }
-        }
     }
 
     // Proxy에서 호출
@@ -72,6 +76,7 @@ public class BearKingScenes : MonoBehaviour
         playerController.dodgeCooldownActive = false;
         playerController.LockCameraPosition = false;
         _bossScene = true;
+        inBossScene = true;
         StartCoroutine(PlayCinemachineScene());
     }
 
@@ -85,11 +90,11 @@ public class BearKingScenes : MonoBehaviour
             fadeImage.enabled = true;
             yield return StartCoroutine(Fade(0f, 1f, fadeInTime));
         }
-        BossCamara.enabled = true;
+        bossCamara.enabled = true;
         NameText.SetActive(true);
 
-        BossMonster.transform.position = BossMonsterSpawnPoint.position;
-        BossMonster.transform.rotation = BossMonsterSpawnPoint.rotation;
+        bossMonster.transform.position = bossMonsterSpawnPoint.position;
+        bossMonster.transform.rotation = bossMonsterSpawnPoint.rotation;
         // 2. virtualCamera Priority를 20으로
         virtualCamera.Priority = 20;
 
@@ -101,7 +106,7 @@ public class BearKingScenes : MonoBehaviour
         }
 
         // Z축으로 15만큼 이동할 목표 위치를 설정합니다.
-        Vector3 targetPosition = BossCameraPosition.transform.position;
+        Vector3 targetPosition = bossCameraPosition.transform.position;
 
         // 카메라의 이동을 위한 코루틴을 시작합니다.
         yield return StartCoroutine(MoveCameraTo(virtualCamera.transform, targetPosition, 2f)); // 2초간 이동
@@ -114,8 +119,9 @@ public class BearKingScenes : MonoBehaviour
         NameText.SetActive(false);
         // 6. Priority를 0으로
         virtualCamera.Priority = 0;
-        BossCamara.enabled = false;
+        bossCamara.enabled = false;
         Time.timeScale = 1f;
+        inBossScene = false;
     }
     private IEnumerator MoveCameraTo(Transform cameraTransform, Vector3 targetPosition, float duration)
     {

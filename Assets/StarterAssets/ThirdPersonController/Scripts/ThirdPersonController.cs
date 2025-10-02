@@ -238,7 +238,14 @@ namespace StarterAssets
             }
             else
             {
-                _hpBar.gameObject.SetActive(true);
+                if(BearKingScenes.inBossScene) //보스 컷씬 시
+                {
+                    _hpBar.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _hpBar.gameObject.SetActive(true);
+                }
             }
 
             if (!DeviceManager.isDeactived 
