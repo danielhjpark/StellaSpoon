@@ -9535,6 +9535,7 @@ MonoBehaviour:
   recipeInfoBase: {fileID: 0}
   recipeInfos: []
   recipeSlots: []
+  endRecipeSlot: {fileID: 0}
 --- !u!1 &519996793
 GameObject:
   m_ObjectHideFlags: 0
@@ -17259,6 +17260,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7093141482680182579, guid: f881caf2b81d73f439633f0be76d0242, type: 3}
+      propertyPath: dropProbability.Array.data[1]
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7791061285196459222, guid: f881caf2b81d73f439633f0be76d0242, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.449915
@@ -20619,6 +20624,7 @@ MonoBehaviour:
   - {fileID: 437086057}
   loadingProgress: {fileID: 2032204508}
   textProgress: {fileID: 1053405387}
+  cutSceneScreen: {fileID: 0}
 --- !u!114 &1154302855
 MonoBehaviour:
   m_ObjectHideFlags: 0
