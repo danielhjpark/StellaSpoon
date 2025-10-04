@@ -41,6 +41,22 @@ public class CuttingManager : CookManagerBase
         cuttingBoardUI = GetComponent<CuttingBoardUI>();
         cookUIManager.Initialize(this);
 
+        StartCoroutine(StartCuttingBoard());
+
+    }
+
+    IEnumerator StartCuttingBoard()
+    {
+        isCanEscape = false;
+        if (TutorialManger.ShouldShowTutorial(TutorialManger.TutorialType.CUTTINGBOARD))
+        {
+            TutorialManger.instance.OpenTutorialUI();
+            TutorialManger.instance.SelectTutorial(TutorialManger.TutorialType.CUTTINGBOARD);
+        }
+        yield return new WaitUntil(() => !TutorialManger.instance.isTutorialOpen);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        
         InitTrim();
     }
 

@@ -61,9 +61,14 @@ public class Mobility : MonoBehaviour
 
     private void Update()
     {
-        if (!mapUI.activeSelf && collPlayer && Input.GetKeyDown(KeyCode.F))
+        if (!mapUI.activeSelf && collPlayer && DeviceManager.isDeactived && Input.GetKeyDown(KeyCode.F))
         {
-            ToggleMapUI();
+            if (TutorialManger.ShouldShowTutorial(TutorialManger.TutorialType.MOVEMAP))
+            {
+                TutorialManger.instance.OpenTutorialUI();
+                TutorialManger.instance.SelectTutorial(TutorialManger.TutorialType.MOVEMAP);
+            }
+            else ToggleMapUI();
         }
         if (mapUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         {

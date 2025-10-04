@@ -22,6 +22,12 @@ public class DailyMenuDevice : InteractObject
         if (!DailyMenuUI.activeSelf && isPlayerNearby && Input.GetKeyDown(KeyCode.F)
         && !RestaurantOpenSystem.isRestaurantOpened && DeviceManager.isDeactived) //UI가 닫혀있고 주변 플레이어가 있고 F키 눌렀을 때
         {
+            if (TutorialManger.ShouldShowTutorial(TutorialManger.TutorialType.DAILYMENU))
+            {
+                TutorialManger.instance.OpenTutorialUI();
+                TutorialManger.instance.SelectTutorial(TutorialManger.TutorialType.DAILYMENU);
+                return;
+            }
             OpenDailyMenuUI();
         }
     }

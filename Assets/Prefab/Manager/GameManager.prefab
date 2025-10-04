@@ -78,6 +78,7 @@ Transform:
   m_Children:
   - {fileID: 3572432824216118971}
   - {fileID: 5555388012943138103}
+  - {fileID: 6493921322287364578}
   - {fileID: 5592805141448697697}
   - {fileID: 8428370840201048068}
   - {fileID: 2450711718803190447}
@@ -106,6 +107,7 @@ MonoBehaviour:
   GoldBase: {fileID: 0}
   GoldText: {fileID: 0}
   InvenGoldText: {fileID: 0}
+  backToLobbyBase: {fileID: 0}
 --- !u!114 &3542876085242771395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +177,68 @@ MonoBehaviour:
   theRefrigeratorInventory: {fileID: 0}
   chest1Inventory: {fileID: 0}
   chest2Inventory: {fileID: 0}
+--- !u!1 &7157539503378096453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6493921322287364578}
+  - component: {fileID: 600560756262789589}
+  m_Layer: 0
+  m_Name: TutorialManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6493921322287364578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7157539503378096453}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -26.562601, y: 4.656625, z: -22.831211}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2427601303184606270}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600560756262789589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7157539503378096453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def8050ba473c5c4a9eec25be162567c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialUI: {fileID: 0}
+  selectUI: {fileID: 0}
+  tutorialCanvas:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  buttonUI: {fileID: 0}
+  leftButton: {fileID: 0}
+  rightButton: {fileID: 0}
+  returnButton: {fileID: 0}
+  escUI: {fileID: 0}
+  isTutorialOpen: 0
+  isAreaTutorial: 0
 --- !u!1 &7735484909860295891
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,10 +473,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e138105582cb6704d8f48640ba37660b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPanLevel: 1
-  currentWorLevel: 1
-  currentCuttingBoardLevel: 1
-  currentPotLevel: 1
+  mainIngredients: []
+  subIngredients: []
+  trimIngredients: []
+  chest1Inventory: {fileID: 0}
+  chest2Inventory: {fileID: 0}
+  isInitialize: 0
 --- !u!1001 &912810076836672852
 PrefabInstance:
   m_ObjectHideFlags: 0

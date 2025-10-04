@@ -42,9 +42,6 @@ public class PlayerSpawn : MonoBehaviour
         GameObject cameraRoot = GameObject.Find("MainCamera");
         if (sceneName == "Restaurant")
         {
-            player.transform.localRotation = Quaternion.Euler(0, 98, 0);
-            cameraRoot.transform.localRotation = Quaternion.Euler(0, -266, 0);
-            player.GetComponent<ThirdPersonController>().CameraAngleOverride = 10;
 
         }
         yield return null;
