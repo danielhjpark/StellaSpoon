@@ -39,10 +39,16 @@ public class PlayerSpawn : MonoBehaviour
     private IEnumerator SetPlayerRotation(string sceneName)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        GameObject cameraRoot = GameObject.Find("MainCamera");
+        GameObject cameraRoot = GameObject.Find("CameraRoot");
+
         if (sceneName == "Restaurant")
         {
-
+            cameraRoot.transform.rotation *= Quaternion.Euler(20, 0, 0);
+            player.GetComponent<ThirdPersonController>().CameraAngleOverride = 20;
+        }
+        else
+        {
+            player.GetComponent<ThirdPersonController>().CameraAngleOverride = 0;
         }
         yield return null;
     }
