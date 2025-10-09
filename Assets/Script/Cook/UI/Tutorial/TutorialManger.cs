@@ -46,8 +46,17 @@ public class TutorialManger : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
-        CutSceneManager.OnCutSceneStart += ResetAllTutorials;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            CutSceneManager.OnCutSceneStart += ResetAllTutorials;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     public static void MakeTutorial(TutorialType type)

@@ -8,6 +8,7 @@ public class TutorialArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(TutorialManger.ShouldShowTutorial((TutorialManger.TutorialType)tutorialTypeNum))
         TutorialManger.instance.OpenTutorialUI();
         TutorialManger.instance.SelectTutorial((TutorialManger.TutorialType)tutorialTypeNum);
         Destroy(this.gameObject);
