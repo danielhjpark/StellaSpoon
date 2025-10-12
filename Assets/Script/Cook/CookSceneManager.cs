@@ -21,8 +21,15 @@ public class CookSceneManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
-        mainCamera = Camera.main;
+        if(instance == null)
+        {
+            instance = this;
+            mainCamera = Camera.main;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnDisable()

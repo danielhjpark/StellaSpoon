@@ -36,7 +36,15 @@ public class CookManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         storeUIManager = FindObjectOfType<StoreUIManager>();
     }
 

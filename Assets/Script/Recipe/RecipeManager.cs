@@ -14,7 +14,7 @@ public class RecipeManager : MonoBehaviour
     public Dictionary<string, Recipe> RecipeList; //?엫?떆 ?뜲?씠?꽣 踰좎씠?뒪
     public Dictionary<Recipe, bool> RecipeUnlockCheck;
     private GameObject NewRecipeUI;
-    [SerializeField] private GameObject NewRecipePreviewObject;
+    [SerializeField]private GameObject NewRecipePreviewObject;
 
     void Awake()
     {
@@ -31,6 +31,7 @@ public class RecipeManager : MonoBehaviour
 
         Transform canvasTransform = GameObject.Find("Canvas")?.transform; // Canvas를 찾기
         NewRecipeUI = canvasTransform.Find("NewRecipePanel")?.gameObject; // MapPanel을 찾기
+        //NewRecipePreviewObject = GameObject.Find("PreviewSystem");
 
     }
     void Update()
