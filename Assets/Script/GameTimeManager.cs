@@ -58,7 +58,7 @@ public class GameTimeManager : MonoBehaviour
         //게임 시간 텍스트 업데이트
         if (gameTimeText != null)
         {
-            gameTimeText.text = $"Time\n{gameHours:D2}:{gameMinutes:D2}";
+            gameTimeText.text = $"Time {gameHours:D2}:{gameMinutes:D2}";
         }
         if (gameDaysText != null)
         {
