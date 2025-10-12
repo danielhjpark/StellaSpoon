@@ -1030,6 +1030,7 @@ MonoBehaviour:
   playerDetectionRange: 10
   randomMoveRange: 5
   damageRange: 13
+  chasenum: 1.5
   dropItems:
   - {fileID: 5970542299509269738, guid: 8c5d4fa36ea04c042a4306a868026bc9, type: 3}
   - {fileID: 153665304208564860, guid: 58d9b819d7387ff4b889aea9e242e1f4, type: 3}
@@ -1605,6 +1606,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3705960333913335643}
     m_Modifications:
+    - target: {fileID: 757374712055327142, guid: c908cca6e99b0174a9f68ca40d886112, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1145115502910108943, guid: c908cca6e99b0174a9f68ca40d886112, type: 3}
       propertyPath: m_Layer
       value: 16
