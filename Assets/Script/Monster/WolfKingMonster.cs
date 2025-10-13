@@ -110,11 +110,6 @@ public class WolfKingMonster : MonsterBase
             isAttack = false;
         }
     }
-    public override void Damage(int damage)
-    {
-        if (attacking) return;
-        base.Damage(damage);
-    }
 
     protected override void HandleAttack()
     {

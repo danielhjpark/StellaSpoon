@@ -28,8 +28,6 @@ public abstract class MonsterBase : MonoBehaviour
     public bool attackColl = false; //공격 충돌 체크 변수
     public bool inAttackRange = false; //공격 범위 내에 있는지 체크 변수
 
-    public bool attacking = false; //공격 애니메이션 실행중인지 체크 변수
-
     [Header("몬스터 공격 딜레이 시간")]
     public float damageDelayTime; //공격 딜레이 시간
     [Header("몬스터 랜덤이동 대기시간")]
@@ -534,15 +532,6 @@ public abstract class MonsterBase : MonoBehaviour
             // 회전을 멈추도록 현재 회전을 유지합니다.
             transform.rotation = transform.rotation;
         }
-    }
-
-    public void OnAttack()
-    {
-        attacking = true;
-    }
-    public void OffAttack()
-    {
-        attacking = false;
     }
 
     // 감지 및 공격 범위 시각화

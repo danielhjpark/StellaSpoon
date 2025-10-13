@@ -1027,7 +1027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def8050ba473c5c4a9eec25be162567c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialUI: {fileID: 0}
   selectUI: {fileID: 847338390}
   tutorialCanvas:
   - {fileID: 976881665}
@@ -1036,10 +1035,6 @@ MonoBehaviour:
   buttonUI: {fileID: 689807743}
   leftButton: {fileID: 522889429}
   rightButton: {fileID: 2052063408}
-  returnButton: {fileID: 0}
-  escUI: {fileID: 0}
-  isTutorialOpen: 0
-  isAreaTutorial: 0
 --- !u!1 &24171583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,71 +1191,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &36399414
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 478791863707027834, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_Name
-      value: Luna Wolf king
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1003970687329276864, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4700218294647104544, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4700218294647104544, guid: 808573fcd325601439dec29f874c9794, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 808573fcd325601439dec29f874c9794, type: 3}
 --- !u!1 &45495065
 GameObject:
   m_ObjectHideFlags: 0
@@ -5878,7 +5808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2448656401875760082, guid: 25aef5e84e1a8864da594cb46335b168, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2684328149894200959, guid: 25aef5e84e1a8864da594cb46335b168, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6927,18 +6857,6 @@ PrefabInstance:
     - target: {fileID: 7375339025366179333, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7477152357449306482, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.20000005
-      objectReference: {fileID: 0}
-    - target: {fileID: 7477152357449306482, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7477152357449306482, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 7485086843011938276, guid: fa7503f9044619845a63bc81f6ec8dfc, type: 3}
       propertyPath: field of view
@@ -18042,19 +17960,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2279323457027740312, guid: 79da8f81db6c7ba4788276a28abde8b5, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2279323457027740312, guid: 79da8f81db6c7ba4788276a28abde8b5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3956932523065736072, guid: 79da8f81db6c7ba4788276a28abde8b5, type: 3}
       propertyPath: m_Name
       value: Eroded_AdenBear_ King
-      objectReference: {fileID: 0}
-    - target: {fileID: 3956932523065736072, guid: 79da8f81db6c7ba4788276a28abde8b5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4326680279365945867, guid: 79da8f81db6c7ba4788276a28abde8b5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18248,7 +18162,6 @@ MonoBehaviour:
   - {fileID: 683439744}
   loadingProgress: {fileID: 449843857}
   textProgress: {fileID: 1058895920}
-  cutSceneScreen: {fileID: 0}
 --- !u!114 &1327501081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23357,7 +23270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameTimeManager: {fileID: 1665777212}
-  useRestaurantOpenTime: 0
   signRenderer: {fileID: 0}
   signMaterial:
   - {fileID: -2813467912831258332, guid: 7d555e4399dfcb04989c5f6168c5f02f, type: 3}
@@ -24932,7 +24844,6 @@ MonoBehaviour:
   playerAnimator: {fileID: 0}
   putDishAudio: {fileID: 8300000, guid: 0f1e86a8f03a6df49b1c49f000fd3550, type: 3}
   trashAudio: {fileID: 8300000, guid: 06316320e0768a44fa173d2de0ae95ac, type: 3}
-  waitingTableSystem: {fileID: 0}
 --- !u!1 &1776023210
 GameObject:
   m_ObjectHideFlags: 0
@@ -25791,7 +25702,6 @@ MonoBehaviour:
   playerAnimator: {fileID: 0}
   putDishAudio: {fileID: 0}
   trashAudio: {fileID: 0}
-  waitingTableSystem: {fileID: 0}
 --- !u!136 &1806817263
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -25848,7 +25758,6 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   isDodge: 0
-  dodgeCooldownActive: 0
   MaxHP: 100
   curHP: 0
   Def: 20
@@ -28191,10 +28100,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 7670591043599254929, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7805705967786733121, guid: 13e6b988a89f53b42ad18b9ae62dfd65, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -29486,10 +29391,6 @@ PrefabInstance:
     - target: {fileID: 2448656401875760082, guid: 25aef5e84e1a8864da594cb46335b168, type: 3}
       propertyPath: m_Name
       value: PARENT_RestaurantChestBase_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2448656401875760082, guid: 25aef5e84e1a8864da594cb46335b168, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2703741771036813948, guid: 25aef5e84e1a8864da594cb46335b168, type: 3}
       propertyPath: m_AnchorMax.y
@@ -30991,4 +30892,3 @@ SceneRoots:
   - {fileID: 345508133}
   - {fileID: 719961327}
   - {fileID: 1302898399}
-  - {fileID: 36399414}

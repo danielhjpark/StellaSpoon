@@ -108,13 +108,6 @@ public class BearKingMonster : MonsterBase
     }
 
 
-    public override void Damage(int damage)
-    {
-        if (attacking) return;
-        base.Damage(damage);
-    }
-
-
     private IEnumerator Attack()
     {
         if (!inAttackRange || isDead) yield break;
@@ -194,7 +187,6 @@ public class BearKingMonster : MonsterBase
 
         isChargeSetting = true;
         attackRange = 6f;
-        OnAttack();
         animator.SetBool("Run Forward", true);
 
         Vector3 targetPosition = player.transform.position;
@@ -245,10 +237,8 @@ public class BearKingMonster : MonsterBase
 
         isCharging = false;
         isChargeSetting = false;
-        nav.isStopped = false;
 
         yield return new WaitForSeconds(5.0f);
-        OffAttack();
 
         if (isDead)
         {
