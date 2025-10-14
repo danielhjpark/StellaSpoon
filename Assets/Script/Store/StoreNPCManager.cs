@@ -118,6 +118,7 @@ public class StoreNPCManager : MonoBehaviour
                         case NPCType.IngredientNPC:
                             ingredientBase.SetActive(false);//재료상점 UI 끄기
                             isIngredient = false;
+                            TabGroupManager.OffTabSelected();
                             break;
                         case NPCType.KitchenNPC:
                             CookBase.SetActive(false);//주방상점 UI 끄기

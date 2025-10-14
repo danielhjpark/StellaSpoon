@@ -55,7 +55,7 @@ public class Manager : MonoBehaviour
         //테스트용 골드 추가
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            //gold += 30000;
+            gold += 30000;
         }
         //치트
 

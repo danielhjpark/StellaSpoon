@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 5001581}
   - component: {fileID: 5001580}
   - component: {fileID: 5001579}
+  - component: {fileID: 5001582}
   m_Layer: 5
   m_Name: Red_Hornavia_Meet Buy_Button
   m_TagString: Untagged
@@ -219,6 +220,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5001582}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5001580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +270,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5001577}
   m_CullTransparentMesh: 1
+--- !u!114 &5001582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5001577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 557450654}
+  otherImage: {fileID: 1912546906}
+  otherText: {fileID: 268488123}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &13379249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,6 +1927,7 @@ GameObject:
   - component: {fileID: 132765248}
   - component: {fileID: 132765247}
   - component: {fileID: 132765246}
+  - component: {fileID: 132765249}
   m_Layer: 5
   m_Name: Ruby_Root_Buy_Button
   m_TagString: Untagged
@@ -1979,6 +2012,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 132765249}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &132765247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2017,6 +2062,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132765244}
   m_CullTransparentMesh: 1
+--- !u!114 &132765249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132765244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 335643598}
+  otherImage: {fileID: 1955826667}
+  otherText: {fileID: 1426898987}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &132907449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2249,6 +2313,7 @@ GameObject:
   - component: {fileID: 144339566}
   - component: {fileID: 144339565}
   - component: {fileID: 144339564}
+  - component: {fileID: 144339567}
   m_Layer: 5
   m_Name: Black_Fermos_Meet_Sell_Button
   m_TagString: Untagged
@@ -2333,6 +2398,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 144339567}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &144339565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2371,6 +2448,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144339562}
   m_CullTransparentMesh: 1
+--- !u!114 &144339567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144339562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1443418764}
+  otherImage: {fileID: 2015428407}
+  otherText: {fileID: 864314415}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &145844043
 GameObject:
   m_ObjectHideFlags: 0
@@ -4362,6 +4458,7 @@ GameObject:
   - component: {fileID: 213356138}
   - component: {fileID: 213356137}
   - component: {fileID: 213356136}
+  - component: {fileID: 213356139}
   m_Layer: 5
   m_Name: AdenBear_LegMeet_Sell_Button
   m_TagString: Untagged
@@ -4446,6 +4543,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 213356139}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &213356137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4484,6 +4593,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213356134}
   m_CullTransparentMesh: 1
+--- !u!114 &213356139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213356134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 2088849011}
+  otherImage: {fileID: 1938627546}
+  otherText: {fileID: 1586330352}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &229653685
 GameObject:
   m_ObjectHideFlags: 0
@@ -4496,6 +4624,7 @@ GameObject:
   - component: {fileID: 229653689}
   - component: {fileID: 229653688}
   - component: {fileID: 229653687}
+  - component: {fileID: 229653690}
   m_Layer: 5
   m_Name: Red_Barcrose_Meet_Buy_Button
   m_TagString: Untagged
@@ -4580,6 +4709,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 229653690}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &229653688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4618,6 +4759,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229653685}
   m_CullTransparentMesh: 1
+--- !u!114 &229653690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229653685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 2037287096}
+  otherImage: {fileID: 143227616}
+  otherText: {fileID: 1863712553}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &232569608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5669,6 +5829,7 @@ GameObject:
   - component: {fileID: 268374236}
   - component: {fileID: 268374235}
   - component: {fileID: 268374234}
+  - component: {fileID: 268374237}
   m_Layer: 5
   m_Name: AdenBear_LegMeet_Buy_Button
   m_TagString: Untagged
@@ -5753,6 +5914,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 268374237}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &268374235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5791,6 +5964,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 268374232}
   m_CullTransparentMesh: 1
+--- !u!114 &268374237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268374232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 1124790798}
+  otherImage: {fileID: 1319958617}
+  otherText: {fileID: 61264271}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &268488121
 GameObject:
   m_ObjectHideFlags: 0
@@ -8007,6 +8199,7 @@ GameObject:
   - component: {fileID: 384606829}
   - component: {fileID: 384606828}
   - component: {fileID: 384606827}
+  - component: {fileID: 384606830}
   m_Layer: 5
   m_Name: Barcrose_Meet_Buy_Button
   m_TagString: Untagged
@@ -8091,6 +8284,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 384606830}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &384606828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8129,6 +8334,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 384606825}
   m_CullTransparentMesh: 1
+--- !u!114 &384606830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384606825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 338668433}
+  otherImage: {fileID: 394358655}
+  otherText: {fileID: 1585237761}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &388919343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10123,6 +10347,7 @@ GameObject:
   - component: {fileID: 460820506}
   - component: {fileID: 460820505}
   - component: {fileID: 460820504}
+  - component: {fileID: 460820507}
   m_Layer: 5
   m_Name: Fermos_Meet_Sell_Button
   m_TagString: Untagged
@@ -10207,6 +10432,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 460820507}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &460820505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10245,6 +10482,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460820502}
   m_CullTransparentMesh: 1
+--- !u!114 &460820507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460820502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1675042691}
+  otherImage: {fileID: 731685343}
+  otherText: {fileID: 1624653092}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &467426476
 GameObject:
   m_ObjectHideFlags: 0
@@ -10924,6 +11180,7 @@ GameObject:
   - component: {fileID: 515193168}
   - component: {fileID: 515193167}
   - component: {fileID: 515193166}
+  - component: {fileID: 515193169}
   m_Layer: 5
   m_Name: Nova_Wolf_Meet_Buy_Button
   m_TagString: Untagged
@@ -11008,6 +11265,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 515193169}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &515193167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11046,6 +11315,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515193164}
   m_CullTransparentMesh: 1
+--- !u!114 &515193169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515193164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 954030105}
+  otherImage: {fileID: 45374058}
+  otherText: {fileID: 355673475}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &536048371
 GameObject:
   m_ObjectHideFlags: 0
@@ -12169,6 +12457,7 @@ GameObject:
   - component: {fileID: 626995989}
   - component: {fileID: 626995988}
   - component: {fileID: 626995987}
+  - component: {fileID: 626995990}
   m_Layer: 5
   m_Name: Silver_Wolf_Rib_Sell_Button
   m_TagString: Untagged
@@ -12253,6 +12542,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 626995990}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &626995988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12291,6 +12592,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626995985}
   m_CullTransparentMesh: 1
+--- !u!114 &626995990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626995985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 732239079}
+  otherImage: {fileID: 1417904153}
+  otherText: {fileID: 992546715}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &627338882
 GameObject:
   m_ObjectHideFlags: 0
@@ -13411,6 +13731,7 @@ GameObject:
   - component: {fileID: 674190115}
   - component: {fileID: 674190114}
   - component: {fileID: 674190113}
+  - component: {fileID: 674190116}
   m_Layer: 5
   m_Name: Allirubium_Buy_Button
   m_TagString: Untagged
@@ -13495,6 +13816,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 674190116}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &674190114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13533,6 +13866,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674190111}
   m_CullTransparentMesh: 1
+--- !u!114 &674190116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674190111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 1662024789}
+  otherImage: {fileID: 168480080}
+  otherText: {fileID: 1529044474}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &679263445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17943,6 +18295,7 @@ GameObject:
   - component: {fileID: 971368778}
   - component: {fileID: 971368777}
   - component: {fileID: 971368776}
+  - component: {fileID: 971368779}
   m_Layer: 5
   m_Name: Aliverry_Meet_Sell_Button
   m_TagString: Untagged
@@ -18027,6 +18380,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 971368779}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &971368777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18065,6 +18430,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971368774}
   m_CullTransparentMesh: 1
+--- !u!114 &971368779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971368774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1582334253}
+  otherImage: {fileID: 467426478}
+  otherText: {fileID: 1648907126}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &975045918
 GameObject:
   m_ObjectHideFlags: 0
@@ -19369,6 +19753,7 @@ GameObject:
   - component: {fileID: 1043117522}
   - component: {fileID: 1043117521}
   - component: {fileID: 1043117520}
+  - component: {fileID: 1043117523}
   m_Layer: 5
   m_Name: Bypin_Sell_Button
   m_TagString: Untagged
@@ -19453,6 +19838,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1043117523}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1043117521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19491,6 +19888,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043117518}
   m_CullTransparentMesh: 1
+--- !u!114 &1043117523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043117518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1571584654}
+  otherImage: {fileID: 334541672}
+  otherText: {fileID: 115101105}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1046411353
 GameObject:
   m_ObjectHideFlags: 0
@@ -20191,6 +20607,7 @@ GameObject:
   - component: {fileID: 1095471410}
   - component: {fileID: 1095471409}
   - component: {fileID: 1095471408}
+  - component: {fileID: 1095471411}
   m_Layer: 5
   m_Name: Red_Hornavia_Meet Sell_Button
   m_TagString: Untagged
@@ -20275,6 +20692,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1095471411}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1095471409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20313,6 +20742,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1095471406}
   m_CullTransparentMesh: 1
+--- !u!114 &1095471411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095471406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1999597822}
+  otherImage: {fileID: 1350448075}
+  otherText: {fileID: 691588895}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1101994773
 GameObject:
   m_ObjectHideFlags: 0
@@ -20481,6 +20929,7 @@ GameObject:
   - component: {fileID: 1123040492}
   - component: {fileID: 1123040491}
   - component: {fileID: 1123040490}
+  - component: {fileID: 1123040493}
   m_Layer: 5
   m_Name: Fermos_Meet_Buy_Button
   m_TagString: Untagged
@@ -20565,6 +21014,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1123040493}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1123040491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20603,6 +21064,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123040488}
   m_CullTransparentMesh: 1
+--- !u!114 &1123040493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123040488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 1528781850}
+  otherImage: {fileID: 1133609302}
+  otherText: {fileID: 168366838}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1124790796
 GameObject:
   m_ObjectHideFlags: 0
@@ -21494,6 +21974,7 @@ GameObject:
   - component: {fileID: 1164733845}
   - component: {fileID: 1164733844}
   - component: {fileID: 1164733843}
+  - component: {fileID: 1164733846}
   m_Layer: 5
   m_Name: Black_Fermos_Meet_Buy_Button
   m_TagString: Untagged
@@ -21578,6 +22059,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1164733846}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1164733844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21616,6 +22109,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164733841}
   m_CullTransparentMesh: 1
+--- !u!114 &1164733846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164733841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 194342641}
+  otherImage: {fileID: 726800121}
+  otherText: {fileID: 1499103852}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1187644398
 GameObject:
   m_ObjectHideFlags: 0
@@ -23374,6 +23886,7 @@ GameObject:
   - component: {fileID: 1296964945}
   - component: {fileID: 1296964944}
   - component: {fileID: 1296964943}
+  - component: {fileID: 1296964946}
   m_Layer: 5
   m_Name: Aliverry_Buy_Button
   m_TagString: Untagged
@@ -23458,6 +23971,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1296964946}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1296964944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23496,6 +24021,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296964941}
   m_CullTransparentMesh: 1
+--- !u!114 &1296964946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296964941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 166419401}
+  otherImage: {fileID: 1643374355}
+  otherText: {fileID: 990571492}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1297875808
 GameObject:
   m_ObjectHideFlags: 0
@@ -25161,6 +25705,7 @@ GameObject:
   - component: {fileID: 1394538852}
   - component: {fileID: 1394538851}
   - component: {fileID: 1394538850}
+  - component: {fileID: 1394538853}
   m_Layer: 5
   m_Name: Glasta_Buy_Button
   m_TagString: Untagged
@@ -25245,6 +25790,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1394538853}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1394538851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25283,6 +25840,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394538848}
   m_CullTransparentMesh: 1
+--- !u!114 &1394538853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394538848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 868229740}
+  otherImage: {fileID: 1089798314}
+  otherText: {fileID: 712268290}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1397655317
 GameObject:
   m_ObjectHideFlags: 0
@@ -25705,6 +26281,7 @@ GameObject:
   - component: {fileID: 1414086914}
   - component: {fileID: 1414086913}
   - component: {fileID: 1414086912}
+  - component: {fileID: 1414086915}
   m_Layer: 5
   m_Name: Silver_Wolf_Rib_Buy_Button
   m_TagString: Untagged
@@ -25789,6 +26366,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1414086915}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1414086913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25827,6 +26416,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414086910}
   m_CullTransparentMesh: 1
+--- !u!114 &1414086915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414086910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 1855449615}
+  otherImage: {fileID: 1439284207}
+  otherText: {fileID: 1314198312}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1417547509
 GameObject:
   m_ObjectHideFlags: 0
@@ -25839,6 +26447,7 @@ GameObject:
   - component: {fileID: 1417547513}
   - component: {fileID: 1417547512}
   - component: {fileID: 1417547511}
+  - component: {fileID: 1417547514}
   m_Layer: 5
   m_Name: Red_Barcrose_Meet_Sell_Button
   m_TagString: Untagged
@@ -25923,6 +26532,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1417547514}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1417547512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25961,6 +26582,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417547509}
   m_CullTransparentMesh: 1
+--- !u!114 &1417547514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417547509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 277239052}
+  otherImage: {fileID: 826787986}
+  otherText: {fileID: 480407416}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1417904151
 GameObject:
   m_ObjectHideFlags: 0
@@ -27075,6 +27715,7 @@ GameObject:
   - component: {fileID: 1469563569}
   - component: {fileID: 1469563568}
   - component: {fileID: 1469563567}
+  - component: {fileID: 1469563570}
   m_Layer: 5
   m_Name: Cont_AdenBear_Meet_Sell_Button
   m_TagString: Untagged
@@ -27159,6 +27800,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1469563570}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1469563568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27197,6 +27850,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469563565}
   m_CullTransparentMesh: 1
+--- !u!114 &1469563570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469563565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 705595630}
+  otherImage: {fileID: 1397655319}
+  otherText: {fileID: 1888292193}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1471307643
 GameObject:
   m_ObjectHideFlags: 0
@@ -29040,6 +29712,7 @@ GameObject:
   - component: {fileID: 1546533076}
   - component: {fileID: 1546533075}
   - component: {fileID: 1546533074}
+  - component: {fileID: 1546533077}
   m_Layer: 5
   m_Name: Allirubium_Sell_Button
   m_TagString: Untagged
@@ -29124,6 +29797,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1546533077}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1546533075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29162,6 +29847,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546533072}
   m_CullTransparentMesh: 1
+--- !u!114 &1546533077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546533072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 426063443}
+  otherImage: {fileID: 1411996320}
+  otherText: {fileID: 934077594}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1548554016
 GameObject:
   m_ObjectHideFlags: 0
@@ -32004,6 +32708,7 @@ GameObject:
   - component: {fileID: 1702795591}
   - component: {fileID: 1702795590}
   - component: {fileID: 1702795589}
+  - component: {fileID: 1702795592}
   m_Layer: 5
   m_Name: Glasta_Sell_Button
   m_TagString: Untagged
@@ -32088,6 +32793,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1702795592}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1702795590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32126,6 +32843,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702795587}
   m_CullTransparentMesh: 1
+--- !u!114 &1702795592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702795587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1104133482}
+  otherImage: {fileID: 1471307645}
+  otherText: {fileID: 2139740105}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &1704042397
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32298,6 +33034,7 @@ GameObject:
   - component: {fileID: 1708963835}
   - component: {fileID: 1708963834}
   - component: {fileID: 1708963833}
+  - component: {fileID: 1708963836}
   m_Layer: 5
   m_Name: Hornavia_Meet_Sell_Button
   m_TagString: Untagged
@@ -32382,6 +33119,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1708963836}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1708963834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32420,6 +33169,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1708963831}
   m_CullTransparentMesh: 1
+--- !u!114 &1708963836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708963831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1242817968}
+  otherImage: {fileID: 1373333400}
+  otherText: {fileID: 1008191581}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1709424697
 GameObject:
   m_ObjectHideFlags: 0
@@ -34243,6 +35011,7 @@ GameObject:
   - component: {fileID: 1815685362}
   - component: {fileID: 1815685361}
   - component: {fileID: 1815685360}
+  - component: {fileID: 1815685363}
   m_Layer: 5
   m_Name: Nova_Wolf_Meet_Sell_Button
   m_TagString: Untagged
@@ -34327,6 +35096,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: StoreUIManager, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1815685361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34365,6 +35146,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815685358}
   m_CullTransparentMesh: 1
+--- !u!114 &1815685363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815685358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 1669385525}
+  otherImage: {fileID: 417778705}
+  otherText: {fileID: 1978810954}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &1818175729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34523,6 +35323,7 @@ GameObject:
   - component: {fileID: 1826245009}
   - component: {fileID: 1826245008}
   - component: {fileID: 1826245007}
+  - component: {fileID: 1826245010}
   m_Layer: 5
   m_Name: Ruby_Root_Sell_Button
   m_TagString: Untagged
@@ -34607,6 +35408,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1826245010}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1826245008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34645,6 +35458,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826245005}
   m_CullTransparentMesh: 1
+--- !u!114 &1826245010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826245005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 255833151}
+  otherImage: {fileID: 291303716}
+  otherText: {fileID: 1062788151}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1855449613
 GameObject:
   m_ObjectHideFlags: 0
@@ -35006,6 +35838,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1867373036}
   - component: {fileID: 1867373037}
+  - component: {fileID: 1867373038}
   m_Layer: 5
   m_Name: ItemButtom
   m_TagString: Untagged
@@ -35071,6 +35904,18 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 1
+--- !u!114 &1867373038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867373035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd337d0b8d00b6c4ca0eec2aeda4f281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1870686050
 GameObject:
   m_ObjectHideFlags: 0
@@ -35081,6 +35926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1870686051}
   - component: {fileID: 1870686052}
+  - component: {fileID: 1870686053}
   m_Layer: 5
   m_Name: ItemButtom
   m_TagString: Untagged
@@ -35146,6 +35992,18 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 1
+--- !u!114 &1870686053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870686050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd337d0b8d00b6c4ca0eec2aeda4f281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1881612278
 GameObject:
   m_ObjectHideFlags: 0
@@ -35158,6 +36016,7 @@ GameObject:
   - component: {fileID: 1881612282}
   - component: {fileID: 1881612281}
   - component: {fileID: 1881612280}
+  - component: {fileID: 1881612283}
   m_Layer: 5
   m_Name: Hornavia_Meet_Buy_Button
   m_TagString: Untagged
@@ -35242,6 +36101,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1881612283}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1881612281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35280,6 +36151,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881612278}
   m_CullTransparentMesh: 1
+--- !u!114 &1881612283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881612278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 850797419}
+  otherImage: {fileID: 641220402}
+  otherText: {fileID: 128558605}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &1885866886
 GameObject:
   m_ObjectHideFlags: 0
@@ -35946,6 +36836,7 @@ GameObject:
   - component: {fileID: 1925992982}
   - component: {fileID: 1925992981}
   - component: {fileID: 1925992980}
+  - component: {fileID: 1925992983}
   m_Layer: 5
   m_Name: Cont_AdenBear_Meet_Buy_Button
   m_TagString: Untagged
@@ -36030,6 +36921,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1925992983}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1925992981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36068,6 +36971,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925992978}
   m_CullTransparentMesh: 1
+--- !u!114 &1925992983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925992978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 1301524693}
+  otherImage: {fileID: 866517723}
+  otherText: {fileID: 511045575}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &1937368458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36626,6 +37548,7 @@ GameObject:
   - component: {fileID: 1974997671}
   - component: {fileID: 1974997670}
   - component: {fileID: 1974997669}
+  - component: {fileID: 1974997672}
   m_Layer: 5
   m_Name: Bypin_Buy_Button
   m_TagString: Untagged
@@ -36710,6 +37633,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1974997672}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1974997670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36748,6 +37683,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974997667}
   m_CullTransparentMesh: 1
+--- !u!114 &1974997672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974997667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1867373038}
+  targetGraphic: {fileID: 603413315}
+  otherImage: {fileID: 1814293682}
+  otherText: {fileID: 44645565}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1001 &1976051785
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37204,6 +38158,7 @@ GameObject:
   - component: {fileID: 2013501575}
   - component: {fileID: 2013501574}
   - component: {fileID: 2013501573}
+  - component: {fileID: 2013501576}
   m_Layer: 5
   m_Name: Barcrose_Meet_Sell_Button
   m_TagString: Untagged
@@ -37288,6 +38243,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2013501576}
+        m_TargetAssemblyTypeName: TabButton, Assembly-CSharp
+        m_MethodName: HandleClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2013501574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37326,6 +38293,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013501571}
   m_CullTransparentMesh: 1
+--- !u!114 &2013501576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013501571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e4ae43c2976874fba66848b6228a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroupManager: {fileID: 1870686053}
+  targetGraphic: {fileID: 60145221}
+  otherImage: {fileID: 167288639}
+  otherText: {fileID: 1459492108}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+  pressedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!1 &2015428405
 GameObject:
   m_ObjectHideFlags: 0
