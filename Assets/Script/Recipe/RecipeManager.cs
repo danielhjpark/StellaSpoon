@@ -39,7 +39,7 @@ public class RecipeManager : MonoBehaviour
         if (!RecipeUnlockCheck[HiddenRecipe]) CheckHiddenRecipeUnlock();
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            //foreach(Recipe LockRecipe in LockRecipes) RecipeUnLock(LockRecipe);
+            foreach(Recipe LockRecipe in LockRecipes) RecipeUnLock(LockRecipe);
         }
     }
 
